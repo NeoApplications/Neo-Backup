@@ -353,7 +353,7 @@
     <string name="prefs_tools_short">Outils</string>
     <string name="dialog_export_schedules">Exporter mon planning</string>
     <string name="prefs_theme_black">Thème sombre</string>
-    <string name="prefs_theme_black_summary">Imposer l\'arrière-plan noir lorsque le thème est sombre</string>
+    <string name="prefs_theme_black_summary">Forcer un arrière plan sombre avec le thème sombre</string>
     <string name="filters_launchable">Démarrable</string>
     <string name="filters_updated">Mis à jour</string>
     <string name="show_updated_apps">Applications mises à jour</string>
@@ -411,4 +411,6 @@
     <string name="prefs_theme_system_black">Thème du système (sombre)</string>
     <string name="enforce_backups_limit_description">Supprimer les anciennes sauvegardes pour imposer la limite à %d</string>
     <string name="prefs_theme_dynamic_dark">Sombre avec des couleurs dynamiques</string>
+    <string name="prefs_altblocklayout">Utiliser la mise en page alternative for les blocs page</string>
+    <string name="prefs_altblocklayout_summary">Utiliser une mise en page alternative/ancienne pour les blocs page à la place des surfaces colorées.</string>
 </resources>
