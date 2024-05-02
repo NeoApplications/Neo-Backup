@@ -413,4 +413,8 @@
     <string name="prefs_theme_dynamic_dark">Тёмная динамичная</string>
     <string name="enforce_backups_limit">Жёсткое соблюдение лимита</string>
     <string name="enforce_backups_limit_description">Удалять старые рез. копии и жёстко установить лимит на %d</string>
+    <string name="prefs_altblocklayout">Использовать альтернативный макет для блоков страниц</string>
+    <string name="prefs_altblocklayout_summary">Используйте альтернативную/старую компоновку для блоков страниц с границами вместо цветных поверхностей.</string>
+    <string name="prefs_compression_type">Тип сжатия</string>
+    <string name="prefs_compression_type_summary">Выберите тип используемого сжатия</string>
 </resources>
