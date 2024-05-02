@@ -410,4 +410,8 @@
     <string name="prefs_theme_dynamic_dark">Oscuro con colores dinámicos</string>
     <string name="enforce_backups_limit">Aplicar el límite de las copias de seguridad</string>
     <string name="enforce_backups_limit_description">Borra las copias de seguridad más antiguas para cumplir con el límite a %d</string>
+    <string name="prefs_altblocklayout">Utilizar un diseño alternativo para los bloques de páginas</string>
+    <string name="prefs_altblocklayout_summary">Utilice un diseño alternativo/antiguo para los bloques de páginas con bordes en lugar de superficies de color.</string>
+    <string name="prefs_compression_type_summary">Seleccione el tipo de compresión utilizado</string>
+    <string name="prefs_compression_type">Tipo de compresión</string>
 </resources>
