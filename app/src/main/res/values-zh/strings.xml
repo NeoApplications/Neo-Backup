@@ -399,4 +399,8 @@
     <string name="prefs_theme_system_black">跟随系统(深色)</string>
     <string name="enforce_backups_limit">启用备份限制</string>
     <string name="enforce_backups_limit_description">删除较早的备份以启用对 %d 的限制</string>
+    <string name="prefs_theme_dynamic">动态主题</string>
+    <string name="prefs_theme_dynamic_light">浅色的动态主题</string>
+    <string name="prefs_theme_dynamic_dark">暗色的动态主题</string>
+    <string name="prefs_theme_dynamic_black">深色的动态主题</string>
 </resources>
