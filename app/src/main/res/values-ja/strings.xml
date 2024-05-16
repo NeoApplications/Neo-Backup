@@ -255,4 +255,8 @@
     <string name="prefs_deviceprotecteddata_summary">data/user_de にあるデータをバックアップします</string>
     <string name="prefs_mediadata_rst_summary">外部ストレージ (例: /storage/emulated/0/Android/media/) にあるアプリのメディアファイルを復元します</string>
     <string name="prefs_obbdata_rst_summary">外部ストレージ (例: /storage/emulated/0/Android/obb/) にあるアプリのobbファイルを復元します</string>
+    <string name="sched_name">名前:</string>
+    <string name="error_creating_notification_channel">通知チャネルが作成できません</string>
+    <string name="sched_add">スケジュールを追加</string>
+    <string name="prefs_unset">解除</string>
 </resources>
