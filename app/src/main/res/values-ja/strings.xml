@@ -77,9 +77,9 @@
     <string name="prefs_acquirewakelock">スリープを防止</string>
     <string name="prefs_acquirewakelock_summary">バッチ処理に、スリープを防止するためウェイクロックを行います。バックアップと復元を大幅にスピードアップしますが、より多くのエネルギーを消費します。</string>
     <string name="prefs_pathbackupfolder">バックアップ フォルダー</string>
-    <string name="prefs_oldbackups">世代でバックアップをフィルター</string>
+    <string name="prefs_oldbackups">フィルターするバックアップ世代数</string>
     <!--prefs_summaryOldBackups: the quoted filter title is @string/showOldBackups-->
-    <string name="prefs_oldbackups_summary">値の日数よりも古いバックアップでフィルター。\'古いバックアップを表示\' フィルターで使用します。</string>
+    <string name="prefs_oldbackups_summary">この日数以前のバックアップを古いバックアップとして扱います。\'古いバックアップを表示\' フィルターで使用します。</string>
     <string name="prefs_copyselfapk">apk 自身をコピー</string>
     <string name="prefs_copyselfapk_summary">バックアップフォルダの最上位にNeo Backupのコピーを作成する</string>
     <string name="prefs_languages">言語</string>
@@ -259,4 +259,40 @@
     <string name="error_creating_notification_channel">通知チャネルが作成できません</string>
     <string name="sched_add">スケジュールを追加</string>
     <string name="prefs_unset">解除</string>
+    <string name="ignore_battery_optimization_not_supported">残念ながら、このデバイスはバッテリーの最適化を無視することに対応していません！</string>
+    <string name="smsmms_permission_title">SMS/MMS の権限</string>
+    <string name="calllogs_permission_title">通話履歴の権限</string>
+    <string name="contacts_permission_title">連絡先の権限</string>
+    <string name="intro_permission_storage">このアプリはストレージの読み取り/書き込み権限を使用して外部ストレージアクセスし、他のアプリの外部データ/obbファイルをバックアップする機能を提供します。</string>
+    <string name="grant_usage_access_message">アプリのファイルサイズに関する情報を取得するためには、この権限が必要です。</string>
+    <string name="help_faq">よくあるご質問 (FAQ)</string>
+    <string name="enable_encryption_title">データ暗号化</string>
+    <string name="help_legend">凡例:</string>
+    <string name="backup_filters">バックアップフィルター:</string>
+    <string name="app_size">アプリサイズ:</string>
+    <string name="split_apks">Split-APKs</string>
+    <string name="storage_access">ストレージアクセス</string>
+    <string name="welcome_to_oabx">Neo Backup へようこそ！</string>
+    <string name="help_appTypeHint">* アプリの種類アイコンはアプリがアンインストールされているとグレーになり、アプリが無効になっているとダークグレーになります。</string>
+    <string name="post_notifications_permission_title">通知の表示</string>
+    <string name="grant_usage_access_title">使用状況へのアクセスを許可</string>
+    <string name="data_size">データサイズ:</string>
+    <string name="help_group_matrix">私たちの Matrix グループ</string>
+    <string name="cache_size">キャッシュサイズ:</string>
+    <string name="post_notifications_permission_message">Android 13 以降では、アプリが通知を表示するためにこの権限が必要です。</string>
+    <string name="failed_unzipping">データの解凍中にエラーが発生しました！暗号化パスワードを確認してください！</string>
+    <string name="grant_contacts_message">連絡先とSMS/MMSを一致させるためには、この権限が必要です。</string>
+    <string name="grant_calllogs_message">通話履歴のバックアップや復元を行うには、この権限が必要です。</string>
+    <string name="enable_encryption_message">データを暗号化せず端末に保存しておくことは安全ではありません。データの安全のために暗号化を有効にし、パスワードを設定してください。</string>
+    <string name="intro_welcome_message">Neo Backup (旧OAndBackupX) はOAndBackupのフォークであり、OAndBackupを2020年代に適応させ、Neo Application Suiteに取り込むことを目指しています。今ではアプリはほぼ書き直されており、今後は堅牢性を高め、あらゆる端末でのバックアップ/復元作業を容易にするような、長い間計画されていた機能を追加していく予定です。
+\n翻訳、アイデア、バグレポート、コードなど、どのような種類の貢献でも歓迎します。
+\n
+\n現在のアプリの機能について:
+\n- root権限が必要で、個々のアプリとデータをバックアップすることができます。
+\n- アプリを一度に1つずつバックアップ/復元すること、複数のアプリを一括でバックアップ/復元することもできます。
+\n- 再起動を必要とせずにシステムアプリを復元することができます。
+\n- バックアップのスケジュールが可能で、スケジュール数に上限はなく、またインストールされたアプリの一覧からカスタムリストを作成することもできます。</string>
+    <string name="help_group_telegram">私たちの Telegram グループ</string>
+    <string name="ignore_battery_optimization_message">バックアップが予期せず停止することがあります。これを回避するには、バッテリーの最適化をオフにする必要があります。</string>
+    <string name="grant_smsmms_message">SMS/MMS のバックアップや復元を行うには、この権限が必要です。</string>
 </resources>
