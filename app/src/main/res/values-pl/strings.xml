@@ -417,4 +417,6 @@
     <string name="prefs_multilineinfochips">Wielo-liniowe informacje elementów</string>
     <string name="prefs_multilineinfochips_summary">Pozwól, aby elementy informacyjne w arkuszu aplikacji obejmowały wiele linii.</string>
     <string name="prefs_altblocklayout_summary">Użyj alternatywnego/starego układu bloków strony z obramowaniami zamiast kolorowych powierzchni.</string>
+    <string name="prefs_compression_type">Rodzaj kompresji</string>
+    <string name="prefs_compression_type_summary">Wybierz rodzaj kompresji, jak będzie używana</string>
 </resources>
