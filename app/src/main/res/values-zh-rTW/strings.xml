@@ -121,7 +121,7 @@
     <string name="spec_accounts">帳號</string>
     <string name="sched_excludeSystemCheckBox">排除系統應用程式</string>
     <string name="sched_checkbox">啟用</string>
-    <string name="sched_hourOfDay">一天中的小時 (0..23)</string>
+    <string name="sched_hourOfDay">執行時間：</string>
     <string name="showOldBackups">顯示舊的備份</string>
     <string name="batchbackup">批次備份</string>
     <string name="dialogNo">否</string>
@@ -240,7 +240,7 @@
     <string name="calllogs_permission_title">通話記錄權限</string>
     <string name="error_creating_notification_channel">無法建立通知頻道</string>
     <string name="empty_filtered_list">篩選清單為空。</string>
-    <string name="split_apks">Split APKs:</string>
+    <string name="split_apks">Split-APKs</string>
     <string name="help_appTypeHint">* 如果應用程式已解除安裝，應用程式類型的圖示會是灰色。如果應用程式已停用，則會是深灰色。</string>
     <string name="dialog_start">開始吧！</string>
     <string name="copyOwnApkSuccess">已將應用程式的 APK 複製到備份資料夾</string>
