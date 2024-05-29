@@ -406,4 +406,5 @@
     <string name="prefs_theme_dynamic_light">Hell mit dynamischen Farben</string>
     <string name="prefs_theme_system_black">Systemthema (Schwarz)</string>
     <string name="prefs_theme_dynamic_dark">Dunkel mit dynamischen Farben</string>
+    <string name="spec_adaptiveBrightness">Automatische Helligkeit</string>
 </resources>

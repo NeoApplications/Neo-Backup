@@ -104,6 +104,7 @@ open class SpecialInfo : PackageInfo {
                     val systemDir = "/data/system"
                     val userDir = "$systemDir/users/$userId"
                     val systemCeDir = "/data/system_ce/$userId"
+                    val systemDeDirGlobal = "/data/system_de"
                     val vendorDeDir = "/data/vendor_de/$userId"
                     val specPrefix = "$ "
 
@@ -142,6 +143,33 @@ open class SpecialInfo : PackageInfo {
                                 ), R.drawable.ic_accounts
                             )
                         )
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                        val brightnessStatsBaseDir = if (Build.VERSION.SDK_INT <
+                            Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                            systemDeDirGlobal
+                        } else {
+                            systemDir
+                        }
+                        specialInfos
+                            .add(
+                                SpecialInfo(
+                                    "special.adaptive.brightness",
+                                    specPrefix + context.getString(R.string.spec_adaptiveBrightness),
+                                    Build.VERSION.RELEASE,
+                                    Build.VERSION.SDK_INT, arrayOf(
+                                        // Note: Restoring these files very likely only works if
+                                        // the device is abruptly rebooted after restoring them.
+                                        // Also for a full backup of the adaptive brightness data,
+                                        // the Device Health Service's app data needs to be backed
+                                        // up, too.
+                                        "$brightnessStatsBaseDir/ambient_brightness_stats.xml",
+                                        "$brightnessStatsBaseDir/brightness_events.xml",
+                                        "$systemDir/display-manager-state.xml"
+                                    ),
+                                    R.drawable.ic_adaptive_brightness
+                                )
+                            )
+                    }
                     specialInfos
                         .add(
                             SpecialInfo(

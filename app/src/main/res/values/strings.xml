@@ -234,6 +234,7 @@
     <string name="spec_wallpaper">Wallpaper</string>
     <string name="spec_fingerprint">Fingerprints</string>
     <string name="spec_wifiAccessPoints">Wireless access points</string>
+    <string name="spec_adaptiveBrightness">Adaptive brightness</string>
     <string name="error_creating_notification_channel">Unable to create notification channel</string>
     <string name="error_updating_schedule_mode">Error updating %1$s of schedule %2$d</string>
     <string name="permission_not_granted">Permission to access external storage is required</string>
