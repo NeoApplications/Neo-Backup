@@ -408,4 +408,8 @@
     <string name="prefs_theme_dynamic_dark">Dunkel mit dynamischen Farben</string>
     <string name="enforce_backups_limit">Erzwinge Back-up Limit</string>
     <string name="enforce_backups_limit_description">Lösche ältere Back-ups um das Limit auf %d zu bringen</string>
+    <string name="prefs_compression_type">Kompressionstyp</string>
+    <string name="prefs_compression_type_summary">Wähle aus, welche Art der Kompression verwendet wird</string>
+    <string name="prefs_altblocklayout">Alternative Darstellung für Seitenelemente verwenden</string>
+    <string name="prefs_altblocklayout_summary">Eine alternative/alte Darstellung mit Rahmen statt farbiger Flächen für Seitenelemente verwenden.</string>
 </resources>
