@@ -97,7 +97,7 @@
     <string name="prefs_excludecache_summary">Uygulamanın önbelleğini veri yedeklemesinden hariç tutun</string>
     <string name="prefs_acquirewakelock_summary">Uykuyu önlemek için toplu işlemler sırasında bir uyandırma kilidi alın. Yedeklemeleri ve restorasyonları önemli ölçüde hızlandırır, ancak daha fazla enerji tüketir.</string>
     <string name="prefs_oldbackups_summary">Bu günden daha eski olan yedekleri filtrele. \'Eski yedekleri göster\' filtresi ile kullanılır.</string>
-    <string name="prefs_copyselfapk_summary">Oandbackupx\'in bir kopyasını yedekleme klasörünün en üst seviyesine yerleştirin</string>
+    <string name="prefs_copyselfapk_summary">Neo Backup\'ın bir kopyasını yedekleme klasörünün en üst seviyesine yerleştirin</string>
     <string name="prefs_rememberfiltering_summary">Seçilen sıralama ve filtreleme yöntemini kayıtlı tutar. Yalnızca menüde seçilenler önemsenecek.</string>
     <string name="prefs_batchdelete_summary">Kurulu olmayan uygulamarın yedeklerini sil.</string>
     <string name="sched_title">Zamanlama</string>
@@ -154,22 +154,20 @@
     <string name="failed_unzipping">Veri ayrıştırılırken hata, şifreleme parolasını kontrol edin!</string>
     <string name="split_apks">Split-APKlar:</string>
     <string name="backup_filters">Yedek filtreleri:</string>
-    <string name="intro_welcome_message">OAndBackupX, onu 2020 ve daha ilerisine taşımak amacıyla meşhur OAndBackup\'tan çatallanmıştır. Şimdiye kadar uygulamanın işlevselliğinin ve kullanıcı arayüzünün çoğu yeniden yazılmış ve bazıları eklenmiştir.
-\n Uygulama hala beta aşamasındadır ve sıklıkla yeniden temelleme (rebase) yapılmaktadır. Lütfen her yeni sürümde değişiklik günlüğünü dikkatlice okuyun.
-\n Çeviri, fikirler, hataları bildirme veya kod çalışması gibi her türlü katkı memnuniyetle karşılanır.
-\n
-\n Sıra geldi uygulamamızın işlevlerine:
-\n • Root izni gerektirir ve bireysel olarak uygulamaları ve verilerini yedeklemenize izin verir.
-\n • Bireysel olarak programların hem yedeklenmesi hem de geri yüklenmesi ve birden çok programın toplu olarak yedeklenmesi ve geri yüklenmesi desteklenir.
-\n • Sistem uygulamalarını geri yüklemek, sonrasında yeniden başlatma gerektirmeden mümkündür, ancak yine de bunu yapmanızı önermiyoruz.
-\n • Yedeklemeler, bireysel olarak sayılarında bir sınırlama olmaksızın zamanlanabilir ve benzersiz özel listeler oluşturma imkanı vardır.</string>
+    <string name="intro_welcome_message">"Neo Backup (eski adıyla OAndBackupX), OAndBackup\'ı 202X\'e ve Neo Uygulamalar paketinin bir parçası haline getirmeyi amaçlayan ünlü OAndBackup\'ın bir çatalıdır.  Şimdilik uygulama zaten tamamen yeniden yazıldı, onu daha sağlam hale getirmek ve herhangi bir cihazda yedekleme/geri yükleme iş akışını kolaylaştırabilecek bazı uzun süredir planlanmış özelliklerin eklenmesi bekleniyor.
+\n Bu nedenle her türlü katkıya her zaman açığız.
+\n Şimdi Uygulamamızın işlevselliğine gelince:
+\n • Root gerektirir ve bireysel uygulamaları ve onlara ait verileri yedeklemenize olanak tanır.
+\n • Bireysel programların teker teker yedeklenmesi ve geri yüklenmesi ve birden fazla programın toplu olarak yedeklenmesi ve geri yüklenmesi desteklenir.
+\n • Sistem uygulamalarını daha sonra yeniden başlatma gerektirmeden geri yüklemek mümkün olmalıdır.
+\n • Yedeklemeler, bireysel program sayısında herhangi bir sınırlama olmaksızın planlanabilir ve yüklü uygulamalar listesinden özel listeler oluşturma olanağı vardır.."</string>
     <string name="intro_permission_batteryoptimization">Uygulama, agresif pil optimizasyonları kullanan bazı ROM\'larda, örn. MIUI, zamanlanmış yedekleme yaparken bazı sorunlarla karşılaşabilir ancak sıradan AOSP\'de bile böyle bir sorun meydana gelebilir.</string>
     <string name="intro_permission_usageaccess">Uygulamanın, verilerinizin istatistikleri ve boyutları ile uygulamalarınızın önbelleğini denetleyebilmesi için bu izne ihtiyacı vardır.</string>
     <string name="intro_permission_storage">Bu uygulama, harici depolamaya erişmek ve diğer uygulamaların harici verilerinin/obb\'sinin yedeklenmesine olanak sağlamak için depolama okuma/yazma iznini kullanır.</string>
     <string name="welcome_to_oabx">Neo Backup\'a hoş geldiniz!</string>
     <string name="storage_access">Depolama Erişimi</string>
     <string name="sort_and_filter">Sırala ve Filtrele</string>
-    <string name="enable_encryption_message">Verilerinizi cihazınızda şifrelenmemiş halde tutmak güvenli değildir. Verilerinizin güvenliği için şifrelemeyi etkinleştirin ve bir parola belirleyin.</string>
+    <string name="enable_encryption_message">Cihazınızdaki verilerinizi şifrelenmemiş halde tutmak güvenli değildir. Verilerinizin güvenliği için şifrelemeyi etkinleştirin ve bir şifre belirleyin.</string>
     <string name="enable_encryption_title">Veri Şifreleme</string>
     <string name="help_license">Lisans</string>
     <string name="cache_size">Önbellek Boyutu:</string>
@@ -229,7 +227,7 @@
     <string name="help_faq">Sıkça Sorulan Sorular</string>
     <string name="sched_name">Ad:</string>
     <string name="prefs_allowdowngrade">İndirmeye izin ver</string>
-    <string name="prefs_allowdowngrade_summary">Yüklü uygulamanın eski bir sürümünü geri yüklemeye izin verin.</string>
+    <string name="prefs_allowdowngrade_summary">Yüklü uygulamanın eski bir sürümünün geri yüklenmesine izin ver (yalnızca hata ayıklanabilir sürümler için geçerlidir).</string>
     <string name="prefs_restoreallpermissions">Tüm izinlerle geri yükle</string>
     <string name="prefs_restoreallpermissions_summary">Geri yüklenen uygulamaya istediği tüm izinleri verin.</string>
     <string name="prefs_disableverification_summary">Apk\'ları geri yüklerken bu geliştirici seçeneğini devre dışı bırakır ve daha sonra yeniden etkinleştirir. Hatayı çözer: INSTALL_FAİLED_VERİFİCATİON_FAİLURE.</string>
@@ -245,7 +243,7 @@
     <string name="sortAscDesc">Artan-Azalan</string>
     <string name="logs_share_failed">Günlük dosyası bulunamadı</string>
     <string name="sched_imported">Zamanlama başarıyla içe aktarıldı</string>
-    <string name="sched_exported">Zamanlamalar başarıyla dışa aktarıldı</string>
+    <string name="sched_exported">Programlar başarıyla dışa aktarıldı</string>
     <string name="error_datachanged">Yedekleme yapılırken uygulamanın verileri etkin olarak değiştirildi. Yedekleme yapmadan önce işlemini sonlandırmayı deneyin</string>
     <string name="dialog_import">İçe aktar</string>
     <string name="dialog_export">Dışa aktar</string>
@@ -337,14 +335,14 @@
     <string name="prefs_dev_settings">Geliştirici seçenekleri</string>
     <string name="prefs_user_short">Kişisel</string>
     <string name="prefs_tools_short">Araçlar</string>
-    <string name="prefs_deviceprotecteddata_rst">device-proteced verilerini gerj yükle</string>
+    <string name="prefs_deviceprotecteddata_rst">Cihaz korumalı verileri geri yükleyin</string>
     <string name="prefs_obbdata_rst">obb dosyalarını geri yükle</string>
     <string name="prefs_mediadata_rst">Media dosyalarını gerj yükle</string>
     <string name="sortAppSize">Uyhulama büyüklüğü</string>
     <string name="sortBackupSize">Yedek boyutu</string>
     <string name="prefs_tools_terminal">Terminal</string>
     <string name="prefs_service_short">Servis</string>
-    <string name="prefs_secondary_8">Mint</string>
+    <string name="prefs_secondary_8">Nane</string>
     <string name="prefs_advanced_short">Gelişmiş</string>
     <string name="prefs_nobackupdata">no_backup dosyalarını yedekle</string>
     <string name="prefs_theme_black_summary">Koyu temadayken arka planı siyah yapmaya zorla</string>
@@ -371,4 +369,44 @@
     <string name="prefs_theme_dynamic_light">Dinamik renklerle aydınlık</string>
     <string name="prefs_theme_system_black">Sistem teması (Siyah)</string>
     <string name="prefs_theme_dynamic_dark">Dinamik renklerle karanlık</string>
+    <string name="post_notifications_permission_message">Android 13 uygulamalarını başlatmak, bildirim gönderebilmek için bu izne ihtiyaç duyar.</string>
+    <string name="prefs_accent_8">Balkabağı Perano</string>
+    <string name="backup_revisions_limit">Yedekleme sınırı: %d</string>
+    <string name="filters_enabled">Etkin</string>
+    <string name="filters_latest">En son yedekleme</string>
+    <string name="filters_app">Uygulama tipi</string>
+    <string name="sorting_order">Sıralama düzeni</string>
+    <string name="show_updated_apps">Güncellenen uygulamalar</string>
+    <string name="dialog_export_schedules">Programlarımı dışa aktar</string>
+    <string name="prefs_nobackupdata_summary">Yedeklenmeyecek şekilde etiketlenen verilerdeki dosyaları yedekleyin</string>
+    <string name="prefs_externaldata_rst_summary">Harici depolama birimine yerleştirilen verileri geri yükler (ör. /storage/emulated/0/Android/data/)</string>
+    <string name="prefs_dev_settings_summary">Bir geliştirici size söylemediği sürece değiştirmeyin!</string>
+    <string name="context_menu">Bağlam menüsü</string>
+    <string name="clear_text">Metni temizle</string>
+    <string name="filters_launchable">Başlatılabilir</string>
+    <string name="filters_installed">Kurulum</string>
+    <string name="filters_updated">Güncellenmiş</string>
+    <string name="filters_backup">Yedekleme tipi</string>
+    <string name="radio_notlaunchable">Başlatılamayan uygulamalar</string>
+    <string name="show_old_apps">Eski uygulamalar</string>
+    <string name="show_installed_apps">Yüklü uygulamalar</string>
+    <string name="show_new_apps">Yeni uygulamalar</string>
+    <string name="show_enabled_apps">Etkin uygulamalar</string>
+    <string name="show_new_backups">Yeni yedekler</string>
+    <string name="prefs_mediadata_rst_summary">Uygulamanın harici depolama birimine yerleştirilen medya dosyalarını geri yükler (ör. /storage/emulated/0/Android/media/)</string>
+    <string name="prefs_installerpackagename">Yükleyici paketi adı:</string>
+    <string name="prefs_deviceprotecteddata_summary">data/user_de dizinine yerleştirilen verileri yedekler</string>
+    <string name="prefs_deviceprotecteddata_rst_summary">data/user_de dizinine yerleştirilen verileri geri yükler</string>
+    <string name="prefs_externaldata_rst">Harici verileri geri yükle</string>
+    <string name="post_notifications_permission_title">Bildirim Gönder</string>
+    <string name="enforce_backups_limit">Yedekleme sınırını zorunlu kıl</string>
+    <string name="enforce_backups_limit_description">Sınırı %d olarak uygulamak için eski yedeklemeleri silin</string>
+    <string name="prefs_obbdata_rst_summary">Uygulamanın harici depolama birimine yerleştirilen obb dosyalarını geri yükler (ör. /storage/emulated/0/Android/obb/)</string>
+    <string name="prefs_nobackupdata_rst">no_backup dosyalarını geri yükle</string>
+    <string name="prefs_nobackupdata_rst_summary">Yedeklenmeyecek şekilde etiketlenen verilerdeki dosyaları geri yükler</string>
+    <string name="sortAppDataSize">Uygulama veri boyutu</string>
+    <string name="prefs_altblocklayout">Sayfa blokları için alternatif düzeni kullanın</string>
+    <string name="prefs_altblocklayout_summary">Renkli yüzeyler yerine kenarlıklı sayfa blokları için alternatif/eski bir düzen kullanın.</string>
+    <string name="prefs_compression_type">Sıkıştırma tipi</string>
+    <string name="prefs_compression_type_summary">Kullanılan sıkıştırma türünü seçin</string>
 </resources>

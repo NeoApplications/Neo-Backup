@@ -397,4 +397,14 @@
     <string name="prefs_altnavbaritem">使用备用导航栏布局</string>
     <string name="prefs_altnavbaritem_summary">使用替代/旧的导航栏布局，该布局会显示未选定选项页的标签名。</string>
     <string name="prefs_theme_system_black">跟随系统(深色)</string>
+    <string name="enforce_backups_limit">启用备份限制</string>
+    <string name="enforce_backups_limit_description">删除较早的备份以启用对 %d 的限制</string>
+    <string name="prefs_theme_dynamic">动态主题</string>
+    <string name="prefs_theme_dynamic_light">浅色的动态主题</string>
+    <string name="prefs_theme_dynamic_dark">暗色的动态主题</string>
+    <string name="prefs_theme_dynamic_black">深色的动态主题</string>
+    <string name="prefs_compression_type">压缩类型</string>
+    <string name="prefs_compression_type_summary">选择您使用的压缩类型</string>
+    <string name="prefs_altblocklayout">使用其他页面块布局</string>
+    <string name="prefs_altblocklayout_summary">使用带边框的页块替代/旧版样式，而不是彩色界面。</string>
 </resources>

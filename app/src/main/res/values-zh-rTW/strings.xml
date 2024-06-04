@@ -121,13 +121,13 @@
     <string name="spec_accounts">帳號</string>
     <string name="sched_excludeSystemCheckBox">排除系統應用程式</string>
     <string name="sched_checkbox">啟用</string>
-    <string name="sched_hourOfDay">一天中的小時 (0..23)</string>
+    <string name="sched_hourOfDay">執行時間：</string>
     <string name="showOldBackups">顯示舊的備份</string>
     <string name="batchbackup">批次備份</string>
     <string name="dialogNo">否</string>
     <string name="prefs_numBackupRevisions_summary">如果在建立新備份時超過這個數量，會刪除最舊的版本。</string>
     <string name="prefs_deviceprotecteddata">備份受裝置保護的資料</string>
-    <string name="welcome_to_oabx">歡迎使用 OABX！</string>
+    <string name="welcome_to_oabx">歡迎使用 Neo Backup！</string>
     <string name="storage_access">儲存空間存取</string>
     <string name="sort_and_filter">排序與篩選</string>
     <string name="enable_encryption_message">將資料放在裝置上而不加密不安全。為了資料安全，請啟用加密並設定密碼。</string>
@@ -240,7 +240,7 @@
     <string name="calllogs_permission_title">通話記錄權限</string>
     <string name="error_creating_notification_channel">無法建立通知頻道</string>
     <string name="empty_filtered_list">篩選清單為空。</string>
-    <string name="split_apks">Split APKs:</string>
+    <string name="split_apks">Split-APKs</string>
     <string name="help_appTypeHint">* 如果應用程式已解除安裝，應用程式類型的圖示會是灰色。如果應用程式已停用，則會是深灰色。</string>
     <string name="dialog_start">開始吧！</string>
     <string name="copyOwnApkSuccess">已將應用程式的 APK 複製到備份資料夾</string>
@@ -263,7 +263,7 @@
         <item quantity="other">每 %d 天</item>
     </plurals>
     <plurals name="days_left">
-        <item quantity="other">%d 天，</item>
+        <item quantity="other">%d 天</item>
     </plurals>
     <string name="help_changelog">變更記錄</string>
     <string name="home">首頁</string>
@@ -276,7 +276,7 @@
     <string name="no_file_manager_title">無 SAF 管理器</string>
     <string name="sortBackupDate">備份日期</string>
     <string name="backup_all_updated">備份所有更新的應用程式</string>
-    <string name="loading_list">正在載入應用程式清單…</string>
+    <string name="loading_list">正在載入清單…</string>
     <string name="wait_noappslist">尚未獲取應用程式清單。請稍等…</string>
     <string name="filtered_list">過濾的清單</string>
     <string name="schedule">排程</string>
@@ -339,4 +339,42 @@
     <string name="prefs_deviceprotecteddata_summary">備份位於 data/user_de 中的資料</string>
     <string name="prefs_obbdata_summary">備份應用程式位於外部儲存空間的 obb 檔案（例如：/storage/emulated/0/Android/obb/）</string>
     <string name="prefs_theme_system_black">系統主題（黑色）</string>
+    <string name="prefs_loadingtoasts">顯示 toast 通知</string>
+    <string name="prefs_theme_black">黑色主題</string>
+    <string name="prefs_multilineinfochips">多行顯示</string>
+    <string name="prefs_theme_dynamic_light">動態顏色（亮色）</string>
+    <string name="prefs_theme_dynamic_black">動態顏色（黑色）</string>
+    <string name="post_notifications_permission_message">在 Android 13 之後，應用程式需要此權限才能傳送通知。</string>
+    <string name="prefs_theme_black_summary">使用暗色主題時強制使用黑色背景</string>
+    <string name="prefs_loadingtoasts_summary">載入程式列表時顯示 toast 通知</string>
+    <string name="prefs_multilineinfochips_summary">允許程式列表的內容多行顯示。</string>
+    <string name="post_notifications_permission_title">傳送通知</string>
+    <string name="prefs_theme_dynamic">動態主題</string>
+    <string name="prefs_theme_dynamic_dark">動態顏色（暗色）</string>
+    <string name="filters_installed">安裝</string>
+    <string name="filters_launchable">可以啟動</string>
+    <string name="filters_backup">備份類型</string>
+    <string name="prefs_compression_type">壓縮類型</string>
+    <string name="global_blocklist_add">新增至全域封鎖列表</string>
+    <string name="backup_revisions_limit">備份限制：%d</string>
+    <string name="edit_note">編輯筆記</string>
+    <string name="context_menu">內容選單</string>
+    <string name="filters_enabled">已啟用</string>
+    <string name="show_updated_apps">更新的應用程式</string>
+    <string name="show_new_apps">新應用程式</string>
+    <string name="show_old_apps">舊應用程式</string>
+    <string name="show_enabled_apps">已啟用應用程式</string>
+    <string name="show_installed_apps">已安裝應用程式</string>
+    <string name="show_new_backups">新備份</string>
+    <string name="radio_notlaunchable">無法啟動的應用程式</string>
+    <string name="dialogCancelAll">取消全部</string>
+    <string name="prefs_sessionIinstaller">使用工作階段安裝器</string>
+    <string name="prefs_newandupdatednotification">顯示新的和更新的通知</string>
+    <string name="dismiss">忽略</string>
+    <string name="filters_updated">已更新</string>
+    <string name="clear_text">清除文字</string>
+    <string name="filters_latest">最新備份</string>
+    <string name="filters_app">應用程式類型</string>
+    <string name="sorting_order">排序順序</string>
+    <string name="enforce_backups_limit">強制執行備份限制</string>
 </resources>

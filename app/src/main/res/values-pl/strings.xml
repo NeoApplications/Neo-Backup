@@ -93,9 +93,9 @@
     <string name="prefs_password">Hasło szyfrowania</string>
     <string name="prefs_externaldata">Kopiuj dane z pamięci zewnętrznej</string>
     <string name="prefs_deviceprotecteddata">Kopiuj chronione dane wewnętrzne</string>
-    <string name="prefs_encryption_summary">Włącz aby szyfrować kopię zapasową</string>
+    <string name="prefs_encryption_summary">Włącz aby zaszyfrować kopię zapasową</string>
     <string name="prefs_excludecache_summary">Usuń pamięć podręczną aplikacji przed wykonaniem kopii</string>
-    <string name="prefs_acquirewakelock_summary">Pozyskuj wakelock\'i podczas wykonywania grupowych operacji w celu uniknięcia przejścia w stan spoczynku. Przyspiesza to tworzenie kopii zapasowych i ich przywracanie, ale zużywa więcej energii.</string>
+    <string name="prefs_acquirewakelock_summary">Pozyskaj przebudzenia podczas wykonywania grupowych operacji w celu uniknięcia przejścia w stan spoczynku. Przyspiesza to tworzenie kopii zapasowych i ich przywracanie, ale zużywa więcej energii.</string>
     <string name="prefs_oldbackups_summary">Filtrowanie kopii zapasowych starszych niż wartość w dniach, używany z filtrem „pokaż stare kopie zapasowe”.</string>
     <string name="prefs_copyselfapk_summary">Umieść kopię zapasową Neo Backup w najwyższym poziomie katalogu kopii zapasowej</string>
     <string name="prefs_rememberfiltering_summary">Zapisuje wybraną metodę sortowania i filtrowania. Rozpatrywane są tylko te zaznaczone zaznaczeniem w menu.</string>
@@ -166,13 +166,16 @@
     <string name="prefs_biometriclock_summary">Zabezpiecz aplikację z użyciem blokady biometrycznej (np. z użyciem odcisku palca, twarzy)</string>
     <string name="prefs_biometriclock">Blokada biometryczna</string>
     <string name="intro_welcome_message">Neo Backup (dawniej OAndBackupX) to fork słynnego OAndBackup z zamiarem przeniesienia OAndBackup na 202X i część pakietu Neo Applications. W tej chwili aplikacja jest już w pełni przepisana, nadchodzą prace nad jej usprawnieniem i dodaniem kilku długo planowanych funkcji, które mogą ułatwić tworzenie kopii zapasowych/przywracanie danych na dowolnym urządzeniu.
-\n Dlatego wszelkie rodzaje wkładu są zawsze mile widziane.
 \n
-\n Teraz o funkcjonalności naszej aplikacji:
-\n - Wymaga ona roota i pozwala na backup poszczególnych aplikacji i ich danych.
-\n - Obsługiwane są zarówno kopie zapasowe, przywracanie pojedynczych programów, jak i wsadowe kopie zapasowe i przywracanie wielu programów.
-\n - Przywracanie aplikacji systemowych powinno być możliwe bez konieczności ponownego uruchomienia.
-\n - Kopie zapasowe mogą być zaplanowane bez ograniczenia liczby poszczególnych harmonogramów i istnieje możliwość tworzenia niestandardowych list z listy zainstalowanych aplikacji.</string>
+\nDlatego wszelkie rodzaje wkładu są zawsze mile widziane.
+\n
+\n
+\nTeraz o funkcjonalności naszej aplikacji:
+\n
+\n- Wymaga ona roota i pozwala na backup poszczególnych aplikacji i ich danych.
+\n- Obsługiwane są zarówno kopie zapasowe, przywracanie pojedynczych programów, jak i wsadowe kopie zapasowe i przywracanie wielu programów.
+\n- Przywracanie aplikacji systemowych powinno być możliwe bez konieczności ponownego uruchomienia.
+\n- Kopie zapasowe mogą być zaplanowane bez ograniczenia liczby poszczególnych harmonogramów i istnieje możliwość tworzenia niestandardowych list z listy zainstalowanych aplikacji.</string>
     <string name="intro_permission_batteryoptimization">Aplikacja może mieć problemy z wykonywaniem zaplanowanych kopii zapasowych na niektórych ROM-ach, które używają agresywnej optymalizacji baterii np. MIUI, ale nawet na AOSP taki problem może się zdarzyć.</string>
     <string name="intro_permission_usageaccess">Aplikacja potrzebuje tego uprawnienia, aby móc sprawdzić statystyki i rozmiary danych i pamięci podręcznej aplikacji.</string>
     <string name="intro_permission_storage">Aplikacja korzysta z uprawnień do odczytu/zapisu pamięci masowej, aby uzyskać dostęp do zewnętrznej pamięci masowej i zapewnić możliwość tworzenia kopii zapasowych danych zewnętrznych/obb innych aplikacji.</string>
@@ -210,7 +213,7 @@
     <string name="logs_text_empty">Nie ma nic do pokazania!</string>
     <string name="delete_all_backups">Usuń wszystkie kopie zapasowe</string>
     <string name="prefs_stopcont_summary">Zaawansowane: Może to pomóc, jeśli aplikacja zmienia pliki podczas tworzenia kopii zapasowej i kopia zapasowa się nie powiedzie.</string>
-    <string name="prefs_disableverification_summary">Wyłącza tę opcję podczas przywracania plików APK, a następnie włącza ją ponownie. Rozwiązuje błąd: INSTALL_FAILED_VERIFICATION_FAILURE.</string>
+    <string name="prefs_disableverification_summary">Wyłącza tę opcję podczas przywracania plików APK, a następnie włącza ją ponownie. Rozwiązuje błąd: INSTALACJA_NIEUDANA_WERYFIKACJA_NIEPOWODZENIEM.</string>
     <string name="prefs_disableverification">Wyłącz weryfikację aplikacji przez USB</string>
     <string name="prefs_obbdata">Utwórz kopię zapasową plików obb</string>
     <string name="stats_apps">Aplikacje</string>
@@ -243,7 +246,7 @@
     <string name="prefs_devicelock">Blokada urządzenia</string>
     <string name="usage_notes_title">Wskazówki dotyczące użytkowania</string>
     <string name="main">Główna</string>
-    <string name="prefs_enablespecial_summary">Nadal wymaga intensywnych testów, istnieje niebezpieczeństwo, że może to spowodować bootloops. Opinie są zawsze mile widziane.</string>
+    <string name="prefs_enablespecial_summary">Nadal wymaga intensywnych testów, istnieje niebezpieczeństwo, że może to spowodować bootloop. Opinie są zawsze mile widziane.</string>
     <plurals name="sched_interval_formal">
         <item quantity="one">jeden dzień</item>
         <item quantity="few">%d dni</item>
@@ -322,11 +325,11 @@
     <string name="prefs_mediadata">Tworzenie kopii zapasowych plików multimedialnych</string>
     <string name="prefs_mediadata_summary">Tworzy kopię zapasową plików multimedialnych aplikacji umieszczonych w pamięci zewnętrznej (np. /storage/emulated/0/Android/media/)</string>
     <string name="prefs_secondary_4">Lawowa Pomarańcz</string>
-    <string name="prefs_nobackupdata">Tworzenie kopii zapasowych plików no_backup</string>
+    <string name="prefs_nobackupdata">Tworzenie kopii zapasowych nie odwracalnych plików</string>
     <string name="prefs_nobackupdata_summary">Tworzenie kopii zapasowych plików w danych, które są oznaczone jako nie objęte kopią zapasową</string>
     <string name="radio_mediadata">Dane mediów</string>
     <string name="prefs_user_short">Personalne</string>
-    <string name="prefs_squeezenavtext">Ściśnij tekst elementu nawigacyjnego</string>
+    <string name="prefs_squeezenavtext">Wciśnij tekst elementu nawigacyjnego</string>
     <string name="prefs_squeezenavtext_summary">Zezwalaj na zmianę rozmiaru tekstu pod elementami paska nawigacyjnego, aby dopasować go do dostępnej szerokości.</string>
     <string name="prefs_dev_settings_summary">Nie zmieniaj, chyba że programista ci każe!</string>
     <string name="prefs_tools_short">Narzędzia</string>
@@ -339,7 +342,7 @@
     <string name="prefs_externaldata_rst_summary">Przywraca dane, które są umieszczone na zewnętrznej pamięci (np. /storage/emulated/0/Android/data/)</string>
     <string name="prefs_obbdata_rst">Przywracanie plików obb</string>
     <string name="prefs_obbdata_rst_summary">Przywraca pliki aplikacji obb, które są umieszczone na zewnętrznej pamięci (np. /storage/emulated/0/Android/obb/)</string>
-    <string name="prefs_nobackupdata_rst">Przywróć pliki no_backup</string>
+    <string name="prefs_nobackupdata_rst">Przywróć nieodwracalne pliki</string>
     <string name="prefs_nobackupdata_rst_summary">Przywraca pliki w danych, które są oznaczone jako nie objęte kopią zapasową</string>
     <string name="prefs_restorepermissions">Przywróć uprawnienia</string>
     <string name="prefs_deviceprotecteddata_summary">Tworzenie kopii zapasowych danych umieszczonych w data/user_de</string>
@@ -365,7 +368,7 @@
     <string name="prefs_accent_7">Morelowy Pomarańcz</string>
     <string name="spec_smsmmsjson">SMS/MMS JSON</string>
     <string name="see_faq">Zobacz często zadawane pytania!</string>
-    <string name="root_is_mandatory">Ponieważ aplikacje są od siebie odizolowane, dostęp superużytkownika jest obowiązkowy, aby móc tworzyć kopie zapasowe i przywracać ich dane.</string>
+    <string name="root_is_mandatory">Ponieważ aplikacje są od siebie odizolowane, dostęp super użytkownika jest obowiązkowy, aby móc tworzyć kopie zapasowe i przywracać ich dane.</string>
     <string name="prefs_accent_5">Charakterna Limonka</string>
     <string name="prefs_theme_black">Czarny motyw</string>
     <string name="prefs_theme_black_summary">Wymuszenie czarnego tła przy ciemnym motywie</string>
@@ -388,11 +391,32 @@
     <string name="show_new_apps">Nowe aplikacje</string>
     <string name="show_installed_apps">Zainstalowane aplikacje</string>
     <string name="show_new_backups">Nowe kopie zapasowe</string>
-    <string name="radio_notlaunchable">Niewykonywalne aplikacje</string>
+    <string name="radio_notlaunchable">Niewykonalne aplikacje</string>
     <string name="prefs_laserbackground">Pokaż animowany laser w tle</string>
     <string name="filters_launchable">Wykonywalne</string>
     <string name="show_old_apps">Stare aplikacje</string>
     <string name="show_enabled_apps">Włączone aplikacje</string>
     <string name="backup_revisions_limit">Limit liczby kopii zapasowych: %d</string>
     <string name="filters_installed">Instalacja</string>
+    <string name="prefs_loadingtoasts_summary">Pokaż powiadomienia w trakcie ładowania listy</string>
+    <string name="prefs_theme_dynamic">Motyw dynamiczny</string>
+    <string name="prefs_newandupdatednotification">Pokaż nowe i zaktualizowane powiadomienie</string>
+    <string name="prefs_newandupdatednotification_summary">Pokaż nowe aplikacje użytkownika obok zaktualizowanych aplikacji na pasku powiadomień na stronie głównej.</string>
+    <string name="prefs_altnavbaritem">Użyj alternatywnego elementu paska nawigacji</string>
+    <string name="prefs_altnavbaritem_summary">Użyj alternatywnego/starego układu elementów paska nawigacji, który pokazuje etykiety niewybranych elementów.</string>
+    <string name="prefs_laserbackground_summary">Użyj animowanych kolorowych świateł jako tła podczas ładowania/zajętości.</string>
+    <string name="post_notifications_permission_title">Powiadomienia o opublikowaniu</string>
+    <string name="prefs_loadingtoasts">Ładowanie powiadomień</string>
+    <string name="prefs_altblocklayout">Użyj alternatywnego układu bloków strony</string>
+    <string name="enforce_backups_limit">Egzekwuje limit kopii zapasowych</string>
+    <string name="enforce_backups_limit_description">Usuń starsze kopie zapasowe, aby wymusić ograniczenie do %d</string>
+    <string name="prefs_theme_system_black">Motyw systemu (Czarny)</string>
+    <string name="prefs_theme_dynamic_light">Jasny z dynamicznymi kolorami</string>
+    <string name="prefs_theme_dynamic_dark">Ciemny z dynamicznymi kolorami</string>
+    <string name="prefs_theme_dynamic_black">Czarny z dynamicznymi kolorami</string>
+    <string name="prefs_multilineinfochips">Wielo-liniowe informacje elementów</string>
+    <string name="prefs_multilineinfochips_summary">Pozwól, aby elementy informacyjne w arkuszu aplikacji obejmowały wiele linii.</string>
+    <string name="prefs_altblocklayout_summary">Użyj alternatywnego/starego układu bloków strony z obramowaniami zamiast kolorowych powierzchni.</string>
+    <string name="prefs_compression_type">Rodzaj kompresji</string>
+    <string name="prefs_compression_type_summary">Wybierz rodzaj kompresji, jak będzie używana</string>
 </resources>

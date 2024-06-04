@@ -413,4 +413,8 @@
     <string name="prefs_theme_dynamic_dark">داكن بالألوان المتكيفة</string>
     <string name="enforce_backups_limit">فرض حد النسخ الاحتياطية</string>
     <string name="enforce_backups_limit_description">قم بحذف النسخ الاحتياطية القديمة لفرض الحد الأقصى لـ %d</string>
+    <string name="prefs_altblocklayout">استخدم تخطيطًا بديلاً لكتل الصفحات</string>
+    <string name="prefs_altblocklayout_summary">استخدم تخطيطًا بديلاً/قديمًا لكتل الصفحات ذات الحدود بدلاً من الأسطح الملونة.</string>
+    <string name="prefs_compression_type">نوع الضغط</string>
+    <string name="prefs_compression_type_summary">اختيار نوع الضغط المستخدم</string>
 </resources>

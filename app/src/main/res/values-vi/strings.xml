@@ -398,4 +398,6 @@
     <string name="prefs_theme_dynamic_dark">Tối với màu sắc năng động</string>
     <string name="enforce_backups_limit">Thực thi giới hạn sao lưu</string>
     <string name="enforce_backups_limit_description">Xóa các bản sao lưu cũ hơn để thực thi giới hạn ở %d</string>
+    <string name="prefs_altblocklayout">Sử dụng bố cục thay thế cho khối trang</string>
+    <string name="prefs_altblocklayout_summary">Sử dụng bố cục thay thế/cũ cho các khối trang có viền thay vì bề mặt màu.</string>
 </resources>

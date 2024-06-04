@@ -80,7 +80,7 @@
     <string name="prefs_pathbackupfolder">Cartella di backup</string>
     <string name="prefs_oldbackups">Filtra backup per età</string>
     <!--prefs_summaryOldBackups: the quoted filter title is @string/showOldBackups-->
-    <string name="prefs_oldbackups_summary">Filtra i backup più vecchi del valore in giorni. Utilizzato con il filtro \'Mostra vecchi backup\'.</string>
+    <string name="prefs_oldbackups_summary">Filtra i backup più vecchi del valore in giorni. Usato con il filtro \'Mostra vecchi backup\'.</string>
     <string name="prefs_copyselfapk">Copia il proprio APK</string>
     <string name="prefs_copyselfapk_summary">Salva una copia di Neo Backup nella cartella di backup</string>
     <string name="prefs_languages">Lingua</string>
@@ -100,7 +100,7 @@
     <string name="spec_accounts">Account</string>
     <string name="spec_appwidgets">Widget dell\'app</string>
     <string name="spec_bluetooth">Bluetooth</string>
-    <string name="spec_data">Utilizzo e policy dati</string>
+    <string name="spec_data">Uso e policy dati</string>
     <string name="spec_wallpaper">Sfondo</string>
     <string name="spec_wifiAccessPoints">Reti WiFi</string>
     <!--filebrowser_createDirectoryError: an error occured while trying to create the directory. format: string + " " + directory name-->
@@ -160,7 +160,7 @@
     <string name="data_size">Dimensione dati:</string>
     <string name="app_size">Dimensione app:</string>
     <string name="grant_usage_access_message">Questo è essenziale per ottenere le informazioni sulle dimensioni dei file dell\'app</string>
-    <string name="grant_usage_access_title">Concedi accesso all\'utilizzo</string>
+    <string name="grant_usage_access_title">Concedi accesso all\'uso</string>
     <string name="backup_filters">Filtri di backup:</string>
     <string name="resetFilter">Reset</string>
     <string name="apptype_special">Backup speciale</string>
@@ -212,7 +212,7 @@
     <string name="msg_appkill_warning">Le app selezionate riceveranno il segnale di arresto e riprenderanno al termine del backup. Controlla le app in elaborazione (ed evita di avviarle mentre il processo è ancora in esecuzione).</string>
     <string name="intro_permission_usageaccess">L\'app richiede questo permesso per accedere alle statistiche e alle dimensioni di dati e cache delle app.</string>
     <string name="intro_permission_storage_location">L\'app richiede di impostare una cartella di backup per salvare i backup. L\'app potrebbe occupare alcuni gigabyte di memoria per un backup completo e interroga molto il filesystem. Tienilo a mente quando scegli posizioni di archiviazione di rete.</string>
-    <string name="intro_permission_storage">L\'app utilizza i permessi di lettura/scrittura della memoria di archiviazione per poter accedere alla memoria di archiviazione esterna e poter eseguire il backup di dati/obb esterni di altre app.</string>
+    <string name="intro_permission_storage">L\'app usa i permessi di lettura/scrittura della memoria di archiviazione per poter accedere alla memoria di archiviazione esterna e poter eseguire il backup di dati/obb esterni di altre app.</string>
     <string name="prefs_stopcont">STOP-CONT pre e post-elaborazione delle app su backup/ripristino</string>
     <string name="prefs_obbdata">Backup file obb</string>
     <string name="stats_apps">App</string>
@@ -224,7 +224,7 @@
     <string name="prefs_restoreallpermissions">Ripristina con tutte le autorizzazioni</string>
     <string name="prefs_restoreallpermissions_summary">Assegna all\'app ripristinata tutte le autorizzazioni richieste.</string>
     <string name="help_faq">Domande frequenti</string>
-    <string name="usage_notes_title">Note di utilizzo</string>
+    <string name="usage_notes_title">Note di uso</string>
     <string name="main">Principale</string>
     <string name="help">Aiuto</string>
     <plurals name="updated_apps">
@@ -339,7 +339,7 @@
     <string name="see_faq">Vedi le FAQ!</string>
     <string name="prefs_loadingtoasts">Caricamento toast</string>
     <string name="prefs_sessionIinstaller">Usa installer della sessione</string>
-    <string name="prefs_sessionIinstaller_summary">Utilizza installer della sessione invece del programma di installazione di base. Più lento ma evita problemi con Android 13+</string>
+    <string name="prefs_sessionIinstaller_summary">Usa installer della sessione invece del programma di installazione di base. Più lento ma evita problemi con Android 13+</string>
     <string name="sortBackupSize">Dimensione backup</string>
     <string name="add_tag">Aggiungi nuovo tag</string>
     <string name="sortAppSize">Dimensione app</string>
@@ -380,7 +380,7 @@
     <string name="prefs_singularbackuprestore_summary">Usa una disposizione alternativa dell\'elemento di ripristino che consenta di scegliere backup specifici per il ripristino.</string>
     <string name="post_notifications_permission_title">Invia notifiche</string>
     <string name="post_notifications_permission_message">A partire da Android 13 le applicazioni richiedono questa autorizzazione per poter inviare notifiche.</string>
-    <string name="prefs_password_summary">Utilizzato anche per la decrittazione al ripristino</string>
+    <string name="prefs_password_summary">Usato anche per la decrittazione al ripristino</string>
     <string name="backup_revisions_limit">Limite backup: %d</string>
     <string name="clear_text">Pulisci testo</string>
     <string name="prefs_laserbackground_summary">Usa luci colorate animate come sfondo se in caricamento o occupato.</string>
@@ -411,4 +411,8 @@
     <string name="prefs_theme_dynamic_dark">Scuro con colori dinamici</string>
     <string name="enforce_backups_limit">Applica limite backup</string>
     <string name="enforce_backups_limit_description">Elimina backup più vecchi per applicare il limite a %d</string>
+    <string name="prefs_altblocklayout_summary">Usa una disposizione alternativa/vecchia per i blocchi di pagina con bordi anziché superfici colorate.</string>
+    <string name="prefs_altblocklayout">Usa disposizione alternativa per i blocchi di pagina</string>
+    <string name="prefs_compression_type_summary">Seleziona il tipo di compressione usata</string>
+    <string name="prefs_compression_type">Tipo di compressione</string>
 </resources>
