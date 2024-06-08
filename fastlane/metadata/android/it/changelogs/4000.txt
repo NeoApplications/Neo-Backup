@@ -1,5 +1,5 @@
 INCOMPATIBILE CON LE VECCHIE VERSIONI
-**PEGGIORAMENTO PRESTAZIONI**: causato dall'utilizzo di SAF rispetto all'accesso diretto
+**PEGGIORAMENTO PRESTAZIONI**: causato dall'uso di SAF rispetto all'accesso diretto
 * Aggiunto: supporto per Storage Access Framework
 * Aggiunto: supporto per collegamento simbolico/pipe
 * Aggiunto: supporto Multi Backup

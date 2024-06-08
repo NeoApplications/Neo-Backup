@@ -1,0 +1,5 @@
+Přidáno: ForegroundServiceType pro práce (vyžadováno na A14)
+Opraveno: pád při zálohování/obnovení
+Aktualizováno: TargetSDK 34
+Odstraněno: možnosti barev motivu (dočasně)
+Aktualizováno: přepracovány barvy motivů

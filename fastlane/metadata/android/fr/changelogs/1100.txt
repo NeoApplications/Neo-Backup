@@ -1,0 +1,6 @@
+**OAndBackupX 1.1.0**
+* Ajouté : cryptage de sauvegarde de données
+* Réparé : tâches programmées
+* Mise à jour : format des notifications
+* Peaufiné : quelques éléments d'interface
+* et amélioration des performances

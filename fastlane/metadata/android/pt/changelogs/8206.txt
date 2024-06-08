@@ -1,0 +1,6 @@
+Adicionar: Folha de definições do lote
+Adicionar: Dicas de ferramentas para verificar todos os botões no Batch
+Correção: Nota e etiquetas na AppSheet
+Correção: Registo não atualizado ao apagar itens
+Atualização: Renovação do layout das fichas
+mais no changelog completo…

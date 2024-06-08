@@ -1,0 +1,2 @@
+Correção: Tratamento dos horários
+Adição: Ícone baseado no tema do sistema

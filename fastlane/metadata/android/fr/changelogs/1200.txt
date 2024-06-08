@@ -1,0 +1,5 @@
+OAndBackupX 1.2.0 :
+Mises à jour:
+Interface utilisateur entièrement revisitée.
+Correction du bug provoquant des plantages lors du partage des sauvegardes.
+Ajout d'options de sauvegarde pour les données protégées de l'appareil et les données externes.

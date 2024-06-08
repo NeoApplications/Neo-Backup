@@ -1,7 +1,7 @@
 ** OAndBackupX 1.0.2**
-* Eklendi: Geribildirim için öğeye tıklayın
+* Eklendi: Öğeye tıklama geribildirimi
 * Güncelleme: Kaydırma deneyimi
-* Sabit: Açılış ekranı
-* Sabit: Davranışı yenilemek için kaydırın
-* Sabit: Durum çubuğu tema
-* ve diğer bazı UI tweaks
+* Düzeltildi: Görüntü sıçraması
+* Düzeltildi: Davranışı yenilemek için kaydırın
+* Düzeltildi: Durum çubuğu tema
+* ve kullanıcı arayüzü için bazı ince ayarlar

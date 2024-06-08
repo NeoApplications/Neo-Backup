@@ -1,0 +1,7 @@
+Adicionar: Cópias de segurança persistentes
+Adição: Seleções do menu de contexto Guardar/Carregar
+Correção: Suporte a implementações de SU não-magisk
+Correção: Reiniciar o estado da aplicação ao rodar o ecrã
+Atualização: Permitir deslizar entre páginas
+Atualização: Simplificar a IU
+e muito mais no changelog completo…

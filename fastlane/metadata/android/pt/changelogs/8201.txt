@@ -1,0 +1,8 @@
+Adicionar: Suporte para ícones temáticos no A13
+Adicionar: Itens da Página inicial selecionáveis com menu de contexto (ainda precisa de ser testado)
+Atualização: Novos ícones (ícones Phosphor)
+Atualização: Permitir fazer cópias de segurança de si próprio
+Atualização: Reformular a caixa de diálogo da palavra-passe
+Correção: Tratamento de quando o apk não é chamado base.apk
+Correção: Atualização automática da AppSheet após desinstalação/ativação/desativação/restauro
+Correção: Crash ao recriar a aplicação com uma Folha iniciada

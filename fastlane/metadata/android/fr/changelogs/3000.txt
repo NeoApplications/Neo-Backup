@@ -1,0 +1,12 @@
+VERSION NON COMPATIBLE AVEC LES PRÉCÉDENTES
+Mises à jour :
+répertoire de sauvegarde par défaut vers /OABX
+solution de chiffrement réécrite (Crédits @Pizze)
+interface utilisateur d’aide et d’AppSheet revue
+préférence clearCache renommée en excludeCache
+fonctions de commandes shell entièrement réécrites (Crédits @Pizze)
+Ajouts :
+tri par taille de données
+info-bulles pour toutes les icônes
+bouton pour effacer le cache dans AppSheet
+boîte de dialogue d’alerte concernant l’activation du chiffrement

@@ -1,2 +1,2 @@
 **OAndBackupX 1.0.0**
-* Ajouté : option permettant de vider le cache avant la sauvegarde des données
+* Ajouté : option permettant de vider le cache avant la sauvegarde des données

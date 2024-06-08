@@ -1,0 +1,9 @@
+Esta é uma hot-fix-release (da hot-fix-release), uma vez que foi lançada uma versão não intencional há algumas semanas.
+Corrige os problemas da versão não intencional e funciona de forma fiável, mas continua a apresentar atrasos, uma vez que o Compose ainda não oferece o melhor desempenho e uma verdadeira versão demoraria muito tempo. Até lá, aqui estão alguns destaques:
+* Atualização: Novo formato de atualização (a aplicação ainda suporta as mais antigas)
+* Correção: Todos os problemas do A12 na v7
+* Adicionar: Cópia de segurança/restauro de permissões dadas
+* Atualização: É necessária menos atualização manual
+* Corrigido: A maioria dos backups especiais (ainda precisa de ser testada)
+* As etiquetas e notas estão desativadas por agora
+para mais pormenores, leia o registo de alterações completo

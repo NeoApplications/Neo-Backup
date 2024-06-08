@@ -1,0 +1,7 @@
+Přidáno: tlačítko vynucení limitu záloh do AppSheet
+Přidáno: umožnění obnovení starých aplikací (starších než Android 6) na Androidu 14+
+Přidáno: různé dynamické a černé motivy
+Opraveno: podpora KernelSU
+Opraveno: pád při obnovení po spuštění z AppSheet
+Aktualizováno: nová tlačítka AppSheet
++ dalších více než 40 příspěvků a 60 překladů

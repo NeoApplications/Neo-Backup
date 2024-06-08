@@ -1,0 +1,7 @@
+OAndBackupX 2.0.0 :
+Passage à sulib (par @Tiefkuehlpizze)
+Suppression définitive de oab-utils (par @Tiefkuehlpizze)
+Nouveaux éléments UI pour les listes d'applications, de filtres et de planification
+Corrections : sauvegardes planifiées pour les données seules + compression des archives externes/data/obb selon les préférences + compression des dossiers externes/data/obb vides
+Mise à jour de la fonction de nettoyage du cache
+Divers ajustements d'interface et de performances

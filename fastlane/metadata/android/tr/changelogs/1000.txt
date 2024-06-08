@@ -1,2 +1,2 @@
 ** OAndBackupX 1.0.0**
-* Eklendi: Seçeneği veri yedeklemeden önce önbelleği temizlemek için
+* Eklendi: Veri yedeklemesinden önce onbellek temizleme seçeneği

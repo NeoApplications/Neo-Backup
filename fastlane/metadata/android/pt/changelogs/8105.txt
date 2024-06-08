@@ -1,0 +1,6 @@
+Correção: Predefinição errada para pmSuspend
+Correção: Cor de texto da aplicação desativada na folha de aplicações
+Correção: Seleção de item de lista
+Correção: Cor do texto do cursor da Pref.
+Adicionar: Passos adaptativos do controlo deslizante da Pref.
+Atualização: IU da barra inferior de navegação da Prefs

@@ -1,0 +1,8 @@
+Thêm: Biểu tượng ứng dụng mới
+Thêm: Nút làm mới xoay
+Khắc phục: sự cố Lucky Patcher ẩn
+Fix: Phh su + kế thừa+thực thi
+Khắc phục: thiếu làm mới các gói khi bắt đầu
+Cập nhật: Cải tiến NavBar và Thanh tìm kiếm
+Cập nhật: Một tùy chọn khác cho nền bận rộn với độ mờ màu xám
++ hơn 80 cam kết và 10 đóng góp dịch thuật

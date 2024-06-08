@@ -1,0 +1,11 @@
+**OAndBackupX 1.1.1 :**
+*Ajouts:
+Raccourci vers le rapport Exodus ajouté à AppSheet.
+*Corrections:
+L'application ne se lance plus si une application a une icône de dimensions <= 0.
+*Modifications:
+La valeur par défaut est maintenant de copier OAndBackupX dans le dossier parent de sauvegarde.
+*Nouveautés:
+Ajout du grec (crédits @tsiflimagas).
+Mise à jour de la capitalisation et des chaînes en anglais (crédits : @atrate).
+Mise à jour générale du chinois, du néerlandais, du polonais et du suédois.

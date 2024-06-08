@@ -1,0 +1,7 @@
+- Atualização: Migrar a navegação totalmente para o Compose
+- Atualização: Layouts de BackupItem, Página de boas-vindas, Página de permissões e AppSheet
+- Atualização: Aplicar opções de Ordenação/Filtro às estatísticas da folha
+- Atualização: Renovação da IU de prefs
+- Atualização: UI dos itens da barra de navegação
+- Correção: Tema predefinido inconsistente (@hg42)
+- Correção: Cortar o nome do pacote na AppSheet
