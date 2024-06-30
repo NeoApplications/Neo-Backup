@@ -10,5 +10,11 @@
         </p>
         <p><strong>Meer gebruikers</strong>: Multi-user is op het moment nog experimenteel maar behoort te werken. Wanneer herstellen in een multi-user scenario wordt aangeroepen, wordt `pm install -r $apk` gebruikt. Daarmee wordt de app uitgezet voor alle gebruikers die de app in /data/system/user/$user/package-restrictions.xml hebben staan (tenzij de app geregistreerd staat als enabled="1"). <br> Dit kan problemen veroorzaken bij gebruikers die dezelfde app op een later tijdstip installeren, maar is noodzakelijk om te voorkomen dat de app voor alle gebruikers op hetzelfde moment geïnstalleerd wordt. Het context menu heeft een optie om apps aan en uit te zetten, die gebruikt kan worden als andere gebruikers niet in staat zijn om een specifieke app te gebruiken wegens uit zetten tijdens herstel.<br> In- en uitschakelen werkt alleen na een initiële installatie (niet noodzakelijkerwijs van OAndBackupx) of terugzetting van de app.
         </p>
+        <p><strong>Systeem loze apps</strong>: Back-up en herstel van systeem loze apps die geinstaleerd zijn als Magisk modules is niet ondersteund. Het proberen kan syteem fouten veroorzaken die het formateren en opnieuw installeren van het systeem vereisen.
+        </p>
+        <p><strong>Navigation</strong>: The navigation bar has "Settings", "Home", "Batch backup", "Batch restore" and "Schedule backups" (in that order). The number of apps upgraded after their last backup will be presented as a notification on "Home" button.
+        </p>
+        <p><strong>App's die de Keystore gebruiken</strong>: Android heeft een versleutelde opslag voor gevoelige data. Apps die gebuikmaken van deze opslag, voor bijvoorbeeld inlog gegevens of encryptie sleutels, kunnen niet terug gezet worden. Twee voorbeelden zijn Signal en Element(Riot).
+        </p>
     </body>
 </html>
