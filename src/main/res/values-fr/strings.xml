@@ -411,4 +411,10 @@
     <string name="prefs_theme_system_black">Thème du système (sombre)</string>
     <string name="enforce_backups_limit_description">Supprimer les anciennes sauvegardes pour imposer la limite à %d</string>
     <string name="prefs_theme_dynamic_dark">Sombre avec des couleurs dynamiques</string>
+    <string name="prefs_compression_type_summary">Sélectionner le type de compression</string>
+    <string name="prefs_compression_type">Type de compression</string>
+    <string name="prefs_altblocklayout">Utiliser la mise en page alternative for les blocs page</string>
+    <string name="prefs_altblocklayout_summary">Utiliser une mise en page alternative/ancienne pour les blocs page à la place des surfaces colorées.</string>
+    <string name="prefs_backupcache">Sauvegarde des données de cache</string>
+    <string name="prefs_backupcache_summary">Sauvegarde des fichiers dans les répertoires de cache</string>
 </resources>
