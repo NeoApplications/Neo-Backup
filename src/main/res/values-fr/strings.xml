@@ -149,7 +149,7 @@
     <string name="sched_blocklist">Liste noire</string>
     <string name="sched_activateButton">Démarrer maintenant</string>
     <string name="prefs_logviewer">Afficher le journal</string>
-    <string name="prefs_batchdelete_summary">Supprimez les sauvegardes de toutes les applications qui ne sont pas actuellement installées.</string>
+    <string name="prefs_batchdelete_summary">Supprimer les sauvegardes de toutes les applications qui ne sont pas actuellement installées.</string>
     <string name="prefs_enablespecial">Activer les sauvegardes spéciales</string>
     <string name="prefs_deviceprotecteddata">Sauvegarder les données protégées par l\'appareil</string>
     <string name="prefs_externaldata">Sauvegarder les données externes</string>
@@ -195,7 +195,7 @@
     <string name="dialog_unlock">Déverouiller</string>
     <string name="dialog_start">Allons-y !</string>
     <string name="prefs_unset">Non définie</string>
-    <string name="prefs_numBackupRevisions_summary">La dernière version sera supprimée après la création d\'une nouvelle sauvegarde si le nombre est dépassé. Mettez le à zéro pour garder toutes les versions.</string>
+    <string name="prefs_numBackupRevisions_summary">La dernière version sera supprimée après la création d\'une nouvelle sauvegarde si le nombre est dépassé. Mettre le à zéro pour garder toutes les versions.</string>
     <string name="prefs_numBackupRevisions">Nombres de versions de la sauvegarde</string>
     <string name="prefs_stopcont">Forcer l\'arrêt du processus de l\'appli avant la sauvegarde/restauration</string>
     <string name="prefs_advanced">Préférences avancées</string>
@@ -206,7 +206,7 @@
     <plurals name="days_left">
         <item quantity="one">%d jour</item>
         <item quantity="many">%d jours</item>
-        <item quantity="other"/>
+        <item quantity="other">%d jours</item>
     </plurals>
     <string name="logs_text_empty">Il n\'y a rien à afficher !</string>
     <string name="delete_all_backups">Supprimer toutes les sauvegardes</string>
@@ -231,7 +231,7 @@
     <plurals name="updated_apps">
         <item quantity="one">%d application mise à jour</item>
         <item quantity="many">%d applications mises à jour</item>
-        <item quantity="other"/>
+        <item quantity="other">%d applications mises à jour</item>
     </plurals>
     <string name="app_info">Infos sur l\'appli</string>
     <string name="launch_app">Lancer l\'application</string>
@@ -250,7 +250,7 @@
     <plurals name="sched_interval_formal">
         <item quantity="one">chaque jour</item>
         <item quantity="many">tous les %d jours</item>
-        <item quantity="other"/>
+        <item quantity="other">tous les %d jours</item>
     </plurals>
     <string name="global_blocklist_add">Ajouter à la liste de blocage globale</string>
     <string name="error_datachanged">Les données de l\'application ont été activement modifiées pendant la sauvegarde. Essayez de tuer son processus avant de faire la sauvegarde</string>
@@ -367,7 +367,7 @@
     <string name="prefs_singularbackuprestore_summary">Utiliser la présentation des éléments qui permet de choisir une sauvegarde spécifique à restaurer.</string>
     <string name="prefs_squeezenavtext">Resserrer le texte de l\'élément de navigation</string>
     <string name="prefs_altnavbaritem">Utiliser la barre de navigation alternative</string>
-    <string name="prefs_altnavbaritem_summary">Utilisez la disposition alternative/ancienne de la barre de navigation, qui montre l\'étiquette des éléments non sélectionnés.</string>
+    <string name="prefs_altnavbaritem_summary">Utiliser la disposition alternative/ancienne de la barre de navigation, qui montre l\'étiquette des éléments non sélectionnés.</string>
     <string name="prefs_squeezenavtext_summary">Permettre le texte sous la barre de navigation d\' être redimensionné pour correspondre à la largeur disponible.</string>
     <string name="prefs_externaldata_summary">Sauvegarde les données placées sur le stockage externe (par exemple /storage/emulated/0/Android/data/)</string>
     <string name="prefs_nobackupdata">Sauvegarder les fichiers no_backup</string>
@@ -412,9 +412,13 @@
     <string name="enforce_backups_limit_description">Supprimer les anciennes sauvegardes pour imposer la limite à %d</string>
     <string name="prefs_theme_dynamic_dark">Sombre avec des couleurs dynamiques</string>
     <string name="prefs_compression_type_summary">Sélectionner le type de compression</string>
-    <string name="prefs_compression_type">Type de compression</string>
+    <string name="prefs_compression_type">Type d\'archive</string>
     <string name="prefs_altblocklayout">Utiliser la mise en page alternative for les blocs page</string>
     <string name="prefs_altblocklayout_summary">Utiliser une mise en page alternative/ancienne pour les blocs page à la place des surfaces colorées.</string>
     <string name="prefs_backupcache">Sauvegarde des données de cache</string>
     <string name="prefs_backupcache_summary">Sauvegarde des fichiers dans les répertoires de cache</string>
+    <string name="filters_tags">Tags</string>
+    <string name="search_package">Rechercher l\'application dans le store</string>
+    <string name="prefs_restorecache">Restaurer des données en cache</string>
+    <string name="prefs_restorecache_summary">Restaurer les fichiers dans les répertoires de cache</string>
 </resources>
