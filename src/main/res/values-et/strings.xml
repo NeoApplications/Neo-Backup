@@ -70,7 +70,7 @@
     <!-- tools_backupsDeleted: shown in a notification followed by the number of backups deleted -->
     <string name="batchDeleteBackupsDeleted">Varundusi kustutatud:</string>
     <string name="batchDeleteNothingToDelete">Pole varundusi, mida kustutada</string>
-    <string name="enablePackage">Luba</string>
+    <string name="enablePackage">Luba rakendus</string>
     <!-- enablePackageTitle: title for a list of checkable users -->
     <string name="enablePackageTitle">Luba kasutajatele</string>
     <string name="disablePackage">Keela</string>
@@ -78,7 +78,7 @@
     <string name="prefs_title">Eelistused</string>
     <string name="prefs_service">Teenuse eelistused</string>
     <string name="prefs_user">Kasutaja eelistused</string>
-    <string name="prefs_theme">Teema</string>
+    <string name="prefs_theme">Kujundus</string>
     <string name="prefs_acquirewakelock">Väldi unerežiimi</string>
     <string name="prefs_batchdelete">Kustuta varundused\?</string>
     <string name="prefs_pathbackupfolder">Varunduste kaust</string>
@@ -104,7 +104,7 @@
     <string name="sched_notificationMessage">Ajastatud varundus</string>
     <string name="sched_interval">Intervall päevades:</string>
     <string name="sched_hourOfDay">Päeva tund:</string>
-    <string name="sched_checkbox">Luba</string>
+    <string name="sched_checkbox">Võta kasutusele</string>
     <string name="sched_activateButton">Alusta varundamist kohe</string>
     <string name="sched_startingbackup">Käivitan ajastatud varunduse…</string>
     <string name="sched_mode">Varundusrežiim:</string>
@@ -142,17 +142,17 @@
     <string name="encrypted_data_title">Krüpteeritud andmed:</string>
     <string name="other_filters_options">Spetsiaalsed filtrid:</string>
     <string name="deleted_backup">Varundus kustutatud</string>
-    <string name="prefs_theme_light">Hele</string>
-    <string name="prefs_theme_dark">Tume</string>
-    <string name="prefs_theme_system">Süsteemi teema</string>
-    <string name="empty_filtered_list">Filtreeritud nimekiri on tühi, seega lähtestame filtrid vaikeväärtusele</string>
+    <string name="prefs_theme_light">Hele kujundus</string>
+    <string name="prefs_theme_dark">Tume kujundus</string>
+    <string name="prefs_theme_system">Süsteemi kujundus</string>
+    <string name="empty_filtered_list">Filtreeritud loend on tühi.</string>
     <string name="dialog_refuse">Ära tee nii</string>
     <string name="dialog_approve">Teeme ära!</string>
     <string name="ignore_battery_optimization_title">Aku optimeerimine</string>
     <string name="ignore_battery_optimization_message">Varundused võivad vahest peatuda, selle vältimiseks peaksid keelama aku optimeerimise</string>
     <string name="ignore_battery_optimization_not_supported">See seade ei toeta kahjuks aku optimeerimise keelamist!</string>
     <string name="failed_unzipping">Andmete lahti pakkimisel esines viga, kontrolli krüpteeringu parooli!</string>
-    <string name="split_apks">Poolitatud APKid:</string>
+    <string name="split_apks">Poolitatud APK-failid</string>
     <string name="backup_filters">Varunduse filtrid:</string>
     <string name="grant_usage_access_title">Anna kasutuse juurdepääsuluba</string>
     <string name="grant_usage_access_message">See on vajalik rakenduste failide suuruste info saamiseks</string>
@@ -181,14 +181,14 @@
     <string name="prefs_biometriclock">Biomeetrialukk</string>
     <string name="prefs_stopcont_summary">Ainult ekspertidele: see võib aidata kui rakendus muudab faile varundamise ajal ning varundamine ebaõnnestub.</string>
     <string name="prefs_disableverification_summary">Keelab APKide taastamisel selle arendusvaliku ning lubab hiljem uuesti. Parandab vea INSTALL_FAILED_VERIFICATION_FAILURE.</string>
-    <string name="fetching_action_list">Varundamiseks rakenduste nimekirja hankimine…</string>
+    <string name="fetching_action_list">Laadime rakenduste loendit %1$s jaoks…</string>
     <string name="msg_appkill_warning">Valitud rakendus(t)el palutakse töötamine lõpetada ning peale ülesande täitmist uuesti jätkata. Palun veendu, et kontrollid rakendusi peale ülesande täitmist ning väldi nende käivitamist protsessi toimimise ajal.</string>
     <string name="intro_permission_storage_location">See rakendus vajab kohta, kus varundusi hoida. Rakendus võib vajada paar gigabaiti täisvarunduse jaoks ning teeb failisüsteemi palju päringuid. Pea seda meeles, kui valid võrgupõhise salvestuskoha.</string>
     <string name="help_appTypeHint">* Rakenduse liigi ikoon muutub halliks, kui rakendus on eemaldatud ning tumehalliks, kui rakendus on keelatud.</string>
     <string name="prefs_disableverification">Keela rakenduste kontrollimine üle USB</string>
     <string name="logs_text_empty">Pole midagi näidata!</string>
     <string name="delete_all_backups">Kustuta kõik varundused</string>
-    <string name="help_legend">Legend:</string>
+    <string name="help_legend">Selgitus:</string>
     <string name="prefs_unset">Määramata</string>
     <string name="prefs_numBackupRevisions_summary">Vanim varundus kustutatakse uue loomisel, kui see arv on ületatud. Sea väärtuseks null, et jätta kõik alles.</string>
     <string name="prefs_numBackupRevisions">Varunduste arv</string>
@@ -197,4 +197,58 @@
     <string name="radio_deviceprotecteddata">Seadmes kaitstud andmed</string>
     <string name="radio_externaldata">Välised andmed</string>
     <string name="radio_updated">Uuendatud</string>
+    <plurals name="sched_interval_formal">
+        <item quantity="one">iga päev</item>
+        <item quantity="other">iga %d. päev</item>
+    </plurals>
+    <plurals name="days_left">
+        <item quantity="one">%d päev</item>
+        <item quantity="other">%d päeva</item>
+    </plurals>
+    <plurals name="updated_apps">
+        <item quantity="one">%d uuendatud rakendus</item>
+        <item quantity="other">%d uuendatud rakendust</item>
+    </plurals>
+    <string name="prefs_advanced_short">Lisavalikud</string>
+    <string name="prefs_theme_system_black">Süsteemi kujundus (must)</string>
+    <string name="prefs_theme_black_summary">Kasuta tumeda kujunduse puhul musta tausta</string>
+    <string name="prefs_theme_dynamic_light">Hele kujundus dünaamiliste värvidega</string>
+    <string name="prefs_accent_2">Rahulik indigo</string>
+    <string name="prefs_accent_color">Aktsentvärv</string>
+    <string name="title_tags">Sildid:</string>
+    <string name="showDisabled">Kasutuselt eemaldatud rakendused</string>
+    <string name="error_pmDataIncompleteException_dataRestoreFailed">Rakenduse andmed pole taastatud.</string>
+    <string name="prefs_tools_short">Tarvikud</string>
+    <string name="prefs_user_short">Kasutaja</string>
+    <string name="prefs_service_short">Teenus</string>
+    <string name="prefs_theme_dynamic_black">Must kujundus dünaamiliste värvidega</string>
+    <string name="prefs_theme_black">Must kujundus</string>
+    <string name="prefs_theme_dynamic">Dünaamiline kujundus</string>
+    <string name="prefs_theme_dynamic_dark">Tume kujundus dünaamiliste värvidega</string>
+    <string name="all_apk">Vali kõik APK-failid</string>
+    <string name="backup_all_updated">Varunda kõik uuendatud rakendused</string>
+    <string name="prefs_accent_0">Punane komeet</string>
+    <string name="prefs_accent_1">Kenake lilla</string>
+    <string name="prefs_accent_3">Türkiissinine</string>
+    <string name="prefs_accent_4">Kartmatu roheline</string>
+    <string name="prefs_accent_5">Kollakasroheline laim</string>
+    <string name="prefs_accent_6">Tormakas kollane</string>
+    <string name="prefs_accent_7">Oranž aprikoos</string>
+    <string name="prefs_accent_8">Perano kõrvits</string>
+    <string name="prefs_secondary_0">Arktiline rohekassinine</string>
+    <string name="prefs_secondary_1">Sinakasroheline ookean</string>
+    <string name="prefs_secondary_2">Magusroheline laim</string>
+    <string name="prefs_secondary_3">Merevaigukollane tiiger</string>
+    <string name="prefs_secondary_4">Oranž laava</string>
+    <string name="prefs_secondary_5">Flamingoroosa</string>
+    <string name="prefs_secondary_6">Kivi</string>
+    <string name="prefs_secondary_7">Taevasinine</string>
+    <string name="prefs_secondary_8">Münt</string>
+    <string name="prefs_secondary_color">Teisejärguline värv</string>
+    <string name="error_encryptionpassword">Krüptimise salasõna on kas määramata või vale!</string>
+    <string name="title_note">Märkus:</string>
+    <string name="sortBackupDate">Varunduse kuupäev</string>
+    <string name="help_changelog">Muudatuste logi</string>
+    <string name="home">Avaleht</string>
+    <string name="all_data">Vali kõik andmed</string>
 </resources>
