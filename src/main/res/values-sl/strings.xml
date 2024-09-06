@@ -110,4 +110,20 @@
     <string name="prefs_singularbackuprestore_summary">Uporabi drugačno postavitev elementov obnovitve, ki omogoča izbiro določenih varnostnih kopij za obnovitev.</string>
     <string name="prefs_squeezenavtext_summary">Dovoli spreminjanje velikosti besedila pod postavko navigacijske vrstice, da se prilega razpoložljivi širini.</string>
     <string name="prefs_altnavbaritem">Uporabi drugačno postavko navigacijske vrstice</string>
+    <string name="prefs_laserbackground">Pokaži animirani laser v ozadju</string>
+    <string name="prefs_laserbackground_summary">Uporabi animirane barvne luči kot ozadje pri nalaganju/izvajanju.</string>
+    <string name="prefs_oldbackups">Razvrsti varnostne kopije po starosti</string>
+    <string name="prefs_oldbackups_summary">Filtriraj varnostne kopije, starejše od toliko dni. Uporablja se s filtrom »Pokaži stare varnostne kopije«.</string>
+    <string name="prefs_encryption">Šifriranje</string>
+    <string name="prefs_encryption_summary">Omogoči šifrirane varnostne kopije</string>
+    <string name="prefs_password">Geslo šifriranja</string>
+    <string name="prefs_password_summary">Uporablja se tudi za dešifriranje ob obnovitvi varnostne kopije</string>
+    <string name="prefs_enablespecial">Omogoči posebne varnostne kopije</string>
+    <string name="prefs_altnavbaritem_summary">Uporabi drugačno/staro postavitev elementov v navigacijski vrstici, ki prikazuje oznako neizbranih elementov.</string>
+    <string name="prefs_rememberfiltering">Zapomni si razvrstitev in filter</string>
+    <string name="prefs_rememberfiltering_summary">Shrani izbrani način razvrščanja in filtriranja. Upoštevani so samo tisti, ki so označeni s potrditvenim poljem v meniju.</string>
+    <string name="prefs_passwordconfirmation">Potrditev gesla za šifriranje</string>
+    <string name="prefs_password_match_true">Gesli se ujemata</string>
+    <string name="prefs_password_match_false">Gesli se ne ujemata</string>
+    <string name="prefs_enablespecial_summary">Še vedno potrebuje intenzivno testiranje, poskusite se zavedati nevarnosti, da lahko povzroči zagonske zanke. Povratne informacije so vedno dobrodošle.</string>
 </resources>
