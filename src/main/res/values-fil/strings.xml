@@ -2,7 +2,7 @@
 <resources>
     <string name="backup">pagkopya</string>
     <string name="handleBoth">Pareho</string>
-    <string name="backupConfirmation">pagkopya</string>
+    <string name="backupConfirmation">Pagkopya?</string>
     <string name="radio_deviceprotecteddata">Data na Protektado ng Device</string>
     <string name="radio_obbdata">OBB Data</string>
     <string name="radio_mediadata">Media Data</string>
@@ -13,7 +13,7 @@
     <string name="radio_both">APK at Data</string>
     <string name="restoreConfirmation">Ibalik\?</string>
     <string name="handleData">Mga Data</string>
-    <string name="radio_user">Mga App ng Gumagamit</string>
+    <string name="radio_user">Mga App ng Ginagamit</string>
     <string name="handleApk">.APK</string>
     <string name="radio_all">Lahat ng app</string>
     <string name="radio_apk">.APK</string>
@@ -28,4 +28,14 @@
     <string name="deleteBackup">Tanggalin ang backup</string>
     <string name="uninstall">I-uninstall ang app</string>
     <string name="uninstallProgress">I-uninstall ang…</string>
+    <string name="showOnlySystem">System apps lang</string>
+    <string name="showNotBackedup">Mga App na walang kopya</string>
+    <string name="showOnlyUser">Mga ginagamit na apps lang</string>
+    <string name="showNotInstalled">Mga hindi na-install na app</string>
+    <string name="showNewAndUpdated">Mga bago at na-update na app</string>
+    <string name="noSu">Hindi makakuha ng pahintulot ng superuser</string>
+    <string name="enablePackageTitle">Paganahin ang app para sa mga users</string>
+    <string name="disablePackage">Huwag paganahin ang app</string>
+    <string name="prefs_newandupdatednotification">Ipakita ang bago at na-update na notipikasyon</string>
+    <string name="prefs_newandupdatednotification_summary">Ipakita ang mga bagong ginagamit na app katabi ng na-update na app sa notipikasyon bar sa home page.</string>
 </resources>
