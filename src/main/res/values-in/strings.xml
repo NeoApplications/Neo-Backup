@@ -399,4 +399,16 @@
     <string name="clear_text">Bersihkan teks</string>
     <string name="post_notifications_permission_title">Post Pemberitahuan</string>
     <string name="enforce_backups_limit_description">Hapus cadangan lama untuk menerapkan batas hingga %d</string>
+    <string name="filters_tags">Tag</string>
+    <string name="search_package">Cari aplikasi di toko</string>
+    <string name="prefs_compression_type_summary">Pilih jenis kompresi yang digunakan</string>
+    <string name="prefs_laserbackground_summary">Gunakan lampu berwarna animasi sebagai latar belakang saat memuat/sibuk.</string>
+    <string name="prefs_backupcache_summary">Cadangkan file dalam direktori cache</string>
+    <string name="prefs_altblocklayout_summary">Gunakan tata letak alternatif/lama untuk blok halaman dengan batas, bukan permukaan berwarna.</string>
+    <string name="prefs_restorecache">Pulihkan data yang di-cache</string>
+    <string name="prefs_restorecache_summary">Mengembalikan file dalam direktori cache</string>
+    <string name="prefs_altnavbaritem_summary">Gunakan tata letak item bilah navigasi alternatif/lama, yang menampilkan label item yang tidak dipilih.</string>
+    <string name="prefs_compression_type">Jenis kompresi</string>
+    <string name="prefs_altblocklayout">Gunakan tata letak alternatif untuk blok halaman</string>
+    <string name="prefs_backupcache">Cadangkan data yang di-cache</string>
 </resources>
