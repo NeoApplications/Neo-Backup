@@ -284,4 +284,10 @@
     <string name="prefs_obbdata_rst_summary">Taasta rakenduse obb-failid, mis asuvad välisel andmekandjal (nt. /storage/emulated/0/Android/obb/)</string>
     <string name="prefs_sessionIinstaller_summary">Tavalise paigaldaja asemel kasuta sessioonipõhist paigaldajat. Lahendus on aeglasem, kuid Android 13 ja uuema puhul väldib see probleeme</string>
     <string name="prefs_restorepermissions">Taasta õigused</string>
+    <string name="prefs_loadingtoasts">Teavitused laadimise ajal</string>
+    <string name="prefs_loadingtoasts_summary">Kui loend on laadimisel, siis näita teavitusi</string>
+    <string name="prefs_multilineinfochips">Mitmerealine teave</string>
+    <string name="prefs_multilineinfochips_summary">Luba rakenduste teabel jaguneda mitmele reale.</string>
+    <string name="prefs_singularbackuprestore">Ühe varukoopia taastamine</string>
+    <string name="prefs_singularbackuprestore_summary">Kasuta sellist vaadet, mis lubab valida taastamiseks ühte kindlat varukoopiat.</string>
 </resources>
