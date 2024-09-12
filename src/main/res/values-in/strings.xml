@@ -400,7 +400,7 @@
     <string name="post_notifications_permission_title">Post Pemberitahuan</string>
     <string name="enforce_backups_limit_description">Hapus cadangan lama untuk menerapkan batas hingga %d</string>
     <string name="filters_tags">Tag</string>
-    <string name="search_package">Cari aplikasi di toko</string>
+    <string name="search_package">Jelajahi aplikasi di store</string>
     <string name="prefs_compression_type_summary">Pilih jenis kompresi yang digunakan</string>
     <string name="prefs_laserbackground_summary">Gunakan lampu berwarna animasi sebagai latar belakang saat memuat/sibuk.</string>
     <string name="prefs_backupcache_summary">Cadangkan file dalam direktori cache</string>
