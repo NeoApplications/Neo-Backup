@@ -38,4 +38,6 @@
     <string name="disablePackage">Huwag paganahin ang app</string>
     <string name="prefs_newandupdatednotification">Ipakita ang bago at na-update na notipikasyon</string>
     <string name="prefs_newandupdatednotification_summary">Ipakita ang mga bagong ginagamit na app katabi ng na-update na app sa notipikasyon bar sa home page.</string>
+    <string name="showOldBackups">Mga dating backup</string>
+    <string name="showSplitAPKs">Split-APK</string>
 </resources>
