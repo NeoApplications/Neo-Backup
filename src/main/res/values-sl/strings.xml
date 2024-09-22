@@ -126,4 +126,9 @@
     <string name="prefs_password_match_true">Gesli se ujemata</string>
     <string name="prefs_password_match_false">Gesli se ne ujemata</string>
     <string name="prefs_enablespecial_summary">Še vedno potrebuje intenzivno testiranje, poskusite se zavedati nevarnosti, da lahko povzroči zagonske zanke. Povratne informacije so vedno dobrodošle.</string>
+    <string name="prefs_externaldata">Varnostno kopiraj zunanje podatke aplikacije</string>
+    <string name="prefs_obbdata">Varnostno kopiraj obb datoteke</string>
+    <string name="prefs_obbdata_summary">Varnostno kopira obb datoteke, ki so shranjene v zunanji shrambi (npr. /storage/emulated/0/Android/obb/)</string>
+    <string name="prefs_excludecache_summary">Izključi predpomnilnik aplikacije iz varnostne kopije</string>
+    <string name="prefs_externaldata_summary">Varnostno kopira podatke, ki so shranjeni v zunanji shrambi (npr. /storage/emulated/0/Android/data/)</string>
 </resources>
