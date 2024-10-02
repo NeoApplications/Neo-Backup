@@ -254,7 +254,7 @@
     <string name="radio_mediadata">Meediaandmed</string>
     <string name="prefs_devicelock">Seadme lukustus</string>
     <string name="prefs_devicelock_summary">Turva rakendust seadme salasõnaga</string>
-    <string name="prefs_obbdata">Varunda obb-failid</string>
+    <string name="prefs_obbdata">Varunda obb-faile</string>
     <string name="prefs_mediadata_summary">Varunda rakenduse meediafailid, mis asuvad välisel andmekandjal (nt. /storage/emulated/0/Android/media/)</string>
     <string name="prefs_obbdata_summary">Varunda rakenduse obb-failid, mis asuvad välisel andmekandjal (nt. /storage/emulated/0/Android/obb/)</string>
     <string name="prefs_deviceprotecteddata_rst">Taasta seadmes kaitstud andmed</string>
@@ -290,4 +290,13 @@
     <string name="prefs_multilineinfochips_summary">Luba rakenduste teabel jaguneda mitmele reale.</string>
     <string name="prefs_singularbackuprestore">Ühe varukoopia taastamine</string>
     <string name="prefs_singularbackuprestore_summary">Kasuta sellist vaadet, mis lubab valida taastamiseks ühte kindlat varukoopiat.</string>
+    <string name="prefs_squeezenavtext_summary">Luba navigatsiooniriba kirjetel olevat teksti kohendada väiksemaks nii, et ta mahuks laiusele ära.</string>
+    <string name="prefs_squeezenavtext">Kohenda menüüvalikute tekst väiksemaks</string>
+    <string name="prefs_externaldata_summary">Varunda andmeid, mis asuvad välisel andmekandjal (näiteks /storage/emulated/0/Android/data/)</string>
+    <string name="prefs_compression_type">Pakkimise tüüp</string>
+    <string name="prefs_compression_type_summary">Vali kasutatav andmetihenduse ehk pakkimise tüüp</string>
+    <string name="prefs_compression_level">Pakkimise tase</string>
+    <string name="prefs_compression_level_summary">Madalama väärtuse puhul paraneb kiirus, aga tulemuseks on suuremad failid. Suurema väärtuse puhul kulub rohkem aega, aga failid on väiksemad.</string>
+    <string name="prefs_restoreallpermissions_summary">Anna taastatud rakendusele kõik õigused, mida ta küsib.</string>
+    <string name="prefs_restoreallpermissions">Taasta kõikide õigustega</string>
 </resources>
