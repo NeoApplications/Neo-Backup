@@ -115,7 +115,7 @@
     <string name="spec_appwidgets">Widget Aplikasi</string>
     <string name="spec_bluetooth">Bluetooth</string>
     <string name="spec_data">Penggunaan dan Kebijakan Data</string>
-    <string name="spec_wallpaper">Wallpaper</string>
+    <string name="spec_wallpaper">Walpaper</string>
     <string name="spec_wifiAccessPoints">Akses point Wifi</string>
     <!-- filebrowser_createDirectoryError: kesalahan terjadi saat mencoba membuat direktori. format: string + " " + nama direktori -->
     <string name="error_creating_notification_channel">Tidak dapat membuat saluran pemberitahuan</string>
@@ -171,12 +171,7 @@
     <string name="intro_permission_storage_location">Aplikasi ini membutuhkan lokasi cadangan untuk menyimpan cadangan. Aplikasi ini mungkin membutuhkan beberapa gigabyte penyimpanan untuk cadangan lengkap dan banyak mengkueri sistem file. Harap diingat ketika memilih lokasi penyimpanan berbasis jaringan.</string>
     <string name="intro_permission_usageaccess">Aplikasi ini memerlukan izin ini untuk dapat memeriksa statistik dan ukuran data dan cache aplikasi Anda.</string>
     <string name="intro_permission_storage">Aplikasi ini menggunakan izin baca/tulis penyimpanan untuk dapat mengakses penyimpanan eksternal dan memberikan kemungkinan untuk pencadangan data/obb eksternal aplikasi lain.</string>
-    <string name="intro_welcome_message">Neo Backup (sebelumnya OAndBackupX) adalah cabang dari OAndBackup yang terkenal dengan tujuan untuk membawa OAndBackup ke 202X dan bagian dari rangkaian Neo Applications. Untuk saat ini aplikasi sudah sepenuhnya ditulis ulang, kedatangannya akan membuatnya kuat dan menambahkan beberapa fitur yang direncanakan secara panjang yang dapat memudahkan alur kerja pencadangan/pemulihan dengan perangkat apa pun. Oleh karena itu semua jenis kontribusi selalu diterima.
-\nSekarang tentang fungsionalitas Aplikasi kami:
-\n• Ini membutuhkan root dan memungkinkan Anda untuk membuat cadangan aplikasi individual dan datanya.
-\n• Pencadangan dan pemulihan program masing-masing secara individual dan pencadangan dan pemulihan dari beberapa program didukung.
-\n• Memulihkan aplikasi sistem dapat dilakukan tanpa memerlukan reboot setelahnya.
-\n• Pencadangan dapat dijadwalkan tanpa batasan jumlah jadwal individu dan memungkinkan untuk membuat daftar khusus dari daftar aplikasi yang diinstal.</string>
+    <string name="intro_welcome_message">Neo Backup (sebelumnya OAndBackupX) ialah cabang dari OAndBackup yang terkenal dgn tujuan untuk membawa OAndBackup ke 202X dan bagian dari rangkaian Neo Applications. Untuk saat ini aplikasi sudah sepenuhnya ditulis ulang, kedatangannya akan membuatnya kuat dan menambahkan beberapa fitur yang direncanakan secara panjang yang dapat memudahkan alur kerja pencadangan/pemulihan dengan perangkat apa pun. Oleh karena itu semua jenis kontribusi selalu diterima.\nSekarang tentang fungsionalitas Aplikasi kami:\n• Ini membutuhkan root dan memungkinkan Anda untuk membuat cadangan aplikasi individual dan datanya.\n• Pencadangan dan pemulihan program masing-masing secara individual dan pencadangan dan pemulihan dari beberapa program didukung.\n• Memulihkan aplikasi sistem dapat dilakukan tanpa memerlukan reboot setelahnya.\n• Pencadangan dapat dijadwalkan tanpa batasan jumlah jadwal individu dan memungkinkan untuk membuat daftar khusus dari daftar aplikasi yang diinstal.</string>
     <string name="welcome_to_oabx">Selamat datang di Neo Backup!</string>
     <string name="storage_access">Akses Penyimpanan</string>
     <string name="sort_and_filter">Urutkan &amp; Saring</string>
@@ -250,7 +245,7 @@
     <string name="error_encryptionpassword">Enkripsi kata sandi belum disetel atau salah!</string>
     <string name="prefs_secondary_color">Warna sekunder</string>
     <string name="prefs_accent_color">Warna aksen</string>
-    <string name="prefs_secondary_2">Limette</string>
+    <string name="prefs_secondary_2">Jeruk</string>
     <string name="prefs_secondary_1">Teal Laut</string>
     <string name="prefs_secondary_0">Cyan Arktik</string>
     <string name="prefs_accent_7">Jeruk Aprikot</string>
@@ -287,9 +282,9 @@
     <string name="error_datachanged">Data aplikasi telah diubah secara aktif saat melakukan pencadangan. Coba matikan prosesnya sebelum melakukan pencadangan</string>
     <string name="intro_permission_storage_location_warning">Jangan pilih direktori penyimpanan utama atau folder Unduhan, buat sebuah folder hanya untuk pencadangan Anda. Lebih lanjut di FAQ</string>
     <string name="prefs_accent_8">Labu Perano</string>
-    <string name="prefs_secondary_3">Tiger Amber</string>
-    <string name="prefs_secondary_4">Lava Orange</string>
-    <string name="prefs_secondary_5">Flamingo Pink</string>
+    <string name="prefs_secondary_3">Macan Amber</string>
+    <string name="prefs_secondary_4">jeruk lava</string>
+    <string name="prefs_secondary_5">Merah Muda</string>
     <string name="prefs_secondary_7">Azure Blue</string>
     <string name="prefs_secondary_8">Mint</string>
     <string name="home">Beranda</string>
@@ -316,7 +311,7 @@
     <string name="prefs_installerpackagename">Nama paket penginstal:</string>
     <string name="prefs_restorepermissions_summary">Pulihkan izin yang diberikan ke aplikasi pada saat pencadangan. Perhatikan bahwa beberapa izin tidak dapat diberikan secara terprogram sehingga menyebabkan pemulihan paket gagal secara keseluruhan, yang kemudian dicakup oleh Neo Backup untuk memulihkan paket tanpa izin.</string>
     <string name="prefs_loadingtoasts">Memuat toast</string>
-    <string name="prefs_secondary_6">Slate</string>
+    <string name="prefs_secondary_6">batu tulis</string>
     <string name="schedule">Jadwal</string>
     <string name="finished">Selesai</string>
     <string name="loading_list">Memuat daftar…</string>
