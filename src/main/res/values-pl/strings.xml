@@ -395,4 +395,17 @@
     <string name="show_enabled_apps">Włączone aplikacje</string>
     <string name="backup_revisions_limit">Limit liczby kopii zapasowych: %d</string>
     <string name="filters_installed">Instalacja</string>
+    <string name="prefs_backupcache">Wykonaj kopię zapasową pamięci podręcznej</string>
+    <string name="filters_tags">Tagi</string>
+    <string name="prefs_restorecache">Przywróć pamięć podręczną</string>
+    <string name="search_package">Szukaj aplikacji w sklepie</string>
+    <string name="prefs_theme_dynamic_light">Jasny z dynamicznymi kolorami</string>
+    <string name="prefs_theme_dynamic_dark">Ciemny z dynamicznymi kolorami</string>
+    <string name="prefs_theme_dynamic_black">Czarny z dynamicznymi kolorami</string>
+    <string name="prefs_theme_system_black">Systemowy (Czarny)</string>
+    <string name="prefs_theme_dynamic">Dynamiczny</string>
+    <string name="prefs_newandupdatednotification">Pokaż nowe i zaktualizowane powiadomienia</string>
+    <string name="prefs_laserbackground_summary">Użyj animowanych kolorowych świateł jako tła podczas ładowania.</string>
+    <string name="prefs_compression_type">Rodzaj kompresji</string>
+    <string name="prefs_compression_type_summary">Wybierz rodzaj kompresji, która będzie używana</string>
 </resources>
