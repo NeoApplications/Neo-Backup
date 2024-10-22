@@ -1,0 +1,7 @@
+Přidáno: Inject DB a WorkHandler pomocí Koin
+Přidáno: Stránka s doplňky (ve vývojářském panelu)
+Opraveno: Počet spuštěných úloh
+Aktualizováno: Zobrazení sekund v počítadle plánu pouze v případě, že zbývá < 10 min.
+Aktualizováno: Vybarvení ikony hesla, když je (ne)aktivní
+Aktualizováno: Přepracována všechna dialogová tlačítka
++ více než 30 příspěvků a 20 překladů
