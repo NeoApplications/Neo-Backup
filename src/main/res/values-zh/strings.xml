@@ -397,4 +397,20 @@
     <string name="prefs_altnavbaritem">使用备用导航栏布局</string>
     <string name="prefs_altnavbaritem_summary">使用替代/旧的导航栏布局，该布局会显示未选定选项页的标签名。</string>
     <string name="prefs_theme_system_black">跟随系统(深色)</string>
+    <string name="filters_tags">标签</string>
+    <string name="search_package">在应用商店中查找应用</string>
+    <string name="prefs_theme_dynamic">动态主题</string>
+    <string name="prefs_theme_dynamic_light">动态主题（明）</string>
+    <string name="prefs_theme_dynamic_dark">动态主题（暗）</string>
+    <string name="prefs_theme_dynamic_black">动态主题（暗黑）</string>
+    <string name="prefs_compression_type">压缩类型</string>
+    <string name="prefs_compression_type_summary">选择要使用的压缩类型</string>
+    <string name="enforce_backups_limit">限制备份数量</string>
+    <string name="enforce_backups_limit_description">删除旧备份直至 %d份备份的限制</string>
+    <string name="prefs_backupcache">备份已缓存的数据</string>
+    <string name="prefs_backupcache_summary">备份位于缓存目录中的数据</string>
+    <string name="prefs_restorecache">恢复缓存的数据</string>
+    <string name="prefs_restorecache_summary">恢复位于缓存目录中的文件</string>
+    <string name="prefs_altblocklayout">对页面块使用替代布局</string>
+    <string name="prefs_altblocklayout_summary">对页面块使用替代性/旧的布局而非上色的页面</string>
 </resources>

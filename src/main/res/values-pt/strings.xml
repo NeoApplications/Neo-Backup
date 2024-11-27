@@ -209,7 +209,7 @@
     <string name="prefs_disableverification">Desativar verificação de aplicações via USB</string>
     <plurals name="days_left">
         <item quantity="one">%d dia</item>
-        <item quantity="many"></item>
+        <item quantity="many"/>
         <item quantity="other">%d dias</item>
     </plurals>
     <string name="stats_apps">Aplicações</string>
@@ -225,12 +225,12 @@
     <string name="help_faq">Perguntas frequentes</string>
     <plurals name="updated_apps">
         <item quantity="one">%d aplicação atualizado</item>
-        <item quantity="many"></item>
+        <item quantity="many"/>
         <item quantity="other">%d aplicações atualizados</item>
     </plurals>
     <plurals name="sched_interval_formal">
         <item quantity="one">cada dia</item>
-        <item quantity="many"></item>
+        <item quantity="many"/>
         <item quantity="other">cada %d dias</item>
     </plurals>
     <string name="backup_all_updated">Backup de todas as aplicações atualizadas</string>
