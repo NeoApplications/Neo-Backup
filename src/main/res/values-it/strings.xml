@@ -153,7 +153,7 @@
     <string name="failed_unzipping">Errore durante la decompressione dei dati, controlla la password di crittografia!</string>
     <string name="help_license">Licenza</string>
     <string name="split_apks">Split-APK</string>
-    <string name="sort_and_filter">Ordina e filtra</string>
+    <string name="sort_and_filter"><![CDATA[Ordina e filtra]]></string>
     <string name="enable_encryption_message">Non è sicuro mantenere i tuoi dati non crittografati sul tuo dispositivo. Per la sicurezza dei tuoi dati abilita la crittografia e imposta una password.</string>
     <string name="enable_encryption_title">Crittografia dati</string>
     <string name="cache_size">Dimensione cache:</string>
@@ -343,7 +343,7 @@
     <string name="sortBackupSize">Dimensione backup</string>
     <string name="add_tag">Aggiungi nuovo tag</string>
     <string name="sortAppSize">Dimensione app</string>
-    <string name="sortAppDataSize">"Dimensione App  dati"</string>
+    <string name="sortAppDataSize"><![CDATA[Dimensione app e dati]]></string>
     <string name="edit_note">Modifica nota</string>
     <string name="prefs_dev_settings">Impostazioni sviluppatore</string>
     <string name="prefs_dev_settings_summary">Non modificare a meno che non te lo dica uno sviluppatore!</string>
@@ -421,4 +421,6 @@
     <string name="prefs_altblocklayout_summary">Usa una disposizione alternativa/vecchia per i blocchi di pagina con bordi anziché superfici colorate.</string>
     <string name="filters_tags">Tag</string>
     <string name="search_package">Cerca app nello store</string>
+    <string name="prefs_altbackupdate">Mostra formato data ISO nei backup</string>
+    <string name="prefs_altbackupdate_summary">Usa il formato data ISO negli elementi di backup anziché quello locale.</string>
 </resources>

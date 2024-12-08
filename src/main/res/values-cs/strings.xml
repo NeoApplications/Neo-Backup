@@ -221,7 +221,7 @@
     <string name="sortLabel">Štítek</string>
     <string name="sortAppSize">Velikost aplikace</string>
     <string name="sortDataSize">Velikost dat</string>
-    <string name="sortAppDataSize">Velikost dat aplikace</string>
+    <string name="sortAppDataSize"><![CDATA[Velikost aplikace a dat]]></string>
     <string name="sortBackupSize">Velikost zálohy</string>
     <string name="app_s_icon">Ikona aplikace</string>
     <string name="bothBackedUp">APK a data</string>
@@ -241,7 +241,7 @@
     <string name="help_faq">Často kladené dotazy</string>
     <string name="help_appTypeHint">* Ikona typu aplikace bude šedá, pokud je aplikace odinstalována, a tmavě šedá, pokud je aplikace zakázána.</string>
     <string name="enable_encryption_title">Šifrování dat</string>
-    <string name="sort_and_filter">Řazení a filtr</string>
+    <string name="sort_and_filter"><![CDATA[Řazení a filtr]]></string>
     <string name="storage_access">Přístup k úložišti</string>
     <string name="welcome_to_oabx">Vítejte v Neo Backup!</string>
     <string name="intro_permission_storage">Aplikace využívá oprávnění ke čtení/zápisu do úložiště, aby mohla přistupovat k externímu úložišti a poskytovala možnost zálohování externích dat/obb jiných aplikací.</string>
@@ -414,4 +414,6 @@
     <string name="prefs_altblocklayout_summary">Použít alternativní/staré rozvržení pro bloky stránek s okraji namísto barevných povrchů.</string>
     <string name="filters_tags">Štítky</string>
     <string name="search_package">Hledat aplikaci v obchodě</string>
+    <string name="prefs_altbackupdate_summary">Použít u položek zálohy formát dat ISO namísto místního.</string>
+    <string name="prefs_altbackupdate">Zobrazit datum v zálohách ve formátu ISO</string>
 </resources>

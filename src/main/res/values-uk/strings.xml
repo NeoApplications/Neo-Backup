@@ -50,7 +50,7 @@
     <string name="intro_permission_storage_location">Застосунок потребує резервного місця для зберігання резервних копій. Застосунку може знадобитися кілька гігабайт пам’яті для повного резервного копіювання та багато запитує файлову систему. Будь ласка, майте це на увазі, вибираючи місця зберігання на основі мережі.</string>
     <string name="welcome_to_oabx">Вас вітає Neo Backup!</string>
     <string name="storage_access">Доступ до сховища</string>
-    <string name="sort_and_filter">Сортувати та фільтрувати</string>
+    <string name="sort_and_filter"><![CDATA[Sort & Filter]]></string>
     <string name="enable_encryption_message">Небезпечно зберігати ваші дані на пристрої не зашифрованими. Для безпеки ваших даних увімкніть шифрування та встановіть пароль.</string>
     <string name="enable_encryption_title">Шифрування даних</string>
     <string name="help_appTypeHint">* Значок типу програми буде сірим, якщо програму видалено, і темно-сірим, якщо програму вимкнено.</string>
@@ -332,7 +332,7 @@
     <string name="supended_apps_cleanup">вилучити залишені призупинені застосунки</string>
     <string name="root_missing">ROOT відсутній!</string>
     <string name="sortAppSize">Розмір застосунку</string>
-    <string name="sortAppDataSize">Розмір даних застосунку</string>
+    <string name="sortAppDataSize"><![CDATA[App \& data size]]></string>
     <string name="sortBackupSize">Розмір запасної копії</string>
     <string name="root_is_mandatory">Оскільки застосунки ізольовані один від одного, щоб запасати та відновлювати їх дані, потрібен доступ від імені суперкористувача.</string>
     <string name="add_tag">Додати нову позначку</string>
@@ -417,4 +417,6 @@
     <string name="prefs_backupcache_summary">Резервне копіювання файлів у каталогах кешу</string>
     <string name="prefs_restorecache">Відновлення кешованих даних</string>
     <string name="prefs_restorecache_summary">Відновлення файлів у кеш-каталогах</string>
+    <string name="prefs_altbackupdate">Показувати формат дати ISO в резервних копіях</string>
+    <string name="prefs_altbackupdate_summary">Використовуйте формат дати ISO в елементах резервної копії замість локального.</string>
 </resources>

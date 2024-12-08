@@ -107,7 +107,7 @@
     <!-- filebrowser_createDirectoryError: an error occured while trying to create the directory. format: string + " " + directory name -->
     <string name="help_license">Лицензия</string>
     <string name="prefs_service">Настройки служб</string>
-    <string name="sort_and_filter">Сортировка и фильтры</string>
+    <string name="sort_and_filter"><![CDATA[Сортировка & Фильтры]]></string>
     <string name="enable_encryption_title">Шифрование данных</string>
     <string name="cache_size">Размер кэша:</string>
     <string name="data_size">Размер данных:</string>
@@ -342,7 +342,7 @@
     <string name="prefs_installerpackagename">Имя пакета установщика:</string>
     <string name="see_faq">Смотрите FAQ (Часто задаваемые вопросы)!</string>
     <string name="root_is_mandatory">Так как приложения изолированы друг от друга, root доступ обязателен для создания резервных копий и восстановления их данных.</string>
-    <string name="sortAppDataSize">Размер данных приложения</string>
+    <string name="sortAppDataSize"><![CDATA[Приложение \& размер данных]]></string>
     <string name="sortBackupSize">Размер резервной копии</string>
     <string name="sortAppSize">Размер приложения</string>
     <string name="add_tag">Добавить новую метку</string>
@@ -423,4 +423,6 @@
     <string name="prefs_backupcache_summary">Сделать резервные копии файлов в каталогах кэша</string>
     <string name="prefs_restorecache">Восстановить данные кэша</string>
     <string name="prefs_restorecache_summary">Восстановить резервные копии файлов из каталогов кэша</string>
+    <string name="prefs_altbackupdate">Показывать формат дат ISO в резервных копиях</string>
+    <string name="prefs_altbackupdate_summary">Использовать формат дат ISO в элементах резервной копии вместо местного.</string>
 </resources>

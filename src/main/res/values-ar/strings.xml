@@ -229,7 +229,7 @@
 \n • يمكن جدولة النسخ الاحتياطية دون حد لعدد الجداول الفردية وهناك إمكانية لإنشاء قوائم مخصصة من قائمة التطبيقات المثبتة.</string>
     <string name="welcome_to_oabx">مرحبا بك في Neo Backup!</string>
     <string name="storage_access">الوصول إلى التخزين</string>
-    <string name="sort_and_filter">فرز &amp; وتصفية</string>
+    <string name="sort_and_filter"><![CDATA[فرز & وتصفية]]></string>
     <string name="enable_encryption_message">ليس من الآمن عدم تشفير بياناتك على جهازك. من أجل سلامة بياناتك، قم بتمكين التشفير وتعيين كلمة مرور.</string>
     <string name="enable_encryption_title">تشفير البيانات</string>
     <string name="help_legend">اسطوره:</string>
@@ -343,7 +343,7 @@
     <string name="prefs_installerpackagename">اسم حزمة المثبت:</string>
     <string name="prefs_sessionIinstaller_summary">استخدم مثبت الجلسة بدلا من المثبت الأساسي. أبطأ ولكن يتجنب المشكلات المتعلقة بنظام Android 13+</string>
     <string name="sortAppSize">حجم التطبيق</string>
-    <string name="sortAppDataSize">حجم بيانات التطبيق</string>
+    <string name="sortAppDataSize"><![CDATA[بيانات \& وحجم التطبيق]]></string>
     <string name="sortBackupSize">حجم النسخ الاحتياطي</string>
     <string name="add_tag">إضافة علامة جديدة</string>
     <string name="edit_note">تحرير الملاحظة</string>
@@ -423,4 +423,6 @@
     <string name="prefs_altblocklayout_summary">استخدام مخطط بديل/كبير لقطع الصفحات مع الحدود بدلا من الأسطح الملونة.</string>
     <string name="filters_tags">الوسوم</string>
     <string name="search_package">ابحث عن التطبيق في المتجر</string>
+    <string name="prefs_altbackupdate">عرض تنسيق تاريخ ISO في النسخ الاحتياطية</string>
+    <string name="prefs_altbackupdate_summary">استخدم تنسيق تاريخ ISO في عناصر النسخ الاحتياطي بدلاً من تنسيق اللغة.</string>
 </resources>

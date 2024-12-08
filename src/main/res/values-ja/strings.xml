@@ -343,4 +343,44 @@
     <string name="dismiss">無視</string>
     <string name="finished">完了</string>
     <string name="prefs_restorecache_summary">キャッシュディレクトリ内のファイルを復元します</string>
+    <string name="grant_calllogs_message">これは通話履歴をバックアップまたは復元するために必須です。</string>
+    <string name="prefs_dev_settings_summary">開発者に言われない限り、変更しないでください!</string>
+    <string name="other_filters_options">特別なフィルタ:</string>
+    <string name="ignore_battery_optimization_not_supported">残念ですが、このデバイスでのバッテリーの最適化の無効化は非対応です!</string>
+    <string name="grant_contacts_message">これは、連絡先と SMS/MMS を一致させるために必須です。</string>
+    <string name="prefs_newandupdatednotification_summary">ホームページの通知バーで、更新されたアプリの横に新しいユーザーアプリを表示します。</string>
+    <string name="prefs_singularbackuprestore_summary">特定のバックアップを復元を選択可能な、代替となる復元項目のレイアウトを使用します。</string>
+    <string name="prefs_altnavbaritem_summary">非選択項目のラベルを代替で表示または、旧ナビゲーションバー項目のレイアウトを使用します。</string>
+    <string name="prefs_obbdata_rst_summary">外部ストレージに配置されたアプリのobbファイル (例: /storage/emulated/0/Android/obb/) を復元します</string>
+    <string name="prefs_mediadata_rst_summary">外部ストレージに配置されたアプリのメディアファイル (例: /storage/emulated/0/Android/media/) を復元します</string>
+    <string name="prefs_nobackupdata_rst_summary">未バックアップとラベル付けされたデータ内のファイルを復元します</string>
+    <string name="prefs_restorepermissions_summary">バックアップされたアプリ付与されている権限を復元します。注意: 一部の権限はプログラムによって付与することができないため、パッケージの復元に失敗します。</string>
+    <string name="prefs_deviceprotecteddata_summary">data/user_de に配置されたデータをバックアップします</string>
+    <string name="prefs_compression_type_summary">使用する圧縮の種類を選択してください</string>
+    <string name="restart_dialog">アプリの再起動が必要です</string>
+    <string name="dialog_refuse">やりません</string>
+    <string name="dialog_approve">やりましょう!</string>
+    <string name="dialog_start">レッツゴー!</string>
+    <string name="apptype_special">特別なバックアップ</string>
+    <string name="grant_smsmms_message">これは SMS/MMS をバックアップまたは復元するために必須です。</string>
+    <string name="grant_usage_access_title">使用状況へのアクセスを許可</string>
+    <string name="grant_usage_access_message">これは、アプリのファイルサイズに関する情報を取得するために必須です</string>
+    <string name="help_appTypeHint">* アプリがアンインストールされている場合はアプリの種類のアイコンは灰色になり、アプリが無効化されている場合は濃い灰色になります。</string>
+    <string name="schedule_failed">スケジュールの実行に失敗しました</string>
+    <string name="shell_initproblem">シェルハンドラを起動できませんでした。toybox/busybox がないか、アプリのroot 権限が無効化されています。</string>
+    <string name="error_datachanged">バックアップ中にアプリのデータがアクティブに変更されました。バックアップを実行する前に、アプリのプロセスを終了してください</string>
+    <string name="sched_exported">スケジュールは正常にエクスポートされました</string>
+    <string name="intro_permission_storage_location_warning">メインストレージのディレクトリやダウンロードフォルダを選択せず、バックアップ専用となるフォルダを作成してください。詳細はFAQをご覧ください</string>
+    <string name="error_encryptionpassword">暗号化パスワードが未設定、または間違っています!</string>
+    <plurals name="sched_interval_formal">
+        <item quantity="other">各 %d 日</item>
+    </plurals>
+    <plurals name="updated_apps">
+        <item quantity="other">%d 件の更新されたアプリ</item>
+    </plurals>
+    <string name="supended_apps_cleanup">一時停止したアプリをクリーンアップ</string>
+    <string name="root_is_mandatory">アプリは互いに分離されているため、データのバックアップと復元を行なうにはスーパーユーザーのアクセスが必須です。</string>
+    <string name="sorting_order">並び順</string>
+    <string name="enforce_backups_limit_description">古いバックアップを削除して｢%d｣に制限します</string>
+    <string name="prefs_altblocklayout_summary">ページブロックに色面ではなくボーダーを使用した、代替または旧レイアウトを使用します。</string>
 </resources>

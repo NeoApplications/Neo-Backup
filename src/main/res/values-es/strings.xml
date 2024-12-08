@@ -178,7 +178,7 @@
     <string name="help_appTypeHint">* El icono de tipo de aplicación es gris si la aplicación está desinstalada o gris oscuro si está desactivada.</string>
     <string name="enable_encryption_title">Cifrado de datos</string>
     <string name="enable_encryption_message">No es seguro mantener sus datos en su dispositivo sin cifrar. Para la seguridad de sus datos, habilite el cifrado y establezca una contraseña.</string>
-    <string name="sort_and_filter">Ordenar y filtrar</string>
+    <string name="sort_and_filter"><![CDATA[Sort & Filter]]></string>
     <string name="storage_access">Acceso al almacenamiento</string>
     <string name="welcome_to_oabx">¡Bienvenido a Neo Backup!</string>
     <string name="intro_welcome_message">Neo Backup (anteriormente OAndBackupX) es un fork del famoso OAndBackup con el objetivo de llevar OAndBackup a 202X y parte de la suite de aplicaciones Neo. Por ahora la aplicación ya está completamente reescrita, lo que viene es hacerla robusta y añadir algunas características largamente planeadas que podrían facilitar el flujo de trabajo de backup/restauración con cualquier dispositivo.
@@ -347,7 +347,7 @@
     <string name="root_is_mandatory">Debido a que las aplicaciones están aisladas una de la otra, el acceso como superusuario es requerido para poder respaldar y restaurar los datos de aplicación.</string>
     <string name="enabled">Activado</string>
     <string name="see_faq">¡Vea la Lista de Preguntas Frecuentes!</string>
-    <string name="sortAppDataSize">Tamaño de los datos de la aplicación</string>
+    <string name="sortAppDataSize"><![CDATA[App \& data size]]></string>
     <string name="dialog_export_schedules">Exportar mis planes</string>
     <string name="delete">Eliminar</string>
     <string name="root_missing">¡Falta el permiso de root!</string>
@@ -420,4 +420,6 @@
     <string name="prefs_altblocklayout">Utilizar un diseño alternativo para los bloques de páginas</string>
     <string name="search_package">Busca la aplicación en la tienda</string>
     <string name="filters_tags">Etiquetas</string>
+    <string name="prefs_altbackupdate">Mostrar el formato de fecha ISO en las copias de seguridad</string>
+    <string name="prefs_altbackupdate_summary">Utilice el formato de fecha ISO en los elementos de respaldo en lugar del formato regional.</string>
 </resources>

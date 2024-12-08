@@ -361,14 +361,7 @@
     <string name="app_size">Veličina Aplikacije:</string>
     <string name="help_legend">Legenda:</string>
     <string name="show_new_apps">Nove aplikacije</string>
-    <string name="intro_welcome_message">"Neo Backup (u prošlosti poznat kao OAndBackupX) je fork poznatog OAndBackupa s ciljem da se OAndBackup dovede u 202X i dio paketa Neo Applications. Za sada je aplikacija već u potpunosti prepisana, a uskoro bi je učinili robusnom i dodali neke dugo planirane značajke koje bi mogle olakšati radni tijek sigurnosnog kopiranja/vraćanja na bilo kojem uređaju.
-\n Stoga su sve vrste doprinosa uvijek dobrodošle.
-\n
-\n Sada o funkcionalnosti naše aplikacije:
-\n  • Zahtijeva root i omogućuje sigurnosno kopiranje pojedinačnih aplikacija i njihovih podataka.
-\n  • Podržano je i sigurnosno kopiranje i vraćanje pojedinačnih programa jedan po jedan i skupno spašavanje i vraćanje više programa.
-\n  • Vraćanje aplikacija sustava trebalo bi biti moguće bez potrebe za ponovnim pokretanjem.
-\n  • Sigurnosne kopije mogu se zakazivati bez ograničenja broja pojedinačnih rasporeda, a postoji i mogućnost stvaranja prilagođenih popisa sa liste instaliranih aplikacija."</string>
+    <string name="intro_welcome_message">"Neo Backup (u prošlosti poznat kao OAndBackupX) je fork poznatog OAndBackupa s ciljem da se OAndBackup dovede u 202X i dio paketa Neo Applications. Za sada je aplikacija već u potpunosti prepisana, a uskoro bi je učinili robusnom i dodali neke dugo planirane značajke koje bi mogle olakšati radni tijek sigurnosnog kopiranja/vraćanja na bilo kojem uređaju.\n\n Stoga su sve vrste doprinosa uvijek dobrodošle.\n\n\n\n Sada o funkcionalnosti naše aplikacije:\n\n  • Zahtijeva root i omogućuje sigurnosno kopiranje pojedinačnih aplikacija i njihovih podataka.\n\n  • Podržano je i sigurnosno kopiranje i vraćanje pojedinačnih programa jedan po jedan i skupno spašavanje i vraćanje više programa.\n\n  • Vraćanje aplikacija sustava trebalo bi biti moguće bez potrebe za ponovnim pokretanjem.\n\n  • Sigurnosne kopije mogu se zakazivati bez ograničenja broja pojedinačnih rasporeda, a postoji i mogućnost stvaranja prilagođenih popisa sa liste instaliranih aplikacija."</string>
     <string name="storage_access">Pristup Pohrani</string>
     <string name="other_filters_options">Posebni filteri:</string>
     <string name="usage_notes_title">Napomene o Korištenju</string>
