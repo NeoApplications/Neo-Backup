@@ -421,4 +421,6 @@
     <string name="search_package">Rechercher l\'application dans le store</string>
     <string name="prefs_restorecache">Restaurer des données en cache</string>
     <string name="prefs_restorecache_summary">Restaurer les fichiers dans les répertoires de cache</string>
+    <string name="prefs_altbackupdate_summary">Utiliser le format ISO pour les dates dans les éléments sauvegardés, au lieu de la date locale.</string>
+    <string name="prefs_altbackupdate">Utiliser le format ISO pour les dates dans les sauvegardes</string>
 </resources>
