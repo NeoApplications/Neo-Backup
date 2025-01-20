@@ -80,7 +80,7 @@
     <string name="prefs_user">用户首选项</string>
     <string name="prefs_theme">主题</string>
     <string name="prefs_acquirewakelock">阻止睡眠</string>
-    <string name="prefs_batchdelete">删除不需要的备份</string>
+    <string name="prefs_batchdelete">要删除备份吗?</string>
     <string name="prefs_pathbackupfolder">备份文件夹</string>
     <string name="prefs_oldbackups">按天数筛选备份</string>
     <string name="prefs_copyselfapk">复制本应用自身 APK</string>
@@ -147,7 +147,7 @@
     <string name="prefs_theme_system">跟随系统</string>
     <string name="empty_filtered_list">列表为空。</string>
     <string name="dialog_refuse">放弃</string>
-    <string name="dialog_approve">好的</string>
+    <string name="dialog_approve">好的！</string>
     <string name="ignore_battery_optimization_title">电池优化</string>
     <string name="ignore_battery_optimization_message">备份有时会意外停止。为避免这种情况，请关闭电池优化</string>
     <string name="ignore_battery_optimization_not_supported">此设备不支持忽略电池优化！</string>
@@ -173,13 +173,13 @@
 \n• 备份可以定时执行，对计划任务的数量没有限制，并且可以从已安装应用程序列表中选定并创建所需的自定义备份列表。</string>
     <string name="welcome_to_oabx">欢迎使用 Neo Backup！</string>
     <string name="storage_access">访问存储空间</string>
-    <string name="sort_and_filter">排序&amp;筛选</string>
+    <string name="sort_and_filter">排序 &amp; 筛选</string>
     <string name="enable_encryption_message">在设备上不加密保存你的数据是很不安全的。为了你的数据的安全，请启用加密并设置一个密码。</string>
     <string name="enable_encryption_title">数据加密</string>
     <string name="apptype_special">特殊备份</string>
     <string name="sortDataSize">数据大小</string>
     <string name="dialog_unlock">解锁</string>
-    <string name="dialog_start">开始使用</string>
+    <string name="dialog_start">开始使用！</string>
     <string name="dialogSave">保存</string>
     <string name="sched_add">添加计划任务</string>
     <string name="prefs_password_match_false">密码不匹配</string>
@@ -333,7 +333,7 @@
     <string name="prefs_sessionIinstaller">使用会话安装器</string>
     <string name="prefs_sessionIinstaller_summary">使用会话安装器而不是基本安装器。安装速度更慢，但解决了 Android 13+ 的问题</string>
     <string name="sortAppSize">应用大小</string>
-    <string name="sortAppDataSize">\'应用+数据\'大小</string>
+    <string name="sortAppDataSize">\"应用+数据\"大小</string>
     <string name="sortBackupSize">备份大小</string>
     <string name="add_tag">新建标签</string>
     <string name="edit_note">编辑</string>
@@ -412,5 +412,7 @@
     <string name="prefs_restorecache">恢复缓存的数据</string>
     <string name="prefs_restorecache_summary">恢复位于缓存目录中的文件</string>
     <string name="prefs_altblocklayout">对页面块使用替代布局</string>
-    <string name="prefs_altblocklayout_summary">对页面块使用替代性/旧的布局而非上色的页面</string>
+    <string name="prefs_altblocklayout_summary">对页面块使用替代性/旧的布局而非上色的页面。</string>
+    <string name="prefs_altbackupdate_summary">在备份条目中使用ISO数据格式代替本地数据。</string>
+    <string name="prefs_altbackupdate">在备份中显示ISO数据格式</string>
 </resources>

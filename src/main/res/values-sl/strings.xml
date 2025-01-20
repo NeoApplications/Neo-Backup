@@ -131,4 +131,19 @@
     <string name="prefs_obbdata_summary">Varnostno kopira obb datoteke, ki so shranjene v zunanji shrambi (npr. /storage/emulated/0/Android/obb/)</string>
     <string name="prefs_excludecache_summary">Izključi predpomnilnik aplikacije iz varnostne kopije</string>
     <string name="prefs_externaldata_summary">Varnostno kopira podatke, ki so shranjeni v zunanji shrambi (npr. /storage/emulated/0/Android/data/)</string>
+    <string name="prefs_excludecache">Izključi predpomnilnik aplikacije</string>
+    <string name="prefs_mediadata">Varnostno kopiraj multimedijske datoteke</string>
+    <string name="prefs_mediadata_summary">Varnostno kopira multimedijske datoteke, ki so shranjene v zunanji shrambi (npr. /storage/emulated/0/Android/media/)</string>
+    <string name="prefs_deviceprotecteddata_rst">Obnovi zaščitene podatke naprave</string>
+    <string name="prefs_deviceprotecteddata_rst_summary">Obnovi podatke, ki se nahajajo v data/user_de</string>
+    <string name="prefs_externaldata_rst">Obnovi zunanje podatke naprave</string>
+    <string name="prefs_obbdata_rst_summary">Obnovi obb podatke, ki se nahajajo v zunanji shrambi (npr. /storage/emulated/0/Android/obb/)</string>
+    <string name="prefs_obbdata_rst">Obnovi obb datoteke naprave</string>
+    <string name="prefs_mediadata_rst">Obnovi multimedijske podatke naprave</string>
+    <string name="prefs_mediadata_rst_summary">Obnovi multimedijske podatke, ki se nahajajo v zunanji shrambi (npr. /storage/emulated/0/Android/media/)</string>
+    <string name="prefs_nobackupdata_rst">Obnovi no_backup podatke naprave</string>
+    <string name="prefs_nobackupdata_rst_summary">Obnova datotek naprave, ki so označene, da jih ni potrebno varnostno kopirati</string>
+    <string name="prefs_nobackupdata">Varnostno kopiraj no_backup datoteke</string>
+    <string name="prefs_nobackupdata_summary">Varnostno kopiranje datotek, ki so označene, da jih ni potrebno varnostno kopirati</string>
+    <string name="prefs_externaldata_rst_summary">Obnovi podatke, ki se nahajajo v zunanji shrambi (npr. /storage/emulated/0/Android/data/)</string>
 </resources>
