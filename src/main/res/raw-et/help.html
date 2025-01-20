@@ -8,7 +8,13 @@
         </p>
         <p><strong>Enable / disable</strong>: Uses the android script `pm` to enable or disable an app. Disabling an app removes it from the normal user interface without uninstalling. This can be used for enabling or disabling an app for muliple users at a time (if the device has multiple users enabled). Users are identified with an id. 0 is the first user (owner).
         </p>
-        <p><strong>Multiple users</strong>: Multi-user is still somewhat experimental but should work. When restoring in a multi-user scenario, `pm install -r $apk` gets called and subsequently the app is disabled for every user who has the app listed in /data/system/user/$user/package-restrictions.xml (unless the app is listed as enabled="1"). <br /> This can create problems for users installing the same app at some later point, but is necessary to prevent the app from being installed to all users at the same time. The context menu has an option to enable or disable apps which can be used if other users become unable to use a specific app due to disabling on restore. <br /> Enabling and disabling only works after an initial install (not necessarily from OAndBackupx) or restore of the app.
+        <p><strong>Mitme kasutajaga nutiseadmed</strong>: Varundamine ja taastamine mitme kasutajaga seadmetel on osaliselt katseline, kuid peaks toimima. Sisse- ja väljalülitamine toimib ainult peale algset paigaldust (tingimata mitte OAndBackupxist) või rakenduste taastamist.
+        </p>
+        <p><strong>Süsteemivälised rakendused</strong>: Magiski moodulitena paigaldatud süsteemiväliseid rakendusi ei saa varundada ega taastada ning selle üritamine võib põhjustada kogu nutiseadme alustarkvara katkimineku, mille kordategemine eeldab operatsioonisüsteemi uut paigaldust.
+        </p>
+        <p><strong>Liikumine</strong>: Menüüribal on nupud „Seadistused“, „Avaleht“, „Pakkvarundus“, „Pakktaastamine“ ja „Varunduse ajastamine“ (selles järjekorras). Peale viimast varundust uuendatud rakenduste arv on kuvatud teavitusena nupul „Avaleht“.
+        </p>
+        <p><strong>Rakendused, mis kasutavad võtmerõngast</strong>: Androidis on olemas võtmerõngas (Keystore) privaatsete andmete salvestamiseks krüptituna. Rakendusi, mis kasutavad seda sisselogimis- või muude andmete turvaliseks hoidmiseks, ei saa töökindlalt taastada. Kaks näidet sellistest rakendustest on Signal ja Element (vana nimega Riot).
         </p>
     </body>
 </html>
