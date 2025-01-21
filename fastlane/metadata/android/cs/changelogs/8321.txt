@@ -1,0 +1,6 @@
+Oprava: Nefunkčnost po návratu z předvoleb (volání Koin a rozsah)
+Oprava: Pád při použití volání databáze úložiště ve vlákně uživatelského rozhraní.
+Aktualizace: Vylepšení zpracování rutin v úložištích
+Aktualizace: Alternativního návrhu bloků nyní výchozí
+Aktualizace: Přepracováno obarvení předvoleb
++ více než 15 revizí, 6 překladů
