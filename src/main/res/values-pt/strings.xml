@@ -351,4 +351,12 @@
     <string name="sortAppDataSize">Tamanho dos dados do app</string>
     <string name="sortAppSize">Tamanho do App</string>
     <string name="sortBackupSize">Tamanho do backup</string>
+    <string name="prefs_theme_system_black">Tema do sistema (Preto)</string>
+    <string name="prefs_theme_dynamic">Tema dinâmico</string>
+    <string name="prefs_theme_dynamic_light">Luz com cores dinâmicas</string>
+    <string name="prefs_theme_dynamic_dark">Escuro com cores dinâmicas</string>
+    <string name="prefs_theme_dynamic_black">Preto com cores dinâmicas</string>
+    <string name="prefs_theme_black">Tema preto</string>
+    <string name="prefs_theme_black_summary">Aplica fundo preto quando em tema escuro</string>
+    <string name="prefs_multilineinfochips">Chips de informação multi-linha</string>
 </resources>
