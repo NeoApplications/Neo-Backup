@@ -19,7 +19,7 @@
     <string name="radio_deviceprotecteddata">Laitteen suojaama data</string>
     <string name="radio_mediadata">Mediadata</string>
     <string name="de_selectAll">Valitse kaikki / poista kaikki valinnat</string>
-    <string name="refresh">Päivitä</string>
+    <string name="refresh">Virkistä</string>
     <string name="batchrestore">Massapalautus</string>
     <string name="searchHint">Etsi sovelluksia</string>
     <string name="search">Etsi</string>
