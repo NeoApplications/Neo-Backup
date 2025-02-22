@@ -421,4 +421,6 @@
     <string name="light_high_contrast">Světlý (vysoký kontrast)</string>
     <string name="light_medium_contrast">Světlý (střední kontrast)</string>
     <string name="about_build_FORMAT">%s (sestavení %s)</string>
+    <string name="sort_appdata_size">Velikost aplikací a dat</string>
+    <string name="sort_filter">Seřadit a filtrovat</string>
 </resources>
