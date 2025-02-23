@@ -424,4 +424,6 @@
     <string name="dark_medium_contrast">Темна (середній контраст)</string>
     <string name="light_medium_contrast">Світла (середній контраст)</string>
     <string name="about_build_FORMAT">%s (Зрібка %s)</string>
+    <string name="sort_filter">Сортування та фільтрування</string>
+    <string name="sort_appdata_size">Розмір застосунок та даних</string>
 </resources>
