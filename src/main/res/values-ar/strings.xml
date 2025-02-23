@@ -430,4 +430,6 @@
     <string name="black_medium_contrast">أسود (تباين متوسط)</string>
     <string name="black_high_contrast">أسود (تباين عال)</string>
     <string name="about_build_FORMAT">%s (الإصدار %s)</string>
+    <string name="sort_filter">فرز &amp; وتصفية</string>
+    <string name="sort_appdata_size">حجم بيانات التطبيق</string>
 </resources>
