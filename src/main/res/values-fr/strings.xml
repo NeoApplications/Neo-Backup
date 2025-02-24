@@ -421,4 +421,13 @@
     <string name="prefs_restorecache_summary">Restaurer les fichiers dans les répertoires de cache</string>
     <string name="prefs_altbackupdate_summary">Utiliser le format ISO pour les dates dans les éléments sauvegardés, au lieu de la date locale.</string>
     <string name="prefs_altbackupdate">Utiliser le format ISO pour les dates dans les sauvegardes</string>
+    <string name="dark_medium_contrast">Sombre (contraste moyen)</string>
+    <string name="dark_high_contrast">Sombre (contraste élevé)</string>
+    <string name="black_medium_contrast">Noir (contraste moyen)</string>
+    <string name="black_high_contrast">Noir (contraste élevé)</string>
+    <string name="about_build_FORMAT">%s (Version %s)</string>
+    <string name="sort_filter">Trier &amp; Filtrer</string>
+    <string name="sort_appdata_size">Taille appli et données</string>
+    <string name="light_medium_contrast">Clair (contraste moyen)</string>
+    <string name="light_high_contrast">Clair (contraste élevé)</string>
 </resources>
