@@ -383,4 +383,9 @@
     <string name="prefs_theme_dynamic_light">Vaalea dynaamisilla väreillä</string>
     <string name="prefs_theme_system_black">Järjestelmän teema (musta)</string>
     <string name="prefs_theme_dynamic_dark">Tumma dynaamisilla väreillä</string>
+    <string name="prefs_singularbackuprestore">Yksittäisen varmuuskopion palautus</string>
+    <string name="prefs_singularbackuprestore_summary">Käytä vaihtoehdollista palautus asettelua jolla voi valita palautettavaksi yksittäisiä varmuuskopioita.</string>
+    <string name="prefs_squeezenavtext">Tiivistä navigointi esineen teksti.</string>
+    <string name="prefs_squeezenavtext_summary">Salli navigointi esine palkin alla olevan tekstin koon sovittaminen saatavilla olevaan leveyteen.</string>
+    <string name="prefs_altnavbaritem">Käytä vaihtoehdollista navigointi palkki esinettä.</string>
 </resources>

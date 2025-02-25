@@ -428,4 +428,6 @@
     <string name="light_medium_contrast">Chiaro (contrasto medio)</string>
     <string name="dark_medium_contrast">Scuro (contrasto medio)</string>
     <string name="about_build_FORMAT">%s (Compilazione %s)</string>
+    <string name="sort_filter">Ordina e filtra</string>
+    <string name="sort_appdata_size">Dimensioni app e dati</string>
 </resources>
