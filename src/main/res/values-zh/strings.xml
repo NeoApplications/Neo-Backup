@@ -420,4 +420,6 @@
     <string name="black_medium_contrast">暗黑 (中等对比度)</string>
     <string name="black_high_contrast">暗黑 (高对比度)</string>
     <string name="about_build_FORMAT">%s (构建 %s)</string>
+    <string name="sort_filter">排序和过滤</string>
+    <string name="sort_appdata_size">应用程序和数据大小</string>
 </resources>
