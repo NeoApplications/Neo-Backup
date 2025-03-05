@@ -416,4 +416,6 @@
     <string name="light_high_contrast">Hele (väga kontrastne)</string>
     <string name="light_medium_contrast">Hele (keskmiselt kontrastne)</string>
     <string name="about_build_FORMAT">%s (kompileerimisjärk: %s)</string>
+    <string name="sort_appdata_size">Rakendus ja andmemaht</string>
+    <string name="sort_filter">Järjestus ja filtreerimine</string>
 </resources>
