@@ -420,7 +420,7 @@
     <string name="prefs_restorecache">Restaurer des données en cache</string>
     <string name="prefs_restorecache_summary">Restaurer les fichiers dans les répertoires de cache</string>
     <string name="prefs_altbackupdate_summary">Utiliser le format ISO pour les dates dans les éléments sauvegardés, au lieu de la date locale.</string>
-    <string name="prefs_altbackupdate">Utiliser le format ISO pour les dates dans les sauvegardes</string>
+    <string name="prefs_altbackupdate">Afficher les dates au format ISO dans les sauvegardes</string>
     <string name="dark_medium_contrast">Sombre (contraste moyen)</string>
     <string name="dark_high_contrast">Sombre (contraste élevé)</string>
     <string name="black_medium_contrast">Noir (contraste moyen)</string>
