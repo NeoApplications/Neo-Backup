@@ -1,0 +1,10 @@
+INCOMPATIBLE AVEC LES ANCIENNES VERSIONS
+**DEGRADATION DES PERFORMANCES** : due à l'utilisation de SAF au lieu de l'accès direct
+* Ajouté : prise en charge de Storage Access Framework
+* Ajouté : support des liens symboliques et pipes
+* Ajouté : prise en charge des sauvegardes multiples
+* Ajouté : exécution parallèle des tâches par lot
+* Mis à jour : nouvelle UI/UX
+* Mis à jour : système de tags
+* Mis à jour : structure des sauvegardes
+* Diverses améliorations, corrections et nettoyages

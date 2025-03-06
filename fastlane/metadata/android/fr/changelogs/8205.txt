@@ -1,0 +1,2 @@
+Fix : Gestion des planifications
+Ajout : Icône basée sur le thème du système

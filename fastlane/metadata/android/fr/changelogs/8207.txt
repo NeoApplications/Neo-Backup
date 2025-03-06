@@ -1,0 +1,5 @@
+Fix : BlockLists dans les plannings
+Fix : Plannings qui se lancent de manière répétitive
+Fix : Restauration de la hauteur complète du terminal
+Mise à jour : Séparer les préférences du service en sauvegarde et restauration
+Mise à jour : Désactiver le traçage par défaut

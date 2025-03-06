@@ -1,0 +1,6 @@
+Ajout : Feuille des paramètres par lot
+Ajout : Info-bulles pour tous les boutons dans le Batch
+Fix : Notes et Tags dans AppSheet
+Fix : Journal non mis à jour lors de la suppression des éléments
+Mise à jour : Refonte de la mise en page des Chips
+plus dans le changelog complet…

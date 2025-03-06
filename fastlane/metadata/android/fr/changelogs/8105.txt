@@ -1,0 +1,6 @@
+Fix : Mauvais paramètre par défaut pour pmSuspend
+Fix : Couleur du texte des applications désactivées dans la feuille des applications
+Fix : Sélection des éléments de la liste
+Fix : Couleur du texte du curseur dans les Préférences
+Ajout : Étapes adaptatives du curseur dans les Préférences
+Mise à jour : Refonte de l'UI de la BottomNavBar dans les Préférences

@@ -1,0 +1,5 @@
+Fix : Les plannings ignorent les éléments spéciaux dans les blocklists
+Fix : Exécution des plannings deux fois
+Ajout : Faux plannings
+Ajout : Plus de préférences de traçage
+Fix : Ajouter de l'espace aux info chips
