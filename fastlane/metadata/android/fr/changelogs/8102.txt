@@ -1,0 +1,8 @@
+- Ajouté : support des couleurs dynamiques (Material You)
+- Ajouté : taille des sauvegardes (seulement les nouvelles)
+- Ajouté : Tags et Notes
+- Ajouté : journal d'informations optionnel dans la topBar
+- Ajouté : nom du package de l'installeur
+- Ajouté : installeur de session (nécessaire sur A13)
+- Corrigé : réinitialisation des données après redémarrage
+Lisez le changelog complet pour plus de détails

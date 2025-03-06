@@ -1,0 +1,7 @@
+* Ajouté : moteur de thème
+* Ajouté : sauvegarde des fichiers multimédia
+* Ajouté : Extras [Note et Tags]
+* Ajouté des langues : Chinois (traditionnel/Taïwan), Portugais (Brésil), Lituanien
+* Mis à jour : refonte de l'UI (Material design 3 et nouvel ensemble d'icônes)
+* Corrigé : restauration Firefox (@hg42)
+et plus encore… lisez le changelog complet

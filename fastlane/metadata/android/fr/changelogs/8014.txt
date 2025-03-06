@@ -1,0 +1,8 @@
+Hot-fix-release basé sur 8.0.0-alpha14. Corrige les problèmes d'une release non prévue, mais reste encore un peu lent à cause de Compose. Points clés :
+* Nouveau format de mise à jour (l'app supporte les anciens)
+* Corrigé : problèmes A12 sur v7
+* Ajouté : sauvegarde/restauration des autorisations
+* Moins de rafraîchissements manuels
+* Corrigé : la plupart des sauvegardes spéciales (tests nécessaires)
+* Tags et Notes désactivés
+Lisez le changelog complet pour plus de détails

@@ -1,0 +1,7 @@
+Ajout : Sauvegarde persistante
+Ajout : Sauvegarder/Charger les sélections du menu contextuel
+Fix : Support des implémentations SU non-Magisk
+Fix : Réinitialisation de l'état de l'app lors de la rotation de l'écran
+Mise à jour : Permet le balayage entre les pages
+Mise à jour : Simplification de l'UI
+et bien d'autres dans le changelog complet…

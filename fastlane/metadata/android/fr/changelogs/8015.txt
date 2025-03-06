@@ -1,0 +1,8 @@
+Hot-fix-release (de la hot-fix-release) après une version non prévue. Corrige les problèmes, mais reste lent à cause de Compose. Points clés :
+* Nouveau format de mise à jour (support des anciens formats)
+* Corrigé : problèmes A12 sur v7
+* Ajouté : sauvegarde/restauration des autorisations
+* Moins de rafraîchissements manuels nécessaires
+* Corrigé : sauvegardes spéciales (tests nécessaires)
+* Tags et Notes désactivés
+Lisez le changelog complet pour plus de détails

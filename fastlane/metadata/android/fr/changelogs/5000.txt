@@ -1,0 +1,7 @@
+**NOUVELLE VERSION MAJEURE** : INCOMPATIBLE AVEC LES ANCIENNES VERSIONS
+**Première version KOTLIN**
+LES ACTIONS PLANIFIÉES NE PEUVENT DURER QUE 10 MINUTES (CONTRAINTE DU SYSTÈME)
+* Ajouté : spécification des modes pour les applications dans la boîte de dialogue Batch
+* Corrigé : autorisation de stockage persistant
+* Corrigé : prise en charge d'A11
+* Beaucoup d'autres améliorations, corrections et nettoyages

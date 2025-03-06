@@ -1,0 +1,4 @@
+* Corrigé : case à cocher Exclure les applications système dans la feuille de planning
+* Corrigé : importer la valeur d'exclusion des applications système lors de l'importation des plannings
+* Ajouté : Vietnamien, Hindi et Ukrainien
+* Mis à jour les traductions : Arabe, Espagnol, Italien, Portugais, Russe, Catalan, Turc, Indonésien

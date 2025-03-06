@@ -1,0 +1,9 @@
+Ajout : Support des icônes thématiques sur A13
+Ajout : Éléments Home sélectionnables avec menu contextuel (tests nécessaires)
+Mise à jour : Nouveaux icônes (Phosphor icons)
+Mise à jour : Permet de sauvegarder l'application elle-même
+Mise à jour : Refonte du dialogue de mot de passe
+Fix : Gestion quand l'APK n'est pas appelé base.apk
+Fix : Mise à jour automatique de l'AppSheet après actions
+Fix : Plantage lors de la recréation de l'app avec une feuille initiée
+Parmi d'autres…

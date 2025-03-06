@@ -1,0 +1,7 @@
+- Mise à jour : Migration complète de la navigation vers Compose
+- Mise à jour : Agencement des éléments BackupItem, Welcome Page, Permissions Page et AppSheet
+- Mise à jour : Appliquer les options de tri/filtre aux statistiques de la feuille
+- Mise à jour : Refonte de l'UI des Préférences
+- Mise à jour : UI des éléments de la NavBar
+- Fix : Préférence de thème par défaut incohérente (@hg42)
+- Fix : Nom du package coupé dans AppSheet

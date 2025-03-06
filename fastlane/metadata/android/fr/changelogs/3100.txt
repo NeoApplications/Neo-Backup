@@ -1,0 +1,10 @@
+**OAndBackupX 3.1.0**
+
+* Supprimé : Abandon de la prise en charge d'Android Nougat
+* Ajouté : Nouveau système de tags
+* Ajouté : Préférence de verrouillage biométrique
+* Mis à jour : Refonte complète de l'interface utilisateur
+* Mis à jour : Désactivation par défaut de la préférence pour les données externes et OBB
+* Corrigé : Quelques crashs liés à l'interface utilisateur
+* Passage à la licence Affero GPL v3
+et bien plus encore

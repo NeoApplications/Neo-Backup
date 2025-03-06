@@ -1,0 +1,8 @@
+Fix : Défilement des feuilles
+Fix : Bouton de mise à jour maladroit sur les appareils avec faible dpi
+Fix : Restriction de la détection de mise en pause des processus
+Fix : Nettoyage de la barre de recherche à la fermeture
+Update : Refonte des Préférences (basée sur Compose)
+Update : Refonte de l'outil d'export/import
+Update : Limite de rétention des sauvegardes à 100
+Update : Thème dynamique

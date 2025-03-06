@@ -1,0 +1,8 @@
+Ajout : Nouvelle icône d'application
+Ajout : Bouton de rafraîchissement rotatif
+Fix : Problème caché de Lucky Patcher
+Fix : Phh su + inherited+enforcing
+Fix : Rafraîchissement des paquets manquant au démarrage
+Mise à jour : Refonte de la NavBar et de la SearchBar
+Mise à jour : Nouvelle option pour un fond occupé avec fondu gris
++ plus de 80 commits et 10 contributions de traduction

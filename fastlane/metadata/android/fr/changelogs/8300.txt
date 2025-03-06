@@ -1,0 +1,7 @@
+Ajout : Activer la sauvegarde/restauration dans le menu contextuel
+Ajout : DevTools pour les utilisateurs avancés
+Mise à jour : Refonte du backend pour un chargement plus rapide
+Mise à jour : Format de fichier journal plus informatif
+Fix : Supprimer et fermer AppSheet des paquets désinstallés sans sauvegardes
+Fix : Plannings dupliqués
++ plus de 350 commits et 60 contributions de traduction

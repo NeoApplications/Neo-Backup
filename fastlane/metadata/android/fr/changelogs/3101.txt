@@ -1,0 +1,11 @@
+**OAndBackupX 3.1.1**
+
+* Ajouté : introduction
+* Ajouté : vérification du mot de passe de chiffrement
+* Supprimé : préférence du chemin de BusyBox
+* Corrigé : affichage de la date actuelle au lieu de la dernière sauvegarde
+* Corrigé : mise à jour du tag des éléments après sauvegarde
+* Mis à jour : traductions (No, Ru, It, Fr, Nl, De)
+* Mis à jour : tri/filtrage mémorisé activé par défaut
+* Mis à jour : verrouillage biométrique désactivé par défaut
+* Mis à jour : masquage du visualiseur de logs
