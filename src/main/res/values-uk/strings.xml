@@ -426,4 +426,24 @@
     <string name="about_build_FORMAT">%s (Зрібка %s)</string>
     <string name="sort_filter">Сортування та фільтрування</string>
     <string name="sort_appdata_size">Розмір застосунок та даних</string>
+    <string name="prefs_pgp_key">Ключ PGP</string>
+    <string name="prefs_pgp_key_summary">Виберіть файл ключа PGP, щоб використовувати його для шифрування резервних копій.</string>
+    <string name="enforced_backups_limit_FORMAT">Застосовано ліміт резервних копій %d для таких програм: %s</string>
+    <string name="prefs_cleanup_backupdir_summary">Перевірте резервні копії на наявність пошкоджених резервних копій (наприклад, пошкоджений файл властивостей, властивості без каталогу, каталог без властивостей), позначте їх, а потім видаліть.</string>
+    <string name="prefs_pgp_key_management">Керування ключами OpenPGP</string>
+    <string name="prefs_pgp_passcode_summary">Пароль для розблокування ключа PGP, якщо він захищений.</string>
+    <string name="user_id">Ідентифікатор користувача</string>
+    <string name="create_pgp_key">Створити новий ключ PGP</string>
+    <string name="prefs_cleanup_backupdir">Очистити каталог резервної копії</string>
+    <string name="prefs_cleanup_backupdir_message">Перевірте резервні копії на наявність пошкоджених резервних копій (наприклад, пошкоджений файл властивостей, властивості без каталогу, каталог без властивостей), а потім або просто позначте їх міткою, або позначте міткою та видаліть.</string>
+    <string name="enforce_backups_limit_FORMAT">Застосувати ліміт резервних копій %d для таких програм: %s</string>
+    <string name="prefs_pgp_passcode">Код доступу до ключа PGP</string>
+    <string name="prefs_encryption_none">Без шифрування</string>
+    <string name="prefs_encryption_password">Пароль</string>
+    <string name="prefs_encryption_pgp">Ключ PGP</string>
+    <string name="passcode">Код доступу</string>
+    <string name="dialogDelete">Видалити</string>
+    <string name="dialogLabel">Просто позначте</string>
+    <string name="no_apps_to_enforce_backups_limit">Немає програм для забезпечення обмеження резервного копіювання</string>
+    <string name="enforce_backups_limit_summary">Застосовувати встановлене обмеження кількості версій резервних копій до всіх програм, які його перевищують.</string>
 </resources>
