@@ -423,4 +423,24 @@
     <string name="about_build_FORMAT">%s (sestavení %s)</string>
     <string name="sort_appdata_size">Velikost aplikací a dat</string>
     <string name="sort_filter">Seřadit a filtrovat</string>
+    <string name="prefs_pgp_key">Klíč PGP</string>
+    <string name="prefs_pgp_passcode">Heslo klíče PGP</string>
+    <string name="prefs_encryption_password">Heslo</string>
+    <string name="prefs_encryption_pgp">Klíč PGP</string>
+    <string name="dialogDelete">Odstranit</string>
+    <string name="enforce_backups_limit_FORMAT">Vynutit limit záloh %d u následujících aplikací: %s</string>
+    <string name="enforce_backups_limit_summary">Vynutit nastavený limit revizí záloh u všech aplikací, které jej překračují.</string>
+    <string name="prefs_pgp_key_summary">Pro použití klíče k šifrování záloh zvolte soubor s ním.</string>
+    <string name="create_pgp_key">Vytvořit nový klíč PGP</string>
+    <string name="prefs_encryption_none">Bez šifrování</string>
+    <string name="passcode">Heslo</string>
+    <string name="no_apps_to_enforce_backups_limit">Žádné aplikace, u kterých by šel vynutit limit záloh</string>
+    <string name="dialogLabel">Pouze označit</string>
+    <string name="prefs_cleanup_backupdir_summary">Vyhledat poškozené zálohy (např. poškozený soubor vlastností, vlastnosti bez adresáře, adresář bez vlastností), označit je a poté je odstranit.</string>
+    <string name="prefs_pgp_key_management">Správa klíčů OpenPGP</string>
+    <string name="user_id">ID uživatele</string>
+    <string name="prefs_cleanup_backupdir_message">Vyhledat poškozené zálohy (např. poškozený soubor vlastností, vlastnosti bez adresáře, adresář bez vlastností), poté je buď pouze označit, nebo označit a odstranit.</string>
+    <string name="prefs_pgp_passcode_summary">Heslo k odemčení klíče PGP, pokud je chráněn.</string>
+    <string name="prefs_cleanup_backupdir">Vymazat adresář záloh</string>
+    <string name="enforced_backups_limit_FORMAT">Vynucený limit záloh %d u následujících aplikací: %s</string>
 </resources>
