@@ -418,4 +418,24 @@
     <string name="about_build_FORMAT">%s (kompileerimisjärk: %s)</string>
     <string name="sort_appdata_size">Rakendus ja andmemaht</string>
     <string name="sort_filter">Järjestus ja filtreerimine</string>
+    <string name="enforce_backups_limit_summary">Jõusta varukoopiate arvu seadistatud ülempiir rakendustele, mis selle ületavad.</string>
+    <string name="prefs_pgp_key">PGP võti</string>
+    <string name="prefs_pgp_key_summary">Varukoopiate krüptimiseks palun vali PGP võtmefail.</string>
+    <string name="prefs_pgp_passcode">PGP võtme salasõna</string>
+    <string name="prefs_pgp_passcode_summary">Salasõna, mis avab krüptitud PGP võtme.</string>
+    <string name="prefs_encryption_none">Krüptimata</string>
+    <string name="prefs_encryption_password">Salasõna</string>
+    <string name="prefs_encryption_pgp">PGP võti</string>
+    <string name="create_pgp_key">Loo uus PGP võti</string>
+    <string name="user_id">Kasutajatunnus</string>
+    <string name="passcode">Võtme salasõna</string>
+    <string name="prefs_pgp_key_management">OpenPGP võtmehaldus</string>
+    <string name="prefs_cleanup_backupdir">Kustuta varukoopiate kaust</string>
+    <string name="prefs_cleanup_backupdir_summary">Otsi vigaseid varukoopiaid (nt vigane omaduste fail, omadused ilma kaustata, kaust ilma omadused ilma kaustata), märgista ja kustuta nad.</string>
+    <string name="prefs_cleanup_backupdir_message">Otsi vigaseid varukoopiaid (nt vigane omaduste fail, omadused ilma kaustata, kaust ilma omadused ilma kaustata) ja seejärel kas märgista nad või märgista ja kustuta nad.</string>
+    <string name="dialogDelete">Kustuta</string>
+    <string name="dialogLabel">Vaid märgista</string>
+    <string name="enforce_backups_limit_FORMAT">Jõusta järgnevate rakenduste varukoopiate ülempiir %d: %s</string>
+    <string name="enforced_backups_limit_FORMAT">Kasutusel on järgnevate rakenduste varukoopiate ülempiir %d: %s</string>
+    <string name="no_apps_to_enforce_backups_limit">Pole ühtegi rakendust, mille puhul oleks kasutusel varukoopiate arvu ülempiir</string>
 </resources>
