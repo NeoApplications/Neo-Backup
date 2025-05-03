@@ -278,7 +278,7 @@
     <string name="sortBackupSize">Rezerves kopijas lielums</string>
     <string name="app_size">Lietotnes lielums:</string>
     <string name="data_size">Datu apjoms:</string>
-    <string name="prefs_pgp_passcode_summary">Piekļuves kods PGP atslēgas atslēgšanai, ja tā ir aizsargāta.</string>
+    <string name="prefs_pgp_passcode_summary">Piekļuves kods, ar ko atslēgt PGP atslēgu, ja tā ir aizsargāta.</string>
     <string name="last_backup_title">Pēdējā rezerves kopija:</string>
     <string name="contacts_permission_title">Kontaktpersonu atļaujas</string>
     <string name="smsmms_permission_title">SMS/MMS atļaujas</string>
@@ -324,4 +324,23 @@
     <string name="grant_calllogs_message">Tas ir būtiski, lai varētu veikt zvanu žurnālu rezerves kopēšanu / atjaunošanu.</string>
     <string name="empty_filtered_list">Atlasītāju saraksts ir tukšs.</string>
     <string name="grant_contacts_message">Tas ir būtiski, lai varētu sasaistīt kontaktpersonu ar SMS/MMS.</string>
+    <string name="prefs_pgp_key">PGP atslēga</string>
+    <string name="create_pgp_key">Izveidot jaunu PGP atslēgu</string>
+    <string name="prefs_encryption_pgp">PGP atslēga</string>
+    <string name="prefs_encryption_password">Parole</string>
+    <string name="prefs_encryption_none">Bez šifrēšanas</string>
+    <string name="passcode">Piekļuves kods</string>
+    <string name="prefs_pgp_key_management">OpenPGP atslēgu pārvaldība</string>
+    <string name="user_id">Lietotāja Id</string>
+    <string name="prefs_cleanup_backupdir_summary">Meklēt bojātas rezerves kopijas (piemēram, bojāta īpašību datne, īpašības bez mapes, mape bez īpašībām), iezīmēt un tad izdzēst tās.</string>
+    <string name="dialogDelete">Izdzēst</string>
+    <string name="prefs_cleanup_backupdir_message">Meklēt bojātas rezerves kopijas (piemēram, bojāta īpašību datne, īpašības bez mapes, mape bez īpašībām), tad vai nu tikai iezīmēt tās, vai arī iezīmēt un izdzēst.</string>
+    <string name="enforce_backups_limit_summary">Uzspiest iestatīto rezerves kopiju versiju ierobežojumu visām lietotnēm, kas to pārsniedz.</string>
+    <string name="no_apps_to_enforce_backups_limit">Nav lietotņu, kurām uzspiest rezerves kopiju ierobežojumu</string>
+    <string name="enforce_backups_limit_FORMAT">Uzspiest rezerves kopiju ierobežojumu (%d) šīm lietotnēm: %s</string>
+    <string name="enforced_backups_limit_FORMAT">Rezerves kopiju ierobežojums (%d) tika uzspiests šīm lietotnēm: %s</string>
+    <string name="dialogLabel">Tikai iezīme</string>
+    <string name="prefs_cleanup_backupdir">Iztīrīt rezerves kopiju mapi</string>
+    <string name="prefs_pgp_key_summary">Jāatlasa PGP atslēgas datne, lai varētu to izmantot rezerves kopiju šifrēšanai.</string>
+    <string name="prefs_pgp_passcode">PGP atslēgas piekļuves kods</string>
 </resources>
