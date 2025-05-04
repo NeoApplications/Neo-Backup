@@ -302,4 +302,6 @@
     <string name="prefs_numBackupRevisions_summary">הגיבוי הכי ישן ימחק בעת יצירת גיבוי חדש אם מספר הגיבויים הוא מעבר למספר. הגדר את הערך לאפס כדי לשמור את כל הגיבויים.</string>
     <string name="root_is_mandatory">מכיוון וישומים מבודדים אחד מהשני, הרשאת סופר-משתמש נדרשת בשביל לבצע גיבוי או שחזור הנתונים שלהם.</string>
     <string name="grant_calllogs_message">נדרש בשביל לגבות/לשחזר את היסטוריית השיחות.</string>
+    <string name="prefs_squeezenavtext">צמצם טקסט ניווט</string>
+    <string name="prefs_laserbackground_summary">השתמש באורות צבעוניים בתור הרקע במהלך טעינה.</string>
 </resources>
