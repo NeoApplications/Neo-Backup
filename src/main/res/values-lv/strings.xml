@@ -343,4 +343,43 @@
     <string name="prefs_cleanup_backupdir">Iztīrīt rezerves kopiju mapi</string>
     <string name="prefs_pgp_key_summary">Jāatlasa PGP atslēgas datne, lai varētu to izmantot rezerves kopiju šifrēšanai.</string>
     <string name="prefs_pgp_passcode">PGP atslēgas piekļuves kods</string>
+    <plurals name="days_left">
+        <item quantity="zero">%d dienu</item>
+        <item quantity="one">%d diena</item>
+        <item quantity="other">%d dienas</item>
+    </plurals>
+    <plurals name="sched_interval_formal">
+        <item quantity="zero">Katras %d dienas</item>
+        <item quantity="one">Katru %d dienu</item>
+        <item quantity="other">Katras %d dienas</item>
+    </plurals>
+    <string name="app_s_icon">Lietotnes ikona</string>
+    <string name="bothBackedUp">APK un dati</string>
+    <string name="all">Visu</string>
+    <string name="apptype_system">Sistēmas lietotne</string>
+    <string name="apptype_user">Lietotāja lietotne</string>
+    <string name="apptype_special">Īpaša rezerves kopija</string>
+    <string name="help_license">Licence</string>
+    <string name="prefs_secondary_5">Flamingo rozā</string>
+    <string name="prefs_secondary_4">Lavas oranžs</string>
+    <string name="prefs_secondary_6">Slāneklis</string>
+    <string name="prefs_secondary_7">Debeszils</string>
+    <string name="prefs_secondary_8">Mētra</string>
+    <string name="prefs_accent_color">Uzsvara krāsa</string>
+    <string name="prefs_secondary_color">Otrējā krāsa</string>
+    <string name="error_encryptionpassword">Šifrēšanas parole vai nu nav iestatīta, vai arī tā ir nepareiza.</string>
+    <string name="title_note">Piezīme:</string>
+    <string name="title_tags">Birkas:</string>
+    <string name="help_changelog">Izmaiņu žurnāls</string>
+    <string name="all_data">Pārbaudīt visus datus</string>
+    <string name="all_apk">Pārbaudīt visus APK</string>
+    <string name="finished">pabeigts</string>
+    <string name="dialog_approve">Darām to!</string>
+    <string name="dialog_start">Aiziet!</string>
+    <string name="filter_options">Atlasītāji:</string>
+    <string name="restart_dialog">Šķiet, ka lietotni ir nepieciešams palaist no jauna</string>
+    <string name="dialogOK">Labi</string>
+    <string name="dialogYes">Jā</string>
+    <string name="dialogNo">Nē</string>
+    <string name="dialogSave">Saglabāt</string>
 </resources>
