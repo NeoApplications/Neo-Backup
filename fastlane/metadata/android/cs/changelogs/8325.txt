@@ -1,0 +1,8 @@
+- Přidáno: Vyhledávací panel do dialogů bloků a vlastních seznamů
+- Přidáno: Kontrastní motivy
+- Oprava: Plánování (návrat k plánování ScheduleService)
+- Oprava: Chybějící/přehlédnuté mazání zálohování
+- Oprava: Kontrola funkčního příkazu su, pokud je pref_suCommand prázdný (kredity @hg42)
+- Aktualizace: Obnovení barev ikony hlavního NB
+- Aktualizace: Nastavení volby poslední zálohy jako výchozí pro dialogové okno zálohování
++ více než 15 revizí, 30 překladů
