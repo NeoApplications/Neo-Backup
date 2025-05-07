@@ -382,4 +382,18 @@
     <string name="dialogYes">Jā</string>
     <string name="dialogNo">Nē</string>
     <string name="dialogSave">Saglabāt</string>
+    <string name="app_info">Informācija par lietotni</string>
+    <string name="launch_app">Palaist lietotni</string>
+    <string name="forceKillMessage">Vai tiešām piespiedu kārtā nobeigt lietotni?</string>
+    <string name="prefs_accent_2">Mierīgi tumši zils</string>
+    <string name="prefs_accent_3">Tirkīzs</string>
+    <string name="prefs_accent_4">Trekni zaļš</string>
+    <string name="prefs_accent_5">Dzeltenzaļa laima</string>
+    <string name="prefs_secondary_3">Tīģerdzintars</string>
+    <string name="prefs_accent_6">Pērkondzeltens</string>
+    <string name="prefs_accent_8">Ķirbja perano</string>
+    <string name="prefs_secondary_0">Arktiska ciānkrāsa</string>
+    <string name="prefs_accent_7">Aprikožu oranžs</string>
+    <string name="prefs_secondary_1">Okeāna zilganzaļš</string>
+    <string name="prefs_secondary_2">Laima</string>
 </resources>
