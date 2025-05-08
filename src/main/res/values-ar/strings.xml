@@ -432,4 +432,24 @@
     <string name="about_build_FORMAT">%s (الإصدار %s)</string>
     <string name="sort_filter">فرز &amp; وتصفية</string>
     <string name="sort_appdata_size">حجم بيانات التطبيق</string>
+    <string name="prefs_cleanup_backupdir_message">قم بفحص النسخ الاحتياطية التالفة (مثل ملف الخصائص التالف، الخصائص بدون دليل، الدليل بدون خصائص)، ثم قم إما بتسمية تلك النسخ فقط أو بتسميتها وحذفها.</string>
+    <string name="enforced_backups_limit_FORMAT">تم فرض حد النسخ الاحتياطي البالغ %d على التطبيقات التالية: %s</string>
+    <string name="prefs_pgp_key">مفتاح PGP</string>
+    <string name="prefs_pgp_key_summary">حدد ملف مفتاح PGP من أجل استخدامه لتشفير النسخ الاحتياطية.</string>
+    <string name="prefs_pgp_passcode">رمز المرور لمفتاح PGP</string>
+    <string name="prefs_pgp_passcode_summary">رمز المرور لإلغاء قفل مفتاح PGP إذا كان محميًا.</string>
+    <string name="prefs_encryption_none">بدون تشفير</string>
+    <string name="prefs_encryption_password">كلمة المرور</string>
+    <string name="prefs_encryption_pgp">مفتاح PGP</string>
+    <string name="create_pgp_key">إنشاء مفتاح PGP جديد</string>
+    <string name="user_id">معرّف المستخدم</string>
+    <string name="passcode">رمز المرور</string>
+    <string name="prefs_pgp_key_management">إدارة مفاتيح OpenPGP</string>
+    <string name="prefs_cleanup_backupdir">تنظيف مجلد النسخ الاحتياطي</string>
+    <string name="prefs_cleanup_backupdir_summary">قم بفحص النسخ الاحتياطية التالفة (مثل ملف الخصائص التالف، الخصائص بدون دليل، الدليل بدون خصائص)، ثم قم بتسمية وحذفها.</string>
+    <string name="dialogDelete">حذف</string>
+    <string name="dialogLabel">فقط قم بالتسمية</string>
+    <string name="enforce_backups_limit_FORMAT">فرض حد النسخ الاحتياطي البالغ %d على التطبيقات التالية: %s</string>
+    <string name="no_apps_to_enforce_backups_limit">لا توجد تطبيقات لفرض حد النسخ الاحتياطية عليها</string>
+    <string name="enforce_backups_limit_summary">فرض حد مراجعات النسخ الاحتياطي المحدد على جميع التطبيقات التي تتجاوزه.</string>
 </resources>
