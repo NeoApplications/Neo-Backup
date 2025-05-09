@@ -2,7 +2,7 @@
 
 * Apps which use android's keystore to identify users e.g. Signal, Element.
 
-* Some Termux plugins which have cyclic smylinks
+* Some Termux plugins which have cyclic symlinks
 
 * Some system apps and all system-less apps (Magisk Modules) aren't meant to be backed up/restored so just be careful not breaking the system while playing with those
 
