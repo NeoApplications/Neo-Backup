@@ -406,4 +406,6 @@
     <string name="prefs_laserbackground_summary">Użyj animowanych kolorowych świateł jako tła podczas ładowania.</string>
     <string name="prefs_compression_type">Rodzaj kompresji</string>
     <string name="prefs_compression_type_summary">Wybierz rodzaj kompresji, która będzie używana</string>
+    <string name="prefs_altnavbaritem">Użyj alternatywnego elementu paska nawigacji</string>
+    <string name="prefs_altnavbaritem_summary">Użyj alternatywnego/poprzedniego układu paska nawigacji, który pokazuje etykietę niezaznaczonych elementów.</string>
 </resources>
