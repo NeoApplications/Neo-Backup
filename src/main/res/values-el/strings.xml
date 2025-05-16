@@ -20,15 +20,15 @@
     <string name="uninstall">Απεγκατάσταση εφαρμογής</string>
     <string name="uninstallProgress">Απεγκατάσταση…</string>
     <string name="radio_all">Όλες οι εφαρμογές</string>
-    <string name="showOnlySystem">Μόνον εφαρμογές συστήματος</string>
-    <string name="showOnlyUser">Μόνον εφαρμογές χρήστη</string>
+    <string name="showOnlySystem">Μόνο εφαρμογές συστήματος</string>
+    <string name="showOnlyUser">Μόνο εφαρμογές χρήστη</string>
     <string name="showNotBackedup">Εφαρμογές χωρίς αντίγραφο</string>
     <string name="showNotInstalled">Μη εγκατεστημένες εφαρμογές</string>
     <string name="showNewAndUpdated">Νέες κι ενημερωμένες εφαρμογές</string>
     <string name="showOldBackups">Παλιά αντίγραφα</string>
-    <string name="showOnlyApkBackedUp">Εφαρμογές με μόνον το apk αντεγραμμένο</string>
-    <string name="showOnlyDataBackedUp">Εφαρμογές με μόνον τα δεδομένα αντεγραμμένα</string>
-    <string name="radio_special">Ιδιαίτερα αντίγραφα μόνο</string>
+    <string name="showOnlyApkBackedUp">Εφαρμογές με αντίγραφο μόνο το APK</string>
+    <string name="showOnlyDataBackedUp">Εφαρμογές με αντίγραφο μόνο τα δεδομένα</string>
+    <string name="radio_special">Ειδικά Αντίγραφα Ασφαλείας</string>
     <string name="sortByLabel">Ταξινόμηση κατά ετικέτα</string>
     <string name="sortByPackageName">Ταξινόμηση κατά όνομα πακέτου</string>
     <string name="sort">Ταξινόμηση και φιλτράρισμα</string>
@@ -38,13 +38,13 @@
     <string name="dialogCancel">Άκυρο</string>
     <string name="dialogYes">Ναι</string>
     <string name="dialogNo">Όχι</string>
-    <string name="restoreDataWithoutApkError">Η επαναφορά των δεδομένων είναι αδύνατη χωρίς την επαναφορά της εφαρμογής, το πακέτο δεν είναι εγκατεστημένο.</string>
+    <string name="restoreDataWithoutApkError">Αδύνατη η επαναφορά των δεδομένων χωρίς την επαναφορά του APK, το πακέτο δεν είναι εγκατεστημένο.</string>
     <string name="noSu">Αδυναμία απόκτησης αδειών υπερχρήστη</string>
     <!-- mkfileError: an error occured while creating a file. format: string + " " + filename -->
     <string name="mkfileError">Αδυναμία δημιουργίας</string>
     <!-- fallbackToDefault: indicates a fallback to the default for creation of a specific file. used in the same way as mkfileError -->
     <string name="fallbackToDefault">Εναλλακτική χρήση προεπιλογής</string>
-    <string name="backupFolderError">Παρακαλώ ορίστε το σωστό φάκελο στις προτιμήσεις και βεβαιωθείτε ότι υπάρχει ή είναι δημιουργήσιμος</string>
+    <string name="backupFolderError">Παρακαλώ ορίστε τη σωστή διαδρομή στις προτιμήσεις και βεβαιωθείτε ότι υπάρχει ή ότι μπορεί να δημιουργηθεί</string>
     <string name="shellReturnSuccess">Επιτυχία</string>
     <string name="shellReturnError">Σφάλμα</string>
     <string name="backupProgress">Δημιουργία αντιγράφου…</string>
@@ -53,19 +53,19 @@
     <string name="restoreProgress">Επαναφορά…</string>
     <string name="restoreSuccess">Η επαναφορά ολοκληρώθηκε</string>
     <string name="restoreFailure">Σφάλμα κατά την επαναφορά</string>
-    <string name="batchSuccess">Η διαδικασία ολοκληρώθηκε</string>
+    <string name="batchSuccess">Η λειτουργία ολοκληρώθηκε</string>
     <string name="batchFailure">Ολοκληρώθηκε με σφάλματα</string>
     <string name="uninstallSuccess">Η απεγκατάσταση ολοκληρώθηκε</string>
     <string name="uninstallFailure">Σφάλμα κατά την απεγκατάσταση</string>
-    <string name="errorDialogTitle">Εμφανίστηκαν σφάλματα</string>
-    <string name="customListTitle">Ειδική λίστα</string>
+    <string name="errorDialogTitle">Παρουσιάστηκαν σφάλματα</string>
+    <string name="customListTitle">Προσαρμοσμένη λίστα</string>
     <string name="notInstalledModeDataWarning">Η εφαρμογή δεν μπορεί να επαναφερθεί από ένα αντίγραφο χωρίς apk</string>
     <string name="shareTitle">Κοινοποίηση</string>
     <string name="prefs_tools">Εργαλεία</string>
     <string name="batchDeleteMessage">Διαγραφή αντιγράφων…</string>
     <string name="batchDeleteNotificationTitle">Διαγραφή αντιγράφων</string>
     <!-- tools_backupsDeleted: shown in a notification followed by the number of backups deleted -->
-    <string name="batchDeleteBackupsDeleted">Διεγραμμένα αντίγραφα:</string>
+    <string name="batchDeleteBackupsDeleted">Διαγραμμένα αντίγραφα:</string>
     <string name="batchDeleteNothingToDelete">Δεν υπάρχουν αντίγραφα για διαγραφή</string>
     <string name="enablePackage">Ενεργοποίηση εφαρμογής</string>
     <!-- enablePackageTitle: title for a list of checkable users -->
@@ -311,7 +311,7 @@
     <string name="prefs_theme_black_summary">Επιβάλλει μαύρο φόντο όταν το σκούρο θέμα είναι ενεργοποιημένο</string>
     <string name="prefs_installerpackagename">Το όνομα του πακέτου εγκατάστασης:</string>
     <string name="prefs_theme_black">Μαύρο θέμα</string>
-    <string name="prefs_squeezenavtext_summary">Να επιτρέπεται στο κείμενο κάτω από τα αντικείμενα της γραμμής πλοήγησης να αλλάζει μέγεθος ώστε να προσαρμόζεται στο διαθέσιμο πλάτος.</string>
+    <string name="prefs_squeezenavtext_summary">Να επιτρέπεται η αλλαγή μεγέθους του κειμένου κάτω από τα στοιχεία της γραμμής πλοήγησης ώστε να ταιριάζει στο διαθέσιμο πλάτος.</string>
     <string name="prefs_laserbackground">Εμφάνιση κινούμενου λέιζερ στο φόντο</string>
     <string name="root_is_mandatory">Επειδή οι εφαρμογές είναι απομονωμένες μεταξύ τους, η πρόσβαση ως υπερ-χρήστης είναι υποχρεωτική για να είναι δυνατή η δημιουργία αντιγράφων και η επαναφορά των δεδομένων τους.</string>
     <string name="prefs_obbdata_summary">Δημιουργεί αντίγραφο των αρχείων obb της εφαρμογής που βρίσκονται στην εξωτερική μνήμη (π.χ. /storage/emulated/0/Android/obb/)</string>
@@ -319,7 +319,7 @@
     <string name="prefs_multilineinfochips">Πληροφορίες πολλαπλών γραμμών</string>
     <string name="prefs_mediadata_rst">Επαναφορά αρχείων πολυμέσων</string>
     <string name="schedule">Χρονοδιάγραμμα</string>
-    <string name="prefs_newandupdatednotification_summary">Εμφάνιση των νέων εφαρμογών χρήστη μαζί με τις ενημερωμένες εφαρμογές στη μπάρα ειδοποιήσεων στην αρχική οθόνη.</string>
+    <string name="prefs_newandupdatednotification_summary">Εμφάνιση νέων εφαρμογών χρήστη δίπλα στις ενημερωμένες εφαρμογές στη γραμμή ειδοποιήσεων στην αρχική σελίδα.</string>
     <string name="sortAsc">Αύξουσα</string>
     <string name="prefs_deviceprotecteddata_rst">Επαναφορά δεδομένων που προστατεύονται από τη συσκευή</string>
     <string name="prefs_loadingtoasts">Φόρτωση αναδυόμενων μηνυμάτων</string>
@@ -338,7 +338,7 @@
     <string name="prefs_password_summary">Χρησιμοποιείται και για την αποκρυπτογράφηση στην επαναφορά</string>
     <string name="prefs_theme_dynamic">Δυναμικό θέμα</string>
     <string name="prefs_nobackupdata_summary">Δημιουργία αντιγράφου των αρχείων σε δεδομένα με ετικέτα να μην δημιουργούνται αντίγραφα ασφαλείας</string>
-    <string name="prefs_advanced_short">Προχωρημένες</string>
+    <string name="prefs_advanced_short">Προηγμένες</string>
     <string name="enforce_backups_limit">Επιβολή ορίου δημιουργίας αντιγράφων ασφαλείας</string>
     <string name="prefs_squeezenavtext">Συμπίεση κειμένου στοιχείου πλοήγησης</string>
     <string name="radio_notlaunchable">Μη εκκινήσιμες εφαρμογές</string>
@@ -422,4 +422,27 @@
     <string name="black_medium_contrast">Μαύρο (μέτρια αντίθεση)</string>
     <string name="about_build_FORMAT">%s (Κατασκευή %s)</string>
     <string name="black_high_contrast">Μαύρο (υψηλή αντίθεση)</string>
+    <string name="light_medium_contrast">Φως (μέτρια αντίθεση)</string>
+    <string name="prefs_pgp_key">Κλειδί PGP</string>
+    <string name="prefs_pgp_passcode">Κωδικός πρόσβασης κλειδιού PGP</string>
+    <string name="prefs_pgp_passcode_summary">Ο κωδικός πρόσβασης για το ξεκλείδωμα του κλειδιού PGP, εάν προστατεύεται.</string>
+    <string name="prefs_encryption_none">Χωρίς κρυπτογράφηση</string>
+    <string name="prefs_encryption_password">Κωδικός Πρόσβασης</string>
+    <string name="prefs_encryption_pgp">Κλειδί PGP</string>
+    <string name="create_pgp_key">Δημιουργία νέου κλειδίου PGP</string>
+    <string name="user_id">Αναγνωριστικό Χρήστη</string>
+    <string name="prefs_cleanup_backupdir">Καθαρισμός καταλόγου αντιγράφων ασφαλείας</string>
+    <string name="prefs_cleanup_backupdir_message">Σάρωση για κατεστραμμένα αντίγραφα ασφαλείας (π.χ. κατεστραμμένο αρχείο ιδιοτήτων, ιδιότητες χωρίς κατάλογο, κατάλογος χωρίς ιδιότητες) και στη συνέχεια, απλώς προσθέστε ετικέτα σε αυτά ή διαγράψτε τα.</string>
+    <string name="dialogDelete">Διαγραφή</string>
+    <string name="dialogLabel">Απλά ετικέτα</string>
+    <string name="enforce_backups_limit_FORMAT">Επιβολή του ορίου αντιγράφων ασφαλείας %d στις ακόλουθες εφαρμογές: %s</string>
+    <string name="enforced_backups_limit_FORMAT">Επιβλήθηκε το όριο αντιγράφων ασφαλείας %d στις ακόλουθες εφαρμογές: %s</string>
+    <string name="enforce_backups_limit_summary">Επιβολή του καθορισμένου ορίου αναθεωρήσεων αντιγράφων ασφαλείας σε όλες τις εφαρμογές που το υπερβαίνουν.</string>
+    <string name="sort_appdata_size">Μέγεθος Εφαρμογής &amp; Δεδομένων</string>
+    <string name="sort_filter">Ταξινόμηση &amp; Φιλτράρισμα</string>
+    <string name="passcode">Κωδικός πρόσβασης</string>
+    <string name="prefs_pgp_key_summary">Επιλέξτε το αρχείο κλειδιού PGP για να το χρησιμοποιήσετε για την κρυπτογράφηση των αντιγράφων ασφαλείας.</string>
+    <string name="prefs_pgp_key_management">Διαχείριση κλειδιών OpenPGP</string>
+    <string name="prefs_cleanup_backupdir_summary">Σάρωση για κατεστραμμένα αντίγραφα ασφαλείας (π.χ. κατεστραμμένο αρχείο ιδιοτήτων, ιδιότητες χωρίς κατάλογο, κατάλογος χωρίς ιδιότητες), προσθήκη ετικέτας και στη συνέχεια, διαγράψτε τα.</string>
+    <string name="no_apps_to_enforce_backups_limit">Δεν υπάρχουν εφαρμογές για την επιβολή του ορίου αντιγράφων ασφαλείας</string>
 </resources>
