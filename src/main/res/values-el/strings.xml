@@ -93,9 +93,9 @@
     <string name="prefs_encryption_summary">Ενεργοποίηση για κρυπτογράφηση δεδομένων των αντιγράφων</string>
     <string name="prefs_excludecache_summary">Αποκλεισμός της μνήμης cache της εφαρμογής από το αντίγραφο δεδομένων</string>
     <string name="prefs_acquirewakelock_summary">Απόκτηση wakelock κατά τη διάρκεια διεργασιών μαζικών αντιγράφων ώστε να αποτραπεί ο ύπνος. Επιταχύνει τα αντίγραφα και τις επαναφορές σημαντικά, αλλά καταναλώνει περισσότερη ενέργεια.</string>
-    <string name="prefs_oldbackups_summary">Φιλτράρισμα αντιγράφων παλαιότερων από την τιμή σε μέρες. Χρησιμοποιείται μαζί με το φίλτρο \'εμφάνιση παλαιών αντιγράφων\'.</string>
+    <string name="prefs_oldbackups_summary">Φιλτράρισμα αντιγράφων παλαιότερων από την τιμή σε μέρες. Χρησιμοποιείται μαζί με το φίλτρο \'Εμφάνιση παλαιών αντιγράφων\'.</string>
     <string name="prefs_copyselfapk_summary">Τοποθετήστε ένα αντίγραφο του Neo Backup στο υψηλότερο επίπεδο του φακέλου αντιγράφων</string>
-    <string name="prefs_rememberfiltering_summary">Αποθηκεύει την επιλεγμένη μέθοδο ταξινόμησης και φιλτραρίσματος. Μόνον αυτά που είναι σημειωμένα με ένα κουτάκι στον κατάλογο λαμβάνονται υπόψιν.</string>
+    <string name="prefs_rememberfiltering_summary">Αποθηκεύει την επιλεγμένη μέθοδο ταξινόμησης και φιλτραρίσματος. Μόνο αυτά που είναι σημειωμένα με ένα κουτάκι στον κατάλογο λαμβάνονται υπόψιν.</string>
     <string name="prefs_batchdelete_summary">Διαγραφή των αντιγράφων όλων των εφαρμογών που δεν είναι εγκατεστημένες στο παρόν.</string>
     <string name="sched_title">Προγραμματισμός</string>
     <string name="sched_notificationMessage">Προγραμματισμένο αντίγραφο</string>
@@ -307,7 +307,7 @@
     <string name="filters_launchable">Εκκινήσιμο</string>
     <string name="grant_contacts_message">Αυτό είναι απαραίτητο για να μπορείτε να αντιστοιχίσετε μια επαφή με ένα SMS/MMS.</string>
     <string name="prefs_theme_dynamic_black">Μαύρο με δυναμικά χρώματα</string>
-    <string name="prefs_altnavbaritem">Χρήση εναλλακτικού αντικειμένου γραμμής πλοήγησης</string>
+    <string name="prefs_altnavbaritem">Χρήση εναλλακτικού στοιχείου γραμμής πλοήγησης</string>
     <string name="prefs_theme_black_summary">Επιβάλλει μαύρο φόντο όταν το σκούρο θέμα είναι ενεργοποιημένο</string>
     <string name="prefs_installerpackagename">Το όνομα του πακέτου εγκατάστασης:</string>
     <string name="prefs_theme_black">Μαύρο θέμα</string>
@@ -396,7 +396,7 @@
     <string name="clear_text">Εκκαθάριση κειμένου</string>
     <string name="show_new_backups">Νέα αντίγραφα ασφαλείας</string>
     <string name="post_notifications_permission_title">Αποστολή ειδοποιήσεων</string>
-    <string name="prefs_altnavbaritem_summary">Χρήση της εναλλακτικής/παλιάς διάταξης στοιχείων της μπάρας πλοήγησης, η οποία εμφανίζει την ετικέτα των μη επιλεγμένων στοιχείων.</string>
+    <string name="prefs_altnavbaritem_summary">Χρήση της εναλλακτικής/παλιάς διάταξης στοιχείων της γραμμής πλοήγησης, η οποία εμφανίζει την ετικέτα των μη επιλεγμένων στοιχείων.</string>
     <string name="filters_app">Είδος εφαρμογής</string>
     <string name="spec_smsmmsjson">JSON SMS/MMS</string>
     <string name="enforce_backups_limit_description">Διαγραφή παλαιότερων αντιγράφων ασφαλείας για να επιβληθεί το όριο σε %d</string>
