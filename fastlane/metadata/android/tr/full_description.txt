@@ -1,6 +1,6 @@
 <p>Cihazınızdaki uygulamaların yedeklerini oluşturun, geri yükleyin ve uygulama verilerini kullanıcı tarafından erişilebilen bir konuma kaydedin. Çoklu ya da tekli yedekleme ve geri yüklemeyi destekler..</p>
-<p>Bir Neo Uygualamar parçasıdır.</p>
-OAndBackup çatalı (vârisi?), Android'in yeni sürümleri ve güncellenmiş görünümleri için destek sağlar.</p>
-<p><br><b>Weblate'e çevirmeye yardım edin:</b> https://hosted.weblate.org/engage/oandbackupx/.</p>
+<p>Bir Neo Uygulamaları parçasıdır.</p>
+OAndBackup çatalı, Android'in yeni sürümleri ve güncellenmiş görünümleri için destek sağlar.</p>
+<p><br><b>Weblate üzerinden çeviriye yardım edin:</b> https://hosted.weblate.org/engage/oandbackupx/.</p>
 <p><br><b>Root gerektirir: </b> çünkü dosyaları /data/data, /data/app ve /system/app'den kopyalar.</p>
 <p> Durum: Beta </p>

@@ -1,0 +1,12 @@
+##### BU SÜRÜM ÖNCEKİ SÜRÜMLERLE UYUMLU DEĞİLDİR
+
+* Güncelleme: varsayılan yedekleme dizini /OABX
+
+* Güncelleme: Yeniden Yazılmış Şifreleme Çözümü (Teşekkürler @Pizze)
+* Güncelleme: yenilenmiş Yardım ve AppSheet kullanıcı arayüzü
+* Güncelleme: clearCache tercihi, excludeCache olarak değiştirildi
+* Güncelleme: tüm kabuk komutlarının işlevleri yeniden yazıldı (Teşekkürler @Pizze)
+* Ekle: Veri Boyutuna Göre Sırala
+* Ekle: Tüm Simgeler için Araç İpuçları
+* Ekle: AppSheet'e Önbellek silme düğmesi
+* Ekle: Şifrelemeyi etkinleştirme hakkında Uyarı İletişim Kutusu
