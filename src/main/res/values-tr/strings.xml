@@ -417,4 +417,27 @@
     <string name="dark_medium_contrast">Koyu (orta kontrast)</string>
     <string name="prefs_altbackupdate">Yedeklerde ISO tarih biçimini göster</string>
     <string name="prefs_altbackupdate_summary">Yedekleme ögelerinde yerel tarih biçimi yerine ISO tarih biçimini kullanın.</string>
+    <string name="no_apps_to_enforce_backups_limit">Yedekleme sınırını uygulayacak uygulama yok</string>
+    <string name="prefs_cleanup_backupdir_summary">Hasarlı yedekleri tara (örneğin hasarlı özellik dosyası, dizini olmayan özellikler, özelliği olmayan dizin), etiketleyin ve ardından sil.</string>
+    <string name="prefs_pgp_key">PGP anahtarı</string>
+    <string name="prefs_pgp_key_summary">Yedeklemeleri şifrelemek için PGP anahtar dosyasını seçin.</string>
+    <string name="prefs_pgp_passcode">PGP anahtar şifresi</string>
+    <string name="prefs_pgp_passcode_summary">PGP anahtarının korunması durumunda kilidini açmak için kullanılacak şifredir.</string>
+    <string name="prefs_encryption_none">Şifreleme yok</string>
+    <string name="prefs_encryption_password">Şifre</string>
+    <string name="prefs_encryption_pgp">PGP anahtarı</string>
+    <string name="create_pgp_key">Yeni bir PGP anahtarı oluştur</string>
+    <string name="user_id">Kullanıcı kimliği</string>
+    <string name="passcode">Şifre</string>
+    <string name="prefs_pgp_key_management">OpenPGP anahtar yönetimi</string>
+    <string name="prefs_cleanup_backupdir">Yedekleme dizinini temizle</string>
+    <string name="prefs_cleanup_backupdir_message">Hasarlı yedekleri tara (örneğin hasarlı özellik dosyası, dizini olmayan özellikler, özelliği olmayan dizin), ardından bunları etiketleyin veya etiketleyip sil.</string>
+    <string name="dialogDelete">Sil</string>
+    <string name="dialogLabel">Sadece etiket</string>
+    <string name="enforce_backups_limit_FORMAT">Aşağıdaki uygulamalarda %d yedekleme sınırını uygula: %s</string>
+    <string name="enforced_backups_limit_FORMAT">Aşağıdaki uygulamalarda %d yedekleme sınırı uygulandı: %s</string>
+    <string name="enforce_backups_limit_summary">Bu sınırı aşan tüm uygulamalarda yedekleme revizyonları sınırını zorunlu kıl.</string>
+    <string name="sort_filter">Sıralama ve Filtreleme</string>
+    <string name="sort_appdata_size">Uygulama ve veri boyutu</string>
+    <string name="about_build_FORMAT">%s (Yapı %s)</string>
 </resources>
