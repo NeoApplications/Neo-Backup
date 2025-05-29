@@ -118,7 +118,7 @@
     <string name="prefs_password_match_true">Paroles sakrīt</string>
     <string name="enablePackage">Iespējot lietotni</string>
     <string name="handleData">Dati</string>
-    <string name="backupFailure">Kļūda veidojot rezerves kopiju</string>
+    <string name="backupFailure">Kļūda rezerves kopiju izveidošanā</string>
     <string name="prefs_excludecache_summary">Neiekļaut lietotnes kešatmiņu no datu rezerves kopijas</string>
     <string name="showNotBackedup">Lietotnes bez rezerves kopijas</string>
     <string name="prefs_pathbackupfolder">Rezerves kopiju mape</string>
