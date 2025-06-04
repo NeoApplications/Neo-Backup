@@ -5,7 +5,7 @@
     <string name="batchbackup">ਬੈਚ ਬੈਕਅੱਪ</string>
     <string name="radio_both">ਏਪੀਕੇ \'ਤੇ ਡੇਟਾ</string>
     <string name="radio_data">ਡੇਟਾ</string>
-    <string name="radio_all">ਸਭ ਐਪਸ</string>
+    <string name="radio_all">ਸਾਰੇ ਐਪਸ</string>
     <string name="radio_externaldata">ਬਾਹਰੀ ਡੇਟਾ</string>
     <string name="de_selectAll">ਸਭ ਨੂੰ ਅਨ/ਸਿਲੈਕਟ ਕਰੋ</string>
     <string name="restore">ਰੀਸਟੋਰ</string>
@@ -23,4 +23,6 @@
     <string name="handleData">ਡੇਟਾ</string>
     <string name="restoreConfirmation">ਰੀਸਟੋਰ?</string>
     <string name="radio_special">ਸਪੈਸ਼ਲ ਬੈਕਅੱਪਸ</string>
+    <string name="searchHint">ਐਪਸ ਲੱਬੋ</string>
+    <string name="search">ਖੋਜੋ</string>
 </resources>
