@@ -430,4 +430,11 @@
     <string name="about_build_FORMAT">%s (Compilazione %s)</string>
     <string name="sort_filter">Ordina e filtra</string>
     <string name="sort_appdata_size">Dimensioni app e dati</string>
+    <string name="prefs_encryption_password">Password</string>
+    <string name="prefs_encryption_pgp">Chiave PGP</string>
+    <string name="create_pgp_key">Crea una nuova chiave PGP</string>
+    <string name="user_id">ID utente</string>
+    <string name="passcode">Passcode</string>
+    <string name="prefs_pgp_key_management">Gestione chiave OpenPGP</string>
+    <string name="prefs_pgp_key">Chiave PGP</string>
 </resources>
