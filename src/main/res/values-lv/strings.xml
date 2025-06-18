@@ -16,7 +16,7 @@
     <string name="prefs_laserbackground">Rādīt fonā lāzera animāciju</string>
     <string name="restoreProgress">Atjauno…</string>
     <string name="showOnlyUser">Tikai lietotāja lietotnes</string>
-    <string name="batchbackup">Rezerves kopēšana masveidā (batch)</string>
+    <string name="batchbackup">Masveida rezerves kopēšana</string>
     <string name="prefs_obbdata_summary">Veido lietotņu OBB datņu, kuras atrodas ārējā krātuvē (piem., /storage/emulated/0/Android/obb/), rezerves kopiju</string>
     <string name="prefs_password">Šifrēšanas parole</string>
     <string name="radio_both">APK un dati</string>
