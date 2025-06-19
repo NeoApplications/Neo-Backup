@@ -1,0 +1,6 @@
+<p>Veido lietotņu rezerves kopijas un atjauno tās savā ierīcē un saglabā lietotnes datus lietotājam piekļūstamā vietā! Atbalsta rezerves kopiju veidošanu un atjaunošanu no tām gan atsevišķai lietotnei, gan vairākām vienlaicīgi.</p>
+<p>Daļa no Neo lietotnēm.</p>
+<p>OAndBackup atzarojums, kas sniedz atbalstu jaunām Android versijām un atjauninātu izskatu.</p>
+<p><br><b>Palīdzi tulkot to Weblat:</b> https://hosted.weblate.org/engage/oandbackupx/!</p>
+<p><br><b>Nepieciešams root:</b> jo lietotne kopē datus no /data/data, /data/app un /system/app.</p>
+<p>Stāvoklis: Beta</p>
