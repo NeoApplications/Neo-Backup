@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="backup">காப்புப்பிரதி</string>
-    <string name="restore">மீட்டமை</string>
+    <string name="restore">மீட்டெடு</string>
     <string name="backupConfirmation">காப்புப்பிரதி?</string>
     <string name="restoreConfirmation">மீட்டமைக்கவா?</string>
     <string name="handleApk">Apk</string>
@@ -404,4 +404,33 @@
     <string name="filters_launchable">தொடங்கக்கூடியது</string>
     <string name="filters_enabled">இயக்கப்பட்டது</string>
     <string name="filters_updated">புதுப்பிக்கப்பட்டது</string>
+    <string name="prefs_pgp_key">பிசிபி விசை</string>
+    <string name="prefs_pgp_key_summary">காப்புப்பிரதிகளை குறியாக்கப் பயன்படுத்த பிசிபி விசை கோப்பைத் தேர்ந்தெடுக்கவும்.</string>
+    <string name="prefs_pgp_passcode">பிசிபி விசை கடவுக்குறியீடு</string>
+    <string name="prefs_pgp_passcode_summary">பாதுகாக்கப்பட்டால் பிசிபி விசையைத் திறக்க கடவுக்குறியீடு.</string>
+    <string name="prefs_cleanup_backupdir_message">சேதமடைந்த காப்புப்பிரதிகளுக்கு வருடு செய்யவும் (எ.கா. சேதமடைந்த பண்புகள் கோப்பு, அடைவு இல்லாத பண்புகள், பண்புகள் இல்லாத அடைவு), பின்னர் அவற்றை லேபிளிடுங்கள் அல்லது லேபிளிடவும் நீக்கவும்.</string>
+    <string name="light_high_contrast">ஒளி (உயர் மாறுபாடு)</string>
+    <string name="light_medium_contrast">ஒளி (நடுத்தர மாறுபாடு)</string>
+    <string name="dark_medium_contrast">இருண்ட (நடுத்தர மாறுபாடு)</string>
+    <string name="dark_high_contrast">இருண்ட (உயர் மாறுபாடு)</string>
+    <string name="black_medium_contrast">கருப்பு (நடுத்தர மாறுபாடு)</string>
+    <string name="black_high_contrast">கருப்பு (உயர் மாறுபாடு)</string>
+    <string name="sort_filter">வரிசைப்படுத்துதல் &amp; வடிகட்டி</string>
+    <string name="sort_appdata_size">பயன்பாடு &amp; தரவு அளவு</string>
+    <string name="prefs_encryption_none">குறியாக்கம் இல்லை</string>
+    <string name="prefs_encryption_password">கடவுச்சொல்</string>
+    <string name="prefs_encryption_pgp">பிசிபி விசை</string>
+    <string name="create_pgp_key">புதிய பிசிபி விசையை உருவாக்கவும்</string>
+    <string name="user_id">பயனர் அடையாளம்</string>
+    <string name="passcode">கடவுக்குறியீடு</string>
+    <string name="prefs_cleanup_backupdir">காப்பு கோப்பகத்தை தூய்மை செய்யுங்கள்</string>
+    <string name="prefs_cleanup_backupdir_summary">சேதமடைந்த காப்புப்பிரதிகளுக்கு வருடு செய்யவும் (எ.கா. சேதமடைந்த பண்புகள் கோப்பு, அடைவு இல்லாத பண்புகள், பண்புகள் இல்லாத அடைவு), பின்னர் அவற்றை நீக்கவும்.</string>
+    <string name="prefs_pgp_key_management">OpenPGP விசை மேலாண்மை</string>
+    <string name="dialogDelete">நீக்கு</string>
+    <string name="dialogLabel">வெறும் சிட்டை</string>
+    <string name="enforce_backups_limit_FORMAT">பின்வரும் பயன்பாடுகளில் %d இன் காப்புப்பிரதிகளின் வரம்பை செயல்படுத்தவும்: %s</string>
+    <string name="enforced_backups_limit_FORMAT">பின்வரும் பயன்பாடுகளில் %d இன் காப்புப்பிரதிகளின் வரம்பை செயல்படுத்தியது: %s</string>
+    <string name="no_apps_to_enforce_backups_limit">காப்புப்பிரதிகளின் வரம்பை செயல்படுத்த பயன்பாடுகள் இல்லை</string>
+    <string name="enforce_backups_limit_summary">செட் காப்பு திருத்தங்கள் வரம்பை மீறும் அனைத்து பயன்பாடுகளுக்கும் வரம்பை அமல்படுத்துங்கள்.</string>
+    <string name="about_build_FORMAT">%s ( %s உருவாக்கு)</string>
 </resources>
