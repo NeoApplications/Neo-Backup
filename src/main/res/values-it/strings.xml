@@ -437,4 +437,15 @@
     <string name="passcode">Passcode</string>
     <string name="prefs_pgp_key_management">Gestione chiave OpenPGP</string>
     <string name="prefs_pgp_key">Chiave PGP</string>
+    <string name="prefs_pgp_key_summary">Seleziona il file con la chiave PGP per poterla usare per criptare i backup.</string>
+    <string name="prefs_pgp_passcode">Codice per la chiave PGP</string>
+    <string name="prefs_pgp_passcode_summary">Il codice per sbloccare la chiave PGP se protetta.</string>
+    <string name="prefs_encryption_none">Nessuna criptazione</string>
+    <string name="prefs_cleanup_backupdir">Pulisci la cartella di backup</string>
+    <string name="prefs_cleanup_backupdir_summary">Scannerizza per backup danneggiati (es. file di prorietà danneggiati, proprietà senza cartelle, cartelle senza proprietà), etichettali ed eliminali.</string>
+    <string name="prefs_cleanup_backupdir_message">Scannerizza per backup danneggiati (es. file di proprietà danneggiati, proprietà senza cartelle, cartelle senza proprietà), poi etichettali soltanto o etichettali ed eliminali.</string>
+    <string name="dialogDelete">Elimina</string>
+    <string name="dialogLabel">Etichettali soltanto</string>
+    <string name="enforce_backups_limit_FORMAT">Forza il limite di backup a %d sulle seguenti applicazioni: %s</string>
+    <string name="enforced_backups_limit_FORMAT">Forza il limite di backup a %d sulle seguenti applicazioni: %s</string>
 </resources>
