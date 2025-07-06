@@ -447,5 +447,7 @@
     <string name="dialogDelete">Elimina</string>
     <string name="dialogLabel">Etichettali soltanto</string>
     <string name="enforce_backups_limit_FORMAT">Forza il limite di backup a %d sulle seguenti applicazioni: %s</string>
-    <string name="enforced_backups_limit_FORMAT">Forza il limite di backup a %d sulle seguenti applicazioni: %s</string>
+    <string name="enforced_backups_limit_FORMAT">Limite forzato di backup a %d sulle seguenti applicazioni: %s</string>
+    <string name="no_apps_to_enforce_backups_limit">Nessuna app da forzare i limiti di backup</string>
+    <string name="enforce_backups_limit_summary">Forza il limite di revisioni di backup impostato su tutte le app che lo superano.</string>
 </resources>
