@@ -1,8 +1,8 @@
-- Aggiunta: Barra di ricerca nei dialoghi per blocchi e liste personalizzate
-- Aggiunta: Temi ad alto contrasto
-- Correzione: Pianificazione (ritorno alla pianificazione con ScheduleService)
-- Correzione: Eliminazione dei backup mancata o eccessiva
-- Correzione: Verifica del comando su funzionante se pref_suCommand è vuoto (crediti a @hg42)
-- Aggiornamento: Ripristino dei colori principali dell'icona NB
-- Aggiornamento: Uso delle ultime impostazioni di backup come predefinite nel dialog
+- Aggiunto: Barra di ricerca nei dialoghi per blocchi e liste personalizzate
+- Aggiunto: Temi ad alto contrasto
+- Corretto: Pianificazione (ritorno alla pianificazione con ScheduleService)
+- Corretto: Eliminazione dei backup mancata o eccessiva
+- Corretto: Verifica del comando su funzionante se pref_suCommand è vuoto (crediti a @hg42)
+- Aggiornato: Ripristino dei colori principali dell'icona NB
+- Aggiornato: Uso delle ultime impostazioni di backup come predefinite nel dialog
 + oltre 15 commit e 30 traduzioni
