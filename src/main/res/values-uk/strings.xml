@@ -129,7 +129,7 @@
     <string name="prefs_copyselfapk_summary">Помістити копію Neo Backup на верхній рівень теки резервної копії</string>
     <string name="prefs_copyselfapk">Копіювати власний APK</string>
     <string name="prefs_batchdelete_summary">Видалити резервні копії всіх програм, які зараз не встановлені.</string>
-    <string name="prefs_batchdelete">Видалити резервні копії\?</string>
+    <string name="prefs_batchdelete">Видалити Резервні копії?</string>
     <string name="prefs_stopcont_summary">Лише для експертів: це може допомогти, якщо програма змінює файли під час резервного копіювання, а резервне копіювання не вдається.</string>
     <string name="prefs_stopcont">STOP-CONT до і після обробки програм для резервного копіювання/відновлення</string>
     <string name="prefs_allowdowngrade">Дозволити зниження рівня</string>
@@ -244,7 +244,7 @@
     <string name="restore">Відновити</string>
     <string name="backup">Резервне копіювання</string>
     <plurals name="sched_interval_formal">
-        <item quantity="one">щодня</item>
+        <item quantity="one">Кожен %d день</item>
         <item quantity="few">кожні %d дні</item>
         <item quantity="many">кожні %d днів</item>
         <item quantity="other">кожні %d днів</item>
