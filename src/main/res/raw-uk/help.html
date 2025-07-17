@@ -8,13 +8,13 @@
         </p>
         <p><strong>Видалення</strong>: Дещо агресивніший, ніж звичайне видалення. На застосунок до звичайного видалення за допомогою команд Android, видалення з OAndBackupX видаляє файли, які застосунок могла залишити в /data/app-lib/.
         </p>
-        <p><strong>Enable / disable</strong>: Uses the Android `pm` script to enable or disable an app. Disabling an app removes it from the normal user interface without uninstalling it. This can be used for enabling or disabling an app for multiple users at a time (if the device has multiple users). Users are identified with an ID e.g. 0 is the first user (owner) 10 is usually the work profile.
+        <p><strong>Кілька користувачів</strong>: Багатокористувацький режим все ще є дещо експериментальним, але має працювати. Увімкнення та вимкнення працює лише після початкового встановлення (не обов’язково з OAndBackupx) або відновлення програми.
         </p>
-        <p><strong>Multiple users</strong>: Multi-user is still somewhat experimental but should work. Enabling and disabling only works after an initial install (not necessarily from OAndBackupx) or restore of the app.
+        <p><strong>Безсистемні програми</strong>: Резервне копіювання та відновлення безсистемних програм, встановлених як модулі Magisk, не підтримується, і спроба цього зробити може призвести до збою системи та необхідності форматувати та перепрограмовувати її.
         </p>
-        <p><strong>System-less apps</strong>: Backup and restore of system-less apps installed as Magisk modules is not supported and trying it could lead to system failure and forcing you to format and flash it anew.
+        <p><strong>Навігація</strong>: Панель навігації містить пункти «Налаштування», «Головна», «Пакетне резервне копіювання», «Пакетне відновлення» та «Запланувати резервне копіювання» (у такому порядку). Кількість програм, оновлених після їх останнього резервного копіювання, буде відображатися у вигляді сповіщення на кнопці «Головна».
         </p>
-        <p><strong>Navigation</strong>: The navigation bar has "Settings", "Home", "Batch backup", "Batch restore" and "Schedule backups" (in that order). The number of apps upgraded after their last backup will be presented as a notification on "Home" button.
+        <p><strong>Програми, що використовують сховище ключів</strong>: Android має зашифроване сховище для конфіденційних даних. Програми, які використовують його для зберігання даних для входу або деяких ключів для виконання своїх функцій, не можуть бути успішно відновлені. Двома прикладами таких програм є Signal та Element (Riot).
         </p>
     </body>
 </html>
