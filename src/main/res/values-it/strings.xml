@@ -434,7 +434,7 @@
     <string name="prefs_encryption_pgp">Chiave PGP</string>
     <string name="create_pgp_key">Crea una nuova chiave PGP</string>
     <string name="user_id">ID utente</string>
-    <string name="passcode">Passcode</string>
+    <string name="passcode">Codice di accesso</string>
     <string name="prefs_pgp_key_management">Gestione chiave OpenPGP</string>
     <string name="prefs_pgp_key">Chiave PGP</string>
     <string name="prefs_pgp_key_summary">Seleziona il file con la chiave PGP per poterla usare per criptare i backup.</string>
