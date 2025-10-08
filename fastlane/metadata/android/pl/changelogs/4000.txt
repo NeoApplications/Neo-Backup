@@ -1,0 +1,10 @@
+NIEKOMPATYBILNE ZE STARYMI WERSJAMI
+**OBNIŻONA WYDAJNOŚĆ**: spowodowana użyciem SAF w porównaniu z bezpośrednim dostępem
+* Dodano: obsługę Storage Access Framework
+* Dodano: obsługę dowiązań symbolicznych/potoków
+* Dodano: obsługę wielu kopii zapasowych
+* Dodano: możliwość wykonywania równoległych zadań wsadowych
+* Aktualizacja: nowy interfejs użytkownika/UX
+* Aktualizacja: system tagów
+* Aktualizacja: struktura kopii zapasowych
+* Wiele innych ulepszeń, poprawek i porządków
