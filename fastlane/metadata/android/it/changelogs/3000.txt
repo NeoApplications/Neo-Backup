@@ -1,9 +1,9 @@
 ##### QUESTA VERSIONE NON È COMPATIBILE CON LE VERSIONI PRECEDENTI
 * Aggiornato: directory di backup predefinita su /OABX
-* Aggiornato: soluzione di crittografia riscritta (crediti @Pizze)
+* Aggiornato: soluzione di crittografia riscritta
 * Aggiornato: rinnovata la Guida e l'interfaccia utente di AppSheet
 * Aggiornato: preferenza clearCache per escludereCache
-* Aggiornato: riscritte tutte le funzioni dei comandi della shell (Credits @Pizze)
+* Aggiornato: riscritte tutte le funzioni dei comandi della shell
 * Aggiunto: ordina per dimensione dati
 * Aggiunto: suggerimenti per tutte le icone
 * Aggiunto: cancella il pulsante Cache su AppSheet

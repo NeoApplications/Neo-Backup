@@ -3,4 +3,4 @@ Corretto: crash dell'utilizzo delle chiamate al database del repository sul thre
 Aggiornato: miglioramento della gestione delle coroutine nei repository
 Aggiornato: rendere predefinito il design del blocco alternativo
 Aggiornato: rinnovamento della colorazione delle preferenze
-+ più di 15 commit, 6 traduzioni
++ più di 15 commit e 6 traduzioni

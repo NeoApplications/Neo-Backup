@@ -1,0 +1,7 @@
+Aggiunto: Dettagli su liste personalizzate, liste bloccate e pacchetti da salvare (packages-to-backup) quando si avvia manualmente una pianificazione
+Aggiunto: Finestra di avviso (dialogo) quando si aggiunge un'app alla lista bloccata globale o si elimina una pianificazione
+Corretto: Il servizio di pianificazione (ScheduleService) non veniva avviato dopo il riavvio
+Corretto: Ottenimento del comando shell appropriato su Android 9 o versioni precedenti
+Aggiornato: Impostazione predefinita delle app utente come filtro di ordinamento principale e per le pianificazioni
+Aggiornato: Rimodernamento del layout di gran parte delle pagine, dei chip, dei tag e dei pulsanti
++ più di 40 commit e 40 traduzioni

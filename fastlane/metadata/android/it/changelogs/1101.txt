@@ -3,5 +3,5 @@
 * Corretto: non si avvia se è presente un'app con dimensioni dell'icona <= 0
 * Modificato: l'impostazione predefinita è ora impostata per copiare OAndBackupX nella cartella di backup principale
 * Aggiunto: greco (crediti @tsiflimagas)
-* Aggiornato: lettere maiuscole e stringhe inglesi (crediti: @atrate)
+* Aggiornato: lettere maiuscole e stringhe inglesi
 * Aggiornato: generalizza cinese, olandese, polacco e svedese

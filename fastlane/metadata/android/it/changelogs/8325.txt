@@ -5,4 +5,4 @@
 - Corretto: Verifica del comando su funzionante se pref_suCommand è vuoto
 - Aggiornato: Ripristino dei colori principali dell'icona NB
 - Aggiornato: Uso delle ultime impostazioni di backup come predefinite nel dialog
-+ oltre 15 commit e 30 traduzioni
++ più di 15 commit e 30 traduzioni
