@@ -1,6 +1,6 @@
 ** OAndBackupX 2.0.0 **
-* Passato a sulib (crediti @Tiefkuehlpizze)
-* Rimosso oab-utils per sempre (crediti @Tiefkuehlpizze)
+* Passato a sulib
+* Rimosso oab-utils per sempre
 * Nuovi elementi dell'interfaccia utente per App-, Filter- & ScheduleSheet
 * Corretto i backup pianificati per i dati (da soli)
 * Corretto il problema zip esterna / deData / obb secondo Prefs

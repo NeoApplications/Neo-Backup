@@ -4,5 +4,5 @@
 * Aggiornato: nuova directory di backup predefinita / OAndBackupX
 * Corretto: comportamento dell'adattatore dopo aver eseguito le azioni
 * Corretto: crash dell'adattatore
-* Modificato: dalla pulizia della cache dell'app all'esclusione dal backup (Credito @ icewind1991)
+* Modificato: dalla pulizia della cache dell'app all'esclusione dal backup
 * Ottimizzato: comportamento di diversi elementi UI
