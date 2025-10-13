@@ -1,0 +1,9 @@
+Corrección rápida (hot-fix) basada en 8.0.0-alpha14, versión no intencionada.
+Corrige los problemas de la versión no planificada y funciona de forma estable pero lenta, Compose aún rinde poco y la versión final tardará más. Aquí los destacados:
+* Actualización: Nuevo formato de actualización (Aún admite los anteriores)
+* Corrección: Problemas de A12 en v7
+* Añadido: Respaldo/restauración de permisos
+* Actualización: Ya no requiere actualización manual.
+* Corrección: Copias de seguridad especiales (requiere pruebas)
+* Notas y etiquetas están deshabilitadas por ahora
+Para más detalles, lee el registro de cambios
