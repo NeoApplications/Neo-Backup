@@ -1,0 +1,7 @@
+Pievienots: informācija par pielāgotu sarakstu, liegumu sarakstu un pakotnēm, kurām veicama rezerves kopēšana, kad pašrocīgi tiek uzsākts ieplānotais
+Pievienots: brīdinājums par lietotnes pievienošanu vispārējam liegumu sarakstam vai izdzēšot plānu
+Salabots: ScheduleService nepalaišanās pēc pārsāknēšanas (@jenna-66)
+Salabots: atbilstošas čaulas komandas iegūšana Android 9 vai vecākās ierīcēs
+Atjaunināts: pēc noklusējuma lietotāja lietotnes kā galvenais kārtošanas atsijātājs un plāniem
+Atjaunināts: pārstrādāts vairums lapu, apgabalu, birku un pogu izkārtojumu
++ vairāk kā 40 iesūtījumu, 40 tulkojumu
