@@ -376,7 +376,7 @@
     <string name="no_file_manager_message">Puudub failihaldur, millel oleks SAF-ligipääs (Androidi Storage Access Framework). Võib-olla oled sissehitatud failihalduri keelanud. Palun taasta ta või võta uuesti kasutusele.</string>
     <string name="error_datachanged">Rakenduse andmed on varundamise ajal oluliselt muutunud. Enne varundamist proovi selle protsessi töö lõpetada</string>
     <string name="shell_initproblem">Kestakäivitaja töö alustamine ei õnnestunud. Kas toybox/busybox on puudu või rakenduse juurkasutaja õigused on kadunud.</string>
-    <string name="schedule">Ajakava</string>
+    <string name="schedule">Ajasta</string>
     <string name="finished">valmis</string>
     <string name="batch">Varunduskomplekt</string>
     <string name="loading_list">Laadime loendit…</string>
@@ -438,4 +438,16 @@
     <string name="enforce_backups_limit_FORMAT">Jõusta järgnevate rakenduste varukoopiate ülempiir %d: %s</string>
     <string name="enforced_backups_limit_FORMAT">Kasutusel on järgnevate rakenduste varukoopiate ülempiir %d: %s</string>
     <string name="no_apps_to_enforce_backups_limit">Pole ühtegi rakendust, mille puhul oleks kasutusel varukoopiate arvu ülempiir</string>
+    <string name="title_app_management">Rakenduse haldus:</string>
+    <string name="title_backup_management">Varunduse haldus:</string>
+    <string name="dialogUndo">Võta tegevus tagasi</string>
+    <string name="deleteScheduleDialogMessage">Kas kustutad ajastamise?</string>
+    <string name="sched_blocklist_dialog_message">Blokeeritud rakenduste loend: %s</string>
+    <string name="sched_customlist_dialog_message">Kohandatud loend: %s</string>
+    <plurals name="package_num">
+        <item quantity="one">%d pakett</item>
+        <item quantity="other">%d paketti</item>
+    </plurals>
+    <string name="packagesToBackup">Varundatavaid pakette: %d</string>
+    <string name="addBlocklistDialogMessage">Kas soovid lisada rakenduse üldisesse blokeeritud rakenduste loendisse?</string>
 </resources>
