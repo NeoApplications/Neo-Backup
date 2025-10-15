@@ -446,4 +446,18 @@
     <string name="dialogLabel">Просто позначте</string>
     <string name="no_apps_to_enforce_backups_limit">Немає програм для забезпечення обмеження резервного копіювання</string>
     <string name="enforce_backups_limit_summary">Застосовувати встановлене обмеження кількості версій резервних копій до всіх програм, які його перевищують.</string>
+    <string name="title_app_management">Керування додатками:</string>
+    <string name="title_backup_management">Керування резервним копіюванням:</string>
+    <string name="dialogUndo">Відмінити</string>
+    <string name="deleteScheduleDialogMessage">Видалити розклад?</string>
+    <string name="sched_blocklist_dialog_message">Список блокування: %s</string>
+    <string name="sched_customlist_dialog_message">Власний список: %s</string>
+    <plurals name="package_num">
+        <item quantity="one">%d пакет</item>
+        <item quantity="few">%d пакети</item>
+        <item quantity="many">%d пакетів</item>
+        <item quantity="other">%d пакетів</item>
+    </plurals>
+    <string name="packagesToBackup">Кількість пакетів для резервного копіювання: %d</string>
+    <string name="addBlocklistDialogMessage">Додати програму до глобального списку блокування?</string>
 </resources>
