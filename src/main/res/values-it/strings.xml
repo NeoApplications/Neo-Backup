@@ -252,7 +252,7 @@
         <item quantity="other">ogni %d giorni</item>
     </plurals>
     <string name="intro_permission_storage_location_warning">Non selezionare la cartella principale o la cartella Download, ma crea una cartella dedicata ai backup. Maggiori info nelle FAQ</string>
-    <string name="global_blocklist_add">Aggiungi ai bloccati</string>
+    <string name="global_blocklist_add">Aggiungi alla lista bloccati globale</string>
     <string name="forceKill">Forza arresto</string>
     <string name="sortAscDesc">Ascendente-Discendente</string>
     <string name="logs_share_failed">File di registro non trovato</string>
@@ -450,4 +450,17 @@
     <string name="enforced_backups_limit_FORMAT">Limite forzato di backup a %d sulle seguenti applicazioni: %s</string>
     <string name="no_apps_to_enforce_backups_limit">Nessuna app da forzare i limiti di backup</string>
     <string name="enforce_backups_limit_summary">Forza il limite di revisioni di backup impostato su tutte le app che lo superano.</string>
+    <string name="title_app_management">Gestione app:</string>
+    <string name="title_backup_management">Gestione backup:</string>
+    <string name="dialogUndo">Undo</string>
+    <string name="deleteScheduleDialogMessage">Eliminare la pianificazione?</string>
+    <string name="addBlocklistDialogMessage">Aggiungere l\'app alla lista bloccati?</string>
+    <string name="sched_blocklist_dialog_message">Lista bloccati: %s</string>
+    <string name="sched_customlist_dialog_message">Lista personalizzata: %s</string>
+    <plurals name="package_num">
+        <item quantity="one">%d pacchetto</item>
+        <item quantity="many">%d pacchetti</item>
+        <item quantity="other">%d pacchetti</item>
+    </plurals>
+    <string name="packagesToBackup">Numero di pacchetti da sottoporre a backup: %d</string>
 </resources>
