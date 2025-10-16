@@ -436,4 +436,17 @@
     <string name="enable_encryption_title">Datu šifrēšana</string>
     <string name="intro_permission_smsmms">Lietotnei šī atļauja ir nepieciešama, lai varētu veikt SMS/MMS rezerves kopēšanu / atjaunošanu.</string>
     <string name="welcome_to_oabx">Laipni lūdzam Neo Backup!</string>
+    <string name="title_app_management">Lietotņu pārvaldība:</string>
+    <string name="title_backup_management">Rezerves kopiju pārvaldība:</string>
+    <string name="dialogUndo">Atdarīt</string>
+    <string name="deleteScheduleDialogMessage">Izdzēst grafiku?</string>
+    <string name="sched_blocklist_dialog_message">Liegumu saraksts: %s</string>
+    <string name="sched_customlist_dialog_message">Pielāgots saraksts: %s</string>
+    <plurals name="package_num">
+        <item quantity="zero">%d pakotņu</item>
+        <item quantity="one">%d pakotne</item>
+        <item quantity="other">%d pakotnes</item>
+    </plurals>
+    <string name="packagesToBackup">Pakotņu, kurām izveidot rezerves kopiju, skaits: %d</string>
+    <string name="addBlocklistDialogMessage">Pievienot lietotni vispārējam liegumu sarakstam?</string>
 </resources>
