@@ -1,0 +1,11 @@
+**OAndBackupX 3.2.0**
+
+* Dodano: nową nawigację
+* Dodano: znaczek dla zaktualizowanych aplikacji w Main
+* Naprawiono: zapisywanie zaznaczonych elementów w Batch
+* Naprawiono: synchronizację zaznaczenia wszystkich w Batch
+* Naprawiono: nieoczekiwane zachowanie filtrowania wyszukiwania (spowodowane buforowaniem)
+* Poprawiono: działanie wznowienia
+* Zaktualizowano: poprawiono wydajność odświeżania
+* Zaktualizowano: poprawiono wydajność wizualną (prędkość uruchamiania instancji akcji i arkuszy)
+* Zaktualizowano: tłumaczenia (norweski, holenderski, turecki, chiński, portugalski)
