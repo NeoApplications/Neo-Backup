@@ -1,0 +1,7 @@
+**NOWA GŁÓWNA WERSJA**: NIEKOMPATYBILNA ZE STARYMI WERSJAMI
+**Pierwsza wersja KOTLIN**
+ZAPLANOWANE CZYNNOŚCI MOGĄ TRWAĆ TYLKO 10 MINUT (OGRANICZENIE SYSTEMOWE)
+* Dodano: Określanie trybów dla aplikacji w oknie dialogowym Batch
+* Naprawiono: Uprawnienia do pamięci trwałej
+* Naprawiono: Obsługa A11
+* Wiele innych ulepszeń, poprawek i porządków
