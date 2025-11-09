@@ -1,2 +1,2 @@
 ** OAndBackupX 0.9.14 (noto anche come 1.0.0-rc3) **
-* Ripristinato: torna alla pulizia della cache
+* Ripristinato: Torna alla pulizia della cache

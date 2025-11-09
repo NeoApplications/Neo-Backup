@@ -1,2 +1,2 @@
 ** OAndBackupX 1.0.0 **
-* Aggiunto: opzione per svuotare la cache prima del backup dei dati
+* Aggiunto: Opzione per svuotare la cache prima del backup dei dati

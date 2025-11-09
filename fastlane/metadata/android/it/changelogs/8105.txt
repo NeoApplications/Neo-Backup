@@ -1,6 +1,6 @@
-Corretto: impostazione predefinita errata per pmSuspend
-Corretto: colore del testo dell'app disabilitato nel foglio dell'app
-Corretto: selezione dell'elemento dell'elenco
-Corretto: colore del testo del cursore di Pref
-Aggiunti: i passaggi adattivi del dispositivo di scorrimento di Pref
+Corretto: Impostazione predefinita errata per pmSuspend
+Corretto: Colore del testo dell'app disabilitato nel foglio dell'app
+Corretto: Selezione dell'elemento dell'elenco
+Corretto: Colore del testo del cursore di Pref
+Aggiunti: I passaggi adattivi del dispositivo di scorrimento di Pref
 Aggiornati: UI BottomNavBar di Prefs

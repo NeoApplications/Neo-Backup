@@ -1,7 +1,7 @@
-Aggiunto: backup persistenti
-Aggiunto: salva/carica le selezioni del menu contestuale
-Corretto: supporto di implementazioni SU non magiche
-Corretto: ripristino dello stato dell'app durante la rotazione dello schermo
-Aggiornato: consente lo scorrimento tra le pagine
-Aggiornato: semplifica l'interfaccia utente
+Aggiunto: Backup persistenti
+Aggiunto: Salva/carica le selezioni del menu contestuale
+Corretto: Supporto di implementazioni SU non magiche
+Corretto: Ripristino dello stato dell'app durante la rotazione dello schermo
+Aggiornato: Consente lo scorrimento tra le pagine
+Aggiornato: Semplifica l'interfaccia utente
 e molti altri nel changelog completo…

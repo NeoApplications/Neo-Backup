@@ -1,6 +1,6 @@
-Aggiunto: animazione dei pulsanti della barra di navigazione
-Corretto: esecuzione di pianificazioni quando l'app non è aperta
-Corretto: stub mancante per il ripristino del pacchetto nelle offerte speciali
-Corretto: sovrapposizione dei fogli nella barra di navigazione
-Corretto: arresto anomalo al riavvio dell'app con AppSheet aperto
+Aggiunto: Animazione dei pulsanti della barra di navigazione
+Corretto: Esecuzione di pianificazioni quando l'app non è aperta
+Corretto: Stub mancante per il ripristino del pacchetto nelle offerte speciali
+Corretto: Sovrapposizione dei fogli nella barra di navigazione
+Corretto: Arresto anomalo al riavvio dell'app con AppSheet aperto
 + più di 10 contributi di traduzione
