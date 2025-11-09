@@ -1,8 +1,8 @@
-- Aggiunto: supporto del colore dinamico (aka Material You)
-- Aggiunto: dimensione del backup (solo nuovi backup)
-- Aggiunto: tag e nota
-- Aggiunto: registro delle informazioni opzionale nella barra superiore
-- Aggiunto: nome del pacchetto di installazione
-- Aggiunto: programma di installazione della sessione (necessario su A13)
-- Corretto: ripristino dei dati dopo il riavvio
+- Aggiunto: Supporto del colore dinamico (aka Material You)
+- Aggiunto: Dimensione del backup (solo nuovi backup)
+- Aggiunto: Tag e nota
+- Aggiunto: Registro delle informazioni opzionale nella barra superiore
+- Aggiunto: Nome del pacchetto di installazione
+- Aggiunto: Programma di installazione della sessione (necessario su A13)
+- Corretto: Ripristino dei dati dopo il riavvio
 per maggiori dettagli, leggi il changelog completo

@@ -1,9 +1,9 @@
-Aggiunto: supporto per l'icona a tema su A13
-Aggiunto: elementi Home selezionabili con menu di scelta rapida (necessita di test)
-Aggiornate: nuove icone (fosforo)
-Aggiornato: consente di eseguire il backup stesso
-Aggiornato: rinnova la finestra di dialogo della password
-Corretto: gestione quando apk non viene chiamato base. apk
-Corretto: aggiornamento automatico di AppSheet dopo la disinstallazione
-Corretto: arresto anomalo durante la ricreazione dell'app con un foglio avviato
+Aggiunto: Supporto per l'icona a tema su A13
+Aggiunto: Elementi Home selezionabili con menu di scelta rapida (necessita di test)
+Aggiornate: Nuove icone (fosforo)
+Aggiornato: Consente di eseguire il backup stesso
+Aggiornato: Rinnova la finestra di dialogo della password
+Corretto: Gestione quando apk non viene chiamato base. apk
+Corretto: Aggiornamento automatico di AppSheet dopo la disinstallazione
+Corretto: Arresto anomalo durante la ricreazione dell'app con un foglio avviato
 tra gli altri…

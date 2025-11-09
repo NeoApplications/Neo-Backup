@@ -1,8 +1,8 @@
 ** OAndBackupX 0.9.12 (noto anche come 1.0.0-rc1) **
-* Aggiunto: info collegamento nel foglio dell'app
-* Aggiornato: pugno di elementi dell'interfaccia utente
-* Aggiornato: nuova directory di backup predefinita / OAndBackupX
-* Corretto: comportamento dell'adattatore dopo aver eseguito le azioni
-* Corretto: crash dell'adattatore
-* Modificato: dalla pulizia della cache dell'app all'esclusione dal backup
-* Ottimizzato: comportamento di diversi elementi UI
+* Aggiunto: Info collegamento nel foglio dell'app
+* Aggiornato: Pugno di elementi dell'interfaccia utente
+* Aggiornato: Nuova directory di backup predefinita / OAndBackupX
+* Corretto: Comportamento dell'adattatore dopo aver eseguito le azioni
+* Corretto: Crash dell'adattatore
+* Modificato: Dalla pulizia della cache dell'app all'esclusione dal backup
+* Ottimizzato: Comportamento di diversi elementi UI

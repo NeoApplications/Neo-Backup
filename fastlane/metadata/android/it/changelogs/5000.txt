@@ -1,7 +1,7 @@
 **NUOVA VERSIONE PRINCIPALE**: INCOMPATIBILE CON LE VECCHIE VERSIONI
 **Prima versione di KOTLIN**
 LE AZIONI PROGRAMMATE POSSONO DURARE SOLO 10 MINUTI (VINCOLI DI SISTEMA)
-* Aggiunto: specifica le modalità per le app nella finestra di dialogo Batch
-* Corretto: permesso di archiviazione persistente
-* Corretto: supporto A11
+* Aggiunto: Specifica le modalità per le app nella finestra di dialogo Batch
+* Corretto: Permesso di archiviazione persistente
+* Corretto: Supporto A11
 * Troppi altri miglioramenti, correzioni e pulizie

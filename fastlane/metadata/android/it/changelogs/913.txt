@@ -1,2 +1,2 @@
 ** OAndBackupX 0.9.13 (noto anche come 1.0.0-rc2) **
-* Ripristinato: torna a cp (rsync non è in bundle con tutte le ROM)
+* Ripristinato: Torna a cp (rsync non è in bundle con tutte le ROM)

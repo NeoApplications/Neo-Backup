@@ -1,10 +1,10 @@
 INCOMPATIBILE CON LE VECCHIE VERSIONI
-**PEGGIORAMENTO PRESTAZIONI**: causato dall'uso di SAF rispetto all'accesso diretto
-* Aggiunto: supporto per Storage Access Framework
-* Aggiunto: supporto per collegamento simbolico/pipe
-* Aggiunto: supporto Multi Backup
-* Aggiunto: consenti attività batch parallele
-* Aggiornato: nuova interfaccia utente/UX
-* Aggiornato: sistema di tag
-* Aggiornato: struttura di backup
+**PEGGIORAMENTO PRESTAZIONI**: Causato dall'uso di SAF rispetto all'accesso diretto
+* Aggiunto: Supporto per Storage Access Framework
+* Aggiunto: Supporto per collegamento simbolico/pipe
+* Aggiunto: Supporto Multi Backup
+* Aggiunto: Consenti attività batch parallele
+* Aggiornato: Nuova interfaccia utente/UX
+* Aggiornato: Sistema di tag
+* Aggiornato: Struttura di backup
 * Molti altri miglioramenti, correzioni e pulizie

@@ -1,6 +1,6 @@
-* Aggiornato: miglioramento della funzione dei comandi della shell (@ hg42)
-* Corretto: corretto contesto SELinux (@jakeler e @ hg42)
-* Corretto: backup non riusciti con file con doppi spazi (@jakeler)
-* Corretto: generazione di eccezioni su socket e altri file speciali (@ hg42)
-* Corretto: backup non riusciti con file con doppi spazi (@jakeler)
-* Traduzioni aggiornate: polacco, portoghese, cinese, greco, tedesco, francese, norvegese, olandese, spagnolo, italiano, indonesiano, giapponese, russo
+* Aggiornato: Miglioramento della funzione dei comandi della shell (@ hg42)
+* Corretto: Corretto contesto SELinux (@jakeler e @ hg42)
+* Corretto: Backup non riusciti con file con doppi spazi (@jakeler)
+* Corretto: Generazione di eccezioni su socket e altri file speciali (@ hg42)
+* Corretto: Backup non riusciti con file con doppi spazi (@jakeler)
+* Traduzioni aggiornate: Polacco, portoghese, cinese, greco, tedesco, francese, norvegese, olandese, spagnolo, italiano, indonesiano, giapponese, russo

@@ -2,7 +2,7 @@ PULIRE I DATI NECESSARIO
 * Aggiunto: Esportazione/importazione di pianificazioni
 * Aggiunto: Supporto ordinamento ascendente/ discendente
 * Aggiornato: La blocklist globale si applica al Main
-* Aggiornato: usare le checkboxes nelle modalità delle finestre di dialogo di backup/ripristino/pianificazione
+* Aggiornato: Usare le checkboxes nelle modalità delle finestre di dialogo di backup/ripristino/pianificazione
 * Corretto: Notifiche in ritardo di alcune applicazioni ripristinate
 * Aggiunto il catalano
 * Miglioramenti e molto altro

@@ -4,6 +4,6 @@
 * Nuovi elementi dell'interfaccia utente per App-, Filter- & ScheduleSheet
 * Corretto i backup pianificati per i dati (da soli)
 * Corretto il problema zip esterna / deData / obb secondo Prefs
-* Corretto: zippare le cartelle esterne / deData / obb vuote
+* Corretto: Zippare le cartelle esterne / deData / obb vuote
 * Funzione cache pulita aggiornata
 * Alcune altre modifiche all'UI e alle prestazioni

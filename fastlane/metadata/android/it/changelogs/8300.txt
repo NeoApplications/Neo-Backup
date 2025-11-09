@@ -1,7 +1,7 @@
 Aggiunto: Abilita il backup/ripristino nel menu contestuale
 Aggiunto: DevTools per utenti esperti
-Aggiornato: rinnova il back-end per un caricamento più rapido
-Aggiornato: formato di file di registro più informativo
-Corretto: rimuovere e chiudere AppSheet del pacchetto disinstallato senza backup
-Corretto: programmi duplicati
+Aggiornato: Rinnova il back-end per un caricamento più rapido
+Aggiornato: Formato di file di registro più informativo
+Corretto: Rimuovere e chiudere AppSheet del pacchetto disinstallato senza backup
+Corretto: Programmi duplicati
 + più di 350 commit e 60 contributi di traduzione

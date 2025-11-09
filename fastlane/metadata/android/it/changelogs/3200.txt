@@ -1,11 +1,11 @@
 ** OAndBackupX 3.2.0 **
 
 * Aggiunto. nuova navigazione
-* Aggiunto: badge per app aggiornate in Main
-* Corretto: salva gli elementi selezionati in batch
-* Corretto: sincronizzazione del controllo tutto in batch
-* Corretto: comportamento imprevisto filtro di ricerca (causato dalla cache)
-* Corretto: riprendi il comportamento
-* Aggiornato: migliora le prestazioni di aggiornamento
-* Aggiornato: migliora le prestazioni visive
-* Aggiornato: traduzioni (norvegese, olandese, turco, cinese, portoghese)
+* Aggiunto: Badge per app aggiornate in Main
+* Corretto: Salva gli elementi selezionati in batch
+* Corretto: Sincronizzazione del controllo tutto in batch
+* Corretto: Comportamento imprevisto filtro di ricerca (causato dalla cache)
+* Corretto: Riprendi il comportamento
+* Aggiornato: Migliora le prestazioni di aggiornamento
+* Aggiornato: Migliora le prestazioni visive
+* Aggiornato: Traduzioni (norvegese, olandese, turco, cinese, portoghese)

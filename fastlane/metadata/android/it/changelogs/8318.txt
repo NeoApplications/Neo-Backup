@@ -1,7 +1,7 @@
-Aggiunto: inietta DB e WorkHandler utilizzando Koin
-Aggiunto: pagina Plugin (nel pannello di sviluppo)
-Corretto: i lavori in esecuzione contano
-Aggiornato: mostra i secondi nel contatore della pianificazione solo quando < 10 minuti di tempo rimanente
-Aggiornato: colora l'icona della password quando (in)attiva
-Aggiornato: rinnova tutti i pulsanti di dialogo
+Aggiunto: Inietta DB e WorkHandler utilizzando Koin
+Aggiunto: Pagina Plugin (nel pannello di sviluppo)
+Corretto: I lavori in esecuzione contano
+Aggiornato: Mostra i secondi nel contatore della pianificazione solo quando < 10 minuti di tempo rimanente
+Aggiornato: Colora l'icona della password quando (in)attiva
+Aggiornato: Rinnova tutti i pulsanti di dialogo
 + più di 30 commit e 20 contributi di traduzione

@@ -1,7 +1,7 @@
 ** OAndBackupX 1.0.2 **
-* Aggiunto: feedback clic sugli articoli
-* Aggiornato: scrolling eXperience
-* Corretto: schermata iniziale
-* Corretto: scorri per aggiornare il comportamento
-* Corretto: tema della barra di stato
+* Aggiunto: Feedback clic sugli articoli
+* Aggiornato: Scrolling eXperience
+* Corretto: Schermata iniziale
+* Corretto: Scorri per aggiornare il comportamento
+* Corretto: Tema della barra di stato
 * e alcune altre modifiche all'interfaccia utente

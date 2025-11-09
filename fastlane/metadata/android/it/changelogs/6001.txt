@@ -1,4 +1,4 @@
 * Corretto: Escludi la casella di controllo delle app di sistema nel foglio di pianificazione
-* Corretto: importa il valore di esclusione delle app di sistema durante l'importazione delle pianificazioni
-* Aggiunto: vietnamita, hindi e ucraino
-* Traduzioni aggiornate: arabo, spagnolo, italiano, portoghese, russo, catalano, turco, indonesiano
+* Corretto: Importa il valore di esclusione delle app di sistema durante l'importazione delle pianificazioni
+* Aggiunto: Vietnamita, hindi e ucraino
+* Traduzioni aggiornate: Arabo, spagnolo, italiano, portoghese, russo, catalano, turco, indonesiano

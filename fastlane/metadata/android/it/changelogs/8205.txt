@@ -1,2 +1,2 @@
-Corretto: gestione delle pianificazioni
-Aggiunto: icona basata sul tema del sistema
+Corretto: Gestione delle pianificazioni
+Aggiunto: Icona basata sul tema del sistema
