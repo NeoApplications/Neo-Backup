@@ -309,4 +309,9 @@
     <string name="prefs_altnavbaritem">שימוש בפריט ניווט חלופי</string>
     <string name="prefs_enablespecial_summary">עדיין דורש בדיקות משמעותיות, הכר את הסכנות הכרוכות שעלולות לגרום ללולאות העלאה. משוב תמיד יתקבל בברכה.</string>
     <string name="prefs_externaldata_summary">מגבה את המידע שנשמר על אחסון חיצוני (למשל ‪/storage/emulated/0/Android/data‏)</string>
+    <string name="prefs_singularbackuprestore_summary">השתמש בפריסה חלופית של פריטי שחזור המאפשרת בחירת גיבויים ספציפיים לשחזור.</string>
+    <string name="prefs_altnavbaritem_summary">השתמש בפריסת פריטי סרגל הניווט החלופית/ישנה, המציגה תוויות של פריטים שלא נבחרו.</string>
+    <string name="prefs_obbdata">גבה קבצי obb</string>
+    <string name="prefs_nobackupdata">גבה קבצי no_backup</string>
+    <string name="prefs_nobackupdata_summary">גבה קבצים המסומנים כקבצים שלא לגבות</string>
 </resources>
