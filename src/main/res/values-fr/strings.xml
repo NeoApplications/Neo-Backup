@@ -430,4 +430,16 @@
     <string name="sort_appdata_size">Taille appli et données</string>
     <string name="light_medium_contrast">Clair (contraste moyen)</string>
     <string name="light_high_contrast">Clair (contraste élevé)</string>
+    <string name="prefs_pgp_key">Clé PGP</string>
+    <string name="prefs_pgp_key_summary">Sélectionnez le fichier de la clé PGP pour l\'utiliser avec les sauvegardes chiffrés.</string>
+    <string name="prefs_pgp_passcode">Mot de passe de la clé PGP</string>
+    <string name="prefs_encryption_none">Pas chiffré</string>
+    <string name="prefs_encryption_password">Mot de passe</string>
+    <string name="prefs_encryption_pgp">Clé PGP</string>
+    <string name="create_pgp_key">Créer une nouvelle clé PGP</string>
+    <string name="user_id">Identifiant utilisateur</string>
+    <string name="passcode">Mot de passe</string>
+    <string name="prefs_pgp_key_management">Gérer les clés OpenPGP</string>
+    <string name="prefs_cleanup_backupdir">Nettoyer le dossier de sauvegarde</string>
+    <string name="prefs_cleanup_backupdir_summary">Chercher les sauvegardes endommagés (ex : fichier de propriétés endommagé, propriétés sans dossier, dossier sans propriétés), les marquer puis les supprimer.</string>
 </resources>
