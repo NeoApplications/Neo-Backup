@@ -114,8 +114,8 @@
     <string name="prefs_password">暗号化パスワード</string>
     <string name="prefs_encryption_summary">暗号データバックアップを有効にする</string>
     <string name="prefs_encryption">暗号化</string>
-    <string name="prefs_biometriclock_summary">生態認証装置によるアプリで安全にしてください（例：指紋、顔認証）</string>
-    <string name="prefs_biometriclock">生態認証ロック</string>
+    <string name="prefs_biometriclock_summary">端末の生体認証ロック (指紋、顔認証など) でアプリを保護します</string>
+    <string name="prefs_biometriclock">生体認証ロック</string>
     <string name="prefs_theme_system">システムテーマ</string>
     <string name="prefs_theme_dark">暗い</string>
     <string name="prefs_theme_light">明るい</string>
