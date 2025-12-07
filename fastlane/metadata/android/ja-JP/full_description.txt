@@ -1,0 +1,6 @@
+<p>端末のアプリのバックアップを作成・復元し、アプリデータをユーザーがアクセス可能な場所に保存します。単一または複数のアプリのバックアップや復元に対応しています。</p>
+<p>Neo Applications の一部です。</p>
+<p>OAndBackup のフォーク版で、新しい Android バージョンへの対応と外観の更新を実現しています。</p>
+<p><br><b>Weblate で翻訳を手伝ってください:</b> https://hosted.weblate.org/engage/oandbackupx/.</p>
+<p><br><b>Root 権限が必要です:</b> /data/data, /data/app あるいは /system/app からファイルをコピーするためです。</p>
+<p>ステータス: ベータ版</p>
