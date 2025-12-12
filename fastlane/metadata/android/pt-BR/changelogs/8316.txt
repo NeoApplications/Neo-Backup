@@ -1,0 +1,5 @@
+Adicionado: ForegroundServiceType para funcionar (Necessário no A14)
+Corrigido: Falha ao fazer backup/restaurar
+Atualizado: TargetSDK 34
+Removido: Opções de cores do tema temporariamente
+Atualizado: Reformulação das cores do tema

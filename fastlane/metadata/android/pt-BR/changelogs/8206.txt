@@ -1,0 +1,6 @@
+Adicionado: Planilha de configurações de lote
+Adicionado: Dicas de ferramentas para selecionar todos os botões no lote
+Corrigido: Notas e etiquetas na AppSheet
+Corrigido: O registro não era atualizado ao excluir itens
+Atualizado: Layout de chips reformulado
+Mais detalhes no changelog completo…

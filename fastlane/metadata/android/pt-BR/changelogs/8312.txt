@@ -1,0 +1,6 @@
+Correção: Forçar o encerramento de um aplicativo
+Correção: Excluir agendamento
+Correção: Falha no menu de contexto/Put
+Atualização: Melhorar a animação da barra de aplicativos atualizados
+Atualização: Pré-carregar todas as páginas
++ mais de 30 commits e 30 contribuições de tradução

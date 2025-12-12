@@ -1,0 +1,5 @@
+Correção: Agendamentos ignorando eventos especiais em listas de bloqueio
+Correção: Execução dupla de agendamentos
+Adição: Agendamentos falsos
+Adição: Mais preferências de rastreamento
+Correção: Adição de espaço aos chips de informação
