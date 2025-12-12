@@ -1,0 +1,6 @@
+Adição: Animação dos botões da barra de navegação
+Correção: Execução de agendamentos quando o aplicativo não está aberto
+Correção: Falta de stub para restorePackage em especiais
+Correção: Sobreposição da barra de navegação com as planilhas
+Correção: Falha ao reiniciar o aplicativo com a AppSheet aberta
++ mais de 10 contribuições de tradução

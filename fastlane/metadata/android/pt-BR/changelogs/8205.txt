@@ -1,0 +1,2 @@
+Correção: Gerenciamento de agendamentos
+Adição: Ícone baseado no tema do sistema

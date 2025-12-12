@@ -1,0 +1,7 @@
+Adicionado: Persistência de backups
+Adicionado: Salvar/Carregar seleções do menu de contexto
+Corrigido: Suporte a implementações SU não-Magisk
+Corrigido: Reiniciar o estado do aplicativo ao girar a tela
+Atualizado: Permitir deslizar entre páginas
+Atualizado: Simplificação da interface do usuário
+e muito mais no changelog completo…

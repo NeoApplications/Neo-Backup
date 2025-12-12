@@ -1,0 +1,7 @@
+Adicionado: Botão para impor limite de backups no AppSheet
+Adicionado: Permitir a restauração de aplicativos antigos (anteriores ao Android 6) no Android 14+
+Adicionado: Diferentes temas dinâmicos e pretos
+Corrigido: Suporte ao KernelSU
+Corrigido: Falha ao retomar após iniciar a partir do AppSheet
+Atualizado: Reformulação dos botões do AppSheet
++ mais de 40 commits e 60 contribuições de tradução

@@ -1,0 +1,5 @@
+Correção: Listas de bloqueio em agendamentos
+Correção: Agendamentos em execução repetitiva
+Correção: Restauração da altura total do terminal
+Atualização: Preferências de serviço separadas em backup e restauração
+Atualização: Rastreamento desativado por padrão

@@ -1,0 +1,8 @@
+Adicionado: Novo ícone do aplicativo
+Adicionado: Botão de atualização rotativo
+Corrigido: Problema com o Lucky Patcher oculto
+Corrigido: Phh su + herdado + impondo
+Corrigido: Falta de atualização de pacotes na inicialização
+Atualizado: Reformulação da barra de navegação e da barra de pesquisa
+Atualizado: Outra opção para fundo com efeito de desvanecimento cinza
++ mais de 80 commits e 10 contribuições de tradução

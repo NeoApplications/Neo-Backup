@@ -1,0 +1,8 @@
+- Adicionado: Suporte a cores dinâmicas (também conhecido como Material You)
+- Adicionado: Tamanho do backup (apenas novos backups)
+- Adicionado: Etiquetas e notas
+- Adicionado: Registro de informações opcional na barra superior
+- Adicionado: Nome do pacote de instalação
+- Adicionado: Instalador de sessão (necessário no Android 13)
+- Corrigido: Redefinição de dados após a reinicialização
+Para mais detalhes, leia o changelog completo.

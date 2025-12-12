@@ -1,0 +1,9 @@
+Esta é uma versão de correção emergencial (da versão de correção emergencial), pois uma versão lançada acidentalmente há algumas semanas.
+Ela corrige os problemas da versão acidental e funciona de forma confiável, mas ainda apresenta lentidão, já que o Compose ainda não oferece o melhor desempenho e um lançamento definitivo levaria muito tempo. Até lá, aqui estão alguns destaques:
+* Atualização: Novo formato de atualização (o aplicativo ainda é compatível com os formatos antigos)
+* Correção: Todos os problemas do A12 na versão 7
+* Adição: Permissões de backup/restauração
+* Atualização: Menos atualizações manuais necessárias
+* Correção: A maioria dos backups especiais (ainda precisa de testes)
+* Tags e notas estão desativadas por enquanto
+Para mais detalhes, leia o changelog completo

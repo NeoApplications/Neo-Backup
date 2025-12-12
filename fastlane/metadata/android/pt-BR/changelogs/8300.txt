@@ -1,0 +1,7 @@
+Adicionado: Habilitar backup/restauração no menu de contexto
+Adicionado: Ferramentas de desenvolvedor para usuários avançados
+Atualizado: Reformulação do backend para carregamento mais rápido
+Atualizado: Formato de arquivo de log mais informativo
+Corrigido: Remover e descartar a AppSheet de pacotes desinstalados sem backups
+Corrigido: Agendamentos duplicados
++ mais de 350 commits e 60 contribuições de tradução

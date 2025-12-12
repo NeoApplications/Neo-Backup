@@ -1,25 +1,10 @@
-**OAndBackupX 4.0.0**
-
-**NOVA VERSÃO PRINCIPAL**: incompatível com as versões antigas
-**REDUÇÃO NO DESEMPENHO**: causado pelo uso de SAF em comparação ao acesso direto e dá o desempenho dependendo do seu SOC
-
-* Adicionado: suporte a Storage Access Framework
-* Adicionado: Suporte Symlink/Pipe
-* Adicionado: Suporte a Multi Backup
+INCOMPATÍVEL COM VERSÕES ANTIGAS
+**DEGRADAÇÃO DE DESEMPENHO**: causada pelo uso do SAF em comparação com o acesso direto
+* Adicionado: Suporte ao Storage Access Framework
+* Adicionado: Suporte a links simbólicos/pipes
+* Adicionado: Suporte a múltiplos backups
 * Adicionado: Permitir tarefas em lote paralelas
-* Adicionado: Desative a verificação de aplicativos via USB antes de instalar e reative-a depois
-* Adicionado: caixas de seleção de APK e dados em lote
-* Adicionado: HelpSheet para fornecer ajuda facilmente
-* Adicionado: Mais mensagens claras informando o usuário sobre os processos em execução
-* Adicionado: Árabe, Bósnio e Malaiala
+* Atualizado: Nova interface de usuário/experiência do usuário
 * Atualizado: Sistema de tags
-* Atualizado: use STOP/CONT para se certificar de que nenhum processo em segundo plano prejudique o backup
-* Atualizado: Agendamento Reestruturado
-* Atualizado: o diretório de backups agora é /OABackupX
-* Atualizado: Estrutura de Backup
-* Atualizado: layouts totalmente novos para elementos da interface
-* Atualizado: Traduções
-* Corrigido: Visualizador de registro
-* Corrigido: Criar registro quando ocorrerem erros em backups
-* Removido: dependência de fluxo Annimon
-* Muitas outras melhorias, correções e limpezas
+* Atualizado: Estrutura de backup
+* Muitas outras melhorias, correções e otimizações
