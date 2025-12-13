@@ -1,5 +1,5 @@
 ** OAndBackupX 0.9.10 **
 * Riscritto: Scheduler (necessita di essere ampiamente testato)
-* Corretto: collegamenti nella Guida
+* Corretto: Collegamenti nella Guida
 * Ripuliture codice
 * Ritocchi dell'interfaccia utente qua e là

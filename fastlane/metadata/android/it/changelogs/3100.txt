@@ -1,10 +1,10 @@
 ** OAndBackupX 3.1.0 **
 
-* Rimosso: supporto per Android Nougat abbandonato
-* Aggiunto: nuovo sistema di tag
-* Aggiunto: preferenza di blocco biometrico
-* Aggiornato: l'intera interfaccia utente
-* Aggiornato: imposta i dati esterni predefiniti e la preferenza obb su off
-* Corretto: alcuni arresti anomali dell'UI
+* Rimosso: Supporto per Android Nougat abbandonato
+* Aggiunto: Nuovo sistema di tag
+* Aggiunto: Preferenza di blocco biometrico
+* Aggiornato: L'intera interfaccia utente
+* Aggiornato: Imposta i dati esterni predefiniti e la preferenza obb su off
+* Corretto: Alcuni arresti anomali dell'UI
 * Spostato su Affero GPL v3
 e molto altro ancora

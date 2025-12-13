@@ -1,6 +1,6 @@
-Corretto: malfunzionamento dopo il ritorno dalle preferenze (chiamate e scoping di Koin)
-Corretto: crash dell'utilizzo delle chiamate al database del repository sul thread dell'interfaccia utente
-Aggiornato: miglioramento della gestione delle coroutine nei repository
-Aggiornato: rendere predefinito il design del blocco alternativo
-Aggiornato: rinnovamento della colorazione delle preferenze
+Corretto: Malfunzionamento dopo il ritorno dalle preferenze (chiamate e scoping di Koin)
+Corretto: Crash dell'utilizzo delle chiamate al database del repository sul thread dell'interfaccia utente
+Aggiornato: Miglioramento della gestione delle coroutine nei repository
+Aggiornato: Rendere predefinito il design del blocco alternativo
+Aggiornato: Rinnovamento della colorazione delle preferenze
 + più di 15 commit e 6 traduzioni

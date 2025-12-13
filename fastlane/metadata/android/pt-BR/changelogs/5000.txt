@@ -1,11 +1,7 @@
-**NOVA VERSÃO PRINCIPAL**: incompatível com as versões antigas.
-**MIGRADO PARA KOTLIN**
-AS AÇÕES AGENDADAS PODEM DURAR SOMENTE 10 MINUTOS (RESTRIÇÃO DO SISTEMA): então, particione seu grupo de aplicativos.
-
-* Adicionado: modos individuais para aplicativos na caixa de diálogo de ação em lote
-* Atualizado: a escolha de um diretório de backup não cria mais uma pasta filho
-* Atualizado: atualização muito menos desnecessária
-* Corrigido: erro de APK/dados não encontrados
-* Corrigido: permissão de armazenamento persistente
-* Corrigido: suporte A11
-* Muitas outras melhorias, correções e limpezas (no registro de alterações completo)
+**NOVA VERSÃO PRINCIPAL**: INCOMPATÍVEL COM VERSÕES ANTIGAS
+**Primeira versão em Kotlin**
+AÇÕES AGENDADAS PODEM DURAR APENAS 10 MINUTOS (RESTRIÇÃO DO SISTEMA)
+* Adicionado: Especificar modos para aplicativos na caixa de diálogo de lote
+* Corrigido: Permissão de armazenamento persistente
+* Corrigido: Suporte ao A11
+* Muitas outras melhorias, correções e otimizações

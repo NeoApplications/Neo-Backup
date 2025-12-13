@@ -1,0 +1,6 @@
+* Aktualizacja: poprawiono działanie poleceń powłoki (@hg42)
+* Poprawiono: poprawiono kontekst SELinux (@jakeler & @hg42)
+* Poprawiono: nieudane kopie zapasowe plików o nazwach zawierających podwójne spacje (@jakeler)
+* Poprawiono: wygenerowanie wyjątku w przypadku gniazd i innych plików specjalnych (@hg42)
+* Poprawiono: nieudane kopie zapasowe plików o nazwach zawierających podwójne spacje (@jakeler)
+* Zaktualizowane tłumaczenia: polski, portugalski, chiński, grecki, niemiecki, francuski, norweski, holenderski, hiszpański, włoski, indonezyjski, japoński, rosyjski

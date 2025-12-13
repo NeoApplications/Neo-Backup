@@ -1,7 +1,7 @@
 ** OAndBackupX 0.9.11 **
-* Aggiunto: svuota la cache prima di eseguire il backup
-* Aggiornato: stile dei chip
-* Aggiunto: richiesta di esclusione dell'ottimizzazione della batteria
-* Corretto: il bug dei profili (necessita di test)
-* Modificato: da FilePicker a SAF
+* Aggiunto: Svuota la cache prima di eseguire il backup
+* Aggiornato: Stile dei chip
+* Aggiunto: Richiesta di esclusione dell'ottimizzazione della batteria
+* Corretto: Il bug dei profili (necessita di test)
+* Modificato: Da FilePicker a SAF
 * Ottimizzato il codice

@@ -1,6 +1,6 @@
-Corretto: forza l'arresto di un'app
-Corretto: eliminazione della pianificazione
-Corretto: crash nel menu contestuale/inserisci
-Aggiornato: migliora l'animazione della barra delle app aggiornata
-Aggiornato: precaricamento di tutte le pagine
+Corretto: Forza l'arresto di un'app
+Corretto: Eliminazione della pianificazione
+Corretto: Crash nel menu contestuale/inserisci
+Aggiornato: Migliora l'animazione della barra delle app aggiornata
+Aggiornato: Precaricamento di tutte le pagine
 + più di 30 commit e 30 contributi di traduzione

@@ -1,0 +1,3 @@
+Pievienots: birku atsijātājs
+Salabots: ScheduleReceiver izpildīšana pēc pārsāknēšanas
++ vairāk nekā 10 iesūtījumi, 10 tulkojumi

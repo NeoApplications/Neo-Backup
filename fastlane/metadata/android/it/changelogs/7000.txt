@@ -1,7 +1,7 @@
-* Aggiunto: motore a tema
-* Aggiunto: backup dei file multimediali
+* Aggiunto: Motore a tema
+* Aggiunto: Backup dei file multimediali
 * Aggiunto: Extra [Nota e tag]
-* Aggiunto lingue: cinese (tradizionale/Taiwan), portoghese (Brasile), lituano.
-* Aggiornato: rinnova l'interfaccia utente (material design 3 e nuove icone impostate)
-* Correzione: ripristino di Firefox (@hg42)
+* Aggiunto lingue: Cinese (tradizionale/Taiwan), portoghese (Brasile), lituano.
+* Aggiornato: Rinnova l'interfaccia utente (material design 3 e nuove icone impostate)
+* Correzione: Ripristino di Firefox (@hg42)
 e altro ancora... leggi il changelog completo

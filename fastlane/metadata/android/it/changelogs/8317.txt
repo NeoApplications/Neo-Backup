@@ -1,7 +1,7 @@
-Aggiunto: opzione di compressione Zstd
-Aggiunto: supporto dei tag nelle pianificazioni
-Aggiunto: rispetto dei tag e delle note durante la ricerca
-Aggiunto: pulsante per cercare app disinstallate nello store
-Corretto: supporto del profilo di lavoro
-Aggiornato: icona di attribuzione OAndBackup
+Aggiunto: Opzione di compressione Zstd
+Aggiunto: Supporto dei tag nelle pianificazioni
+Aggiunto: Rispetto dei tag e delle note durante la ricerca
+Aggiunto: Pulsante per cercare app disinstallate nello store
+Corretto: Supporto del profilo di lavoro
+Aggiornato: Icona di attribuzione OAndBackup
 + più di 100 commit e 20 contributi di traduzione

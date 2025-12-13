@@ -1,5 +1,5 @@
 Aggiunto: ForegroundServiceType per lavori (richiesto su A14)
-Corretto: crash durante il backup/ripristino
+Corretto: Crash durante il backup/ripristino
 Aggiornato: TargetSDK 34
-Rimosso: opzioni colore tema temporaneamente
-Aggiornato: rimodernati i colori del tema
+Rimosso: Opzioni colore tema temporaneamente
+Aggiornato: Rimodernati i colori del tema

@@ -1,0 +1,4 @@
+* Naprawiono: pole wyboru „Wyklucz aplikacje systemowe” w arkuszu harmonogramu
+* Naprawiono: import wartości „Wyklucz aplikacje systemowe” podczas importowania harmonogramów
+* Dodano: język wietnamski, hindi i ukraiński
+* Zaktualizowano tłumaczenia: arabski, hiszpański, włoski, portugalski, rosyjski, kataloński, turecki, indonezyjski
