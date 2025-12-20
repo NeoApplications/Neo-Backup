@@ -426,7 +426,7 @@
     <string name="create_pgp_key">创建新 PGP 密钥</string>
     <string name="no_apps_to_enforce_backups_limit">没有应用需要强制执行备份限制</string>
     <string name="user_id">用户 ID</string>
-    <string name="passcode">密码码</string>
+    <string name="passcode">密码</string>
     <string name="prefs_pgp_key_management">OpenPGP 密钥管理</string>
     <string name="prefs_cleanup_backupdir">清理备份目录</string>
     <string name="prefs_cleanup_backupdir_summary">扫描损坏的备份（例如损坏的属性文件、没有目录的属性、没有属性的目录），标记后删除它们。</string>
@@ -442,4 +442,8 @@
     <string name="prefs_pgp_passcode_summary">如果受保护，则用于解锁 PGP 密钥的密码。</string>
     <string name="prefs_encryption_none">无加密</string>
     <string name="prefs_encryption_password">密码</string>
+    <string name="title_app_management">应用管理:</string>
+    <string name="title_backup_management">备份管理:</string>
+    <string name="deleteScheduleDialogMessage">删除计划？</string>
+    <string name="addBlocklistDialogMessage">添加此应用到全局黑名单？</string>
 </resources>
