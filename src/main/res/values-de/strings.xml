@@ -408,4 +408,25 @@
     <string name="prefs_backupcache_summary">Sichert Dateien, die in Cache-Ordnern abgelegt sind</string>
     <string name="prefs_restorecache">Cache Dateien wiederherstellen</string>
     <string name="prefs_restorecache_summary">Stellt Dateien wieder her, die in Cache-Ordnern abgelegt sind</string>
+    <plurals name="package_num">
+        <item quantity="one">%d Paket</item>
+        <item quantity="other">%d Pakete</item>
+    </plurals>
+    <string name="black_high_contrast">Schwarz (hoher Kontrast)</string>
+    <string name="sort_filter">Sortieren &amp; filtern</string>
+    <string name="sort_appdata_size">App- &amp; Datengröße</string>
+    <string name="prefs_pgp_key">PGP-Schlüssel</string>
+    <string name="prefs_encryption_none">Keine Verschlüsselung</string>
+    <string name="prefs_encryption_password">Passwort</string>
+    <string name="prefs_encryption_pgp">PGP-Schlüssel</string>
+    <string name="create_pgp_key">Neuen PGP-Schlüssel erstellen</string>
+    <string name="user_id">Benutzerkennung</string>
+    <string name="passcode">Passcode</string>
+    <string name="prefs_pgp_key_management">OpenPGP-Schlüsselverwaltung</string>
+    <string name="prefs_cleanup_backupdir">Sicherungsverzeichnis bereinigen</string>
+    <string name="dialogDelete">Löschen</string>
+    <string name="title_app_management">App-Verwaltung:</string>
+    <string name="title_backup_management">Sicherungsverwaltung:</string>
+    <string name="dialogUndo">Rückgängig</string>
+    <string name="deleteScheduleDialogMessage">Zeitplan löschen?</string>
 </resources>
