@@ -452,4 +452,18 @@
     <string name="sort_filter">Сортирование и фильтрование</string>
     <string name="sort_appdata_size">Размер приложения и данных</string>
     <string name="about_build_FORMAT">%s (Сборка %s)</string>
+    <string name="title_app_management">Управление приложением:</string>
+    <string name="title_backup_management">Управление резервными копиями:</string>
+    <string name="dialogUndo">Откатить</string>
+    <string name="deleteScheduleDialogMessage">Удалить задание?</string>
+    <string name="sched_blocklist_dialog_message">Чёрный список: %s</string>
+    <string name="sched_customlist_dialog_message">Пользовательский список: %s</string>
+    <plurals name="package_num">
+        <item quantity="one">%d пакет</item>
+        <item quantity="few">%d пакета</item>
+        <item quantity="many">%d пакетов</item>
+        <item quantity="other">%d пакетов</item>
+    </plurals>
+    <string name="packagesToBackup">Количество пакетов для резервного копирования: %d</string>
+    <string name="addBlocklistDialogMessage">Добавить приложение в глобальный чёрный список?</string>
 </resources>

@@ -438,7 +438,7 @@
     <string name="enforce_backups_limit_summary">Forzar el límite de revisiones de copias de seguridad en todas las aplicaciones que lo superen.</string>
     <string name="prefs_pgp_key">Clave PGP</string>
     <string name="dialogDelete">Eliminar</string>
-    <string name="sort_appdata_size">Tamaño de los datos de la aplicación</string>
+    <string name="sort_appdata_size">Tamaño y datos de la aplicación</string>
     <string name="prefs_pgp_key_summary">Seleccione el archivo de clave PGP para poder utilizarlo para cifrar las copias de seguridad.</string>
     <string name="prefs_cleanup_backupdir_summary">Escanear copias de seguridad dañadas (por ejemplo, archivos de propiedades dañados, propiedades sin directorio, directorio sin propiedades), etiquetarlas y después eliminarlas.</string>
     <string name="enforced_backups_limit_FORMAT">Se forzó el límite de copias de seguridad de %d en las siguientes aplicaciones: %s</string>
@@ -449,4 +449,17 @@
     <string name="sort_filter">Ordenar &amp; Filtrar</string>
     <string name="prefs_pgp_passcode_summary">El código de acceso para desbloquear la clave PGP si está protegida.</string>
     <string name="prefs_cleanup_backupdir">Limpiar el directorio de copias de seguridad</string>
+    <string name="title_app_management">Gestión de aplicaciones:</string>
+    <string name="title_backup_management">Gestión de copias de seguridad:</string>
+    <string name="dialogUndo">Deshacer</string>
+    <string name="deleteScheduleDialogMessage">¿Borrar programación?</string>
+    <string name="sched_blocklist_dialog_message">Lista de bloqueos: %s</string>
+    <string name="sched_customlist_dialog_message">Lista personalizada: %s</string>
+    <plurals name="package_num">
+        <item quantity="one">%d paquete</item>
+        <item quantity="many">%d paquetes</item>
+        <item quantity="other"></item>
+    </plurals>
+    <string name="packagesToBackup">Número de paquetes a respaldar: %d</string>
+    <string name="addBlocklistDialogMessage">¿Añadir aplicación a la lista de bloqueos global?</string>
 </resources>

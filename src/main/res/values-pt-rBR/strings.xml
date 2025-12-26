@@ -412,4 +412,9 @@
     <string name="prefs_altblocklayout_summary">Use um layout alternativo/antigo para blocos de página com bordas em vez de superfícies coloridas.</string>
     <string name="filters_tags">Tags</string>
     <string name="search_package">Procurar aplicativo na loja</string>
+    <string name="prefs_encryption_password">Senha</string>
+    <string name="prefs_encryption_pgp">Chave PGP</string>
+    <string name="create_pgp_key">Criar uma nova chave PGP</string>
+    <string name="user_id">ID do usuário</string>
+    <string name="dialogUndo">Desfazer</string>
 </resources>
