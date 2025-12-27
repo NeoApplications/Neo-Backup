@@ -463,4 +463,13 @@
         <item quantity="other">%d pacchetti</item>
     </plurals>
     <string name="packagesToBackup">Numero di pacchetti da sottoporre a backup: %d</string>
+    <string name="stats_app_size">Dimensione app</string>
+    <string name="stats_data_size">Dimensione dati</string>
+    <string name="enabled_schedules">Programmazioni abilitate</string>
+    <string name="disabled_schedules">Programmazioni disabilitate</string>
+    <string name="notification_app_action">Azioni app</string>
+    <string name="notification_schedules">Programmazioni</string>
+    <string name="notification_handler">Gestore delle notifiche</string>
+    <string name="refresh_work_title">Aggiornamento dell\'elenco dei backup</string>
+    <string name="refresh_init">Avvio dell\'aggiornamento</string>
 </resources>
