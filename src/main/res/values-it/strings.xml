@@ -472,4 +472,12 @@
     <string name="notification_handler">Gestore delle notifiche</string>
     <string name="refresh_work_title">Aggiornamento dell\'elenco dei backup</string>
     <string name="refresh_init">Avvio dell\'aggiornamento</string>
+    <string name="invalidating_all">Svuotamento cache…</string>
+    <string name="invalidating_package">Svuotamento cache per %s…</string>
+    <string name="scanning_dirs">Scansione cartella di backup…</string>
+    <string name="updating_db">Aggiornamento database app…</string>
+    <string name="refresh_completed">Aggiornamento completato</string>
+    <string name="refresh_failed">Aggiornamento non riuscito</string>
+    <string name="backupdir_inaccessible">La posizione di backup non è accessibile</string>
+    <string name="unknown_error">Errore sconosciuto</string>
 </resources>
