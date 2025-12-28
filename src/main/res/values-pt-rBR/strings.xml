@@ -417,4 +417,9 @@
     <string name="create_pgp_key">Criar uma nova chave PGP</string>
     <string name="user_id">ID do usuário</string>
     <string name="dialogUndo">Desfazer</string>
+    <plurals name="package_num">
+        <item quantity="one">%d pacote</item>
+        <item quantity="many">%d pacotes</item>
+        <item quantity="other">%d pacotes</item>
+    </plurals>
 </resources>
