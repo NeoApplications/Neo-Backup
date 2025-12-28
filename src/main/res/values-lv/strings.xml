@@ -449,4 +449,21 @@
     </plurals>
     <string name="packagesToBackup">Pakotņu, kurām izveidot rezerves kopiju, skaits: %d</string>
     <string name="addBlocklistDialogMessage">Pievienot lietotni vispārējam liegumu sarakstam?</string>
+    <string name="stats_app_size">Lietotņu izmērs</string>
+    <string name="stats_data_size">Datu apjoms</string>
+    <string name="enabled_schedules">Ieplānošana iespējota</string>
+    <string name="disabled_schedules">Ieplānošana atspējota</string>
+    <string name="notification_app_action">Lietotnes darbības</string>
+    <string name="notification_schedules">Ieplānošana</string>
+    <string name="notification_handler">Paziņojumu apdarinātājs</string>
+    <string name="refresh_work_title">Atsvaidzina rezerves kopiju sarakstu</string>
+    <string name="refresh_init">Uzsāk atsvaidzināšanu</string>
+    <string name="invalidating_all">Notīra kešatmiņu…</string>
+    <string name="invalidating_package">Notīra %s kešatmiņu…</string>
+    <string name="scanning_dirs">Pārskata rezerves kopiju mapi…</string>
+    <string name="updating_db">Atjaunina lietotņu datubāzi…</string>
+    <string name="refresh_completed">Atsvaidzināšana pabeigta</string>
+    <string name="refresh_failed">Atsvaidzināšana neizdevās</string>
+    <string name="backupdir_inaccessible">Rezerves kopiju atrašanās vietai nevar piekļūt</string>
+    <string name="unknown_error">Nezināma kļūda</string>
 </resources>
