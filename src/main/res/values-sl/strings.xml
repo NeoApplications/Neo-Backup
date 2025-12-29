@@ -146,4 +146,5 @@
     <string name="prefs_nobackupdata">Varnostno kopiraj no_backup datoteke</string>
     <string name="prefs_nobackupdata_summary">Varnostno kopiranje datotek, ki so označene, da jih ni potrebno varnostno kopirati</string>
     <string name="prefs_externaldata_rst_summary">Obnovi podatke, ki se nahajajo v zunanji shrambi (npr. /storage/emulated/0/Android/data/)</string>
+    <string name="unknown_error">Neznana napaka</string>
 </resources>
