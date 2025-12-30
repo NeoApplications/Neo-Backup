@@ -466,4 +466,6 @@
     <string name="refresh_failed">Atsvaidzināšana neizdevās</string>
     <string name="backupdir_inaccessible">Rezerves kopiju atrašanās vietai nevar piekļūt</string>
     <string name="unknown_error">Nezināma kļūda</string>
+    <string name="prefs_useexactalarm_summary">ja netiek izmantots useAlarmClock, tad jāizmanto punktuāli modinātāji, pretējā gadījumā jāizmanto nepunktuāli modinātāji, kas var būt labāk akumulatoram</string>
+    <string name="prefs_useexactalarm_title">Laika izvēlēm izmantot punktuālus modinātājus</string>
 </resources>
