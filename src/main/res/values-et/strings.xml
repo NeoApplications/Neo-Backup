@@ -450,4 +450,23 @@
     </plurals>
     <string name="packagesToBackup">Varundatavaid pakette: %d</string>
     <string name="addBlocklistDialogMessage">Kas soovid lisada rakenduse üldisesse blokeeritud rakenduste loendisse?</string>
+    <string name="stats_app_size">Rakenduste maht</string>
+    <string name="stats_data_size">Andmemaht</string>
+    <string name="enabled_schedules">Kasutusel ajastamised</string>
+    <string name="disabled_schedules">Väljalülitatud ajastamised</string>
+    <string name="notification_app_action">Tegevused rakendustega</string>
+    <string name="notification_schedules">Ajastamine</string>
+    <string name="notification_handler">Teavituste käsitlus</string>
+    <string name="unknown_error">Tundmatu viga</string>
+    <string name="backupdir_inaccessible">Varunduse asukoht pole saadaval</string>
+    <string name="refresh_failed">Andmete uuendamine ei õnnestunud</string>
+    <string name="refresh_completed">Andmete uuendamine on tehtud</string>
+    <string name="updating_db">Uuendan rakenduste andmebaasi…</string>
+    <string name="scanning_dirs">Skaneerin varunduskausta…</string>
+    <string name="invalidating_package">Kustutan puhverdatud andmeid: %s…</string>
+    <string name="invalidating_all">Kustutan puhverdatud andmeid…</string>
+    <string name="refresh_init">Käivitan andmete uuendust</string>
+    <string name="refresh_work_title">Uuendan varukoopiate loendit</string>
+    <string name="prefs_useexactalarm_title">Kasuta ajastamisel täpset kellaaega</string>
+    <string name="prefs_useexactalarm_summary">Kui kasutusel pole „useAlarmClock“ meetod, siis kasuta täpset ajastamist, vastasel juhul kasuta akukasutuse vähendamiseks ebatäpset ajastamist</string>
 </resources>
