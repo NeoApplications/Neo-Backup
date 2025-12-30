@@ -339,4 +339,5 @@
     <string name="prefs_service_short">서비스</string>
     <string name="prefs_squeezenavtext">내비게이션 항목의 글자 줄이기</string>
     <string name="prefs_squeezenavtext_summary">내비게이션 바 항목 밑의 글자를 폭에 꼭 맞게 줄일 수 있도록 합니다.</string>
+    <string name="prefs_theme_system_black">시스템의 테마 (블랙)</string>
 </resources>
