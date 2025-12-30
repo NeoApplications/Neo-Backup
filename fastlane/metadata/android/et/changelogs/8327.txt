@@ -1,0 +1,3 @@
+Täiendatud: Siltide filter
+Parandatud: „ScheduleReceiver“ meetodi käivitamine koos seadmega
++ enam kui 10 sissekannet lähtekoodi ja 10 tõlgete täiendust
