@@ -1,7 +1,7 @@
 **OAndBackupX 1.1.1**
 * Dodano: skrót raportu Exodus do AppSheet
 * Naprawiono: nie uruchamia się, jeśli istnieje aplikacja o wymiarach ikony <= 0
-* Zmieniono: domyślnie jest teraz ustawione kopiowanie OAndBackupX do nadrzędnego folderu kopii zapasowej
+* Zmieniono: domyślnie jest teraz ustawione kopiowanie OAndBackupX do nadrzędnego folderu kopii
 * Dodano: grecki (@tsiflimagas)
 * Zaktualizowano: wielkie litery i angielskie napisy (@atrate)
 * Zaktualizowano: uogólnij chiński, holenderski, polski i szwedzki

@@ -1,0 +1,8 @@
+Jest to wydanie z poprawką oparte na wersji 8.0.0-alpha14, ponieważ niezamierzone wydanie ukazało się kilka tygodni temu. Naprawia problemy z niezamierzoną wersją i działa niezawodnie, ale nadal jest porównywalnie opóźniona, ponieważ Compose nadal nie zapewnia najlepszej wydajności, a prawdziwa wersja zajęłaby dużo czasu. Do tego czasu, oto kilka najważniejszych wydarzeń:
+* Zaktualizowano: Nowy format aktualizacji (aplikacja nadal obsługuje starsze)
+* Poprawiono: wszystkie problemy A12 na v7
+* Dodano: Kopia zapasowa / Przywracanie podanych uprawnień
+* Zaktualizowano: potrzeba mniej ręcznego odświeżania
+* Naprawiono: Większość specjalnych kopii zapasowych (nadal wymaga testowania)
+* Tagi i notatki są teraz wyłączone
+aby uzyskać więcej informacji, przeczytaj pełny dziennik zmian

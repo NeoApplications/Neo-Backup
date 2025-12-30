@@ -1,2 +1,2 @@
 **OAndBackupX 1.0.0**
-* Dodano: opcję wyczyszczenia pamięci podręcznej przed wykonaniem kopii zapasowej
+* Dodano: opcję wyczyszczenia pamięci podręcznej przed wykonaniem kopii

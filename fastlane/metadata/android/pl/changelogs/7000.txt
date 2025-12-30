@@ -1,0 +1,7 @@
+* Dodano: Silnik motywów
+* Dodano: kopia zapasowa plików multimedialnych
+* Dodano: dodatki [Uwaga i Tagi]
+* Dodajno języki: chiński (tradycyjny / Tajwan), portugalski(Brazylia), litewski.
+* Zaktualizowano: reorganizacja interfejsu użytkownika (Material design 3 i nowy zestaw ikon)
+* Poprawiono: Firefox restore (@hg42)
+i więcej ... czytaj cały dziennik zmian

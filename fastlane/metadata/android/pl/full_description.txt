@@ -1,5 +1,6 @@
-<p>Twórz i przywracaj kopie zapasowe aplikacji na swoim urządzeniu i zapisuj dane aplikacji w lokalizacji dostępnej dla użytkownika. Obsługuje tworzenie kopii zapasowych i przywracanie pojedynczych lub wielu aplikacji.</p>
-<p>Fork OAndBackup przynosi wsparcie dla nowych wersji Androida i unowocześniony wygląd.</p>
-<p><br><b>Pomóż przetłumaczyć aplikację na Weblate:</b> https://hosted.weblate.org/engage/oandbackupx/.</p>
-<p><br><b>Wymaga roota:</b> Ponieważ kopiuje pliki z /data/data, /data/app i /system/app.</p>
+<p>Twórz i przywracaj kopie zapasowe aplikacji na urządzeniu oraz zapisuj dane aplikacji w lokalizacji dostępnej dla użytkownika. Obsługuje tworzenie kopii zapasowych i przywracanie pojedynczych lub wielu aplikacji.</p>
+<p>Część aplikacji Neo.</p>
+<p>Fork OAndBackup przynoszący wsparcie dla nowych wersji Androida i zaktualizowany wygląd.</p>
+<p><br><b>Pomóż przetłumaczyć na Weblate: </b> https://hosted.weblate.org/engage/oandbackupx/.</p>
+<p><br><b>Wymaga uprawnienń root:</b> Ponieważ kopiuje pliki z /data/data, /data/app i /system/app.</p>
 <p>Status: Beta</p>

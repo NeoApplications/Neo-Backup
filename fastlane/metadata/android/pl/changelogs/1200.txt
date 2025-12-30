@@ -1,4 +1,4 @@
 **OAndBackupX 1.2.0**
 * Zaktualizowano: interfejs użytkownika
 * Naprawiono: awarię udostępniania
-* Dodano: opcje tworzenia kopii zapasowych chronionych danych urządzenia i danych zewnętrznych
+* Dodano: opcje tworzenia kopii chronionych danych urządzenia i danych zewnętrznych

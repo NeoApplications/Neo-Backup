@@ -1,0 +1,6 @@
+Poprawiono: Wymuś zatrzymanie aplikacji
+Poprawiono: Usuwanie harmonogramu
+Poprawiono: Awaria w menu kontekstowym/Put
+Zaktualizowano: Poprawa animacji zaktualizowanego paska aplikacji
+Zaktualizowano: Wstępnie załaduj wszystkie strony
++ ponad 30 zatwierdzeń i 30 wkładów w tłumaczenia

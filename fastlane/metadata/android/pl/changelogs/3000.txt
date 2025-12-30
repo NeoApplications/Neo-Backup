@@ -1,10 +1,10 @@
-##### TA WERSJA NIE JEST KOMPATYBILNA Z POPRZEDNIMI WERSJAMI.
-* Aktualizacja: domyślny katalog kopii zapasowych to /OABX.
-* Aktualizacja: przepisane rozwiązanie szyfrowania (podziękowania dla @Pizze).
-* Aktualizacja: odnowiona pomoc i interfejs użytkownika AppSheet.
-* Aktualizacja: preferencja clearCache do excludeCache.
-* Aktualizacja: przepisane wszystkie funkcje poleceń powłoki (podziękowania dla @Pizze).
-* Dodano: sortowanie według rozmiaru danych.
-* Dodano: podpowiedzi dla wszystkich ikon.
-* Dodano: przycisk wyczyszczenia pamięci podręcznej do AppSheet.
-* Dodano: okno dialogowe z ostrzeżeniem o włączeniu szyfrowania
+##### BRAK ZGODNOŚCI Z WCZEŚNIEJSZYMI WERSJAMI
+* Aktualizacja: domyślny katalog kopii do / OABX
+* Aktualizacja: Przepisane Rozwiązanie Szyfrujące (@Pizze)
+* Aktualizacja: odnowiona pomoc i AppSheet UI
+* Aktualizacja: clearcache preferencji do excludeCache
+* Aktualizacja: przepisane całe funkcje poleceń powłoki (@Pizze)
+* Dodano: Sortuj według rozmiaru danych
+* Dodano: podpowiedzi dla wszystkich ikon
+* Dodano: przycisk wipe Cache do AppSheet
+* Dodano: okno dialogowe alertu o włączeniu Szyfrowania
