@@ -314,4 +314,10 @@
     <string name="prefs_obbdata">גבה קבצי obb</string>
     <string name="prefs_nobackupdata">גבה קבצי no_backup</string>
     <string name="prefs_nobackupdata_summary">גבה קבצים המסומנים כקבצים שלא לגבות</string>
+    <string name="restart_dialog">נראה כי היישום דורש אתחול מחדש</string>
+    <string name="ignore_battery_optimization_message">גיבויים עלולים להיעצר לפעמים. כדי למנוע זאת, יש לכבות את תהליכי ייעול הסוללה</string>
+    <string name="smsmms_permission_title">הרשאות SMS/MMS</string>
+    <string name="grant_smsmms_message">זה חיוני כדי לגבות/לשחזר את ה-SMS/MMS.</string>
+    <string name="grant_contacts_message">זה נדרש בשביל לאפשר להתאים איש קשר ל-SMS/MMS.</string>
+    <string name="grant_usage_access_message">זה נדרש בשביל לקבל מידע אודות גודל קבצי היישום</string>
 </resources>
