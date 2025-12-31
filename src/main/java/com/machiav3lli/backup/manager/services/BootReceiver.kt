@@ -26,7 +26,7 @@ import org.koin.core.component.KoinComponent
 class BootReceiver : BroadcastReceiver(), KoinComponent {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
-            Thread { scheduleAlarmsOnce(context) }
+            Thread { scheduleAlarmsOnce(context) }.start()
         } else return
     }
 }
