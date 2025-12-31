@@ -1,0 +1,21 @@
+**OAndBackupX 3.1.1**
+
+
+
+* Eklendi: Giriş
+
+* Eklendi: şifreleme şifresi kontrol alanı
+
+* Kaldırıldı: Busybox yol tercihi
+
+* Düzeltildi: son yedekleme tarihi yerine güncel tarih gösterilmesi
+
+* Düzeltildi: yeni yedeklemeden sonra öğelerin güncelleme etiketinin güncellenmemesi
+
+* Güncellendi: Çeviriler (Norveççe, Rusça, İtalyanca, Fransızca, Felemenkçe, Almanca)
+
+* Güncellendi: sıralama/filtreleme varsayılanını true olarak ayarla
+
+* Güncellendi: biyometrik kilit varsayılanını kapalı olarak ayarla
+
+* Güncellendi: günlük görüntüleyiciyi gizle

@@ -1,0 +1,21 @@
+**OAndBackupX 3.2.0**
+
+
+
+* Eklendi: yeni Navigasyon
+
+* Eklendi: Ana sayfada güncellenen uygulamalar için rozet
+
+* Düzeltildi: Toplu İşlem'de işaretli öğeleri kaydetme
+
+* Düzeltildi: Toplu İşlem'de tümünü işaretle senkronizasyonu
+
+* Düzeltildi: arama filtrelemede beklenmedik davranış (önbellekleme nedeniyle)
+
+* Düzeltildi: devam etme davranışı
+
+* Güncellendi: yenileme performansı iyileştirildi
+
+* Güncellendi: görsel performans iyileştirildi (Eylem örnekleri ve Sayfalar başlatma hızı)
+
+* Güncellendi: Çeviriler (Norveççe, Felemenkçe, Türkçe, Çince, Portekizce)
