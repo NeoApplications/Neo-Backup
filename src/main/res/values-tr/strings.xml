@@ -440,4 +440,34 @@
     <string name="sort_filter">Sıralama ve Filtreleme</string>
     <string name="sort_appdata_size">Uygulama ve veri boyutu</string>
     <string name="about_build_FORMAT">%s (Yapı %s)</string>
+    <string name="prefs_useexactalarm_summary">useAlarmClock kullanmıyorsanız, tam alarmları kullanın, aksi takdirde pil ömrü açısından daha uygun olabilecek tam olmayan alarmları kullanın</string>
+    <string name="title_app_management">Uygulama yönetimi:</string>
+    <string name="title_backup_management">Yedekleme yönetimi:</string>
+    <string name="dialogUndo">Geri al</string>
+    <string name="deleteScheduleDialogMessage">Programı silmek ister misiniz?</string>
+    <string name="sched_blocklist_dialog_message">Engelleme listesi: %s</string>
+    <string name="sched_customlist_dialog_message">Özel liste: %s</string>
+    <plurals name="package_num">
+        <item quantity="one">%d paket</item>
+        <item quantity="other">%d paketler</item>
+    </plurals>
+    <string name="packagesToBackup">Yedeklenecek paket sayısı: %d</string>
+    <string name="addBlocklistDialogMessage">Uygulamayı genel engelleme listesine eklemek ister misiniz?</string>
+    <string name="stats_app_size">Uygulama Boyutu</string>
+    <string name="stats_data_size">Veri Boyutu</string>
+    <string name="enabled_schedules">Etkinleştirilmiş zamanlamalar</string>
+    <string name="disabled_schedules">Devredışı bırakılmış zamanlamalar</string>
+    <string name="notification_app_action">Uygulama eylemleri</string>
+    <string name="notification_schedules">Programlar</string>
+    <string name="notification_handler">Bildirimlerin işleyicisi</string>
+    <string name="refresh_work_title">Yedeklemelerin listesini yenileme</string>
+    <string name="refresh_init">Yenileme başlatılıyor</string>
+    <string name="invalidating_all">Önbellekler temizleniyor…</string>
+    <string name="scanning_dirs">Yedekleme dizinini tarıyorum…</string>
+    <string name="updating_db">Uygulama veritabanı güncelleniyor…</string>
+    <string name="refresh_completed">Yenileme tamamlandı</string>
+    <string name="refresh_failed">Yenileme başarısız</string>
+    <string name="backupdir_inaccessible">Yedekleme konumuna erişilemiyor</string>
+    <string name="unknown_error">Bilinmeyen hata</string>
+    <string name="prefs_useexactalarm_title">Programlar için tam alarm kullanın</string>
 </resources>
