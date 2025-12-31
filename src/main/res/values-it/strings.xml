@@ -88,7 +88,7 @@
     <string name="prefs_rememberfiltering">Ricorda ordina e filtra</string>
     <string name="prefs_rememberfiltering_summary">Salva il metodo di ordinamento e filtro scelto. Vengono mostrati solo quelli spuntati nel menù.</string>
     <string name="prefs_enablespecial">Abilita backup speciali</string>
-    <string name="sched_title">Pianificazioni</string>
+    <string name="sched_title">Programmazione pianificazioni</string>
     <string name="sched_notificationMessage">Backup pianificato</string>
     <string name="sched_interval">Intervallo in giorni:</string>
     <string name="sched_hourOfDay">Orario:</string>
@@ -175,14 +175,7 @@
     <string name="prefs_passwordconfirmation">Conferma password di crittografia</string>
     <string name="prefs_advanced">Preferenze avanzate</string>
     <string name="radio_updated">Aggiornate</string>
-    <string name="intro_welcome_message">Neo Backup (precedentemente OAndBackupX) è un fork del famoso OAndBackup che mira a portare OAndBackup nel 202X come parte della suite Neo Applications. Per ora l\'app è stata totalmente riscritta, il prossimo passo sarà renderla robusta e aggiungere alcune features pianificate da tempo che potrebbero semplificare il flusso di backup/ripristino su ogni dispositivo.
-\nPertanto tutti i contributi sono benvenuti.
-\n
-\n Ora riguardo alle funzionalità dell\'app:
-\n • L\'app richiede i permessi di root e permette di fare il backup di app singole e dei loro dati.
-\n • Sia backup e ripristino di app singole una per volta sia backup e ripristino in massa sono supportati.
-\n • Il ripristino di app di sistema dovrebbe essere possibile senza richiedere il riavvio.
-\n • I backup possono essere pianificati senza limiti di numero ed è presente la possibilità di creare liste personalizzate di app.</string>
+    <string name="intro_welcome_message">Neo Backup (precedentemente OAndBackupX) è un fork del famoso OAndBackup, con l\'obiettivo di portare OAndBackup alla versione 202X e fa parte della suite Neo Applications. Per ora l\'app è già stata completamente riscritta, ma presto la renderemo più robusta e aggiungeremo alcune funzionalità da tempo pianificate che potrebbero semplificare il flusso di lavoro di backup/ripristino su qualsiasi dispositivo.\nPertanto, ogni tipo di contributo è sempre benvenuto.\n\n Riguardo alle funzionalità dell\'app: \n• Richiede i privilegi di root e consente di eseguire il backup di singole app e dei relativi dati.\n• Sono supportati sia il backup e il ripristino di singoli programmi, uno alla volta, sia il backup e il ripristino in batch di più programmi.\n• Il ripristino delle app di sistema dovrebbe essere possibile senza dover riavviare il sistema in seguito.\n• I backup possono essere programmati senza limiti al numero di singole pianificazioni ed è possibile creare elenchi personalizzati dall\'elenco delle app installate.</string>
     <string name="welcome_to_oabx">Benvenuto in Neo Backup!</string>
     <string name="storage_access">Accesso archiviazione</string>
     <string name="help_appTypeHint">* L\'icona del tipo di app sarà grigia se l\'app è disinstallata e grigio scura se l\'app è disabilitata.</string>
@@ -465,10 +458,10 @@
     <string name="packagesToBackup">Numero di pacchetti da sottoporre a backup: %d</string>
     <string name="stats_app_size">Dimensione app</string>
     <string name="stats_data_size">Dimensione dati</string>
-    <string name="enabled_schedules">Programmazioni abilitate</string>
-    <string name="disabled_schedules">Programmazioni disabilitate</string>
+    <string name="enabled_schedules">Pianificazioni abilitate</string>
+    <string name="disabled_schedules">Pianificazioni disabilitate</string>
     <string name="notification_app_action">Azioni app</string>
-    <string name="notification_schedules">Programmazioni</string>
+    <string name="notification_schedules">Pianificazioni</string>
     <string name="notification_handler">Gestore delle notifiche</string>
     <string name="refresh_work_title">Aggiornamento dell\'elenco dei backup</string>
     <string name="refresh_init">Avvio dell\'aggiornamento</string>
@@ -480,4 +473,6 @@
     <string name="refresh_failed">Aggiornamento non riuscito</string>
     <string name="backupdir_inaccessible">La posizione di backup non è accessibile</string>
     <string name="unknown_error">Errore sconosciuto</string>
+    <string name="prefs_useexactalarm_summary">se non si utilizza useAlarmClock, utilizzare allarmi esatti, altrimenti utilizzare allarmi inesatti che potrebbero essere migliori per la batteria</string>
+    <string name="prefs_useexactalarm_title">Usa allarme esatto per le pianificazioni</string>
 </resources>
