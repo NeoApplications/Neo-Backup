@@ -1,0 +1,8 @@
+Aggiunto: Verifica se lo spazio di archiviazione disponibile è sufficiente per il backup
+Aggiunto: Nome casuale per le nuove pianificazioni
+Corretto: Riduzione dei falsi negativi di checkroot
+Aggiornato: Miglioramento dell'affidabilità della pulizia delle pianificazioni
+Aggiornato: Riduzione delle ricomposizioni ove possibile
+Aggiornato: Semplificazione di più componenti e pagine dell'interfaccia utente
+Rimosso: Opzioni di sfondo animato
++ più di 70 commit e 20 traduzioni
