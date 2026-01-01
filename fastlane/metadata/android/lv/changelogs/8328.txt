@@ -1,0 +1,8 @@
+Pievienots: pārbauda, vai ar pieejamo krātuvi ir pietiekami rezerves kopijām
+Pievienots: nejauši jaunu laika izvēļu nosaukumi
+Salabots: samazināts nepareizi noteikto sakņošanas gadījumu skaits
+Atjaunināts: uzlabota laika izvēļu notīrīšanas uzticamība
+Atjaunināts: samazināta atkārtotu salikšanu skaits, kur iespējams
+Atjaunināts: vienkāršotas vairākas lietotāja saskarnes sastāvdaļas un lapas
+Noņemts: animētu fonu iespējas
++ vairāk nekā 70 iesūtījumu, 20 tulkojumu
