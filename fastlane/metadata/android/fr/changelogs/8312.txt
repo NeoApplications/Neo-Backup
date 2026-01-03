@@ -1,0 +1,6 @@
+Correction : arrêt forcé d'une application
+Correction : suppression du calendrier
+Correction : plantage sur le menu contextuel
+Mise à jour : amélioration de l'animation de la barre des applications mises à jour
+Mise à jour : pré-chargement de toutes les pages
++ plus de 30 commits et 30 contributions à la traduction
