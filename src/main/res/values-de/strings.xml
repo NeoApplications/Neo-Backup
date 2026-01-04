@@ -429,4 +429,5 @@
     <string name="title_backup_management">Sicherungsverwaltung:</string>
     <string name="dialogUndo">Rückgängig</string>
     <string name="deleteScheduleDialogMessage">Zeitplan löschen?</string>
+    <string name="prefs_compression_type">Komprimierungstyp</string>
 </resources>
