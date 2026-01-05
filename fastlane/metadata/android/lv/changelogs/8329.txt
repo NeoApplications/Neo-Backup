@@ -1,0 +1,4 @@
+Pievienots: ainu pārklājumi un attiecīga stratēģija
+Salabots: ScheduleReceiver palaišana pēc pārsāknēšanas
+Atjaunināts: BottomSheetScaffold aizstāts ar Nav3 apakšējo lapu pārvietošanās joslu
++ vairāk nekā 70 iesūtījumu, 14 tulkojumu
