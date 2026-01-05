@@ -1,0 +1,4 @@
+Aggiunto: Sovrapposizioni di scene e relativa strategia
+Corretto: Esecuzione di ScheduleReceiver al riavvio
+Aggiornato: Sostituzione di BottomSheetScaffold con la navigazione del foglio inferiore Nav3
++ più di 70 commit e 14 traduzioni

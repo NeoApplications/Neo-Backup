@@ -1,0 +1,7 @@
+Ajout : bouton « Appliquer la limite des sauvegardes » à AppSheet
+Ajout : possibilité de restaurer d'anciennes applications (antérieures à Android 6) sur Android 14+
+Ajout : différents thèmes dynamiques et noirs
+Correction : prise en charge de KernelSU
+Correction : plantage lors de la reprise après le lancement depuis AppSheet
+Mise à jour : refonte des boutons d'AppSheet
++ plus de 40 commits et 60 contributions à la traduction

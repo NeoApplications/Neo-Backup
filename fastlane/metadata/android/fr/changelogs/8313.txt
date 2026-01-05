@@ -1,0 +1,6 @@
+Ajout : animation des boutons de la barre de navigation
+Correction : exécution des plannings lorsque l'application n'est pas ouverte
+Correction : stub manquant pour restorePackage dans les spéciaux
+Correction : chevauchement de la barre de navigation et des feuilles
+Correction : plantage lors du redémarrage de l'application avec AppSheet ouvert
++ plus de 10 contributions à la traduction
