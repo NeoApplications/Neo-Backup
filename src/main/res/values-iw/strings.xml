@@ -320,4 +320,20 @@
     <string name="grant_smsmms_message">זה חיוני כדי לגבות/לשחזר את ה-SMS/MMS.</string>
     <string name="grant_contacts_message">זה נדרש בשביל לאפשר להתאים איש קשר ל-SMS/MMS.</string>
     <string name="grant_usage_access_message">זה נדרש בשביל לקבל מידע אודות גודל קבצי היישום</string>
+    <string name="prefs_useexactalarm_title">השתמש במתזמן מדויק בלוח התזמונים</string>
+    <string name="unknown_error">שגיאה לא ידועה</string>
+    <string name="backupdir_inaccessible">מיקום הגיבוי אינו נגיש</string>
+    <string name="refresh_failed">הרענון נכשל</string>
+    <string name="refresh_completed">רענון הסתיים</string>
+    <string name="updating_db">מעדכן מסד נתונים של יישומים…</string>
+    <string name="scanning_dirs">סורק תיקיית גיבויים…</string>
+    <string name="invalidating_package">מנקה מטמון עבור %s…</string>
+    <string name="invalidating_all">מנקה מטמונים…</string>
+    <string name="refresh_init">מאתחל רענון</string>
+    <string name="refresh_work_title">מעדכן רשימת גיבויים</string>
+    <string name="notification_schedules">לוח תזמונים</string>
+    <string name="notification_app_action">פעולות יישומים</string>
+    <string name="disabled_schedules">תזמונים מכובים</string>
+    <string name="enabled_schedules">תזמונים מופעלים</string>
+    <string name="stats_app_size">גודל יישומים</string>
 </resources>
