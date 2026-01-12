@@ -460,4 +460,23 @@
     </plurals>
     <string name="packagesToBackup">Кількість пакетів для резервного копіювання: %d</string>
     <string name="addBlocklistDialogMessage">Додати програму до глобального списку блокування?</string>
+    <string name="prefs_useexactalarm_summary">якщо не використовуєте useAlarmClock, тоді використовуйте точні будильники, інакше використовуйте неточні будильники, що може бути краще для батареї</string>
+    <string name="stats_app_size">Розмір додатків</string>
+    <string name="stats_data_size">Розмір Даних</string>
+    <string name="enabled_schedules">Увімкнені розклади</string>
+    <string name="disabled_schedules">Вимкнені розклади</string>
+    <string name="notification_app_action">Дії в додатку</string>
+    <string name="notification_schedules">Розклади</string>
+    <string name="notification_handler">Обробник сповіщень</string>
+    <string name="refresh_work_title">Оновлення списку резервних копій</string>
+    <string name="refresh_init">Ініціювання оновлення</string>
+    <string name="invalidating_all">Очищення кешів…</string>
+    <string name="invalidating_package">Очищення кешу для %s…</string>
+    <string name="scanning_dirs">Сканування каталогу резервних копій…</string>
+    <string name="updating_db">Оновлення бази даних програми…</string>
+    <string name="refresh_completed">Оновлення завершено</string>
+    <string name="refresh_failed">Не вдалося оновити</string>
+    <string name="backupdir_inaccessible">Резервне копіювання недоступне</string>
+    <string name="unknown_error">Невідома помилка</string>
+    <string name="prefs_useexactalarm_title">Використовувати точний будильник для розкладів</string>
 </resources>
