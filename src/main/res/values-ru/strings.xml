@@ -466,4 +466,21 @@
     </plurals>
     <string name="packagesToBackup">Количество пакетов для резервного копирования: %d</string>
     <string name="addBlocklistDialogMessage">Добавить приложение в глобальный чёрный список?</string>
+    <string name="stats_app_size">Размер приложений</string>
+    <string name="stats_data_size">Размер данных</string>
+    <string name="enabled_schedules">Включенные расписания</string>
+    <string name="disabled_schedules">Отключенные расписания</string>
+    <string name="notification_app_action">Действия приложения</string>
+    <string name="notification_schedules">Расписания</string>
+    <string name="notification_handler">Обработчик уведомлений</string>
+    <string name="refresh_work_title">Обновление списка резервных копий</string>
+    <string name="refresh_init">Запуск обновления</string>
+    <string name="invalidating_all">Очистка кэша…</string>
+    <string name="invalidating_package">Очистка кэша %s…</string>
+    <string name="scanning_dirs">Сканирование каталога резервных копий…</string>
+    <string name="updating_db">Обновление базы данных приложения…</string>
+    <string name="refresh_completed">Обновление завершено</string>
+    <string name="refresh_failed">Обновить не удалось</string>
+    <string name="backupdir_inaccessible">Местоположение резервной копии недоступно</string>
+    <string name="unknown_error">Неизвестная ошибка</string>
 </resources>

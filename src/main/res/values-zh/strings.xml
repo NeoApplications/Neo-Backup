@@ -442,8 +442,12 @@
     <string name="prefs_pgp_passcode_summary">如果受保护，则用于解锁 PGP 密钥的密码。</string>
     <string name="prefs_encryption_none">无加密</string>
     <string name="prefs_encryption_password">密码</string>
-    <string name="title_app_management">应用管理:</string>
-    <string name="title_backup_management">备份管理:</string>
+    <string name="title_app_management">应用管理：</string>
+    <string name="title_backup_management">备份管理：</string>
     <string name="deleteScheduleDialogMessage">删除计划？</string>
     <string name="addBlocklistDialogMessage">添加此应用到全局黑名单？</string>
+    <string name="sched_customlist_dialog_message">自定义列表：%s</string>
+    <string name="stats_app_size">应用大小</string>
+    <string name="stats_data_size">数据大小</string>
+    <string name="dialogUndo">撤销</string>
 </resources>
