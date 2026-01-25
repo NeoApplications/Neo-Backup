@@ -97,7 +97,7 @@
     <string name="prefs_excludecache_summary">Välista andmevarundusest rakenduse vahemälu</string>
     <string name="prefs_acquirewakelock_summary">Hangi ärkamislukk massioperatsioonide tegemise ajaks, et vältida unerežiimi - kiirendab varunduste loomist ja taastamist suurema energiakasutuse arvelt.</string>
     <string name="prefs_oldbackups_summary">Filtreeri varundusi, mis on vanemad kui määratud väärtus (päevades). Kasutatakse filtri \"Kuva vanu varundusi\" puhul.</string>
-    <string name="prefs_copyselfapk_summary">Aseta varundamisel OAndBackupX-i koopia varunduskausta juurtasemele</string>
+    <string name="prefs_copyselfapk_summary">Aseta varundamisel Neo Backup-i koopia varunduse juurkausta</string>
     <string name="prefs_rememberfiltering_summary">Salvestab valitud sorteerimise ja filtreerimise meetodi. Arvestatakse vaid neid, mida märgid menüüs linnukesega.</string>
     <string name="prefs_batchdelete_summary">Kustuta kõikide hetkel mittepaigaldatud rakenduste varukoopiad.</string>
     <string name="sched_title">Ajastamine</string>
@@ -163,9 +163,9 @@
     <string name="enable_encryption_message">Krüpteerimata andmeid ei ole seadmes turvaline hoida. Oma andmete turvamiseks luba krüpteering ja määra parool.</string>
     <string name="intro_permission_batteryoptimization">Rakendusel võib ajastatud varunduste korral esineda probleeme teatud süsteemides, mis kasutavad agressiivset aku optimeerimist nagu MIUI, aga ka tavalisel AOSP-l võib see probleem esineda.</string>
     <string name="intro_permission_usageaccess">See rakendus vajab seda luba, et kontrollida sinu rakenduste statistikat ja andmete/vahemälu suuruseid.</string>
-    <string name="intro_permission_storage">See rakendus kasutab mäluruumi kirjutamis-/lugemisõigust, et välisele mäluruumile ligi pääseda ning võimaldada teiste rakenduste väliste andmete või OBB varundamist.</string>
+    <string name="intro_permission_storage">Välisele andmeruumile ligipääsemiseks kasutab see rakendus kasutab mäluruumi kirjutamis-/lugemisõigust, sama on vaja ka teiste rakenduste väliste data/obb kaustade varundamisel.</string>
     <string name="storage_access">Mäluruumi ligipääs</string>
-    <string name="welcome_to_oabx">Tere tulemast OABX-i!</string>
+    <string name="welcome_to_oabx">Tere tulemast, see on Neo Backup!</string>
     <string name="enable_encryption_title">Andmete krüpteering</string>
     <string name="apptype_special">Eriline varundus</string>
     <string name="sortDataSize">Andmete suurus</string>
