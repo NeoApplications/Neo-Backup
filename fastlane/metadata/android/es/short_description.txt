@@ -1,1 +1,1 @@
-herramienta para hacer copias de seguridad de tus aplicaciones y datos
+La herramienta de código abierto para hacer copias de seguridad de tus aplicaciones y datos
