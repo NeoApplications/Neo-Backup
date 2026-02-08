@@ -430,4 +430,8 @@
     <string name="dialogUndo">Rückgängig</string>
     <string name="deleteScheduleDialogMessage">Zeitplan löschen?</string>
     <string name="prefs_compression_type">Komprimierungstyp</string>
+    <string name="prefs_compression_type_summary">Wähle die Art der genutzten Kompression aus</string>
+    <string name="enforce_backups_limit">Backup-Limit durchsetzen</string>
+    <string name="enforce_backups_limit_description">Lösche ältere Backups, um das Limit zu %d durchzusetzen</string>
+    <string name="prefs_altblocklayout">Nutze alternatives Layout für Blockseiten</string>
 </resources>
