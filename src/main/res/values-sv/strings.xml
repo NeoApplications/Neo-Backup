@@ -202,7 +202,7 @@
     <string name="stats_backups">Säkerhetskopior</string>
     <string name="stats_apps">Appar</string>
     <string name="sortAscDesc">Stigande-Fallande</string>
-    <string name="prefs_secondary_2">Limette</string>
+    <string name="prefs_secondary_2">Limefrukt</string>
     <string name="prefs_secondary_6">Skiffer</string>
     <string name="prefs_secondary_8">Mynta</string>
     <string name="title_note">Notera att:</string>
@@ -254,4 +254,23 @@
     <string name="title_app_management">App-hantering:</string>
     <string name="deleteScheduleDialogMessage">Ta bort schemat?</string>
     <string name="sched_blocklist_dialog_message">Blockeringslista: %s</string>
+    <string name="disabled_schedules">Avstängda scheman</string>
+    <string name="refresh_init">Initierar uppdatering</string>
+    <string name="invalidating_all">Rensar cache…</string>
+    <plurals name="sched_interval_formal">
+        <item quantity="one">varje dag</item>
+        <item quantity="other">var %d:e dag</item>
+    </plurals>
+    <plurals name="days_left">
+        <item quantity="one">%d dag</item>
+        <item quantity="other">%d dagar</item>
+    </plurals>
+    <plurals name="updated_apps">
+        <item quantity="one">%d uppdaterad app</item>
+        <item quantity="other">%d uppdaterade appar</item>
+    </plurals>
+    <plurals name="package_num">
+        <item quantity="one">%d paket</item>
+        <item quantity="other">%d paketen</item>
+    </plurals>
 </resources>
