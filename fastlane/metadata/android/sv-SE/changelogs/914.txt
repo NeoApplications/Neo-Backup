@@ -1,0 +1,2 @@
+**OAndBackupX 0.9.14 (även känd som 1.0.0-rc3)** 
+* Återställdes: tillbaka till rensning av cache

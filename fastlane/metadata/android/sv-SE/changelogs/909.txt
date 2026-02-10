@@ -1,0 +1,2 @@
+**OAndBackupX 0.9.9** 
+* Tog bort: leta efter Uppdatering (förbereder för F-Droid-utgåva)

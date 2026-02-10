@@ -1,0 +1,2 @@
+* Fixade: Meddelandevisning vid fel (@hg42) 
+* Fixade: Citera problem i säkerhetskopieringsprocessen (@hg42)

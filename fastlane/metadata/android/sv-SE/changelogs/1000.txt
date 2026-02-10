@@ -1,0 +1,2 @@
+**OAndBackupX 1.0.0** 
+* Lade till: alternativ för att rensa cache före säkerhetskopieringen
