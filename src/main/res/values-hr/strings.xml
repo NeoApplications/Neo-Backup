@@ -393,4 +393,6 @@
     <string name="grant_usage_access_title">Dozvoli Pristup Korištenja</string>
     <string name="error_updating_schedule_mode">Greška pri ažuriranju %1$s rasporeda %2$d</string>
     <string name="prefs_theme_dynamic_dark">Tamna sa dinamičnim bojama</string>
+    <string name="prefs_compression_type">Vrsta sažimanja</string>
+    <string name="prefs_compression_type_summary">Odaberite vrstu sažimanja</string>
 </resources>
