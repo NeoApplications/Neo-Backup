@@ -320,7 +320,7 @@
     <string name="prefs_loadingtoasts_summary">Mostra toast durante il caricamento della lista</string>
     <string name="delete">Elimina</string>
     <string name="loading_list">Caricamento lista…</string>
-    <string name="dismiss">Ignora</string>
+    <string name="dismiss">Scarta</string>
     <string name="enabled">Abilitato</string>
     <string name="sortAsc">Ascendente</string>
     <string name="sortDesc">Discendente</string>
@@ -475,4 +475,7 @@
     <string name="unknown_error">Errore sconosciuto</string>
     <string name="prefs_useexactalarm_summary">se non si utilizza useAlarmClock, utilizzare allarmi esatti, altrimenti utilizzare allarmi inesatti che potrebbero essere migliori per la batteria</string>
     <string name="prefs_useexactalarm_title">Usa allarme esatto per le pianificazioni</string>
+    <string name="dialog_ignore">Ignora</string>
+    <string name="prefs_enablestoragecheck">Abilita controllo archiviazione</string>
+    <string name="prefs_enablestoragecheck_summary">Verifica lo spazio di archiviazione libero disponibile prima di avviare un backup.</string>
 </resources>
