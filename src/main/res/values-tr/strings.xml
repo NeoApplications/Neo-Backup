@@ -180,7 +180,7 @@
     <string name="prefs_dev_settings">Geliştirici ayarları</string>
     <string name="prefs_dev_settings_summary">Bir geliştirici size söylemedikçe değiştirmeyin!</string>
     <string name="sched_name">İsim:</string>
-    <string name="sched_title">Zamanlama</string>
+    <string name="sched_title">Zamanlayıcı</string>
     <string name="sched_add">Zamanlama Ekle</string>
     <string name="sched_notificationMessage">Zamanlanmış yedekleme</string>
     <string name="sched_interval">Günlük aralık:</string>
@@ -470,4 +470,8 @@
     <string name="backupdir_inaccessible">Yedekleme konumuna erişilemiyor</string>
     <string name="unknown_error">Bilinmeyen hata</string>
     <string name="prefs_useexactalarm_title">Programlar için tam alarm kullanın</string>
+    <string name="invalidating_package">%s için önbellek temizleniyor…</string>
+    <string name="dialog_ignore">Yok say</string>
+    <string name="prefs_enablestoragecheck">Depolama kontrolünü etkinleştir</string>
+    <string name="prefs_enablestoragecheck_summary">Yedeklemeyi başlatmadan önce boş depolamanın ne kadar olduğunu kontrol et.</string>
 </resources>
