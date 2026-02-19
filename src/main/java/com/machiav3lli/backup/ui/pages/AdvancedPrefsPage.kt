@@ -288,20 +288,6 @@ val pref_menuButtonAlwaysVisible = BooleanPref(
     defaultValue = false
 )
 
-val pref_busyIconTurnTime = IntPref(
-    key = "dev-adv.busyIconTurnTime",
-    summary = "time for one rotation of busy icon (ms)",
-    entries = (1000..10000 step 500).toList(),
-    defaultValue = 4000
-)
-
-val pref_busyIconScale = IntPref(
-    key = "dev-adv.busyIconScale",
-    summary = "busy icon scaling (%)",
-    entries = (100..200 step 10).toList(),
-    defaultValue = 150
-)
-
 val pref_busyFadeTime = IntPref(
     key = "dev-adv.busyFadeTime",
     summary = "time to fade busy color (ms)",

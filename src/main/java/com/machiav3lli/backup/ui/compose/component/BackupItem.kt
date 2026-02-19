@@ -120,6 +120,7 @@ fun BackupItem_supportingContent(
         }
         Row(
             horizontalArrangement = Arrangement.spacedBy(2.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Badge(containerColor = MaterialTheme.colorScheme.primary) {
                 Text(

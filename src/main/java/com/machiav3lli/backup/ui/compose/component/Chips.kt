@@ -193,7 +193,7 @@ fun StateChip(
 
     Surface(
         modifier = modifier
-            .defaultMinSize(minWidth = 44.dp, minHeight = 1.dp)
+            .defaultMinSize(minWidth = 40.dp, minHeight = 1.dp)
             .clip(RoundedCornerShape(cornerRadius))
             .combinedClickable(
                 onClick = onClick,
