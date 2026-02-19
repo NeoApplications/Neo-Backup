@@ -42,9 +42,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -145,7 +145,7 @@ fun TitleOrInfoLog(
                     modifier = { vertical() },
                     elseModifier = { fillMaxWidth() }
                 )
-                .rotate(rotation)
+                .graphicsLayer { rotationZ = rotation }
                 .wrapContentHeight()
         )
 
@@ -457,7 +457,7 @@ fun VerticalPreview() {
         Text(
             modifier = Modifier
                 .vertical()
-                .rotate(-90f),
+                .graphicsLayer { rotationZ = -90f },
             fontWeight = FontWeight.Bold,
             text = "vertical text"
         )

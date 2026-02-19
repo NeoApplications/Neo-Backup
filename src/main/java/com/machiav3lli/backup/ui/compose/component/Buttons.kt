@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
@@ -41,9 +42,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -57,8 +57,6 @@ import com.machiav3lli.backup.R
 import com.machiav3lli.backup.data.entity.ColoringState
 import com.machiav3lli.backup.ui.compose.icons.Phosphor
 import com.machiav3lli.backup.ui.compose.icons.phosphor.ArrowsClockwise
-import com.machiav3lli.backup.ui.pages.pref_busyIconScale
-import com.machiav3lli.backup.ui.pages.pref_busyIconTurnTime
 import kotlin.math.max
 
 @Composable
@@ -301,7 +299,7 @@ fun RoundButton(
         colors = if (filled) IconButtonDefaults.filledIconButtonColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
         ) else IconButtonDefaults.iconButtonColors(),
-        shape = MaterialTheme.shapes.medium,
+        shape = CircleShape,
         onClick = onClick
     ) {
         Icon(
@@ -351,20 +349,16 @@ fun RefreshButton(
     if (hideIfNotBusy && isBusy.not())
         return
 
-    val scale by animateFloatAsState(
-        if (isBusy) 0.01f * pref_busyIconScale.value
-        else 1f, label = "iconScale"
-    )
     val angle by animateFloatAsState(
         if (isBusy) {
             val infiniteTransition = rememberInfiniteTransition(label = "infiniteTransition")
 
             val animationProgress by infiniteTransition.animateFloat(
                 initialValue = 0f,
-                targetValue = 1f,
+                targetValue = 20f,
                 animationSpec = infiniteRepeatable(
                     animation = tween(
-                        durationMillis = pref_busyIconTurnTime.value,
+                        durationMillis = 50000,
                         easing = LinearEasing
                     )
                 ), label = "animationProgress"
@@ -377,10 +371,10 @@ fun RefreshButton(
     RoundButton(
         description = stringResource(id = R.string.refresh),
         icon = Phosphor.ArrowsClockwise,
-        tint = if (isBusy) Color.Red else tint,
         modifier = modifier
-            .scale(scale)
-            .rotate(angle),
+            .graphicsLayer {
+                rotationZ = angle
+            },
         onClick = onClick
     )
 }
@@ -395,7 +389,6 @@ fun RefreshButtonPreview() {
     Column {
         Text("factor: $factor")
         Text("level: $level")
-        Text("time: ${(pref_busyIconTurnTime.value * factor).toInt()}")
         Row {
             RefreshButton()
             ActionButton(text = "hit") {
