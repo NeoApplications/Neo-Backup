@@ -13,7 +13,7 @@ body:
       label: Guidelines
       description: Please ensure you've completed all of the following.
       options:
-        - label: I have read the [FAQ](https://codeberg.org/NeoApplications/Neo-Backup/blob/master/FAQ.md) and it doesn't cover the issue.
+        - label: I have read the [FAQ](https://codeberg.org/NeoApplications/Neo-Backup/src/branch/main/FAQ.md) and it doesn't cover the issue.
           required: true
         - label: I have searched the issue tracker for [open](https://codeberg.org/NeoApplications/Neo-Backup/issues) and [closed](https://codeberg.org/NeoApplications/Neo-Backup/issues?q=is%3Aissue+is%3Aclosed) issues that are similar to the feature request I want to file, without success.
           required: true
