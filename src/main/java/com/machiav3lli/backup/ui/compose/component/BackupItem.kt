@@ -205,6 +205,7 @@ fun BackupItem(
     onRestore: (Backup) -> Unit = { },
     onDelete: (Backup) -> Unit = { },
     onNote: (Backup) -> Unit = { },
+    onShare: (Backup) -> Unit = { },
     rewriteBackup: (Backup, Backup) -> Unit = { _, _ -> },
 ) {
     var persistent by remember(item.persistent) {
@@ -254,6 +255,13 @@ fun BackupItem(
                             tint = MaterialTheme.colorScheme.tertiaryContainer,
                             onTint = MaterialTheme.colorScheme.onTertiaryContainer,
                             onClick = { onDelete(item) }
+                        )
+                        FilledRoundButton(
+                            icon = Phosphor.ShareNetwork,
+                            description = stringResource(id = R.string.shareTitle),
+                            tint = MaterialTheme.colorScheme.secondaryContainer,
+                            onTint = MaterialTheme.colorScheme.onSecondaryContainer,
+                            onClick = { onShare(item) }
                         )
                         if (!item.packageLabel.contains("INVALID"))
                             ActionButton(

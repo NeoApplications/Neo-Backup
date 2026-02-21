@@ -22,7 +22,6 @@ import android.net.Uri
 import android.provider.Settings
 import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -38,13 +37,11 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -85,7 +82,6 @@ import com.machiav3lli.backup.manager.tasks.BackupActionTask
 import com.machiav3lli.backup.manager.tasks.RestoreActionTask
 import com.machiav3lli.backup.ui.activities.NeoActivity
 import com.machiav3lli.backup.ui.compose.component.BackupItem
-import com.machiav3lli.backup.ui.compose.component.FilledRoundButton
 import com.machiav3lli.backup.ui.compose.component.IconTextButton
 import com.machiav3lli.backup.ui.compose.component.InfoChipsBlock
 import com.machiav3lli.backup.ui.compose.component.OutlinedIconTextButton
@@ -104,7 +100,6 @@ import com.machiav3lli.backup.ui.compose.icons.phosphor.Info
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Leaf
 import com.machiav3lli.backup.ui.compose.icons.phosphor.MagnifyingGlass
 import com.machiav3lli.backup.ui.compose.icons.phosphor.NotePencil
-import com.machiav3lli.backup.ui.compose.icons.phosphor.Pencil
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Prohibit
 import com.machiav3lli.backup.ui.compose.icons.phosphor.ProhibitInset
 import com.machiav3lli.backup.ui.compose.icons.phosphor.TrashSimple
@@ -116,10 +111,10 @@ import com.machiav3lli.backup.ui.dialogs.BackupDialogUI
 import com.machiav3lli.backup.ui.dialogs.BaseDialog
 import com.machiav3lli.backup.ui.dialogs.RestoreDialogUI
 import com.machiav3lli.backup.ui.dialogs.StringInputDialogUI
+import com.machiav3lli.backup.utils.BackupShareUtils
 import com.machiav3lli.backup.utils.TraceUtils
 import com.machiav3lli.backup.utils.extensions.koinNeoViewModel
 import com.machiav3lli.backup.utils.infoChips
-import com.machiav3lli.backup.utils.launchView
 import com.machiav3lli.backup.viewmodels.AppVM
 import timber.log.Timber
 
@@ -533,6 +528,9 @@ fun AppPage(
                         onNote = { item ->
                             dialogProps.value = Pair(DialogMode.NOTE_BACKUP, item)
                             openDialog.value = true
+                        },
+                        onShare = { item ->
+                            BackupShareUtils.shareBackup(item, context)
                         },
                         rewriteBackup = { backup, changedBackup ->
                             viewModel.rewriteBackup(backup, changedBackup)
