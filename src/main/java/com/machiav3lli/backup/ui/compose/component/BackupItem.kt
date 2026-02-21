@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Badge
 import androidx.compose.material3.Checkbox
@@ -50,6 +51,7 @@ import com.machiav3lli.backup.ui.compose.icons.Phosphor
 import com.machiav3lli.backup.ui.compose.icons.phosphor.ClockCounterClockwise
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Lock
 import com.machiav3lli.backup.ui.compose.icons.phosphor.LockOpen
+import com.machiav3lli.backup.ui.compose.icons.phosphor.ShareNetwork
 import com.machiav3lli.backup.ui.compose.icons.phosphor.TrashSimple
 import com.machiav3lli.backup.ui.pages.pref_altBackupDate
 import com.machiav3lli.backup.utils.BACKUP_DATE_TIME_SHOW_FORMATTER
@@ -95,13 +97,17 @@ fun BackupItem_headlineContent(
 @Composable
 fun BackupItem_supportingContent(
     item: Backup,
-    showTag: Boolean = false,
+    onNote: ((Backup) -> Unit)? = null,
 ) {
     FlowRow(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
+        verticalArrangement = Arrangement.Center,
     ) {
-        Row {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(2.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
             Text(
                 text = if (pref_altBackupDate.value)
                     item.backupDate.format(BACKUP_DATE_TIME_SHOW_FORMATTER)
@@ -110,18 +116,25 @@ fun BackupItem_supportingContent(
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 2,
             )
-            val directoryTag = item.directoryTag
-            if (directoryTag.isNotEmpty())
-                Text(
-                    text = " - $directoryTag",
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1,
-                )
+            val fileSizeText = if (item.backupVersionCode != 0)
+                Formatter.formatFileSize(LocalContext.current, item.size)
+            else ""
+            Text(
+                text = " - $fileSizeText",
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+            )
         }
         Row(
+            modifier = Modifier.padding(start = 4.dp),
             horizontalArrangement = Arrangement.spacedBy(2.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
+            NoteTagItem(
+                note = item.note,
+                maxLines = 3,
+                onNote = onNote?.let { { it(item) } },
+            )
             Badge(containerColor = MaterialTheme.colorScheme.primary) {
                 Text(
                     text = if (item.backupVersionCode == 0)
@@ -161,14 +174,13 @@ fun BackupItem_supportingContent(
                     maxLines = 1,
                 )
             }
-            val fileSizeText = if (item.backupVersionCode != 0)
-                Formatter.formatFileSize(LocalContext.current, item.size)
-            else ""
-            Text(
-                text = " - $fileSizeText",
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 1,
-            )
+            val directoryTag = item.directoryTag
+            if (directoryTag.isNotEmpty())
+                Text(
+                    text = " - $directoryTag",
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
+                )
             AnimatedVisibility(visible = (item.profileId != currentProfile)) {
                 Row {
                     Text(
@@ -183,14 +195,6 @@ fun BackupItem_supportingContent(
                     )
                 }
             }
-        }
-        if (showTag) {
-            NoteTagItem(
-                item = item,
-                modifier = Modifier.weight(1f, false),
-                maxLines = 1,
-                onNote = null,
-            )
         }
     }
 }
@@ -227,31 +231,23 @@ fun BackupItem(
             Column(
                 verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
-                BackupItem_supportingContent(item)
+                BackupItem_supportingContent(item, onNote = onNote)
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    NoteTagItem(
-                        item = item,
-                        modifier = Modifier
-                            .weight(1f, false)
-                            .align(Alignment.CenterVertically),
-                        maxLines = 3,
-                        onNote = onNote,
+                    RoundButton(
+                        icon = if (persistent) Phosphor.Lock
+                        else Phosphor.LockOpen,
+                        tint = lockColor,
+                        onClick = togglePersistent
                     )
 
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(4.dp),
                     ) {
-                        RoundButton(
-                            icon = if (persistent) Phosphor.Lock
-                            else Phosphor.LockOpen,
-                            tint = lockColor,
-                            onClick = togglePersistent
-                        )
                         FilledRoundButton(
                             icon = Phosphor.TrashSimple,
                             description = stringResource(id = R.string.deleteBackup),
@@ -316,7 +312,7 @@ fun RestoreBackupItem(
                     containerColor = Color.Transparent,
                 ),
                 headlineContent = { BackupItem_headlineContent(item) },
-                supportingContent = { BackupItem_supportingContent(item, true) },
+                supportingContent = { BackupItem_supportingContent(item) },
             )
         }
     }

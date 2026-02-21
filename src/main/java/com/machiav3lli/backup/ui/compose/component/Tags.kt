@@ -3,16 +3,18 @@ package com.machiav3lli.backup.ui.compose.component
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Badge
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -115,38 +117,29 @@ fun TagItem(
 
 @Composable
 fun NoteTagItem(
-    item: Backup,
+    note: String,
     modifier: Modifier = Modifier,
     maxLines: Int = 1,
-    onNote: ((Backup) -> Unit)? = null,
+    onNote: (() -> Unit)? = null,
 ) {
-    val note = item.note
-    val fillChip = note.isEmpty() && onNote != null
+    val visible = note.isNotBlank() || onNote != null
 
-    if (fillChip) {
-        RoundButton(
-            icon = Phosphor.NotePencil,
-            description = stringResource(id = R.string.edit_note),
-            onClick = { onNote?.let { it(item) } }
-        )
-    } else if (note.isNotEmpty()) InputChip(
-        modifier = modifier.heightIn(24.dp, (24 * maxLines).dp),
-        selected = fillChip,
-        colors = InputChipDefaults.inputChipColors(
-            containerColor = Color.Transparent,
-            labelColor = MaterialTheme.colorScheme.onSurface,
-            selectedContainerColor = MaterialTheme.colorScheme.primary,
-            selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
-        ),
-        label = {
-            Text(
-                text = note.ifEmpty { stringResource(id = R.string.edit_note) },
-                maxLines = maxLines,
-                overflow = TextOverflow.Ellipsis,
-            )
+    if (visible) Badge(
+        modifier = modifier.clickable(enabled = onNote != null) {
+            onNote?.let { it() }
         },
-        onClick = { onNote?.let { it(item) } },
-    )
+    ) {
+        if (onNote != null) Icon(
+            modifier = Modifier.size(16.dp),
+            imageVector = Phosphor.NotePencil,
+            contentDescription = stringResource(id = R.string.edit_note),
+        )
+        if (note.isNotEmpty()) Text(
+            text = note.ifEmpty { stringResource(id = R.string.edit_note) },
+            maxLines = maxLines,
+            overflow = TextOverflow.Ellipsis,
+        )
+    }
 }
 
 @Composable
@@ -273,19 +266,19 @@ fun NoteTagItemPreview() {
         Text("\ntext:\n")
         Row(modifier = Modifier.padding(4.dp)) {
             Text("Backup: ")
-            NoteTagItem(item = backup_with_note, maxLines = maxLines, onNote = {})
+            NoteTagItem(note = backup_with_note.note, maxLines = maxLines, onNote = {})
         }
         Row(modifier = Modifier.padding(4.dp)) {
             Text("   empty: ")
-            NoteTagItem(item = backup, maxLines = maxLines, onNote = {})
+            NoteTagItem(note = backup.note, maxLines = maxLines, onNote = {})
         }
         Row(modifier = Modifier.padding(4.dp)) {
             Text("Restore: ")
-            NoteTagItem(item = backup_with_note, maxLines = maxLines)
+            NoteTagItem(note = backup_with_note.note, maxLines = maxLines)
         }
         Row(modifier = Modifier.padding(4.dp)) {
             Text("   empty: ")
-            NoteTagItem(item = backup, maxLines = maxLines)
+            NoteTagItem(note = backup.note, maxLines = maxLines)
         }
     }
 }
