@@ -662,6 +662,12 @@ val persist_skippedEncryptionCounter = IntPref(
     defaultValue = 0
 )
 
+val pref_ignoreKeepAndroidOpenNotice = BooleanPref(
+    key = "ignore.ignoreKeepAndroidOpenNotice",
+    summary = "keep the configured number of unlocked backups, instead of also counting locked backups",
+    defaultValue = false
+)
+
 //----------------------------------------
 
 fun publicPreferences(persist: Boolean = false) =

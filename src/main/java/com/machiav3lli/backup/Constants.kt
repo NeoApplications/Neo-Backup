@@ -393,6 +393,8 @@ const val HELP_LICENSE =
 const val HELP_ISSUES = "https://github.com/NeoApplications/Neo-Backup/issues"
 const val HELP_FAQ = "https://codeberg.org/NeoApplications/Neo-Backup/src/branch/main/FAQ.md"
 
+const val LINK_KEEP_ANDROID_OPEN = "https://keepandroidopen.org"
+
 val linksList =
     listOf(Link.Changelog, Link.Telegram, Link.Matrix, Link.FAQ, Link.Issues, Link.License)
 
