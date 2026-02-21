@@ -207,6 +207,7 @@ class NeoApp : Application(), KoinStartup {
         MainScope().launch {
             addInfoLogText("--> click title to keep infobox open")
             addInfoLogText("--> long press title for dev tools")
+            com.machiav3lli.backup.utils.BackupShareUtils.cleanupShareCache(this@NeoApp)
         }
     }
 
