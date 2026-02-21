@@ -23,6 +23,8 @@ import com.machiav3lli.backup.data.dbs.entity.SpecialInfo
 import com.machiav3lli.backup.data.entity.Package
 import com.machiav3lli.backup.data.entity.RootFile
 import com.machiav3lli.backup.data.entity.StorageFile
+import com.machiav3lli.backup.data.entity.WifiNetwork
+import com.machiav3lli.backup.data.entity.WifiNetworkParser
 import com.machiav3lli.backup.manager.handler.ShellHandler
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.quote
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.runAsRoot
@@ -93,39 +95,48 @@ class RestoreSpecialAction(context: Context, work: AppActionWork?, shell: ShellH
                 Timber.e(errorMessage)
                 throw RestoreFailedException(errorMessage, null)
             }
-            val commands = mutableListOf<String?>()
-            for (restoreFile in expectedFiles) {
-                val (uid, gid, con) = try {
-                    shell.suGetOwnerGroupContext(restoreFile.absolutePath)
-                } catch (e: Throwable) {
-                    // fallback to permissions of parent directory
-                    shell.suGetOwnerGroupContext(
-                        restoreFile.parentFile?.absolutePath
-                            ?: restoreFile.toPath().parent.toString()
-                    )
-                }
-                commands.add(
-                    "$utilBoxQ mv -f ${
-                        quote(
-                            File(
-                                tempPath,
-                                restoreFile.name
-                            )
+
+            if (app.packageName == "special.wifi.access.points") {
+                tempPath.listFiles()?.firstOrNull { it.name.endsWith("WifiConfigStore.xml") }
+                    ?.let { configFile -> restoreWifiAccessPoints(app, configFile) }
+                    ?: run {
+                        Timber.w("$app: No WifiConfigStore.xml found in special files – skipping live injection")
+                        return
+                    }
+            }
+            val commands = buildList {
+                for (restoreFile in expectedFiles) {
+                    val (uid, gid, con) = try {
+                        shell.suGetOwnerGroupContext(restoreFile.absolutePath)
+                    } catch (e: Throwable) {
+                        // fallback to permissions of parent directory
+                        shell.suGetOwnerGroupContext(
+                            restoreFile.parentFile?.absolutePath
+                                ?: restoreFile.toPath().parent.toString()
                         )
-                    } ${quote(restoreFile)}"
-                )
-                commands.add(
-                    "$utilBoxQ chown $uid:$gid ${quote(restoreFile)}"
-                )
-                commands.add(
-                    if (con == "?") //TODO hg42: when does it happen? maybe if selinux not supported on storage?
-                        null // "" ; restorecon -RF -v ${quote(restoreFile)}"  //TODO hg42 doesn't seem to work, probably because selinux unsupported in this case
-                    else
-                        "chcon -R -h -v '$con' ${quote(restoreFile)}"
-                )
+                    }
+                    add(
+                        "$utilBoxQ mv -f ${
+                            quote(
+                                File(
+                                    tempPath,
+                                    restoreFile.name
+                                )
+                            )
+                        } ${quote(restoreFile)}"
+                    )
+                    add(
+                        "$utilBoxQ chmod 600 ${quote(restoreFile)}"
+                    )
+                    add(
+                        "$utilBoxQ chown $uid:$gid ${quote(restoreFile)}"
+                    )
+                    if (con != "?") add("chcon -R -h -v '$con' ${quote(restoreFile)}")
+                    // else null // "" ; restorecon -RF -v ${quote(restoreFile)}"  //TODO hg42 doesn't seem to work, probably because selinux unsupported in this case
+                }
             }
 
-            val command = commands.filterNotNull().joinToString(" ; ")  // no dependency
+            val command = commands.joinToString(" ; ")
             runAsRoot(command)
 
             if (app.packageName == "special.smsmms.json") {
@@ -160,6 +171,55 @@ class RestoreSpecialAction(context: Context, work: AppActionWork?, shell: ShellH
                 File(filePath).delete()
             }
         }
+    }
+
+    /**
+     * ### Why both file-restore AND cmd wifi?
+     * The file copy should restore the networks persistently, but isn't working reliably
+     * on latest Android versions, being overwritten by the data held in the Wi-Fi stack.
+     * Calling `cmd wifi add-network` tells the *live* stack about the networks so both the in-
+     * memory and file states are consistent.
+     *
+     * ### `cmd wifi` availability
+     * The command has been available since Android 9 (API 28).
+     */
+    private fun restoreWifiAccessPoints(app: Package, xmlFile: RootFile) {
+        val xmlBytes = runCatching {
+            runAsRoot("cat ${quote(xmlFile)}")
+                .out
+                .joinToString("\n")
+                .toByteArray(Charsets.UTF_8)
+        }.onFailure { e ->
+            Timber.e("$app: Could not read $xmlFile via root shell: $e")
+        }.getOrElse { return }
+
+        if (xmlBytes.isEmpty()) {
+            Timber.w("$app: $xmlFile was empty or unreadable – skipping live injection")
+            return
+        }
+
+        val networks = runCatching { WifiNetworkParser.parse(xmlBytes.inputStream()) }
+            .onFailure { e -> Timber.e("$app: Failed to parse WifiConfigStore.xml: ${e.cause}") }
+            .getOrElse { return }
+
+        Timber.i("$app: Parsed ${networks.size} Wi-Fi network(s) from backup")
+
+        val addCommands = WifiNetwork.buildRestoreCommands(networks)
+        if (addCommands.isEmpty()) {
+            Timber.i("$app: No networks eligible for live injection")
+            return
+        }
+
+        addCommands.forEachIndexed { index, cmd ->
+            runCatching { runAsRoot(cmd) }
+                .onSuccess { Timber.d("$app: Wi-Fi inject [${index + 1}/${addCommands.size}] OK") }
+                .onFailure { e ->
+                    // errors are logged but not communicated to user for now TODO notify about failed network restores
+                    Timber.w("$app: Wi-Fi inject [${index + 1}/${addCommands.size}] failed (non-fatal): $e")
+                }
+        }
+
+        Timber.i("$app: Wi-Fi live injection complete (${addCommands.size} network(s) submitted)")
     }
 
     override fun restorePackage(backupDir: StorageFile, backup: Backup) {
