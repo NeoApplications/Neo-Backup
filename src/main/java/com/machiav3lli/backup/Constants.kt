@@ -33,6 +33,9 @@ import kotlinx.collections.immutable.persistentListOf
 const val PREFS_SHARED_PRIVATE = "com.machiav3lli.backup"
 const val STATEFLOW_SUBSCRIBE_BUFFER = 60_000L // 1 minute buffer
 
+const val ACTION_RUN_SCHEDULE_SHORTCUT = "com.machiav3lli.backup.ACTION_RUN_SCHEDULE_SHORTCUT"
+const val MAX_SHORTCUTS = 4
+
 const val NOTIFICATION_CHANNEL_ACTIONWORK = "AppActionWork"
 const val NOTIFICATION_CHANNEL_HANDLER = "NotificationHandler"
 const val NOTIFICATION_CHANNEL_SCHEDULE = "ScheduleWork"
