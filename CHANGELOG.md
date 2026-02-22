@@ -1,6 +1,35 @@
 CHANGELOG
 =========
 
+8.3.17 (22.02.2026) +40 Commits,  +20 Translations
+------------
+
+### Function
+
+- Add: Setting to enable/disable storage check on backup action
+- Add: Fallback options for suGetOwnerGroupContext
+- Add: AppState flow to AppVM
+- Add: ExtrasTags DB view
+- Fix: Restore on wifi backups on newer Android versions
+- Fix: Backup equality checks
+- Fix: Duplicate backups (possible racing condition)
+- Update: Rebase RootFile on SuFile
+- Update: Replace buttons boolean positive with ColoringState enum
+- Update: Improve reliability of running async functions in receivers
+
+### UI & UX
+
+- Add: Launcher shortcuts support for running schedules
+- Add: KeepAndroidOpen banner
+- Add: Backup sharing button
+- Add: Existing tags suggestion in the adding dialog
+- Fix: Restore Andy in placeholder icons
+- Fix: Block list indicator on button in schedule page
+- Update: Revamp app page, backup items and refresh button
+- Update: Make Batch page's bottom bar floating
+- Update: Add action button to permission items
+- Update: Revamp search bar and the top bars
+
 8.3.16 (03.01.2026) 10 Commits,  14 Translations
 ------------
 

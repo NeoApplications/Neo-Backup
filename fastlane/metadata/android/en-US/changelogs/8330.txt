@@ -1,0 +1,8 @@
+Add: Launcher shortcuts support for running schedules
+Add: Backup sharing button
+Add: Existing tags suggestion in the adding dialog
+Fix: Restore on wifi backups on newer Android versions
+Fix: Restore Andy in placeholder icons
+Update: Revamp app page, batch page, backup items and refresh button
+Update: Revamp search bar and the top bars
++ more than 40 commits, 20 translations
