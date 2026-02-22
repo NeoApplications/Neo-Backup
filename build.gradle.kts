@@ -24,6 +24,7 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.ksp)
     alias(libs.plugins.stability.analyzer)
+    alias(libs.plugins.gradle.toolchains) apply false
     //alias(libs.plugins.kotlin.scripting)
 }
 
