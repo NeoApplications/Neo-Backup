@@ -212,7 +212,7 @@ fun SchedulePage(
                             modifier = Modifier.weight(0.5f),
                             icon = Phosphor.Prohibit,
                             description = stringResource(id = R.string.sched_blocklist),
-                            coloring = if (state.customList.isNotEmpty()) ColoringState.Positive
+                            coloring = if (state.blockList.isNotEmpty()) ColoringState.Positive
                             else ColoringState.Negative,
                         ) {
                             dialogProps.value = Pair(DialogMode.BLOCKLIST, schedule)
