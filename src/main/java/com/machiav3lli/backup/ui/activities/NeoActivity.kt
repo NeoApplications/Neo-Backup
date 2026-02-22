@@ -45,9 +45,11 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
+import com.machiav3lli.backup.ACTION_RUN_SCHEDULE_SHORTCUT
 import com.machiav3lli.backup.ALT_MODE_APK
 import com.machiav3lli.backup.ALT_MODE_BOTH
 import com.machiav3lli.backup.ALT_MODE_DATA
+import com.machiav3lli.backup.EXTRA_SCHEDULE_ID
 import com.machiav3lli.backup.NeoApp
 import com.machiav3lli.backup.R
 import com.machiav3lli.backup.RESCUE_NAV
@@ -63,6 +65,7 @@ import com.machiav3lli.backup.manager.handler.LogsHandler.Companion.unexpectedEx
 import com.machiav3lli.backup.manager.handler.ShellHandler
 import com.machiav3lli.backup.manager.handler.WorkHandler
 import com.machiav3lli.backup.manager.tasks.AppActionWork
+import com.machiav3lli.backup.manager.tasks.ScheduleWork
 import com.machiav3lli.backup.ui.compose.ObservedEffect
 import com.machiav3lli.backup.ui.compose.component.DevTools
 import com.machiav3lli.backup.ui.compose.theme.AppTheme
@@ -99,6 +102,7 @@ import com.machiav3lli.backup.viewmodels.ScheduleVM
 import com.machiav3lli.backup.viewmodels.SchedulesVM
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
@@ -317,7 +321,7 @@ class NeoActivity : BaseActivity() {
                         return false
                     }
 
-                    "android.intent.action.MAIN" -> {
+                    Intent.ACTION_MAIN           -> {
                         if (data == null)
                             return false
                         when (data.toString()) {
@@ -330,6 +334,13 @@ class NeoActivity : BaseActivity() {
                         }
                     }
 
+                    ACTION_RUN_SCHEDULE_SHORTCUT -> {
+                        val scheduleId = intent.getLongExtra(EXTRA_SCHEDULE_ID, -1L)
+                        if (scheduleId != -1L) {
+                            handleScheduleShortcut(scheduleId)
+                        }
+                    }
+
                     else                         -> {
                         return false
                     }
@@ -338,18 +349,18 @@ class NeoActivity : BaseActivity() {
 
             "afterContent", "newIntent" -> {
                 when (command) {
-                    null                         -> {
+                    null               -> {
                         return false
                     }
 
-                    "android.intent.action.MAIN" -> {
+                    Intent.ACTION_MAIN -> {
                         if (data == null)
                             return false
                         //moveTo(data.toString())
                         Timber.w("Received a newIntent with command:$command and didn't handle it!")
                     }
 
-                    else                         -> {
+                    else               -> {
                         NeoApp.addInfoLogText("Main: command '$command'")
                     }
                 }
@@ -357,6 +368,26 @@ class NeoActivity : BaseActivity() {
 
         }
         return false
+    }
+
+    private fun handleScheduleShortcut(scheduleId: Long) {
+        mScope.launch {
+            try {
+                val scheduleRepo = get<ScheduleRepository>(ScheduleRepository::class.java)
+                val schedule = scheduleRepo.getSchedule(scheduleId)
+                if (schedule != null && schedule.enabled) {
+                    Timber.i("Running schedule from shortcut: ${schedule.name}")
+                    ScheduleWork.enqueueImmediate(schedule)
+                    showSnackBar(getString(R.string.sched_activateButton) + ": ${schedule.name}")
+                } else {
+                    Timber.w("Schedule not found or disabled: $scheduleId")
+                    showError(getString(R.string.schedule_not_found_or_disabled))
+                }
+            } catch (e: Exception) {
+                Timber.e(e, "Error running schedule from shortcut")
+                showError(e.message)
+            }
+        }
     }
 
     fun showEncryptionDialog() {

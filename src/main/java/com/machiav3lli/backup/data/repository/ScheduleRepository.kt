@@ -6,8 +6,11 @@ import com.machiav3lli.backup.data.dbs.dao.ScheduleDao
 import com.machiav3lli.backup.data.dbs.entity.Schedule
 import com.machiav3lli.backup.data.preferences.traceSchedule
 import com.machiav3lli.backup.manager.tasks.ScheduleWork
+import com.machiav3lli.backup.utils.addScheduleShortcut
 import com.machiav3lli.backup.utils.cancelScheduleAlarm
+import com.machiav3lli.backup.utils.removeScheduleShortcut
 import com.machiav3lli.backup.utils.scheduleNextAlarm
+import com.machiav3lli.backup.utils.updateScheduleShortcuts
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -46,6 +49,8 @@ class ScheduleRepository(
                 .randomName()
                 .build()
         )
+        // update to avoid ignoring the shortcut when the number of shortcuts surpasses 4
+        updateScheduleShortcuts(appContext, dao.getAll())
     }
 
     suspend fun update(value: Schedule) = dao.update(value)
@@ -59,16 +64,19 @@ class ScheduleRepository(
                 schedule.id,
                 rescheduleBoolean
             )
+            addScheduleShortcut(appContext, schedule)
         } else {
             traceSchedule { "[$schedule.id] ScheduleViewModel.updateS -> cancelAlarm" }
             cancelScheduleAlarm(appContext, schedule.id, schedule.name)
             ScheduleWork.cancel(schedule.id)
+            removeScheduleShortcut(appContext, schedule.id)
         }
     }
 
     suspend fun deleteById(id: Long) {
         dao.deleteById(id)
         ScheduleWork.cancel(id)
+        removeScheduleShortcut(appContext, id)
     }
 }
 
