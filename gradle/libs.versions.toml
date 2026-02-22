@@ -1,6 +1,6 @@
 [versions]
 activity = "1.12.4"
-agp = "9.0.0"
+agp = "9.0.1"
 biometric = "1.2.0-alpha05"
 coil = "2.7.0"
 commons-compress = "1.28.0"
