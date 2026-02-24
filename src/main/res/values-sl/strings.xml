@@ -439,4 +439,5 @@
     <string name="passcode">Varnostna koda</string>
     <string name="prefs_pgp_key_management">Upravljanje ključev OpenPGP</string>
     <string name="prefs_cleanup_backupdir">Očisti mapo za varnostne kopije</string>
+    <string name="prefs_cleanup_backupdir_summary">Poišče poškodovane varnostne kopije (npr. poškodovane datoteke lastnosti, lastnosti brez mape, mapa brez lastnosti), jih označi in nato izbriše.</string>
 </resources>
