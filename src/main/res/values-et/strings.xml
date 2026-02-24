@@ -472,4 +472,8 @@
     <string name="dialog_ignore">Eira</string>
     <string name="prefs_enablestoragecheck">Kasuta andmeruumi kontrolli</string>
     <string name="prefs_enablestoragecheck_summary">Enne varunduse algust käivita vaba andmeruumi kontroll.</string>
+    <string name="keep_android_open">Android peab jääma avatuks</string>
+    <string name="keep_android_open_notice">Google ohustab Androidi avatust. Me vajame sinu abi https://keepandroidopen.org/</string>
+    <string name="shortcut_run_schedule">Käivita %s</string>
+    <string name="schedule_not_found_or_disabled">Ajastust ei leidu või see on lülitatud välja</string>
 </resources>
