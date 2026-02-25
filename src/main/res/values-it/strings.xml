@@ -478,4 +478,8 @@
     <string name="dialog_ignore">Ignora</string>
     <string name="prefs_enablestoragecheck">Abilita controllo archiviazione</string>
     <string name="prefs_enablestoragecheck_summary">Verifica lo spazio di archiviazione libero disponibile prima di avviare un backup.</string>
+    <string name="keep_android_open">Difendi l\'apertura di Android</string>
+    <string name="keep_android_open_notice">Le politiche di Google minacciano l\'esistenza di F-Droid e la natura aperta di Android. Non restare a guardare, aiutaci a proteggerli: https://keepandroidopen.org/</string>
+    <string name="shortcut_run_schedule">Esegui %s</string>
+    <string name="schedule_not_found_or_disabled">Pianificazione non trovata o disabilitata</string>
 </resources>
