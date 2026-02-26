@@ -1,0 +1,2 @@
+**OAndBackupX 0.9.13 (också känd som 1.0.0-rc2)** 
+* Återställdes: tillbaka till cp (rsync är inte paketerat i alla ROM:ar)
