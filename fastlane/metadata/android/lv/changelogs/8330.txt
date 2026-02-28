@@ -1,0 +1,8 @@
+Pievienots: palaidēja saīsņu atbalsts notiekošajiem plāniem
+Pievienots: rezerves kopiju kopīgošanas poga
+Pievienots: esošo birku ieteikšana pievienošanas lodziņā
+Salabots: atjaunotas WiFi rezerves kopijas jaunākās Android versijās
+Salabots: vietturu ikonās atjaunots Andy
+Atjaunināts: pārstrādāta lietotņu lapa, masveida lapa, rezerves kopiju vienumi un atsvaidzināšanas poga
+Atjaunināts: pārstrādāta meklēšanas un augšējās joslas
++ vairāk nekā 40 iesūtījumu, 20 tulkojumu
