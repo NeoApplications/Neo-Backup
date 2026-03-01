@@ -1,0 +1,8 @@
+Aggiunto: Supporto per le scorciatoie del launcher per l'esecuzione di pianificazioni
+Aggiunto: Pulsante di condivisione del backup
+Aggiunto: Suggerimento di tag esistenti nella finestra di dialogo di aggiunta
+Corretto: Ripristino dei backup tramite Wi-Fi nelle versioni Android più recenti
+Corretto: Ripristino di Andy nelle icone segnaposto
+Aggiornato: Rinnovamento della pagina dell'app, della pagina batch, degli elementi di backup e del pulsante di aggiornamento
+Aggiornato: Rinnovamento della barra di ricerca e delle barre superiori
++ di 40 commit, 20 traduzioni
