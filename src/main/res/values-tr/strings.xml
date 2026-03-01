@@ -474,4 +474,8 @@
     <string name="dialog_ignore">Yok say</string>
     <string name="prefs_enablestoragecheck">Depolama kontrolünü etkinleştir</string>
     <string name="prefs_enablestoragecheck_summary">Yedeklemeyi başlatmadan önce boş depolamanın ne kadar olduğunu kontrol et.</string>
+    <string name="keep_android_open">Android\'i açık tut</string>
+    <string name="schedule_not_found_or_disabled">Zamanlayıcı bulunamadı veya devredışı bırakılmış</string>
+    <string name="shortcut_run_schedule">%s başlatı</string>
+    <string name="keep_android_open_notice">Android\'in özgürlüğü Google tarafından tehlikeye girmiştir. Yardımınıza ihtiyacımız var: https://keepandroidopen.org/</string>
 </resources>
