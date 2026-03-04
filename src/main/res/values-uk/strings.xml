@@ -355,7 +355,7 @@
     <string name="prefs_tools_terminal">Термінал</string>
     <string name="prefs_mediadata_summary">Резервне копіювання медіа-файлів застосунку, розміщених на зовнішньому носії (наприклад, /storage/emulated/0/Android/media/)</string>
     <string name="prefs_externaldata_summary">Резервна копія даних, розміщених на зовнішньому носії (наприклад, /storage/emulated/0/Android/data/)</string>
-    <string name="prefs_obbdata_summary">Створення резервної копії файлів OBB застосунку, розміщених на зовнішньому носії (наприклад, /storage/emulated/0/Android/obb/)</string>
+    <string name="prefs_obbdata_summary">Створення резервної копії файлів obb застосунку, розміщених на зовнішньому носії (наприклад, /storage/emulated/0/Android/obb/)</string>
     <string name="prefs_externaldata_rst">Відновлення зовнішніх даних</string>
     <string name="prefs_obbdata_rst">Відновлення obb файлів</string>
     <string name="prefs_externaldata_rst_summary">Відновлює дані, розміщені на зовнішньому носії (наприклад, /storage/emulated/0/Android/data/)</string>
@@ -479,4 +479,11 @@
     <string name="backupdir_inaccessible">Резервне копіювання недоступне</string>
     <string name="unknown_error">Невідома помилка</string>
     <string name="prefs_useexactalarm_title">Використовувати точний будильник для розкладів</string>
+    <string name="dialog_ignore">Ігнорувати</string>
+    <string name="prefs_enablestoragecheck">Увімкнути перевірку сховища</string>
+    <string name="prefs_enablestoragecheck_summary">Перед початком резервного копіювання перевірте наявність вільного місця на диску.</string>
+    <string name="keep_android_open">Збережіть відкритість Android</string>
+    <string name="keep_android_open_notice">Відкритість Android знаходиться під загрозою з боку Google. Нам потрібна ваша допомога: https://keepandroidopen.org/</string>
+    <string name="shortcut_run_schedule">Запустити %s</string>
+    <string name="schedule_not_found_or_disabled">Розклад не знайдено або вимкнено</string>
 </resources>
