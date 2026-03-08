@@ -4,14 +4,14 @@
     <string name="backupConfirmation">백업\?</string>
     <string name="restore">복원</string>
     <string name="handleApk">APK</string>
-    <string name="handleBoth">베스나이</string>
+    <string name="handleBoth">둘 다</string>
     <string name="radio_all">모든 앱</string>
     <string name="radio_user">유저 앱</string>
     <string name="radio_system">시스템 앱</string>
     <string name="radio_both">APK와 데이터</string>
-    <string name="radio_apk">사이드로딩잉잉</string>
+    <string name="radio_apk">APK</string>
     <string name="radio_special">특수 백업</string>
-    <string name="radio_externaldata">외부 자료</string>
+    <string name="radio_externaldata">외부 데이터</string>
     <string name="radio_obbdata">오빠 자료</string>
     <string name="radio_mediadata">영상물 자료</string>
     <string name="de_selectAll">전부 선택/해제</string>
