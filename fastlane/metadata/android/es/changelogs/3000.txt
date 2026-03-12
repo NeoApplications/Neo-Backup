@@ -1,10 +1,10 @@
 ##### Esta versión no es compatible con versiones anteriores
 * Modificado: el directorio de copia de seguridad predeterminado es /OABX
-* Anular el método de encriptación (gracias @Pizze)
+* Anular el método de cifrado (gracias @Pizze)
 * Actualización: modifique la interfaz de ayuda y la interfaz de la lista de aplicaciones
-* Cambio: la preferencia de clearCache es excluirCache
+* Cambio: la preferencia de clearCache es excludeCache
 * ACTUALIZACIÓN: Reescribe toda la funcionalidad del comando de shell (gracias @Pizze)
 * Agregado: Ordenar por tamaño de datos
-* Agregado: Información sobre herramientas para todos los íconos de botones
+* Agregado: Información sobre herramientas para todos los iconos de botones
 * Agregado: botón de borrar caché de la lista de aplicaciones
 * Agregado: cuadro de diálogo de advertencia cuando el cifrado está habilitado
