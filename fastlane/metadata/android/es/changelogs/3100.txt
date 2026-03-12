@@ -3,7 +3,7 @@
 * Eliminado: soporte para Android Nougat
 * Añadido: Nuevo sistema de etiquetas
 * Añadido: Preferencia de bloqueo biométrico
-* Actualizada:  Toda la interfaz de usuario
+* Actualizada: Toda la interfaz de usuario
 * Actualizado: por defecto, datos externos y obb deshabilitados
 * Arreglado: Cierres inesperados en la interfaz de usuario
 * Migración de la licencia a Affero GPL v3
