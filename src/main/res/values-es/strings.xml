@@ -188,7 +188,7 @@
 \n - Tanto la copia de seguridad y restauración de los programas individuales de uno en uno y la copia de seguridad por lotes y la restauración de múltiples programas son compatibles.
 \n - La restauración de las aplicaciones del sistema debería ser posible sin requerir un reinicio posterior.
 \n - Las copias de seguridad se pueden programar sin límite en el número de programaciones individuales y existe la posibilidad de crear listas personalizadas a partir de la lista de aplicaciones instaladas.</string>
-    <string name="intro_permission_storage">La aplicación usa permisos de lectura/escritura del almacenamiento para poder acceder al almacenamiento externo y ofrecer la posibilidad de realizar copias de seguridad de datos externos/OBB de otras aplicaciones.</string>
+    <string name="intro_permission_storage">La aplicación usa permisos de lectura/escritura del almacenamiento para poder acceder al almacenamiento externo y ofrecer la posibilidad de realizar respaldo de datos externos/obb de otras aplicaciones.</string>
     <string name="intro_permission_storage_location">La aplicación necesita una ubicación para almacenar los respaldos. La aplicación podría necesitar algunos gigabytes de almacenamiento para una copia de seguridad completa y es muy intensiva en el uso del sistema de archivos. Por favor, tenga esto en cuenta al elegir una ubicación de almacenamiento situada en la red.</string>
     <string name="intro_permission_usageaccess">La aplicación necesita este permiso para poder verificar las estadísticas y tamaños de los datos y la caché de sus aplicaciones.</string>
     <string name="intro_permission_batteryoptimization">La aplicación podría encontrarse con algunos problemas realizando respaldos programados en algunas ROMs que tienen optimizaciones de batería muy agresivas, por ejemplo MIUI, pero incluso en AOSP estándar podría suceder.</string>
@@ -408,10 +408,10 @@
     <string name="prefs_theme_dynamic_dark">Oscuro con colores dinámicos</string>
     <string name="enforce_backups_limit">Aplicar el límite de las copias de seguridad</string>
     <string name="enforce_backups_limit_description">Borra las copias de seguridad más antiguas para cumplir con el límite a %d</string>
-    <string name="prefs_backupcache">Back up cached data</string>
-    <string name="prefs_backupcache_summary">Back up files in cache directories</string>
-    <string name="prefs_restorecache">Restore cached data</string>
-    <string name="prefs_restorecache_summary">Restore files in cache directories</string>
+    <string name="prefs_backupcache">Respaldar datos en caché</string>
+    <string name="prefs_backupcache_summary">Respaldar archivos en los directorios de caché</string>
+    <string name="prefs_restorecache">Restaurar datos en caché</string>
+    <string name="prefs_restorecache_summary">Restaurar archivos en directorios de caché</string>
     <string name="prefs_compression_type">Tipo de compresión</string>
     <string name="prefs_compression_type_summary">Seleccione el tipo de compresión utilizada</string>
     <string name="prefs_altblocklayout_summary">Utilice un diseño alternativo/antiguo para bloques de páginas con bordes en lugar de superficies coloreadas.</string>
@@ -458,8 +458,34 @@
     <plurals name="package_num">
         <item quantity="one">%d paquete</item>
         <item quantity="many">%d paquetes</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <string name="packagesToBackup">Número de paquetes a respaldar: %d</string>
     <string name="addBlocklistDialogMessage">¿Añadir aplicación a la lista de bloqueos global?</string>
+    <string name="prefs_useexactalarm_summary">si no utiliza useAlarmClock, entonces utilice las alarmas exactas, en otro caso utilice alarmas inexactas las cueles pueden ser mejores para batería</string>
+    <string name="stats_app_size">Tamaño de Apps</string>
+    <string name="stats_data_size">Tamaño de Datos</string>
+    <string name="enabled_schedules">Planificación habilitada</string>
+    <string name="disabled_schedules">Planificaciones inhabilitadas</string>
+    <string name="notification_app_action">Acciones de app</string>
+    <string name="notification_schedules">Planificaciones</string>
+    <string name="notification_handler">Manipulador de notificaciones</string>
+    <string name="refresh_work_title">Recargar listado de respaldos</string>
+    <string name="refresh_init">Inicializando refresco</string>
+    <string name="invalidating_all">Purgando cachés…</string>
+    <string name="invalidating_package">Purgando caché para %s…</string>
+    <string name="scanning_dirs">Analizando directorio de respaldo…</string>
+    <string name="updating_db">Actualizar base de datos de aplicación…</string>
+    <string name="refresh_completed">Refresco completado</string>
+    <string name="refresh_failed">Refresco incorrecto</string>
+    <string name="backupdir_inaccessible">El sitio del respaldo no es accesible</string>
+    <string name="unknown_error">Error desconocido</string>
+    <string name="prefs_useexactalarm_title">Utilizar alarma exacta para planificaciones</string>
+    <string name="dialog_ignore">Ignorar</string>
+    <string name="prefs_enablestoragecheck">Habilitar comprobante de almacén</string>
+    <string name="prefs_enablestoragecheck_summary">Comprobar almacén disponible libre antes de iniciar un respaldo.</string>
+    <string name="keep_android_open">Conservar Android Abierto</string>
+    <string name="keep_android_open_notice">La apertura de Android se ve amenazada por Google. Necesitamos tu ayuda: https://keepandroidopen.org/</string>
+    <string name="shortcut_run_schedule">Ejecuta %s</string>
+    <string name="schedule_not_found_or_disabled">Planificación no encontrada o inhabilitada</string>
 </resources>
