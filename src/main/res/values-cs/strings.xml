@@ -443,4 +443,5 @@
     <string name="prefs_pgp_passcode_summary">Heslo k odemčení klíče PGP, pokud je chráněn.</string>
     <string name="prefs_cleanup_backupdir">Vymazat adresář záloh</string>
     <string name="enforced_backups_limit_FORMAT">Vynucený limit záloh %d u následujících aplikací: %s</string>
+    <string name="prefs_useexactalarm_title">일정에 정확한 알람 사용</string>
 </resources>
