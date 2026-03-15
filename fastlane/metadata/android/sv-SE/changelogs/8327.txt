@@ -1,0 +1,3 @@
+Lade till: Tagg-filter 
+Fixade: Kör ScheduleReceiver vid omstart 
++ mer än 10 incheckningar, 10 översättningar
