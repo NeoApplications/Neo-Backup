@@ -1,0 +1,7 @@
+**OAndBackupX 1.1.1
+* Qo'shildi: Ilova paneliga (AppSheet) Exodus hisoboti yorlig'i
+* Tuzatildi: Nishoncha (icon) o'lchami <= 0 bo'lgan ilova mavjud bo'lganda dastur ishga tushmasligi
+* O'zgartirildi: Endi standart holatda OAndBackupX o'zini asosiy zaxira jildiga nusxalaydigan bo'ldi
+* Qo'shildi: Yunon tili (Tashakkur: @tsiflimagas)
+* Yangilandi: Bosh harflar bilan yozilishi va ingliz tili qatorlari (Tashakkur: @atrate)
+* Yangilandi: Xitoy, Golland, Polyak va Shved tillari umumlashtirildi

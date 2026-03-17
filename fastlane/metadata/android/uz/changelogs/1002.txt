@@ -1,0 +1,7 @@
+**OAndBackupX 1.0.2
+* Qo'shildi: Element bosilgandagi reaksiya (vizual javob)
+* Yangilandi: Varaqlash (skrolling) qulayligi
+* Tuzatildi: Kirish ekrani (Splash screen)
+* Tuzatildi: Yangilash uchun pastga tortish (swipe to refresh) amali
+* Tuzatildi: Holat paneli (Statusbar) mavzusi
+* va interfeysga (UI) oid ba'zi boshqa kichik o'zgarishlar

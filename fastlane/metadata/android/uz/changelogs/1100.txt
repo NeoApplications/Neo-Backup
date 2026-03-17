@@ -1,0 +1,6 @@
+* OAndBackupX 1.1.0
+* Qo'shildi: ma'lumotlar zaxirasini shifrlash
+* Tuzatildi: jadvallar
+* Yangilandi: bildirishnomalar formati
+* Ba'zi interfeys (UI) elementlari moslashtirildi
+* va ishlash unumdorligi yaxshilandi
