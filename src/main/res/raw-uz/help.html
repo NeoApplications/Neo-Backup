@@ -1,20 +1,20 @@
 <html>
     <body>
-        <p><strong>Backup modes</strong>: An app can be backed up with only its apk, only its data or both. An app not currently installed can only be restored if the apk is present. Three special types of data is supported extra to the main data: device protected data, external data and obb data.
+        <p><strong>Zaxiralash rejimlari</strong>: Ilovani faqat uning APK fayli, faqat ma’lumotlari yoki har ikkalasi bilan birga zaxiralash mumkin. Hozirda o‘rnatilmagan ilovani faqat APK mavjud bo‘lgandagina qayta tiklash mumkin. Asosiy ma’lumotlarga qo‘shimcha ravishda ma’lumotlarning uchta maxsus turi qo‘llab-quvvatlanadi: qurilma himoyasidagi ma’lumotlar, tashqi ma’lumotlar va obb ma’lumotlari.
         </p>
-        <p><strong>Delete backup</strong>: Deletes the backup files for a specific backup instance. While "delete backups" delete all of the backups of the chosen app.
+        <p><strong>Zaxira nusxasini o'chirish</strong>: Muayyan zaxira nusxasining fayllarini o'chirib tashlaydi. "Zaxira nusxalarini o'chirish" esa tanlangan ilovaning barcha zaxira nusxalarini o'chirib yuboradi.
         </p>
-        <p><strong>Uninstall</strong>: Somewhat more aggressive than a normal uninstall. In addition to doing a normal uninstall via Android commands, uninstalling from OAndBackupX deletes files the app might have left over in /data/app-lib/.
+        <p><strong>O'chirish</strong>: Odatiy o'chirish usuliga nisbatan biroz chuqurroq ishlaydi. Android buyruqlari orqali odatiy o'chirishni amalga oshirishdan tashqari, OAndBackupX orqali o'chirish ilovaning /data/app-lib/ jildida qoldirgan bo'lishi mumkin bo'lgan fayllarini ham o'chirib tashlaydi.
         </p>
-        <p><strong>Enable / disable</strong>: Uses the Android `pm` script to enable or disable an app. Disabling an app removes it from the normal user interface without uninstalling it. This can be used for enabling or disabling an app for multiple users at a time (if the device has multiple users). Users are identified with an ID e.g. 0 is the first user (owner) 10 is usually the work profile.
+        <p><strong>Yoqish / o'chirib qo'yish</strong>: Ilovani yoqish yoki o'chirib qo'yish uchun Android'ning `pm` skriptidan foydalanadi. Ilovani o'chirib qo'yish uni butunlay tizimdan o'chirib tashlamasdan (uninstall qilmasdan), odatiy foydalanuvchi interfeysidan olib tashlaydi. Bundan bir vaqtning o'zida bir nechta foydalanuvchilar uchun (agar qurilmada ko'p foydalanuvchili rejim bo'lsa) ilovani yoqish yoki o'chirib qo'yish maqsadida foydalanish mumkin. Foydalanuvchilar ID raqami orqali aniqlanadi, masalan, 0 — birinchi foydalanuvchi (qurilma egasi), 10 esa odatda ish profili (work profile) hisoblanadi.
         </p>
-        <p><strong>Multiple users</strong>: Multi-user is still somewhat experimental but should work. Enabling and disabling only works after an initial install (not necessarily from OAndBackupx) or restore of the app.
+        <p><strong>Bir nechta foydalanuvchilar</strong>: Ko'p foydalanuvchili rejim hali ham biroz tajribaviy (eksperimental) hisoblanadi, lekin u ishlashi kerak. Yoqish va o'chirish faqat ilova dastlab o'rnatilgandan (aynan OAndBackupx orqali bo'lishi shart emas) yoki qayta tiklangandan so'nggina ishlaydi.
         </p>
-        <p><strong>System-less apps</strong>: Backup and restore of system-less apps installed as Magisk modules is not supported and trying it could lead to system failure and forcing you to format and flash it anew.
+        <p><strong>Tizimsiz (System-less) ilovalar</strong>: Magisk moduli sifatida o'rnatilgan tizimsiz ilovalarni zaxiralash va tiklash qo'llab-quvvatlanmaydi. Buni sinab ko'rish tizim xatoligiga olib kelishi va sizni xotirani formatlash hamda tizimni boshqatdan yozishga (proshivka/flash qilishga) majbur qilishi mumkin.
         </p>
-        <p><strong>Navigation</strong>: The navigation bar has "Settings", "Home", "Batch backup", "Batch restore" and "Schedule backups" (in that order). The number of apps upgraded after their last backup will be presented as a notification on "Home" button.
+        <p><strong>Navigatsiya</strong>: Navigatsiya panelida "Sozlamalar", "Asosiy ekran", "Ommaviy zaxiralash", "Ommaviy tiklash" va "Zaxiralash jadvallari" (shu ketma-ketlikda) joylashgan. So'nggi zaxiralanishidan keyin yangilangan ilovalar soni "Asosiy ekran" tugmasida bildirishnoma sifatida ko'rsatiladi.
         </p>
-        <p><strong>Apps using Keystore</strong>: Android has an encrypted storage for sensitive data. Apps that make use of this to store login data or some keys for its function can't be restored successfully. Two examples of such apps are Signal and Element(Riot).
+        <p><strong>Keystore'dan foydalanadigan ilovalar</strong>: Android maxfiy ma'lumotlar uchun shifrlangan xotiraga ega. Tizimga kirish (login) ma'lumotlarini yoki o'z ishlashi uchun zarur bo'lgan kalitlarni saqlashda ushbu xotiradan foydalanadigan ilovalarni muvaffaqiyatli qayta tiklab bo'lmaydi. Bunday ilovalarga Signal va Element (Riot) dasturlari yaqqol misol bo'la oladi.
         </p>
     </body>
 </html>
