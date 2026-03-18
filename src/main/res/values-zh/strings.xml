@@ -450,4 +450,33 @@
     <string name="stats_app_size">应用大小</string>
     <string name="stats_data_size">数据大小</string>
     <string name="dialogUndo">撤销</string>
+    <string name="prefs_useexactalarm_summary">如果不使用 useAlarmClock，则使用精确闹钟；否则使用可能更省电的非精确闹钟</string>
+    <string name="sched_blocklist_dialog_message">黑名单：%s</string>
+    <string name="packagesToBackup">待备份软件包数量：%d</string>
+    <string name="enabled_schedules">已启用的计划</string>
+    <string name="disabled_schedules">已禁用的计划</string>
+    <string name="notification_app_action">应用操作</string>
+    <string name="notification_schedules">计划</string>
+    <string name="notification_handler">通知处理程序</string>
+    <string name="refresh_work_title">正在刷新备份列表</string>
+    <string name="refresh_init">正在初始化刷新</string>
+    <string name="invalidating_all">正在清除缓存…</string>
+    <string name="invalidating_package">正在清除 %s 的缓存…</string>
+    <string name="scanning_dirs">正在扫描备份目录…</string>
+    <string name="updating_db">正在更新应用数据库…</string>
+    <string name="refresh_completed">刷新完成</string>
+    <string name="refresh_failed">刷新失败</string>
+    <string name="backupdir_inaccessible">备份位置无法访问</string>
+    <string name="unknown_error">未知错误</string>
+    <string name="prefs_useexactalarm_title">对计划使用精确闹钟</string>
+    <string name="dialog_ignore">忽略</string>
+    <string name="prefs_enablestoragecheck">启用存储检查</string>
+    <string name="prefs_enablestoragecheck_summary">在开始备份前检查可用存储空间。</string>
+    <string name="keep_android_open">保持 Android 开放</string>
+    <string name="shortcut_run_schedule">运行 %s</string>
+    <string name="schedule_not_found_or_disabled">未找到计划或已禁用</string>
+    <plurals name="package_num">
+        <item quantity="other">%d 个包</item>
+    </plurals>
+    <string name="keep_android_open_notice">Android的开放性受到Google的威胁，我们需要你的帮助：https://keepandroidopen.org/</string>
 </resources>
