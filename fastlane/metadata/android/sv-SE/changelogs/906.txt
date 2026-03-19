@@ -1,0 +1,4 @@
+**OAndBackupX 0.9.6** 
+* Lade till uppdateringskontrollen 
+* Gjorde temat konsekvent   
+* Fixade några strängar
