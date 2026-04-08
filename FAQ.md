@@ -65,7 +65,7 @@ OAndBackupX (OABX) was the former name of the project. You may find some referen
 ## Which Android Versions are supported?
 
 Oldest supported version: Android  8 - "Oreo" </br>
-Newest supported version: Android 13 - "Tiramisu"
+Newest supported version: The newest stable Android version, unless stated otherwise
 
 See also - [Are you going to support older Android versions?](#are-you-going-to-support-older-android-versions)
 
