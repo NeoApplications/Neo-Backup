@@ -1,0 +1,6 @@
+Correction : dysfonctionnement après le retour depuis les préférences (appels Koin et portée)
+Correction : plantage lors de l'utilisation d'appels à la base de données du référentiel sur le thread de l'interface utilisateur
+Mise à jour : amélioration de la gestion des coroutines dans les référentiels
+Mise à jour : adoption par défaut de la conception alternative des blocs
+Mise à jour : refonte des couleurs des préférences
++ plus de 15 commits, 6 traductions

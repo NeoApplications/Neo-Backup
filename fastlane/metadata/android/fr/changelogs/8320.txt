@@ -1,0 +1,7 @@
+Ajout : option permettant de regrouper les sauvegardes non valides (pref_createInvalidBackups)
+Correction : exécution répétée et non planifiée de tâches programmées
+Mise à jour : remplacement des appels à WorkHandler et WorkManager par inject
+Mise à jour : conversion des ViewModels en singletons
+Correction : blocage du lancement des applications après une fermeture forcée
+Correction : réactivité du minuteur de tâches planifiés et de la page de l'app
++ plus de 15 commits

@@ -1,0 +1,8 @@
+- Ajout : barre de recherche dans les dialogues de blocs et listes personnalisées
+- Ajout : thèmes de contraste
+- Correction : planification (retour à ScheduleService)
+- Correction : suppression des sauvegardes manquante/excessive
+- Correction : vérification de la commande su si pref_suCommand vide (merci @hg42)
+- Mise à jour : couleurs de l'icône principale NB restaurées
+- Mise à jour : choix de la dernière sauvegarde par défaut dans le dialogue
++ plus de 15 commits, 30 traductions

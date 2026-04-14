@@ -1,0 +1,5 @@
+Ajout : ForegroundServiceType pour les tâches (obligatoire sur A14)
+Correction : plantage lors de la Sauvegarde/Restauration
+Mise à jour : TargetSDK 34
+Suppression : options de couleurs du thème (temporairement)
+Mise à jour : refonte des couleurs du thème

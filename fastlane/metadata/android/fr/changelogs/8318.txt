@@ -1,0 +1,7 @@
+Ajout : intégration de DB et WorkHandler via Koin
+Ajout : page « Plugins » (dans le panneau de développement)
+Correction : nombre de tâches en cours d'exécution
+Mise à jour : affichage des secondes dans le compteur de planification uniquement lorsque le temps restant est inférieur à 10 minutes
+Mise à jour : mise en couleur de l'icône du mot de passe lorsqu'elle est (in)active
+Mise à jour : refonte de tous les boutons des boîtes de dialogue
++ plus de 30 commits et 20 contributions à la traduction
