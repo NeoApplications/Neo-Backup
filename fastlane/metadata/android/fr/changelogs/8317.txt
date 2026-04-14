@@ -1,0 +1,7 @@
+Ajout : option de compression Zstd
+Ajout : prise en charge des balises dans les calendriers
+Ajout : prise en compte des balises et des notes lors de la recherche
+Ajout : bouton permettant de rechercher une app désinstallée dans la boutique
+Correction : prise en charge du profil professionnel
+Mise à jour : icône de crédit OAndBackup
++ plus de 100 commits et 20 contributions à la traduction
