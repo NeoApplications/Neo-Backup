@@ -471,4 +471,7 @@
     <string name="prefs_enablestoragecheck_summary">Pirms rezerves kopēšanas uzsākšanas pārbaudīt pieejamo krātuvi.</string>
     <string name="dialog_ignore">Neņemt vērā</string>
     <string name="prefs_enablestoragecheck">Iespējot krātuves pārbaudi</string>
+    <string name="keep_android_open">Android jāpaliek atvērtam</string>
+    <string name="keep_android_open_notice">Google apdraud Android atvērtību. Mums ir nepieciešama jūsu palīdzība: https://keepandroidopen.org</string>
+    <string name="shortcut_run_schedule">Palaist %s</string>
 </resources>
