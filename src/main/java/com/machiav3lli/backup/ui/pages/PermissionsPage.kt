@@ -33,10 +33,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.MutableState
@@ -59,10 +57,8 @@ import com.machiav3lli.backup.data.entity.Permission
 import com.machiav3lli.backup.ui.activities.NeoActivity
 import com.machiav3lli.backup.ui.compose.blockBorderBottom
 import com.machiav3lli.backup.ui.compose.component.PermissionItem
-import com.machiav3lli.backup.ui.compose.component.TopBar
 import com.machiav3lli.backup.ui.dialogs.ActionsDialogUI
 import com.machiav3lli.backup.ui.dialogs.BaseDialog
-import com.machiav3lli.backup.ui.navigation.NavRoute
 import com.machiav3lli.backup.utils.SystemUtils.packageName
 import com.machiav3lli.backup.utils.checkBatteryOptimization
 import com.machiav3lli.backup.utils.checkUsageStatsPermission
@@ -81,7 +77,10 @@ import timber.log.Timber
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun PermissionsPage(powerManager: PowerManager = koinInject()) {
+fun PermissionsPage(
+    powerManager: PowerManager = koinInject(),
+    onNext: () -> Unit,
+) {
     val context = LocalContext.current
     val mainActivity = LocalActivity.current as NeoActivity
     val openDialog = remember { mutableStateOf(false) }
@@ -219,8 +218,7 @@ fun PermissionsPage(powerManager: PowerManager = koinInject()) {
                     }
                 }
 
-                if (permissionsList.isEmpty())
-                    mainActivity.moveTo(NavRoute.Main)
+                if (permissionsList.isEmpty()) onNext()
             }
         }
 
@@ -228,26 +226,19 @@ fun PermissionsPage(powerManager: PowerManager = koinInject()) {
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     })
 
-    Scaffold(
-        topBar = {
-            TopBar(title = stringResource(id = R.string.app_name))
-        },
-    ) { paddingValues ->
-        LazyColumn(
-            modifier = Modifier
-                .padding(paddingValues)
-                .blockBorderBottom()
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(8.dp)
-        ) {
-            items(permissionsList.toList(), key = { it.first.nameId }) { (permission, onClick) ->
-                PermissionItem(
-                    item = permission,
-                    modifier = Modifier.animateItem(),
-                    onClick = onClick
-                )
-            }
+    LazyColumn(
+        modifier = Modifier
+            .blockBorderBottom()
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        contentPadding = PaddingValues(8.dp)
+    ) {
+        items(permissionsList.toList(), key = { it.first.nameId }) { (permission, onClick) ->
+            PermissionItem(
+                item = permission,
+                modifier = Modifier.animateItem(),
+                onClick = onClick
+            )
         }
     }
 
