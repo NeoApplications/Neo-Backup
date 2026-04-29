@@ -28,6 +28,7 @@ import com.machiav3lli.backup.ui.sheets.SortFilterSheet
 import com.machiav3lli.backup.viewmodels.BackupBatchVM
 import com.machiav3lli.backup.viewmodels.HomeVM
 import com.machiav3lli.backup.viewmodels.RestoreBatchVM
+import kotlinx.collections.immutable.persistentListOf
 import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,7 +43,7 @@ fun AppNavDisplay(
         modifier = modifier,
         backStack = backStack,
         onBack = { backStack.removeLastOrNull() },
-        sceneStrategy = sceneStrategy,
+        sceneStrategies = persistentListOf(sceneStrategy),
         entryProvider = entryProvider {
             // TODO add conditional to avoid Welcome/PermissionsPage when not needed
             fadeInEntry<NavRoute.Lock> {
