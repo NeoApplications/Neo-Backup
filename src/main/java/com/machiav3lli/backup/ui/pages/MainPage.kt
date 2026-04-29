@@ -118,7 +118,6 @@ fun MainPage(
                 withContext(Dispatchers.Main) {
                     devToolsSearch.value =
                         TextFieldValue("")   //TODO hg42 hide implementation details
-                    activity.showEncryptionDialog()
                 }
             }
         }

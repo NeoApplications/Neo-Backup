@@ -80,7 +80,6 @@ import com.machiav3lli.backup.ui.navigation.navigateUnique
 import com.machiav3lli.backup.ui.pages.RootMissing
 import com.machiav3lli.backup.ui.pages.SplashPage
 import com.machiav3lli.backup.ui.pages.persist_pageOnboarded
-import com.machiav3lli.backup.ui.pages.persist_skippedEncryptionCounter
 import com.machiav3lli.backup.ui.pages.pref_appTheme
 import com.machiav3lli.backup.utils.SystemUtils
 import com.machiav3lli.backup.utils.TraceUtils.classAndId
@@ -90,7 +89,6 @@ import com.machiav3lli.backup.utils.isBiometricLockAvailable
 import com.machiav3lli.backup.utils.isBiometricLockEnabled
 import com.machiav3lli.backup.utils.isDarkTheme
 import com.machiav3lli.backup.utils.isDeviceLockEnabled
-import com.machiav3lli.backup.utils.isEncryptionEnabled
 import com.machiav3lli.backup.viewmodels.ActivityVM
 import com.machiav3lli.backup.viewmodels.AppVM
 import com.machiav3lli.backup.viewmodels.BackupBatchVM
@@ -259,20 +257,7 @@ class NeoActivity : BaseActivity() {
                 if (openDialog.value) {
                     BaseDialog(onDismiss = { openDialog.value = false }) {
                         when (dialogKey.value) {
-                            is DialogKey.Encryption -> {
-                                ActionsDialogUI(
-                                    titleText = stringResource(id = R.string.enable_encryption_title),
-                                    messageText = stringResource(id = R.string.enable_encryption_message),
-                                    onDismiss = { openDialog.value = false },
-                                    primaryText = stringResource(id = R.string.dialog_approve),
-                                    primaryAction = {
-                                        openDialog.value = false
-                                        moveTo(NavRoute.Prefs(1))
-                                    }
-                                )
-                            }
-
-                            is DialogKey.Error      -> {
+                            is DialogKey.Error -> {
                                 val message = (dialogKey.value as DialogKey.Error).message
                                 ActionsDialogUI(
                                     titleText = stringResource(id = R.string.errorDialogTitle),
@@ -284,7 +269,7 @@ class NeoActivity : BaseActivity() {
                                 )
                             }
 
-                            else                    -> {}
+                            else               -> {}
                         }
                     }
                 }
@@ -387,17 +372,6 @@ class NeoActivity : BaseActivity() {
                 Timber.e(e, "Error running schedule from shortcut")
                 showError(e.message)
             }
-        }
-    }
-
-    fun showEncryptionDialog() {
-        val dontShowAgain = isEncryptionEnabled()
-        if (dontShowAgain) return
-        val dontShowCounter = persist_skippedEncryptionCounter.value
-        if (dontShowCounter > 30) return    // don't increment further (useless touching file)
-        persist_skippedEncryptionCounter.value = dontShowCounter + 1
-        if (dontShowCounter % 10 == 0) {
-            showDialog(DialogKey.Encryption())
         }
     }
 

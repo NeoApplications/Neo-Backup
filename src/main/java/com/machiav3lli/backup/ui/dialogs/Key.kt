@@ -6,7 +6,5 @@ sealed class DialogKey {
         val action: () -> Unit,
     ) : DialogKey()
 
-    open class Encryption : DialogKey()
-
     data class Error(val message: String) : DialogKey()
 }
