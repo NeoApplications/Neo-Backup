@@ -80,7 +80,11 @@ fun PackagesListDialogUI(
     }
     packagePairs.addAll(
         packageInfos.map { packageInfo ->
-            Pair(packageInfo.packageName, packageInfo.applicationInfo?.loadLabel(pm).toString())
+            Pair(
+                packageInfo.packageName,
+                packageInfo.applicationInfo?.loadLabel(pm)
+                    .toString() + " (${packageInfo.packageName})"
+            )
         }
     )
 
