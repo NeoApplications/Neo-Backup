@@ -1,5 +1,9 @@
 package com.machiav3lli.backup.ui.compose.component
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.FlowRow
@@ -15,18 +19,25 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.ImageLoader
 import coil.imageLoader
@@ -41,6 +52,7 @@ import com.machiav3lli.backup.ui.pages.pref_multilineInfoChips
 import com.machiav3lli.backup.ui.pages.pref_singularBackupRestore
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.PersistentSet
+import kotlinx.coroutines.launch
 
 @Composable
 fun HomePackageRecycler(
@@ -419,6 +431,50 @@ fun <T> HorizontalItemList(
                     items(items = list, key = itemKey, itemContent = itemContent)
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun CarouselIndicators(
+    modifier: Modifier = Modifier,
+    size: Int = 1,
+    dimension: Dp = 8.dp,
+    enableScrolling: Boolean = true,
+    state: PagerState,
+) {
+    val scope = rememberCoroutineScope()
+    val currentPage by remember { derivedStateOf { state.currentPage } }
+
+    LazyRow(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(dimension / 4, Alignment.CenterHorizontally),
+    ) {
+        items(size) { i ->
+            val isSelected by remember {
+                derivedStateOf {
+                    currentPage == i
+                }
+            }
+            val color by animateColorAsState(
+                targetValue = if (isSelected) MaterialTheme.colorScheme.primary
+                else MaterialTheme.colorScheme.primaryContainer,
+                label = "indicatorColor"
+            )
+            val width by animateDpAsState(
+                targetValue = if (isSelected) dimension.times(2) else dimension,
+                label = "indicatorWidth"
+            )
+
+            Box(
+                modifier = Modifier
+                    .size(height = dimension, width = width)
+                    .clip(CircleShape)
+                    .background(color = color)
+                    .clickable(enabled = enableScrolling) {
+                        scope.launch { state.animateScrollToPage(i) }
+                    }
+            )
         }
     }
 }

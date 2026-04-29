@@ -79,7 +79,7 @@ import com.machiav3lli.backup.ui.navigation.NavRoute
 import com.machiav3lli.backup.ui.navigation.navigateUnique
 import com.machiav3lli.backup.ui.pages.RootMissing
 import com.machiav3lli.backup.ui.pages.SplashPage
-import com.machiav3lli.backup.ui.pages.persist_beenWelcomed
+import com.machiav3lli.backup.ui.pages.persist_pageOnboarded
 import com.machiav3lli.backup.ui.pages.persist_skippedEncryptionCounter
 import com.machiav3lli.backup.ui.pages.pref_appTheme
 import com.machiav3lli.backup.utils.SystemUtils
@@ -191,7 +191,7 @@ class NeoActivity : BaseActivity() {
             AppTheme {
                 SplashPage()
             }
-            navStack = rememberNavBackStack(NavRoute.Permissions) as NavBackStack<NavRoute>
+            navStack = rememberNavBackStack(NavRoute.Onboarding) as NavBackStack<NavRoute>
         }
 
         if (doIntent(intent, "beforeContent"))
@@ -208,7 +208,7 @@ class NeoActivity : BaseActivity() {
 
         setContent {
 
-            navStack = rememberNavBackStack(NavRoute.Permissions) as NavBackStack<NavRoute>
+            navStack = rememberNavBackStack(NavRoute.Onboarding) as NavBackStack<NavRoute>
 
             DisposableEffect(pref_appTheme.value) {
                 enableEdgeToEdge(
@@ -433,7 +433,6 @@ class NeoActivity : BaseActivity() {
     // TODO track and reduce usage
     fun moveTo(destination: NavRoute) {
         try {
-            persist_beenWelcomed.value = destination != NavRoute.Welcome
             if (!isOnLockScreen()) navStack.navigateUnique(destination)
         } catch (e: IllegalArgumentException) {
             Timber.e("cannot navigate to '$destination'")
@@ -616,16 +615,10 @@ class NeoActivity : BaseActivity() {
 
     fun resumeMain() {
         when {
-            !persist_beenWelcomed.value
-                 -> if (navStack.lastOrNull() != NavRoute.Welcome) {
-                navStack.clear()
-                navStack.navigateUnique(NavRoute.Welcome)
-            }
-
-            allPermissionsGranted && this::navStack.isInitialized
+            allPermissionsGranted && persist_pageOnboarded.value > 2 && this::navStack.isInitialized
                  -> launchMain()
 
-            else -> navStack.navigateUnique(NavRoute.Permissions)
+            else -> navStack.navigateUnique(NavRoute.Onboarding)
         }
     }
 
@@ -673,8 +666,7 @@ class NeoActivity : BaseActivity() {
     private fun shouldShowLock() = isBiometricLockAvailable() && isDeviceLockEnabled()
 
     private fun isOnSystemScreen() = navStack.lastOrNull() in listOf(
-        NavRoute.Welcome,
-        NavRoute.Permissions,
+        NavRoute.Onboarding,
         NavRoute.Lock,
     )
 

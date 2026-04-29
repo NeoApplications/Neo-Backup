@@ -18,11 +18,10 @@ import com.machiav3lli.backup.ui.pages.EncryptionPage
 import com.machiav3lli.backup.ui.pages.LockPage
 import com.machiav3lli.backup.ui.pages.LogsPage
 import com.machiav3lli.backup.ui.pages.MainPage
-import com.machiav3lli.backup.ui.pages.PermissionsPage
+import com.machiav3lli.backup.ui.pages.OnboardingPage
 import com.machiav3lli.backup.ui.pages.PrefsPage
 import com.machiav3lli.backup.ui.pages.SchedulesExportsPage
 import com.machiav3lli.backup.ui.pages.TerminalPage
-import com.machiav3lli.backup.ui.pages.WelcomePage
 import com.machiav3lli.backup.ui.sheets.BatchPrefsSheet
 import com.machiav3lli.backup.ui.sheets.HelpSheet
 import com.machiav3lli.backup.ui.sheets.SortFilterSheet
@@ -49,11 +48,11 @@ fun AppNavDisplay(
             fadeInEntry<NavRoute.Lock> {
                 LockPage()
             }
-            fadeInEntry<NavRoute.Welcome> {
-                WelcomePage()
-            }
-            slideInEntry<NavRoute.Permissions> {
-                PermissionsPage()
+            fadeInEntry<NavRoute.Onboarding> {
+                OnboardingPage {
+                    backStack.navigateUnique(NavRoute.Main)
+                    backStack.remove(NavRoute.Onboarding)
+                }
             }
             slideInEntry<NavRoute.Main> {
                 MainPage(

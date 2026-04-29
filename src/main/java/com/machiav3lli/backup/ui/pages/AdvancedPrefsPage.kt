@@ -641,9 +641,10 @@ val persist_firstLaunch = BooleanPref(
     defaultValue = false
 )
 
-val persist_beenWelcomed = BooleanPref(
-    key = "persist.beenWelcomed",
-    defaultValue = false
+val persist_pageOnboarded = IntPref(
+    key = "persist.pageOnboarded",
+    defaultValue = 0,
+    entries = (0..3).toPersistentList()
 )
 
 val persist_ignoreBatteryOptimization = BooleanPref(

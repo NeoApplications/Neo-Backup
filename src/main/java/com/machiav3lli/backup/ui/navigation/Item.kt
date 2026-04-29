@@ -109,20 +109,25 @@ sealed class NavItem(
 sealed class NavRoute : NavKey {
     @Serializable
     data object Lock : NavRoute()
+
     @Serializable
-    data object Welcome : NavRoute()
-    @Serializable
-    data object Permissions : NavRoute()
+    data object Onboarding : NavRoute()
+
     @Serializable
     data object Main : NavRoute()
+
     @Serializable
     data object Terminal : NavRoute()
+
     @Serializable
     data object Encryption : NavRoute()
+
     @Serializable
     data object Exports : NavRoute()
+
     @Serializable
     data object Logs : NavRoute()
+
     @Serializable
     data object Info : NavRoute()
 

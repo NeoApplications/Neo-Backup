@@ -511,4 +511,6 @@
     <string name="keep_android_open_notice">Android\'s openness is threatened by Google. We need your help: https://keepandroidopen.org/</string>
     <string name="shortcut_run_schedule">Run %s</string>
     <string name="schedule_not_found_or_disabled">Schedule not found or disabled</string>
+    <string name="setup_FORMAT">Setup: %s</string>
+    <string name="permissions">Permissions</string>
 </resources>
