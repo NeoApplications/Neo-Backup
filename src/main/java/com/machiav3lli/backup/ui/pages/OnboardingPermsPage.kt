@@ -77,7 +77,7 @@ import timber.log.Timber
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun PermissionsPage(
+fun OnboardingPermsPage(
     powerManager: PowerManager = koinInject(),
     onNext: () -> Unit,
 ) {

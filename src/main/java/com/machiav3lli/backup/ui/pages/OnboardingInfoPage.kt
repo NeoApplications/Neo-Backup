@@ -58,7 +58,7 @@ import com.machiav3lli.backup.utils.SystemUtils.applicationIssuer
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun WelcomePage(
+fun OnboardingInfoPage(
     onNext: () -> Unit,
 ) {
     val main = LocalActivity.current as NeoActivity

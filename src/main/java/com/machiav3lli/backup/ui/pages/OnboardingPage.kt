@@ -66,11 +66,11 @@ fun OnboardingPage(onComplete: () -> Unit) {
                 userScrollEnabled = false,
             ) { page ->
                 when (page) {
-                    0 -> WelcomePage {
+                    0 -> OnboardingInfoPage {
                         animateToPage(1)
                     }
 
-                    1 -> PermissionsPage {
+                    1 -> OnboardingPermsPage {
                         if (persist_pageOnboarded.value > 1) onComplete()
                         else animateToPage(2)
                     }
