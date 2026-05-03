@@ -49,6 +49,8 @@ import com.machiav3lli.backup.R
 import com.machiav3lli.backup.data.entity.EnumPref
 import com.machiav3lli.backup.data.entity.ListPref
 import com.machiav3lli.backup.data.entity.StringPref
+import com.machiav3lli.backup.data.preferences.PrefEnum
+import com.machiav3lli.backup.data.preferences.PrefList
 import com.machiav3lli.backup.ui.compose.blockShadow
 import com.machiav3lli.backup.ui.compose.component.DialogNegativeButton
 import com.machiav3lli.backup.ui.compose.component.DialogPositiveButton
@@ -58,6 +60,7 @@ import com.machiav3lli.backup.ui.compose.icons.phosphor.Eye
 import com.machiav3lli.backup.ui.compose.icons.phosphor.EyeSlash
 import com.machiav3lli.backup.ui.compose.icons.phosphor.X
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 
 @Composable
 fun EnumPrefDialogUI(
@@ -66,7 +69,7 @@ fun EnumPrefDialogUI(
     onChanged: (() -> Unit) = {},
 ) {
     val context = LocalContext.current
-    var selected = remember { mutableIntStateOf(pref.value) }
+    var selected by remember { mutableIntStateOf(pref.value) }
     val entryPairs = pref.entries.toList()
 
     Card(
@@ -91,14 +94,14 @@ fun EnumPrefDialogUI(
             ) {
                 items(items = entryPairs) {
                     val isSelected by remember {
-                        derivedStateOf { selected.value == it.first }
+                        derivedStateOf { selected == it.first }
                     }
                     SelectableRow(
                         modifier = Modifier.clip(MaterialTheme.shapes.medium),
                         title = stringResource(id = it.second),
                         selectedState = isSelected
                     ) {
-                        selected.value = it.first
+                        selected = it.first
                     }
                 }
             }
@@ -113,8 +116,8 @@ fun EnumPrefDialogUI(
                     openDialogCustom.value = false
                 }
                 DialogPositiveButton(text = stringResource(id = R.string.dialogSave)) {
-                    if (pref.value != selected.intValue) {
-                        pref.value = selected.intValue
+                    if (pref.value != selected) {
+                        pref.value = selected
                         onChanged()
                     }
                     openDialogCustom.value = false
@@ -131,7 +134,7 @@ fun ListPrefDialogUI(
     onChanged: (() -> Unit) = {},
 ) {
     val context = LocalContext.current
-    val selected = remember { mutableStateOf(pref.value) }
+    var selected by remember { mutableStateOf(pref.value) }
     val entryPairs = pref.entries.toList()
 
     Card(
@@ -156,14 +159,14 @@ fun ListPrefDialogUI(
             ) {
                 items(items = entryPairs) {
                     val isSelected by remember {
-                        derivedStateOf { selected.value == it.first }
+                        derivedStateOf { selected == it.first }
                     }
                     SelectableRow(
                         modifier = Modifier.clip(MaterialTheme.shapes.medium),
                         title = it.second,
                         selectedState = isSelected
                     ) {
-                        selected.value = it.first
+                        selected = it.first
                     }
                 }
             }
@@ -178,8 +181,8 @@ fun ListPrefDialogUI(
                     openDialogCustom.value = false
                 }
                 DialogPositiveButton(text = stringResource(id = R.string.dialogSave)) {
-                    if (pref.value != selected.value) {
-                        pref.value = selected.value
+                    if (pref.value != selected) {
+                        pref.value = selected
                         onChanged()
                     }
                     openDialogCustom.value = false
@@ -411,6 +414,134 @@ fun StringPrefDialogUI(
                 }
                 DialogPositiveButton(text = stringResource(id = R.string.dialogSave)) {
                     submit()
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun DSEnumPrefDialogUI(
+    pref: PrefEnum,
+    openDialogCustom: MutableState<Boolean>,
+    onChanged: (() -> Unit) = {},
+) {
+    val currentValue by pref.state
+    var selected by remember(currentValue) { mutableIntStateOf(currentValue) }
+    val entryPairs = pref.entries.toList()
+
+    Card(
+        shape = MaterialTheme.shapes.extraLarge,
+        modifier = Modifier.padding(8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+            contentColor = MaterialTheme.colorScheme.onSurface,
+        ),
+    ) {
+        Column(
+            modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text(text = stringResource(pref.titleId), style = MaterialTheme.typography.titleLarge)
+            LazyColumn(
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+                    .weight(1f, false)
+                    .blockShadow()
+            ) {
+                items(items = entryPairs) {
+                    SelectableRow(
+                        modifier = Modifier.clip(MaterialTheme.shapes.medium),
+                        title = stringResource(id = it.second),
+                        selectedState = selected == it.first
+                    ) {
+                        selected = it.first
+                    }
+                }
+            }
+
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                DialogNegativeButton(text = stringResource(id = R.string.dialogCancel)) {
+                    openDialogCustom.value = false
+                }
+                DialogPositiveButton(text = stringResource(id = R.string.dialogSave)) {
+                    runBlocking {
+                        if (pref.value != selected) {
+                            pref.set(selected)
+                            onChanged()
+                        }
+                    }
+                    openDialogCustom.value = false
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun DSListPrefDialogUI(
+    pref: PrefList,
+    openDialogCustom: MutableState<Boolean>,
+    onChanged: (() -> Unit) = {},
+) {
+    val currentValue by pref.state
+    var selected by remember(currentValue) { mutableStateOf(currentValue) }
+    val entryPairs = pref.entries.toList()
+
+    Card(
+        shape = MaterialTheme.shapes.extraLarge,
+        modifier = Modifier.padding(8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+            contentColor = MaterialTheme.colorScheme.onSurface,
+        ),
+    ) {
+        Column(
+            modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text(text = stringResource(pref.titleId), style = MaterialTheme.typography.titleLarge)
+            LazyColumn(
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+                    .weight(1f, false)
+                    .blockShadow()
+            ) {
+                items(items = entryPairs) {
+                    SelectableRow(
+                        modifier = Modifier.clip(MaterialTheme.shapes.medium),
+                        title = it.second,
+                        selectedState = selected == it.first
+                    ) {
+                        selected = it.first
+                    }
+                }
+            }
+
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                DialogNegativeButton(text = stringResource(id = R.string.dialogCancel)) {
+                    openDialogCustom.value = false
+                }
+                DialogPositiveButton(text = stringResource(id = R.string.dialogSave)) {
+                    runBlocking {
+                        if (pref.value != selected) {
+                            pref.set(selected)
+                            onChanged()
+                        }
+                    }
+                    openDialogCustom.value = false
                 }
             }
         }

@@ -32,6 +32,7 @@ import com.machiav3lli.backup.BUTTON_SIZE_MEDIUM
 import com.machiav3lli.backup.ICON_SIZE_MEDIUM
 import com.machiav3lli.backup.data.preferences.traceDebug
 import com.machiav3lli.backup.data.entity.Pref
+import com.machiav3lli.backup.data.preferences.PrefDelegate
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
@@ -68,6 +69,35 @@ fun PrefsGroup(
     heading: String? = null,
     prefs: ImmutableList<Pref>,
     onPrefDialog: (Pref) -> Unit = {},
+) {
+    val size = prefs.size
+
+    PrefsGroup(
+        modifier = modifier,
+        heading = heading
+    ) {
+        if (prefs.isNotEmpty()) {
+            prefs.forEachIndexed { index, pref ->
+                traceDebug { "${pref.key} = $pref" }
+                PrefsBuilder(
+                    pref,
+                    onPrefDialog,
+                    index,
+                    size,
+                )
+                if (index < size - 1)
+                    Spacer(modifier = Modifier.height(4.dp))
+            }
+        }
+    }
+}
+
+@Composable
+fun NeoPrefsGroup(
+    modifier: Modifier = Modifier,
+    heading: String? = null,
+    prefs: ImmutableList<PrefDelegate<out Any>>,
+    onPrefDialog: (PrefDelegate<out Any>) -> Unit = {},
 ) {
     val size = prefs.size
 

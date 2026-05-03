@@ -53,6 +53,14 @@ import com.machiav3lli.backup.data.entity.PasswordPref
 import com.machiav3lli.backup.data.entity.Pref
 import com.machiav3lli.backup.data.entity.StringEditPref
 import com.machiav3lli.backup.data.entity.StringPref
+import com.machiav3lli.backup.data.preferences.PrefBoolean
+import com.machiav3lli.backup.data.preferences.PrefDelegate
+import com.machiav3lli.backup.data.preferences.PrefEditString
+import com.machiav3lli.backup.data.preferences.PrefEnum
+import com.machiav3lli.backup.data.preferences.PrefInt
+import com.machiav3lli.backup.data.preferences.PrefList
+import com.machiav3lli.backup.data.preferences.PrefString
+import com.machiav3lli.backup.data.preferences.PrefStringSet
 import com.machiav3lli.backup.data.preferences.traceDebug
 import com.machiav3lli.backup.ui.compose.icons.Phosphor
 import com.machiav3lli.backup.ui.compose.icons.phosphor.FolderNotch
@@ -82,20 +90,6 @@ fun PrefIcon(
         )
     else
         Spacer(modifier = Modifier.requiredWidth(ICON_SIZE_MEDIUM + 4.dp))
-}
-
-@Composable
-fun PrefIcon(
-    pref: Pref,
-) {
-    val icon = pref.icon
-    val iconTint = pref.iconTint?.invoke(pref)
-    val p by remember(icon, iconTint) { mutableStateOf(pref) }
-    PrefIcon(
-        icon = icon,
-        titleId = p.titleId,
-        tint = iconTint
-    )
 }
 
 @Composable
@@ -159,7 +153,117 @@ fun BasePreference(
         colors = ListItemDefaults.colors(
             containerColor = surfaceColor,
         ),
-        leadingContent = { PrefIcon(pref) },
+        leadingContent = { PrefIcon(pref.icon, pref.titleId, pref.iconTint?.invoke(pref)) },
+        headlineContent = {
+            Text(
+                text = if (titleId != -1) stringResource(id = titleId) else pref.key,
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.titleMedium,
+                fontSize = 16.sp
+            )
+        },
+        supportingContent = {
+            Column(
+                modifier = Modifier
+                    .ifThen(!isEnabled) {
+                        alpha(0.3f)
+                    }
+            ) {
+                if (summaryId != -1) {
+                    val summaryText = stringResource(id = summaryId)
+                    Text(
+                        text = summaryText,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                }
+                summary?.let {
+                    Text(
+                        text = it,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                }
+                valueShown?.let {
+                    Text(
+                        text = it,
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.bodyMedium,
+                        maxLines = 5,
+                    )
+                }
+                bottomWidget?.let { widget ->
+                    Spacer(modifier = Modifier.requiredWidth(8.dp))
+                    widget(isEnabled)
+                }
+            }
+        },
+        trailingContent = if (endWidget != null) {
+            { endWidget(isEnabled) }
+        } else null,
+    )
+}
+
+@Composable
+fun BasePreference(
+    modifier: Modifier = Modifier,
+    pref: PrefDelegate<out Any>,
+    dirty: Boolean = pref.dirty.value,
+    @StringRes titleId: Int = -1,
+    @StringRes summaryId: Int = -1,
+    summary: String? = null,
+    valueShown: String? = null,
+    index: Int = 0,
+    groupSize: Int = 1,
+    endWidget: (@Composable (isEnabled: Boolean) -> Unit)? = null,
+    bottomWidget: (@Composable (isEnabled: Boolean) -> Unit)? = null,
+    interactionSource: MutableInteractionSource? = null,
+    onClick: (() -> Unit)? = null,
+) {
+    val isEnabled by remember(pref.enableIf?.invoke() ?: true) {
+        mutableStateOf(pref.enableIf?.invoke() ?: true)
+    }
+
+    val base = index.toFloat() / groupSize
+    val rank = (index + 1f) / groupSize
+
+    val surfaceColor by animateColorAsState(
+        if (dirty) MaterialTheme.colorScheme.surfaceContainerLow
+        else MaterialTheme.colorScheme.surfaceContainer,
+        label = "surfaceColor"
+    )
+
+    LaunchedEffect(dirty) {
+        delay(500)
+        traceDebug { "pref: $dirty ${pref.key} -> ${pref.icon?.name} ${pref.iconTint} (basepref launch)" }
+        pref.dirty.value = false
+    }
+
+    ListItem(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(
+                RoundedCornerShape(
+                    topStart = if (base == 0f) MaterialTheme.shapes.large.topStart
+                    else MaterialTheme.shapes.extraSmall.topStart,
+                    topEnd = if (base == 0f) MaterialTheme.shapes.large.topEnd
+                    else MaterialTheme.shapes.extraSmall.topEnd,
+                    bottomStart = if (rank == 1f) MaterialTheme.shapes.large.bottomStart
+                    else MaterialTheme.shapes.extraSmall.bottomStart,
+                    bottomEnd = if (rank == 1f) MaterialTheme.shapes.large.bottomEnd
+                    else MaterialTheme.shapes.extraSmall.bottomEnd
+                )
+            )
+            .clickable(
+                enabled = isEnabled,
+                interactionSource = interactionSource,
+                indication = LocalIndication.current,
+                onClick = onClick ?: {}
+            ),
+        colors = ListItemDefaults.colors(
+            containerColor = surfaceColor,
+        ),
+        leadingContent = { PrefIcon(pref.icon, pref.titleId, pref.iconTint?.invoke(pref)) },
         headlineContent = {
             Text(
                 text = if (titleId != -1) stringResource(id = titleId) else pref.key,
@@ -256,6 +360,30 @@ fun StringPreference(
     )
 }
 
+@Composable
+fun StringPreference(
+    pref: PrefString,
+    modifier: Modifier = Modifier,
+    dirty: Boolean = pref.dirty.value,
+    index: Int = 0,
+    groupSize: Int = 1,
+    onClick: (() -> Unit)? = null,
+) {
+    val value by pref.state
+    BasePreference(
+        modifier = modifier,
+        pref = pref,
+        dirty = dirty,
+        titleId = pref.titleId,
+        summaryId = pref.summaryId,
+        summary = pref.summary,
+        valueShown = value,
+        index = index,
+        groupSize = groupSize,
+        onClick = onClick,
+    )
+}
+
 @Preview
 @Composable
 fun StringPreferencePreview() {
@@ -297,6 +425,38 @@ fun StringEditPreference(
                 onClick = onClick,
             ) {
                 pref.value = it
+            }
+        },
+        onClick = onClick,
+    )
+}
+
+@Composable
+fun StringEditPreference(
+    pref: PrefEditString,
+    modifier: Modifier = Modifier,
+    dirty: Boolean = pref.dirty.value,
+    index: Int = 0,
+    groupSize: Int = 1,
+    onClick: (() -> Unit)? = null,
+) {
+    val value by pref.state
+    BasePreference(
+        modifier = modifier,
+        pref = pref,
+        dirty = dirty,
+        titleId = pref.titleId,
+        summaryId = pref.summaryId,
+        summary = pref.summary,
+        index = index,
+        groupSize = groupSize,
+        bottomWidget = {
+            TextInput(
+                value,
+                modifier = Modifier.fillMaxWidth(),
+                onClick = onClick,
+            ) {
+                kotlinx.coroutines.runBlocking { pref.set(it) }
             }
         },
         onClick = onClick,
@@ -398,6 +558,31 @@ fun EnumPreference(
 }
 
 @Composable
+fun EnumPreference(
+    pref: PrefEnum,
+    modifier: Modifier = Modifier,
+    dirty: Boolean = pref.dirty.value,
+    index: Int = 0,
+    groupSize: Int = 1,
+    onClick: (() -> Unit)? = null,
+) {
+    val value by pref.state
+    val valueShown = pref.entries[value]?.let { stringResource(id = it) } ?: UNDEFINED_VALUE
+    BasePreference(
+        modifier = modifier,
+        pref = pref,
+        dirty = dirty,
+        titleId = pref.titleId,
+        summaryId = pref.summaryId,
+        summary = pref.summary,
+        index = index,
+        groupSize = groupSize,
+        valueShown = valueShown,
+        onClick = onClick,
+    )
+}
+
+@Composable
 fun ListPreference(
     pref: ListPref,
     modifier: Modifier = Modifier,
@@ -407,6 +592,31 @@ fun ListPreference(
     onClick: () -> Unit = {},
 ) {
     val valueShown = pref.entries[pref.value] ?: UNDEFINED_VALUE
+    BasePreference(
+        modifier = modifier,
+        pref = pref,
+        dirty = dirty,
+        titleId = pref.titleId,
+        summaryId = pref.summaryId,
+        summary = pref.summary,
+        index = index,
+        groupSize = groupSize,
+        valueShown = valueShown,
+        onClick = onClick,
+    )
+}
+
+@Composable
+fun ListPreference(
+    pref: PrefList,
+    modifier: Modifier = Modifier,
+    dirty: Boolean = pref.dirty.value,
+    index: Int = 0,
+    groupSize: Int = 1,
+    onClick: () -> Unit = {},
+) {
+    val value by pref.state
+    val valueShown = pref.entries[value] ?: UNDEFINED_VALUE
     BasePreference(
         modifier = modifier,
         pref = pref,
@@ -529,6 +739,48 @@ fun BooleanPreference(
     )
 }
 
+@Composable
+fun BooleanPreference(
+    pref: PrefBoolean,
+    modifier: Modifier = Modifier,
+    dirty: Boolean = pref.dirty.value,
+    index: Int = 0,
+    groupSize: Int = 1,
+    onCheckedChange: (Boolean) -> Unit = {},
+) {
+    val checked by pref.state
+    val check = { value: Boolean ->
+        kotlinx.coroutines.runBlocking { pref.set(value) }
+        onCheckedChange(value)
+    }
+
+    BasePreference(
+        modifier = modifier,
+        pref = pref,
+        dirty = dirty,
+        titleId = pref.titleId,
+        summaryId = pref.summaryId,
+        summary = pref.summary,
+        index = index,
+        groupSize = groupSize,
+        onClick = {
+            onCheckedChange(!checked)
+            check(!checked)
+        },
+        endWidget = { isEnabled ->
+            Switch(
+                modifier = Modifier.height(ICON_SIZE_SMALL),
+                checked = checked,
+                onCheckedChange = {
+                    onCheckedChange(it)
+                    check(it)
+                },
+                enabled = isEnabled,
+            )
+        },
+    )
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SeekBarPreference(
@@ -597,5 +849,83 @@ fun IntPreference(
         index = index,
         groupSize = groupSize,
         onValueChange = onValueChange,
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun IntPreference(
+    pref: PrefInt,
+    modifier: Modifier = Modifier,
+    dirty: Boolean = pref.dirty.value,
+    index: Int = 0,
+    groupSize: Int = 1,
+    onValueChange: (Int) -> Unit = {},
+) {
+    val value by pref.state
+    val sliderState = remember {
+        SliderState(
+            value = pref.entries.indexOf(value).toFloat(),
+            valueRange = 0f..pref.entries.lastIndex.toFloat(),
+            steps = pref.entries.size - 2
+        )
+    }
+    sliderState.onValueChangeFinished = {
+        val newValue = pref.entries[sliderState.value.roundToInt()]
+        kotlinx.coroutines.runBlocking { pref.set(newValue) }
+        onValueChange(sliderState.value.roundToInt())
+    }
+
+    BasePreference(
+        modifier = modifier,
+        pref = pref,
+        dirty = dirty,
+        titleId = pref.titleId,
+        summaryId = pref.summaryId,
+        summary = pref.summary,
+        index = index,
+        groupSize = groupSize,
+        bottomWidget = { isEnabled ->
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                Slider(
+                    state = sliderState,
+                    modifier = Modifier
+                        .requiredHeight(24.dp)
+                        .weight(1f),
+                    enabled = isEnabled
+                )
+                Text(
+                    text = pref.entries[sliderState.value.roundToInt()].toString(),
+                    modifier = Modifier.widthIn(min = 48.dp)
+                )
+            }
+        },
+    )
+}
+
+@Composable
+fun StringSetPreference(
+    pref: PrefStringSet,
+    modifier: Modifier = Modifier,
+    dirty: Boolean = pref.dirty.value,
+    index: Int = 0,
+    groupSize: Int = 1,
+    onClick: (() -> Unit)? = null,
+) {
+    val value by pref.state
+    BasePreference(
+        modifier = modifier,
+        pref = pref,
+        dirty = dirty,
+        titleId = pref.titleId,
+        summaryId = pref.summaryId,
+        summary = pref.summary,
+        valueShown = value.joinToString(", "),
+        index = index,
+        groupSize = groupSize,
+        onClick = onClick,
     )
 }
