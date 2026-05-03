@@ -207,8 +207,9 @@ class NeoActivity : BaseActivity() {
         setContent {
 
             navStack = rememberNavBackStack(NavRoute.Onboarding) as NavBackStack<NavRoute>
+            val appTheme by pref_appTheme.state
 
-            DisposableEffect(pref_appTheme.value) {
+            DisposableEffect(appTheme) {
                 enableEdgeToEdge(
                     statusBarStyle = SystemBarStyle.auto(
                         android.graphics.Color.TRANSPARENT,

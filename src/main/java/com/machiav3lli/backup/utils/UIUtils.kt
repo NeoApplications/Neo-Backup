@@ -22,15 +22,15 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.res.Configuration
 import android.os.LocaleList
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.color.DynamicColors
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.machiav3lli.backup.PREFS_LANGUAGES_SYSTEM
 import com.machiav3lli.backup.R
 import com.machiav3lli.backup.THEME
 import com.machiav3lli.backup.data.entity.ActionResult
-import com.machiav3lli.backup.manager.handler.LogsHandler
 import com.machiav3lli.backup.data.preferences.traceDebug
+import com.machiav3lli.backup.manager.handler.LogsHandler
 import com.machiav3lli.backup.ui.compose.theme.Contrast
 import java.util.Locale
 
@@ -68,7 +68,7 @@ val isDynamicTheme: Boolean
         else -> false
     }
 
-fun getThemeContrast(): Contrast = when (styleTheme) {
+fun getThemeContrast(theme: Int): Contrast = when (theme) {
     THEME.LIGHT_MEDIUM.ordinal,
     THEME.DARK_MEDIUM.ordinal,
     THEME.BLACK_MEDIUM.ordinal,
@@ -127,7 +127,7 @@ fun Context.setLanguage(lang: String = ""): Configuration {
 //TODO hg42 at least one of the following Save buttons was reported as not doing anything
 fun Activity.showActionResult(result: ActionResult, saveMethod: DialogInterface.OnClickListener) =
     runOnUiThread {
-        val builder = AlertDialog.Builder(this)
+        val builder = MaterialAlertDialogBuilder(this)
             .setPositiveButton(R.string.dialogOK, null)
         if (!result.succeeded) {
             builder.setNegativeButton(R.string.dialogSave, saveMethod)      //TODO hg42 either this
