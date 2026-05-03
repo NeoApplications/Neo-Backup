@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.machiav3lli.backup.NeoApp
 import com.machiav3lli.backup.data.preferences.PrefDelegate
+import com.machiav3lli.backup.data.preferences.PrefsIsEnabled
 import com.machiav3lli.backup.data.preferences.traceDebug
 import com.machiav3lli.backup.data.preferences.tracePrefs
 import com.machiav3lli.backup.manager.handler.LogsHandler
@@ -662,7 +663,8 @@ class NeoPrefAdapter(val dsPref: PrefDelegate<out Any>) : Pref(
     summary = dsPref.summary,
     icon = dsPref.icon,
     iconTint = dsPref.iconTint?.let { tint -> { p -> tint(dsPref) } },
-    enableIf = dsPref.enableIf,
+    enableIf = PrefsIsEnabled[dsPref.key]?.let { { it.invoke(NeoApp.context) } }
+        ?: { true },
     onChanged = {
         dsPref.onChange?.invoke(dsPref)
     },

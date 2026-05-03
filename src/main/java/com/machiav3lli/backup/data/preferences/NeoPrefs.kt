@@ -11,6 +11,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.machiav3lli.backup.BACKUP_DIRECTORY_INTENT
 import com.machiav3lli.backup.BACKUP_FILTER_DEFAULT
@@ -52,13 +53,14 @@ import com.machiav3lli.backup.utils.backupFolderExists
 import com.machiav3lli.backup.utils.extensions.Android
 import com.machiav3lli.backup.utils.extensions.combine
 import com.machiav3lli.backup.utils.getLanguageList
-import com.machiav3lli.backup.utils.isBiometricLockAvailable
-import com.machiav3lli.backup.utils.isDeviceLockAvailable
 import com.machiav3lli.backup.utils.recreateActivities
 import com.machiav3lli.backup.utils.restartApp
 import com.machiav3lli.backup.utils.setBackupDir
 import com.machiav3lli.backup.utils.setCustomTheme
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.module.dsl.singleOf
@@ -388,7 +390,6 @@ class NeoPrefs private constructor(val context: Context) : KoinComponent {
         summaryId = R.string.prefs_devicelock_summary,
         icon = Phosphor.Lock,
         defaultValue = false,
-        enableIf = { context.isDeviceLockAvailable() },
         dataStore = dataStore,
         dataStoreKey = UserPrefKey.DEVICE_LOCK,
     )
@@ -398,7 +399,6 @@ class NeoPrefs private constructor(val context: Context) : KoinComponent {
         summaryId = R.string.prefs_biometriclock_summary,
         icon = Phosphor.FingerprintSimple,
         defaultValue = false,
-        enableIf = { context.isBiometricLockAvailable() && deviceLock.value },
         dataStore = dataStore,
         dataStoreKey = UserPrefKey.BIOMETRIC_LOCK,
     )
@@ -480,6 +480,12 @@ class NeoPrefs private constructor(val context: Context) : KoinComponent {
         context.setCustomTheme()
         //recreateActivities()
     }
+
+    fun observeDependency(key: String) = key.takeIf { it.isNotBlank() }?.let {
+        dataStore.data.map { preferences ->
+            preferences[booleanPreferencesKey(key)] ?: false
+        }.distinctUntilChanged()
+    } ?: flowOf(true)
 
     fun homeSortFilterFlow(): Flow<SortFilterModel> = combine(
         sortHome.flow(),

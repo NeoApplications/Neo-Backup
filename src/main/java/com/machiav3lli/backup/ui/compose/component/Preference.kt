@@ -28,6 +28,8 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,6 +40,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -53,6 +56,7 @@ import com.machiav3lli.backup.data.entity.PasswordPref
 import com.machiav3lli.backup.data.entity.Pref
 import com.machiav3lli.backup.data.entity.StringEditPref
 import com.machiav3lli.backup.data.entity.StringPref
+import com.machiav3lli.backup.data.preferences.NeoPrefs
 import com.machiav3lli.backup.data.preferences.PrefBoolean
 import com.machiav3lli.backup.data.preferences.PrefDelegate
 import com.machiav3lli.backup.data.preferences.PrefEditString
@@ -61,6 +65,8 @@ import com.machiav3lli.backup.data.preferences.PrefInt
 import com.machiav3lli.backup.data.preferences.PrefList
 import com.machiav3lli.backup.data.preferences.PrefString
 import com.machiav3lli.backup.data.preferences.PrefStringSet
+import com.machiav3lli.backup.data.preferences.PrefsDependency
+import com.machiav3lli.backup.data.preferences.PrefsIsEnabled
 import com.machiav3lli.backup.data.preferences.traceDebug
 import com.machiav3lli.backup.ui.compose.icons.Phosphor
 import com.machiav3lli.backup.ui.compose.icons.phosphor.FolderNotch
@@ -68,6 +74,7 @@ import com.machiav3lli.backup.ui.compose.icons.phosphor.Hash
 import com.machiav3lli.backup.ui.compose.ifThen
 import com.machiav3lli.backup.utils.backupFolderExists
 import kotlinx.coroutines.delay
+import org.koin.compose.koinInject
 import kotlin.math.roundToInt
 
 const val UNDEFINED_VALUE = "---"
@@ -108,8 +115,8 @@ fun BasePreference(
     interactionSource: MutableInteractionSource? = null,
     onClick: (() -> Unit)? = null,
 ) {
-    val isEnabled by remember(pref.enableIf?.invoke() ?: true) {
-        mutableStateOf(pref.enableIf?.invoke() ?: true)
+    val isEnabled by remember(pref.enableIf) {
+        derivedStateOf { pref.enableIf?.invoke() ?: true }
     }
 
     val base = index.toFloat() / groupSize
@@ -220,8 +227,12 @@ fun BasePreference(
     interactionSource: MutableInteractionSource? = null,
     onClick: (() -> Unit)? = null,
 ) {
-    val isEnabled by remember(pref.enableIf?.invoke() ?: true) {
-        mutableStateOf(pref.enableIf?.invoke() ?: true)
+    val context = LocalContext.current
+    val prefs = koinInject<NeoPrefs>()
+    val dependencyState by prefs.observeDependency(PrefsDependency[pref.key].orEmpty())
+        .collectAsState(initial = true)
+    val isEnabled by remember(dependencyState) {
+        mutableStateOf(PrefsIsEnabled[pref.key]?.invoke(context) ?: true)
     }
 
     val base = index.toFloat() / groupSize

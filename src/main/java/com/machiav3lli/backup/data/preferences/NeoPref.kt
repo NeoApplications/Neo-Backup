@@ -40,7 +40,6 @@ class PrefBoolean(
     UI: PrefUI? = null,
     icon: ImageVector? = null,
     iconTint: ((PrefDelegate<out Any>) -> Color)? = null,
-    enableIf: (() -> Boolean)? = null,
     onChanged: (suspend (PrefDelegate<out Any>) -> Unit)? = null,
 ) : PrefDelegate<Boolean>(
     private = private,
@@ -53,7 +52,6 @@ class PrefBoolean(
     },
     icon = icon,
     iconTint = iconTint,
-    enableIf = enableIf,
     onChange = onChanged,
     dataStore = dataStore,
     dataStoreKey = dataStoreKey,
@@ -71,7 +69,6 @@ class PrefInt(
     icon: ImageVector? = null,
     iconTint: ((PrefDelegate<out Any>) -> Color)? = null,
     val entries: List<Int>,
-    enableIf: (() -> Boolean)? = null,
     onChanged: (suspend (PrefDelegate<out Any>) -> Unit)? = null,
 ) : PrefDelegate<Int>(
     private = private,
@@ -84,7 +81,6 @@ class PrefInt(
     },
     icon = icon,
     iconTint = iconTint,
-    enableIf = enableIf,
     onChange = onChanged,
     dataStore = dataStore,
     dataStoreKey = dataStoreKey,
@@ -99,7 +95,6 @@ open class PrefString(
     UI: PrefUI? = null,
     icon: ImageVector? = null,
     iconTint: ((PrefDelegate<out Any>) -> Color)? = null,
-    enableIf: (() -> Boolean)? = null,
     onChanged: (suspend (PrefDelegate<out Any>) -> Unit)? = null,
     dataStore: DataStore<Preferences>,
     dataStoreKey: Preferences.Key<String>,
@@ -119,7 +114,6 @@ open class PrefString(
     },
     icon = icon,
     iconTint = iconTint,
-    enableIf = enableIf,
     onChange = onChanged,
     dataStore = dataStore,
     dataStoreKey = dataStoreKey,
@@ -136,7 +130,7 @@ class PrefEditString(
     UI: PrefUI? = null,
     icon: ImageVector? = null,
     iconTint: ((PrefDelegate<out Any>) -> Color)? = null,
-    enableIf: (() -> Boolean)? = null,
+    enableIf: () -> Boolean = { true },
     onChanged: (suspend (PrefDelegate<out Any>) -> Unit)? = null,
 ) : PrefString(
     private = private,
@@ -149,7 +143,6 @@ class PrefEditString(
     },
     icon = icon,
     iconTint = iconTint,
-    enableIf = enableIf,
     onChanged = onChanged,
     dataStore = dataStore,
     dataStoreKey = dataStoreKey,
@@ -167,7 +160,7 @@ class PrefList(
     icon: ImageVector? = null,
     iconTint: ((PrefDelegate<out Any>) -> Color)? = null,
     val entries: Map<String, String>,
-    enableIf: (() -> Boolean)? = null,
+    enableIf: () -> Boolean = { true },
     onChanged: (suspend (PrefDelegate<out Any>) -> Unit)? = null,
 ) : PrefString(
     private = private,
@@ -185,7 +178,6 @@ class PrefList(
     },
     icon = icon,
     iconTint = iconTint,
-    enableIf = enableIf,
     onChanged = onChanged,
     dataStore = dataStore,
     dataStoreKey = dataStoreKey,
@@ -202,7 +194,6 @@ class PrefStringSet(
     UI: PrefUI? = null,
     icon: ImageVector? = null,
     iconTint: ((PrefDelegate<out Any>) -> Color)? = null,
-    enableIf: (() -> Boolean)? = null,
     onChanged: (suspend (PrefDelegate<out Any>) -> Unit)? = null,
 ) : PrefDelegate<Set<String>>(
     private = private,
@@ -215,7 +206,6 @@ class PrefStringSet(
     },
     icon = icon,
     iconTint = iconTint,
-    enableIf = enableIf,
     onChange = onChanged,
     dataStore = dataStore,
     dataStoreKey = dataStoreKey,
@@ -233,7 +223,6 @@ class PrefEnum(
     icon: ImageVector? = null,
     iconTint: ((PrefDelegate<out Any>) -> Color)? = null,
     val entries: Map<Int, Int>,
-    enableIf: (() -> Boolean)? = null,
     onChanged: (suspend (PrefDelegate<out Any>) -> Unit)? = null,
 ) : PrefDelegate<Int>(
     private = private,
@@ -251,7 +240,6 @@ class PrefEnum(
     },
     icon = icon,
     iconTint = iconTint,
-    enableIf = enableIf,
     onChange = onChanged,
     dataStore = dataStore,
     dataStoreKey = dataStoreKey,
@@ -268,12 +256,10 @@ abstract class PrefDelegate<T : Any>(
     val icon: ImageVector? = null,
     var iconTint: ((PrefDelegate<out Any>) -> Color)? = null,
     val UI: PrefUI? = null,
-    val enableIf: (() -> Boolean)? = null,
     val onChange: (suspend (PrefDelegate<out Any>) -> Unit)? = null,
 ) {
     val key: String = run {
-        val parts = dataStoreKey.name.split(".", limit = 2)
-        if (parts.size == 2) parts[1] else parts[0]
+        dataStoreKey.name
     }
 
     val group: String = run {
