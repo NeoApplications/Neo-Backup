@@ -25,11 +25,16 @@ import com.machiav3lli.backup.utils.isDynamicTheme
 @Composable
 fun AppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    themeContrast: Contrast = getThemeContrast(),
     content: @Composable () -> Unit,
 ) {
     val context = LocalContext.current
-    val blackTheme by remember(pref_appTheme) { mutableStateOf(isBlackTheme) }
+    val appTheme by pref_appTheme.state
+    val blackTheme by remember(appTheme) {
+        mutableStateOf(isBlackTheme)
+    }
+    val themeContrast by remember(appTheme) {
+        mutableStateOf(getThemeContrast(appTheme))
+    }
 
     MaterialTheme(
         colorScheme = when {
