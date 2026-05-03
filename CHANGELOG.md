@@ -1,6 +1,22 @@
 CHANGELOG
 =========
 
+8.3.18 (03.05.2026) +20 Commits,  +30 Translations
+------------
+
+### Function
+
+- Update: Revamp PrefDelegate to replace Pref
+
+### UI & UX
+
+- Add: Onboarding page flow
+- Add: Package names to package selector dialogs
+- Fix: Updating app on changing theme contrast preference
+- Update: Replace legacy user prefs with NeoPrefs
+- Update: Revamp permissions and welcome pages to handle onboarding
+- Remove: Encryption warning dialog
+
 8.3.17 (22.02.2026) +40 Commits,  +20 Translations
 ------------
 

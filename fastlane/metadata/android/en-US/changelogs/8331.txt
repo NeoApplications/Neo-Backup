@@ -1,0 +1,5 @@
+Add: Onboarding page flow
+Add: Package names to package selector dialogs
+Fix: Updating app on changing theme contrast preference
+Remove: Encryption warning dialog
++ more than 20 commits, 30 translations
