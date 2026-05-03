@@ -9,6 +9,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.machiav3lli.backup.NeoApp
+import com.machiav3lli.backup.data.preferences.PrefDelegate
 import com.machiav3lli.backup.data.preferences.traceDebug
 import com.machiav3lli.backup.data.preferences.tracePrefs
 import com.machiav3lli.backup.manager.handler.LogsHandler
@@ -69,7 +70,7 @@ open class Pref(
     val icon: ImageVector? = null,
     var iconTint: ((Pref) -> Color)? = null,
     val enableIf: (() -> Boolean)? = null,
-    val onChanged: ((Pref) -> Unit)? = null,
+    val onChanged: (suspend (Pref) -> Unit)? = null,
     var group: String = "",
 ) {
     var dirty = mutableStateOf(false)
@@ -300,7 +301,7 @@ class BooleanPref(
     icon: ImageVector? = null,
     iconTint: ((Pref) -> Color)? = null,
     enableIf: (() -> Boolean)? = null,
-    onChanged: ((Pref) -> Unit)? = null,
+    onChanged: (suspend (Pref) -> Unit)? = null,
 ) : Pref(
     key = key,
     private = private,
@@ -343,7 +344,7 @@ class IntPref(
     iconTint: ((Pref) -> Color)? = null,
     val entries: List<Int>,
     enableIf: (() -> Boolean)? = null,
-    onChanged: ((Pref) -> Unit)? = null,
+    onChanged: (suspend (Pref) -> Unit)? = null,
 ) : Pref(
     key = key,
     private = private,
@@ -385,7 +386,7 @@ open class StringPref(
     icon: ImageVector? = null,
     iconTint: ((Pref) -> Color)? = null,
     enableIf: (() -> Boolean)? = null,
-    onChanged: ((Pref) -> Unit)? = null,
+    onChanged: (suspend (Pref) -> Unit)? = null,
 ) : Pref(
     key = key,
     private = private,
@@ -432,7 +433,7 @@ class StringEditPref(
     icon: ImageVector? = null,
     iconTint: ((Pref) -> Color)? = null,
     enableIf: (() -> Boolean)? = null,
-    onChanged: ((Pref) -> Unit)? = null,
+    onChanged: (suspend (Pref) -> Unit)? = null,
 ) : StringPref(
     key = key,
     private = private,
@@ -461,7 +462,7 @@ class PasswordPref(
     icon: ImageVector? = null,
     iconTint: ((Pref) -> Color)? = null,
     enableIf: (() -> Boolean)? = null,
-    onChanged: ((Pref) -> Unit)? = null,
+    onChanged: (suspend (Pref) -> Unit)? = null,
 ) : StringPref(
     key = key,
     private = private,
@@ -494,7 +495,7 @@ class KeyPref(
     icon: ImageVector? = null,
     iconTint: ((Pref) -> Color)? = null,
     enableIf: (() -> Boolean)? = null,
-    onChanged: ((Pref) -> Unit)? = null,
+    onChanged: (suspend (Pref) -> Unit)? = null,
 ) : StringPref(
     key = key,
     private = private,
@@ -521,7 +522,7 @@ class ListPref(
     iconTint: ((Pref) -> Color)? = null,
     val entries: Map<String, String>,
     enableIf: (() -> Boolean)? = null,
-    onChanged: ((Pref) -> Unit)? = null,
+    onChanged: (suspend (Pref) -> Unit)? = null,
 ) : StringPref(
     key = key,
     private = private,
@@ -555,7 +556,7 @@ class EnumPref(
     iconTint: ((Pref) -> Color)? = null,
     val entries: Map<Int, Int>,
     enableIf: (() -> Boolean)? = null,
-    onChanged: ((Pref) -> Unit)? = null,
+    onChanged: (suspend (Pref) -> Unit)? = null,
 ) : Pref(
     key = key,
     private = private,
@@ -602,7 +603,7 @@ class LinkPref(
     icon: ImageVector? = null,
     iconTint: ((Pref) -> Color)? = null,
     enableIf: (() -> Boolean)? = null,
-    onChanged: ((Pref) -> Unit)? = null,
+    onChanged: (suspend (Pref) -> Unit)? = null,
 ) : Pref(
     key = key,
     private = private,
@@ -628,7 +629,7 @@ class LaunchPref(
     icon: ImageVector? = null,
     iconTint: ((Pref) -> Color)? = null,
     enableIf: (() -> Boolean)? = null,
-    onChanged: ((Pref) -> Unit)? = null,
+    onChanged: (suspend (Pref) -> Unit)? = null,
     val onClick: () -> Unit = {},
 ) : Pref(
     key = key,
@@ -651,3 +652,28 @@ class LaunchPref(
     enableIf = enableIf,
     onChanged = onChanged
 )
+
+class NeoPrefAdapter(val dsPref: PrefDelegate<out Any>) : Pref(
+    key = dsPref.key,
+    private = dsPref.private,
+    defaultValue = dsPref.defaultValue,
+    titleId = dsPref.titleId,
+    summaryId = dsPref.summaryId,
+    summary = dsPref.summary,
+    icon = dsPref.icon,
+    iconTint = dsPref.iconTint?.let { tint -> { p -> tint(dsPref) } },
+    enableIf = dsPref.enableIf,
+    onChanged = {
+        dsPref.onChange?.invoke(dsPref)
+    },
+    UI = { pref, onDialogUI, index, groupSize ->
+        dsPref.UI?.invoke(dsPref, {
+            onDialogUI(NeoPrefAdapter(dsPref))
+        }, index, groupSize)
+    },
+    group = dsPref.group,
+) {
+    init {
+        dirty.value = true
+    }
+}

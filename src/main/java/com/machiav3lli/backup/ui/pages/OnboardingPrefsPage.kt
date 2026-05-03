@@ -19,15 +19,20 @@ import com.machiav3lli.backup.R
 import com.machiav3lli.backup.data.entity.ColoringState
 import com.machiav3lli.backup.data.entity.EnumPref
 import com.machiav3lli.backup.data.entity.ListPref
+import com.machiav3lli.backup.data.entity.NeoPrefAdapter
 import com.machiav3lli.backup.data.entity.PasswordPref
 import com.machiav3lli.backup.data.entity.Pref
 import com.machiav3lli.backup.data.entity.StringPref
+import com.machiav3lli.backup.data.preferences.PrefEnum
+import com.machiav3lli.backup.data.preferences.PrefList
 import com.machiav3lli.backup.ui.compose.blockBorderBottom
 import com.machiav3lli.backup.ui.compose.component.ActionButton
 import com.machiav3lli.backup.ui.compose.component.PrefsGroup
 import com.machiav3lli.backup.ui.compose.icons.Phosphor
 import com.machiav3lli.backup.ui.compose.icons.phosphor.ArrowRight
 import com.machiav3lli.backup.ui.dialogs.BaseDialog
+import com.machiav3lli.backup.ui.dialogs.DSEnumPrefDialogUI
+import com.machiav3lli.backup.ui.dialogs.DSListPrefDialogUI
 import com.machiav3lli.backup.ui.dialogs.EnumPrefDialogUI
 import com.machiav3lli.backup.ui.dialogs.ListPrefDialogUI
 import com.machiav3lli.backup.ui.dialogs.StringPrefDialogUI
@@ -65,27 +70,44 @@ fun OnboardingPrefsPage(
     }
 
     if (openDialog.value) {
+        val currentPref = dialogsPref
         BaseDialog(onDismiss = { openDialog.value = false }) {
-            when (dialogsPref) {
-                is ListPref     -> ListPrefDialogUI(
-                    pref = dialogsPref as ListPref,
+            when (currentPref) {
+                is NeoPrefAdapter -> {
+                    when (currentPref.dsPref) {
+                        is PrefList -> DSListPrefDialogUI(
+                            pref = currentPref.dsPref,
+                            openDialogCustom = openDialog,
+                        )
+
+                        is PrefEnum -> DSEnumPrefDialogUI(
+                            pref = currentPref.dsPref,
+                            openDialogCustom = openDialog,
+                        )
+
+                        else        -> {}
+                    }
+                }
+
+                is ListPref       -> ListPrefDialogUI(
+                    pref = currentPref,
                     openDialogCustom = openDialog,
                 )
 
-                is EnumPref     -> EnumPrefDialogUI(
-                    pref = dialogsPref as EnumPref,
+                is EnumPref       -> EnumPrefDialogUI(
+                    pref = currentPref,
                     openDialogCustom = openDialog
                 )
 
-                is PasswordPref -> StringPrefDialogUI(
-                    pref = dialogsPref as PasswordPref,
+                is PasswordPref   -> StringPrefDialogUI(
+                    pref = currentPref,
                     isPrivate = true,
                     confirm = true,
                     openDialogCustom = openDialog
                 )
 
-                is StringPref   -> StringPrefDialogUI(
-                    pref = dialogsPref as StringPref,
+                is StringPref     -> StringPrefDialogUI(
+                    pref = currentPref,
                     openDialogCustom = openDialog
                 )
             }
@@ -95,11 +117,11 @@ fun OnboardingPrefsPage(
 
 private fun LazyListScope.OboardingPrefGroups(onPrefDialog: (Pref) -> Unit) {
     val userPrefs = persistentListOf(
-        pref_languages,
-        pref_appTheme,
-        pref_pathBackupFolder,
-        pref_deviceLock,
-        pref_biometricLock,
+        NeoPrefAdapter(pref_languages),
+        NeoPrefAdapter(pref_appTheme),
+        NeoPrefAdapter(pref_pathBackupFolder),
+        NeoPrefAdapter(pref_deviceLock),
+        NeoPrefAdapter(pref_biometricLock),
     )
     val servicePrefs = persistentListOf(
         pref_encryption,
