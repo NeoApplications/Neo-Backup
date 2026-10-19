@@ -149,6 +149,7 @@ fun RestorePackageItem(
     onClick: (Package, Boolean, Boolean) -> Unit = { _: Package, _: Boolean, _: Boolean -> },
     onBackupApkClick: (String, Boolean, Int) -> Unit = { _: String, _: Boolean, _: Int -> },
     onBackupDataClick: (String, Boolean, Int) -> Unit = { _: String, _: Boolean, _: Int -> },
+    searchQuery: String = "",
 ) {
     val packageItem by remember(item) { mutableStateOf(item) }
     val apkBC by apkBackupChecked
@@ -239,9 +240,19 @@ fun RestorePackageItem(
                             )
                         }
                     }
-                    item.backupsNewestFirst.forEachIndexed { index, item ->
+                    // filter by note search, but keep the original indices of
+                    // backupsNewestFirst, since they are used to address the
+                    // backup to restore
+                    val indexedBackups =
+                        item.backupsNewestFirst.mapIndexed { index, backup -> index to backup }
+                    val displayedBackups =
+                        if (searchQuery.isEmpty()) indexedBackups
+                        else indexedBackups
+                            .filter { it.second.note.contains(searchQuery, ignoreCase = true) }
+                            .ifEmpty { indexedBackups }
+                    displayedBackups.forEach { (index, backup) ->
                         RestoreBackupItem(
-                            item = item,
+                            item = backup,
                             index = index,
                             isApkChecked = index == apkBC,
                             isDataChecked = index == dataBC,

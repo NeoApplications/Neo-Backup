@@ -104,6 +104,7 @@ fun BatchPackageRecycler(
     modifier: Modifier = Modifier,
     productsList: PersistentList<Package>?,
     restore: Boolean = false,
+    searchQuery: String = "",
     apkBackupCheckedList: SnapshotStateMap<String, Int>,
     dataBackupCheckedList: SnapshotStateMap<String, Int>,
     onBackupApkClick: (String, Boolean, Int) -> Unit = { _: String, _: Boolean, _: Int -> },
@@ -129,6 +130,7 @@ fun BatchPackageRecycler(
             onClick,
             onBackupApkClick,
             onBackupDataClick,
+            searchQuery,
         )
         else BatchPackageItem(
             it,

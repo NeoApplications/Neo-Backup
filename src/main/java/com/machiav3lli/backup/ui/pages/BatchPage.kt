@@ -228,6 +228,7 @@ fun BatchPage(
                     .fillMaxSize(),
                 productsList = state.filteredPackages,
                 restore = !backupBoolean,
+                searchQuery = state.searchQuery,
                 apkBackupCheckedList = viewModel.apkBackupCheckedList,
                 dataBackupCheckedList = viewModel.dataBackupCheckedList,
                 onBackupApkClick = { packageName: String, b: Boolean, i: Int ->

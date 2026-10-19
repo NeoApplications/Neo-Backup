@@ -113,6 +113,7 @@ import com.machiav3lli.backup.ui.dialogs.RestoreDialogUI
 import com.machiav3lli.backup.ui.dialogs.StringInputDialogUI
 import com.machiav3lli.backup.utils.BackupShareUtils
 import com.machiav3lli.backup.utils.TraceUtils
+import com.machiav3lli.backup.utils.applyNoteSearch
 import com.machiav3lli.backup.utils.extensions.koinNeoViewModel
 import com.machiav3lli.backup.utils.infoChips
 import com.machiav3lli.backup.viewmodels.AppVM
@@ -121,6 +122,7 @@ import timber.log.Timber
 @Composable
 fun AppPage(
     packageName: String,
+    searchQuery: String = "",
     viewModel: AppVM = koinNeoViewModel(),
     onDismiss: () -> Unit,
 ) {
@@ -502,7 +504,7 @@ fun AppPage(
                     }
                 }
                 this.items(
-                    items = pkg.backupsNewestFirst,
+                    items = pkg.backupsNewestFirst.applyNoteSearch(searchQuery),
                     span = { GridItemSpan(columns) }) {
                     BackupItem(
                         it,

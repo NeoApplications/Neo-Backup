@@ -38,6 +38,7 @@ import com.machiav3lli.backup.R
 import com.machiav3lli.backup.Sort
 import com.machiav3lli.backup.UpdatedFilter
 import com.machiav3lli.backup.data.dbs.entity.AppExtras
+import com.machiav3lli.backup.data.dbs.entity.Backup
 import com.machiav3lli.backup.data.entity.Package
 import com.machiav3lli.backup.data.entity.SortFilterModel
 import com.machiav3lli.backup.data.entity.SpecialFilter
@@ -106,8 +107,17 @@ fun Collection<Package>.applySearch(
                 )
             )
                 .any { it.contains(query, ignoreCase = true) }
-            )
+            ) || item.backupList.any { it.note.contains(query, ignoreCase = true) }
 }
+
+/**
+ * Filters a list of backups by matching their note against the search query.
+ * Falls back to the full list when no backup's note matches
+ * (e.g. when the app was found by its name instead of a note).
+ */
+fun List<Backup>.applyNoteSearch(query: String): List<Backup> =
+    if (query.isEmpty()) this
+    else filter { it.note.contains(query, ignoreCase = true) }.ifEmpty { this }
 
 fun Collection<Package>.applyFilter(
     filter: SortFilterModel,

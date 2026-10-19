@@ -337,6 +337,7 @@ fun HomePage(
                 AnimatedPane {
                     AppPage(
                         packageName = packageName,
+                        searchQuery = mainState.searchQuery,
                         onDismiss = onDismiss,
                     )
                 }
