@@ -23,6 +23,7 @@ ksp = "2.3.11"
 libsu = "6.0.0"
 lifecycle = "2.11.0"
 material = "1.14.0"
+material-kolor = "5.0.1"
 navigation = "2.10.2"
 navigation3 = "1.2.0"
 # TODO migrate to 2.0.X when ready https://pgpainless.readthedocs.io/en/latest/pgpainless-core/migration_2.0.html
@@ -106,6 +107,7 @@ compose-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", versi
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "compose-accompanist" }
 compose-markdown = { module = "com.github.jeziellago:compose-markdown", version.ref = "compose-markdown" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+material-kolor = { module = "com.materialkolor:material-kolor", version.ref = "material-kolor" }
 
 test-runner = { module = "androidx.test:runner", version.ref = "test" }
 test-rules = { module = "androidx.test:rules", version.ref = "test-rules" }

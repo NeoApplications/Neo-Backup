@@ -201,6 +201,7 @@ dependencies {
     implementation(libs.compose.navigation3)
     implementation(libs.compose.navigation3.ui)
     implementation(libs.coil.compose)
+    implementation(libs.material.kolor)
     implementation(libs.accompanist.permissions)
 
     // Testing
