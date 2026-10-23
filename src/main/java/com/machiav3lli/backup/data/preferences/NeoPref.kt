@@ -9,9 +9,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.IOException
+import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
+import com.machiav3lli.backup.data.entity.NeoTheme
 import com.machiav3lli.backup.ui.compose.component.BooleanPreference
 import com.machiav3lli.backup.ui.compose.component.EnumPreference
 import com.machiav3lli.backup.ui.compose.component.IntPreference
@@ -19,6 +21,7 @@ import com.machiav3lli.backup.ui.compose.component.ListPreference
 import com.machiav3lli.backup.ui.compose.component.StringEditPreference
 import com.machiav3lli.backup.ui.compose.component.StringPreference
 import com.machiav3lli.backup.ui.compose.component.StringSetPreference
+import com.machiav3lli.backup.ui.compose.component.ThemePreference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -26,6 +29,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.Json
 
 typealias PrefUI = @Composable (pref: PrefDelegate<out Any>, onDialogPref: (PrefDelegate<out Any>) -> Unit, index: Int, groupSize: Int) -> Unit
 
@@ -245,9 +249,51 @@ class PrefEnum(
     dataStoreKey = dataStoreKey,
 )
 
+@Suppress("UNCHECKED_CAST")
+class PrefTheme(
+    dataStore: DataStore<Preferences>,
+    dataStoreKey: Preferences.Key<String>,
+    defaultValue: NeoTheme,
+    @StringRes titleId: Int = -1,
+    @StringRes summaryId: Int = -1,
+    summary: String? = null,
+    private: Boolean = false,
+    UI: PrefUI? = null,
+    icon: ImageVector? = null,
+    iconTint: ((PrefDelegate<out Any>) -> Color)? = null,
+    onChanged: (suspend (PrefDelegate<out Any>) -> Unit)? = null,
+) : PrefDelegate<NeoTheme>(
+    private = private,
+    defaultValue = defaultValue,
+    titleId = titleId,
+    summaryId = summaryId,
+    summary = summary,
+    UI = UI ?: { pref, onDialogUI, index, groupSize ->
+        ThemePreference(
+            pref = pref as PrefTheme,
+            index = index,
+            groupSize = groupSize,
+            onClick = { onDialogUI(pref) },
+        )
+    },
+    icon = icon,
+    iconTint = iconTint,
+    onChange = onChanged,
+    dataStore = dataStore,
+    dataStoreKey = dataStoreKey,
+) {
+    override fun decode(preferences: Preferences): NeoTheme? =
+        (preferences[dataStoreKey as Preferences.Key<String>])
+            ?.let { Json.decodeFromString<NeoTheme>(it) }
+
+    override fun MutablePreferences.encode(value: NeoTheme) {
+        set(dataStoreKey as Preferences.Key<String>, Json.encodeToString(value))
+    }
+}
+
 abstract class PrefDelegate<T : Any>(
     private val dataStore: DataStore<Preferences>,
-    private val dataStoreKey: Preferences.Key<T>,
+    protected val dataStoreKey: Preferences.Key<*>,
     val defaultValue: T,
     @StringRes val titleId: Int,
     @StringRes val summaryId: Int,
@@ -269,13 +315,22 @@ abstract class PrefDelegate<T : Any>(
 
     val dirty = mutableStateOf(false)
 
+    @Suppress("UNCHECKED_CAST")
+    protected open fun decode(preferences: Preferences): T? =
+        preferences[dataStoreKey as Preferences.Key<T>]
+
+    @Suppress("UNCHECKED_CAST")
+    protected open fun MutablePreferences.encode(value: T) {
+        set(dataStoreKey as Preferences.Key<T>, value)
+    }
+
     private val flow: Flow<T> = dataStore.data
         .catch { exception ->
             if (exception is IOException) emit(emptyPreferences())
             else throw exception
         }
         .map { preferences ->
-            preferences[dataStoreKey] ?: defaultValue
+            decode(preferences) ?: defaultValue
         }
         .distinctUntilChanged()
 
@@ -295,7 +350,7 @@ abstract class PrefDelegate<T : Any>(
 
     suspend fun set(newValue: T) {
         if (newValue == currentValue()) return
-        dataStore.edit { prefs -> prefs[dataStoreKey] = newValue }
+        dataStore.edit { prefs -> prefs.encode(newValue) }
         onChange?.invoke(this)
     }
 

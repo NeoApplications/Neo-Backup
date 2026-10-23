@@ -65,6 +65,7 @@ import com.machiav3lli.backup.data.preferences.PrefInt
 import com.machiav3lli.backup.data.preferences.PrefList
 import com.machiav3lli.backup.data.preferences.PrefString
 import com.machiav3lli.backup.data.preferences.PrefStringSet
+import com.machiav3lli.backup.data.preferences.PrefTheme
 import com.machiav3lli.backup.data.preferences.PrefsDependency
 import com.machiav3lli.backup.data.preferences.PrefsIsEnabled
 import com.machiav3lli.backup.data.preferences.traceDebug
@@ -935,6 +936,31 @@ fun StringSetPreference(
         summaryId = pref.summaryId,
         summary = pref.summary,
         valueShown = value.joinToString(", "),
+        index = index,
+        groupSize = groupSize,
+        onClick = onClick,
+    )
+}
+
+@Composable
+fun ThemePreference(
+    pref: PrefTheme,
+    modifier: Modifier = Modifier,
+    dirty: Boolean = pref.dirty.value,
+    index: Int = 0,
+    groupSize: Int = 1,
+    onClick: (() -> Unit)? = null,
+) {
+    val value by pref.state
+    val context = LocalContext.current
+    BasePreference(
+        modifier = modifier,
+        pref = pref,
+        dirty = dirty,
+        titleId = pref.titleId,
+        summaryId = pref.summaryId,
+        summary = pref.summary,
+        valueShown = value.themeSummary(context),
         index = index,
         groupSize = groupSize,
         onClick = onClick,

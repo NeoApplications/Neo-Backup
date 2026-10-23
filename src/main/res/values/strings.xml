@@ -513,4 +513,25 @@
     <string name="schedule_not_found_or_disabled">Schedule not found or disabled</string>
     <string name="setup_FORMAT">Setup: %s</string>
     <string name="permissions">Permissions</string>
+    <string name="night_mode">Night mode</string>
+    <string name="system">System</string>
+    <string name="dynamic_colors">Dynamic colors</string>
+    <string name="dynamic_theme">Dynamic</string>
+    <string name="black_theme">Black theme</string>
+    <string name="seed_color">Seed color</string>
+    <string name="contrast_level">Contrast</string>
+    <string name="palette_style">Color palette</string>
+    <string name="contrast_default">Default</string>
+    <string name="contrast_medium">Medium</string>
+    <string name="contrast_high">High</string>
+    <string name="palette_neutral">Neutral</string>
+    <string name="palette_tonal">Tonal</string>
+    <string name="palette_expressive">Expressive</string>
+    <string name="color_green">Green</string>
+    <string name="color_blue">Blue</string>
+    <string name="color_purple">Purple</string>
+    <string name="color_teal">Teal</string>
+    <string name="color_orange">Orange</string>
+    <string name="color_pink">Pink</string>
+    <string name="color_red">Red</string>
 </resources>
