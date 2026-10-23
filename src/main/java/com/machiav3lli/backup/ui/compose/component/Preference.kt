@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
@@ -793,7 +792,6 @@ fun BooleanPreference(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SeekBarPreference(
     pref: IntPref,
@@ -806,13 +804,9 @@ fun SeekBarPreference(
     val sliderState = remember {
         SliderState(
             value = pref.entries.indexOf(pref.value).toFloat(),
-            valueRange = 0f..pref.entries.lastIndex.toFloat(),
+            trackRange = 0f..pref.entries.lastIndex.toFloat(),
             steps = pref.entries.size - 2
         )
-    }
-    sliderState.onValueChangeFinished = {
-        pref.value = pref.entries[sliderState.value.roundToInt()]
-        onValueChange(sliderState.value.roundToInt())
     }
 
     BasePreference(
@@ -834,7 +828,14 @@ fun SeekBarPreference(
                     modifier = Modifier
                         .requiredHeight(24.dp)
                         .weight(1f),
-                    enabled = isEnabled
+                    enabled = isEnabled,
+                    onValueChange = {
+                        sliderState.value = it
+                    },
+                    onValueChangeFinished = {
+                        pref.value = pref.entries[sliderState.value.roundToInt()]
+                        onValueChange(sliderState.value.roundToInt())
+                    }
                 )
                 Text(
                     text = pref.entries[sliderState.value.roundToInt()].toString(),
@@ -864,7 +865,6 @@ fun IntPreference(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IntPreference(
     pref: PrefInt,
@@ -878,14 +878,9 @@ fun IntPreference(
     val sliderState = remember {
         SliderState(
             value = pref.entries.indexOf(value).toFloat(),
-            valueRange = 0f..pref.entries.lastIndex.toFloat(),
+            trackRange = 0f..pref.entries.lastIndex.toFloat(),
             steps = pref.entries.size - 2
         )
-    }
-    sliderState.onValueChangeFinished = {
-        val newValue = pref.entries[sliderState.value.roundToInt()]
-        kotlinx.coroutines.runBlocking { pref.set(newValue) }
-        onValueChange(sliderState.value.roundToInt())
     }
 
     BasePreference(
@@ -907,7 +902,15 @@ fun IntPreference(
                     modifier = Modifier
                         .requiredHeight(24.dp)
                         .weight(1f),
-                    enabled = isEnabled
+                    enabled = isEnabled,
+                    onValueChange = {
+                        sliderState.value = it
+                    },
+                    onValueChangeFinished = {
+                        val newValue = pref.entries[sliderState.value.roundToInt()]
+                        kotlinx.coroutines.runBlocking { pref.set(newValue) }
+                        onValueChange(sliderState.value.roundToInt())
+                    }
                 )
                 Text(
                     text = pref.entries[sliderState.value.roundToInt()].toString(),
