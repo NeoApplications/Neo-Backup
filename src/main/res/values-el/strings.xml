@@ -116,7 +116,7 @@
     <string name="spec_wifiAccessPoints">Σημεία ασύρματης πρόσβασης</string>
     <!-- filebrowser_createDirectoryError: an error occured while trying to create the directory. format: string + " " + directory name -->
     <string name="error_creating_notification_channel">Αδυναμία δημιουργίας καναλιού ειδοποιήσεων</string>
-    <string name="error_updating_schedule_mode">Σφάλμα ενημέρωσης %1$s του προγράμματος %2$d</string>
+    <string name="error_updating_schedule_mode">Σφάλμα ενημέρωσης %1$s της προγραμματισμένης ενέργειας %2$d</string>
     <string name="permission_not_granted">Απαιτείται άδεια πρόσβασης στον εξωτερικό χώρο</string>
     <string name="restart_dialog">Φαίνεται πως η εφαρμογή χρειάζεται να επανεκκινηθεί</string>
     <string name="filter_options">Φίλτρα:</string>
@@ -154,14 +154,7 @@
     <string name="help_license">Άδεια</string>
     <string name="split_apks">Διαχωρισμός APKs</string>
     <string name="showSplitAPKs">Split-APK</string>
-    <string name="intro_welcome_message">Το Neo Backup (πρώην OAndBackupX) είναι ένα fork του διάσημου OAndBackup με σκοπό να φέρει το OAndBackup στο 202X και να αποτελέσει μέρος της σουίτας εφαρμογών Neo. Για την ώρα η εφαρμογή είναι ήδη πλήρως ξαναγραμμένη, το επόμενο βήμα θα είναι να καταστεί ανθεκτική και να προστεθούν κάποια μακροχρόνια προγραμματισμένα χαρακτηριστικά που θα μπορούσαν να διευκολύνουν τη ροή εργασιών δημιουργίας αντιγράφων/επαναφοράς με οποιαδήποτε συσκευή.
-\n Ως εκ τούτου, όλα τα είδη συνεισφοράς είναι πάντα ευπρόσδεκτα.
-\n
-\n Τώρα σχετικά με τη λειτουργικότητα της Εφαρμογής μας:
-\n • Απαιτεί δικαιώματα root και σας επιτρέπει να δημιουργήσετε αντίγραφα μεμονωμένων εφαρμογών και των δεδομένων τους.
-\n • Υποστηρίζεται τόσο η δημιουργία αντιγράφων και η επαναφορά μεμονωμένων προγραμμάτων μία τη φορά όσο και η δημιουργία αντιγράφων και η επαναφορά παρτίδων πολλαπλών προγραμμάτων.
-\n • Η επαναφορά εφαρμογών συστήματος πρέπει να είναι δυνατή δίχως να απαιτείται επανεκκίνηση στη συνέχεια.
-\n • Η δημιουργία αντιγράφων μπορεί να προγραμματιστεί δίχως όριο στον αριθμό των μεμονωμένων προγραμμάτων και υπάρχει η πιθανότητα δημιουργίας προσαρμοσμένων λιστών από τη λίστα των εγκατεστημένων εφαρμογών.</string>
+    <string name="intro_welcome_message">Το Neo Backup (πρώην OAndBackupX) είναι ένα fork του διάσημου OAndBackup με σκοπό να φέρει το OAndBackup στο 202X και να αποτελέσει μέρος της σουίτας εφαρμογών Neo. Για την ώρα η εφαρμογή είναι ήδη πλήρως ξαναγραμμένη, το επόμενο βήμα θα είναι να καταστεί ανθεκτική και να προστεθούν κάποια μακροχρόνια προγραμματισμένα χαρακτηριστικά που θα μπορούσαν να διευκολύνουν τη ροή εργασιών δημιουργίας αντιγράφων/επαναφοράς με οποιαδήποτε συσκευή. \n Ως εκ τούτου, όλα τα είδη συνεισφοράς είναι πάντα ευπρόσδεκτα. \n \n Τώρα σχετικά με τη λειτουργικότητα της Εφαρμογής μας: \n • Απαιτεί δικαιώματα root και σας επιτρέπει να δημιουργήσετε αντίγραφα μεμονωμένων εφαρμογών και των δεδομένων τους. \n • Υποστηρίζεται τόσο η δημιουργία αντιγράφων και η επαναφορά μεμονωμένων προγραμμάτων μία τη φορά όσο και η δημιουργία αντιγράφων και η επαναφορά παρτίδων πολλαπλών προγραμμάτων. \n • Η επαναφορά εφαρμογών συστήματος πρέπει να είναι δυνατή δίχως να απαιτείται επανεκκίνηση στη συνέχεια. \n • Η δημιουργία αντιγράφων μπορεί να προγραμματιστεί δίχως όριο στον αριθμό των μεμονωμένων προγραμματισμένων ενεργειών και υπάρχει η πιθανότητα δημιουργίας προσαρμοσμένων λιστών από τη λίστα των εγκατεστημένων εφαρμογών.</string>
     <string name="msg_appkill_warning">Η επιλεγμένη εφαρμογή(-ές) θα λάβει το σήμα τερματισμού, και θα συνεχιστεί αφού η εργασία ολοκληρωθεί. Ελέγξτε τις επεξεργασμένες εφαρμογές σας έπειτα (και αποφύγετε να τις εκκινήσετε καθώς η διεργασία ακόμα τρέχει).</string>
     <string name="intro_permission_batteryoptimization">Η εφαρμογή μπορεί να αντιμετωπίσει κάποια προβλήματα πραγματοποιώντας προγραμματισμένες δημιουργίες αντιγράφων σε ορισμένες ROMs οι οποίες υιοθετούν δυναμικές βελτιστοποιήσεις κατανάλωσης μπαταρίας π.χ. MIUI, αλλά ακόμα και σε βασικό AOSP τέτοιο πρόβλημα μπορεί να συμβεί.</string>
     <string name="intro_permission_usageaccess">Η εφαρμογή χρειάζεται αυτήν την άδεια ώστε να μπορεί να ελέγχει τα στατιστικά στοιχεία και τα μεγέθη των δεδομένων και των μνημών cache των εφαρμογών.</string>
@@ -184,7 +177,7 @@
     <string name="dialog_unlock">Ξεκλείδωμα</string>
     <string name="dialog_start">Πάμε!</string>
     <string name="dialogSave">Αποθήκευση</string>
-    <string name="sched_add">Προσθήκη Προγράμματος</string>
+    <string name="sched_add">Προσθήκη προγραμματισμένης ενέργειας</string>
     <string name="prefs_password_match_false">Οι κωδικοί δεν ταιριάζουν</string>
     <string name="prefs_password_match_true">Οι κωδικοί ταιριάζουν</string>
     <string name="prefs_passwordconfirmation">Επιβεβαίωση κωδικού κρυπτογράφησης</string>
@@ -260,7 +253,7 @@
     <string name="no_file_manager_message">Δεν υπάρχει διαχειριστής αρχείων για να διαχειριστεί το SAF. Ίσως έχετε απενεργοποιήσει τον προεγκατεστημένο διαχειριστή αρχείων. Παρακαλώ επαναφέρετε τον ή επανενεργοποιήστε τον.</string>
     <string name="no_file_manager_title">Απουσία διαχειριστή SAF</string>
     <string name="prefs_schedulesexportimport_summary">Εξάγει ή εισάγει τη λίστα των προγραμματισμένων ενεργειών που έχετε δημιουργήσει.</string>
-    <string name="prefs_schedulesexportimport">Εξαγωγή/εισαγωγή προγραμμάτων</string>
+    <string name="prefs_schedulesexportimport">Εξαγωγή/εισαγωγή προγραμματισμένων ενεργειών</string>
     <string name="write_apps_list_all">Εγγράφηκε το αρχείο της λίστας όλων των εφαρμογών</string>
     <string name="write_apps_list_filtered">Εγγράφηκε το αρχείο της λίστας φιλτραρισμένων εφαρμογών</string>
     <string name="wait_noappslist">Η λίστα εφαρμογών δεν έχει αποκτηθεί ακόμα. Περιμένετε…</string>
@@ -453,7 +446,7 @@
     <string name="sched_blocklist_dialog_message">Μαύρη λίστα: %s</string>
     <string name="sched_customlist_dialog_message">Προσαρμοσμένη λίστα: %s</string>
     <plurals name="package_num">
-        <item quantity="one">%d πακέτo</item>
+        <item quantity="one">%d πακέτο</item>
         <item quantity="other">%d πακέτα</item>
     </plurals>
     <string name="packagesToBackup">Αριθμός πακέτων προς δημιουργία αντιγράφου: %d</string>
@@ -473,7 +466,7 @@
     <string name="updating_db">Ενημέρωση βάσης δεδομένων εφαρμογών…</string>
     <string name="refresh_completed">Η ανανέωση ολοκληρώθηκε</string>
     <string name="refresh_failed">Η ανανέωση απέτυχε</string>
-    <string name="backupdir_inaccessible">Η τοποθεσία αντιγράφων δεν είναι προσβάσιμ</string>
+    <string name="backupdir_inaccessible">Η τοποθεσία αντιγράφων δεν είναι προσβάσιμη</string>
     <string name="unknown_error">Άγνωστο σφάλμα</string>
     <string name="prefs_useexactalarm_title">Χρήση ακριβούς ειδοποίησης για προγραμματισμένες ενέργειες</string>
     <string name="dialog_ignore">Παράβλεψη</string>
