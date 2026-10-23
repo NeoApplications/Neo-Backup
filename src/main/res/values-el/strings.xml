@@ -10,7 +10,7 @@
     <string name="radio_apk">Εφαρμογή</string>
     <string name="radio_data">Δεδομένα</string>
     <string name="radio_both">Εφαρμογή + Δεδομένα</string>
-    <string name="de_selectAll">Από/επιλογή όλων</string>
+    <string name="de_selectAll">Αποεπιλογή/επιλογή όλων</string>
     <string name="refresh">Ανανέωση</string>
     <string name="batchbackup">Μαζική δημιουργία αντιγράφων ασφαλείας</string>
     <string name="batchrestore">Μαζική επαναφορά</string>
@@ -77,7 +77,7 @@
     <string name="prefs_user">Προτιμήσεις χρήστη</string>
     <string name="prefs_theme">Θέμα</string>
     <string name="prefs_acquirewakelock">Αποτροπή ύπνου</string>
-    <string name="prefs_batchdelete">Διαγραφή αντιγράφων\?</string>
+    <string name="prefs_batchdelete">Διαγραφή αντιγράφων;</string>
     <string name="prefs_pathbackupfolder">Φάκελος αντιγράφων</string>
     <string name="prefs_oldbackups">Φιλτράρισμα αντιγράφων κατά παλαιότητα</string>
     <string name="prefs_copyselfapk">Αντιγραφή της ίδιας της εφαρμογής</string>
@@ -95,7 +95,7 @@
     <string name="prefs_acquirewakelock_summary">Απόκτηση wakelock κατά τη διάρκεια διεργασιών μαζικών αντιγράφων ώστε να αποτραπεί ο ύπνος. Επιταχύνει τα αντίγραφα και τις επαναφορές σημαντικά, αλλά καταναλώνει περισσότερη ενέργεια.</string>
     <string name="prefs_oldbackups_summary">Φιλτράρισμα αντιγράφων ασφαλείας που είναι παλαιότερα από την τιμή σε ημέρες. Χρησιμοποιείται με το φίλτρο «Εμφάνιση παλιών αντιγράφων ασφαλείας».</string>
     <string name="prefs_copyselfapk_summary">Τοποθετήστε ένα αντίγραφο του Neo Backup στο υψηλότερο επίπεδο του φακέλου αντιγράφων</string>
-    <string name="prefs_rememberfiltering_summary">Αποθηκεύει την επιλεγμένη μέθοδο ταξινόμησης και φιλτραρίσματος. Μόνο αυτά που είναι σημειωμένα με ένα κουτάκι στον κατάλογο λαμβάνονται υπόψιν.</string>
+    <string name="prefs_rememberfiltering_summary">Αποθηκεύει την επιλεγμένη μέθοδο ταξινόμησης και φιλτραρίσματος. Μόνο αυτά που είναι σημειωμένα με ένα κουτάκι στον κατάλογο λαμβάνονται υπόψη.</string>
     <string name="prefs_batchdelete_summary">Διαγραφή των αντιγράφων όλων των εφαρμογών που δεν είναι εγκατεστημένες στο παρόν.</string>
     <string name="sched_title">Προγραμματισμός</string>
     <string name="sched_notificationMessage">Προγραμματισμένο αντίγραφο</string>
@@ -116,7 +116,7 @@
     <string name="spec_wifiAccessPoints">Σημεία ασύρματης πρόσβασης</string>
     <!-- filebrowser_createDirectoryError: an error occured while trying to create the directory. format: string + " " + directory name -->
     <string name="error_creating_notification_channel">Αδυναμία δημιουργίας καναλιού ειδοποιήσεων</string>
-    <string name="error_updating_schedule_mode">Σφάλμα ενημέρωσης %1$s του προγράμματος %2$d</string>
+    <string name="error_updating_schedule_mode">Σφάλμα ενημέρωσης %1$s του χρονοδιαγράμματος %2$d</string>
     <string name="permission_not_granted">Απαιτείται άδεια πρόσβασης στον εξωτερικό χώρο</string>
     <string name="restart_dialog">Φαίνεται πως η εφαρμογή χρειάζεται να επανεκκινηθεί</string>
     <string name="filter_options">Φίλτρα:</string>
@@ -153,23 +153,16 @@
     <string name="failed_unzipping">Σφάλμα κατά την αποσυμπίεση των δεδομένων, ελέγξτε τον κωδικό κρυπτογράφησης!</string>
     <string name="help_license">Άδεια</string>
     <string name="split_apks">Διαχωρισμός APKs</string>
-    <string name="showSplitAPKs">Διαχωρισμός-APK</string>
-    <string name="intro_welcome_message">Το Neo Backup (πρώην OAndBackupX) είναι ένα fork του διάσημου OAndBackup με σκοπό να φέρει το OAndBackup στο 202X και να αποτελέσει μέρος της σουίτας εφαρμογών Neo. Για την ώρα η εφαρμογή είναι ήδη πλήρως ξαναγραμμένη, το επόμενο βήμα θα είναι να καταστεί ανθεκτική και να προστεθούν κάποια μακροχρόνια προγραμματισμένα χαρακτηριστικά που θα μπορούσαν να διευκολύνουν τη ροή εργασιών δημιουργίας αντιγράφων/επαναφοράς με οποιαδήποτε συσκευή.
-\n Ως εκ τούτου, όλα τα είδη συνεισφοράς είναι πάντα ευπρόσδεκτα.
-\n
-\n Τώρα σχετικά με τη λειτουργικότητα της Εφαρμογής μας:
-\n • Απαιτεί δικαιώματα root και σας επιτρέπει να δημιουργήσετε αντίγραφα μεμονωμένων εφαρμογών και των δεδομένων τους.
-\n • Υποστηρίζεται τόσο η δημιουργία αντιγράφων και η επαναφορά μεμονωμένων προγραμμάτων μία τη φορά όσο και η δημιουργία αντιγράφων και η επαναφορά παρτίδων πολλαπλών προγραμμάτων.
-\n • Η επαναφορά εφαρμογών συστήματος πρέπει να είναι δυνατή δίχως να απαιτείται επανεκκίνηση στη συνέχεια.
-\n • Η δημιουργία αντιγράφων μπορεί να προγραμματιστεί δίχως όριο στον αριθμό των μεμονωμένων προγραμμάτων και υπάρχει η πιθανότητα δημιουργίας προσαρμοσμένων λιστών από τη λίστα των εγκατεστημένων εφαρμογών.</string>
-    <string name="msg_appkill_warning">Η επιλεγμένη εγαρμογή(ές) θα λάβει το σήμα τερματισμού, και θα συνεχιστεί αφού η εργασία ολοκληρωθεί. Ελέγξτε τις επεξεργασμένες εφαρμογές σας έπειτα (και αποφύγετε να τις εκκινήσετε καθώς η διεργασία ακόμα τρέχει).</string>
+    <string name="showSplitAPKs">Split-APK</string>
+    <string name="intro_welcome_message">Το Neo Backup (πρώην OAndBackupX) είναι ένα fork του διάσημου OAndBackup με σκοπό να φέρει το OAndBackup στο 202X και να αποτελέσει μέρος της σουίτας εφαρμογών Neo. Για την ώρα η εφαρμογή είναι ήδη πλήρως ξαναγραμμένη, το επόμενο βήμα θα είναι να καταστεί ανθεκτική και να προστεθούν κάποια μακροχρόνια προγραμματισμένα χαρακτηριστικά που θα μπορούσαν να διευκολύνουν τη ροή εργασιών δημιουργίας αντιγράφων/επαναφοράς με οποιαδήποτε συσκευή.\n\nΩς εκ τούτου, όλα τα είδη συνεισφοράς είναι πάντα ευπρόσδεκτα.\nΤώρα σχετικά με τη λειτουργικότητα της Εφαρμογής μας:\n• Απαιτεί δικαιώματα root και σας επιτρέπει να δημιουργήσετε αντίγραφα μεμονωμένων εφαρμογών και των δεδομένων τους.\n• Υποστηρίζεται τόσο η δημιουργία αντιγράφων και η επαναφορά μεμονωμένων προγραμμάτων μία τη φορά όσο και η δημιουργία αντιγράφων και η επαναφορά παρτίδων πολλαπλών προγραμμάτων.\n• Η επαναφορά εφαρμογών συστήματος πρέπει να είναι δυνατή δίχως να απαιτείται επανεκκίνηση στη συνέχεια.\n• Η δημιουργία αντιγράφων μπορεί να προγραμματιστεί δίχως όριο στον αριθμό των μεμονωμένων χρονοδιαγραμμάτων και υπάρχει η πιθανότητα δημιουργίας προσαρμοσμένων λιστών από τη λίστα των εγκατεστημένων εφαρμογών.</string>
+    <string name="msg_appkill_warning">Η επιλεγμένη εφαρμογή(-ές) θα λάβει το σήμα τερματισμού, και θα συνεχιστεί αφού η εργασία ολοκληρωθεί. Ελέγξτε τις επεξεργασμένες εφαρμογές σας έπειτα (και αποφύγετε να τις εκκινήσετε καθώς η διεργασία ακόμα τρέχει).</string>
     <string name="intro_permission_batteryoptimization">Η εφαρμογή μπορεί να αντιμετωπίσει κάποια προβλήματα πραγματοποιώντας προγραμματισμένες δημιουργίες αντιγράφων σε ορισμένες ROMs οι οποίες υιοθετούν δυναμικές βελτιστοποιήσεις κατανάλωσης μπαταρίας π.χ. MIUI, αλλά ακόμα και σε βασικό AOSP τέτοιο πρόβλημα μπορεί να συμβεί.</string>
     <string name="intro_permission_usageaccess">Η εφαρμογή χρειάζεται αυτήν την άδεια ώστε να μπορεί να ελέγχει τα στατιστικά στοιχεία και τα μεγέθη των δεδομένων και των μνημών cache των εφαρμογών.</string>
-    <string name="intro_permission_storage_location">Η εφαρμογή χρειάζεται μία τοποθεσία αντιγράφων για την αποθήκευση των αντιράφων. Η εφαρμογή ίσως χρειαστεί μερικά gigabytes αποθηκευτικού χώρου για μία ολοκληρωμένη δημιουργία αντιγράφων και χρησιμοποιεί το σύστημα αρχείων πολύ. Παρακαλώ έχετε αυτό στο νου σας καθώς επιλέγετε τοποθεσίες αποθηκευτικού χώρου βασισμένες στο διαδίκτυο.</string>
+    <string name="intro_permission_storage_location">Η εφαρμογή χρειάζεται μία τοποθεσία αντιγράφων για την αποθήκευση των αντιγράφων. Η εφαρμογή ίσως χρειαστεί μερικά gigabytes αποθηκευτικού χώρου για μία ολοκληρωμένη δημιουργία αντιγράφων και χρησιμοποιεί το σύστημα αρχείων πολύ. Παρακαλώ έχετε αυτό στο νου σας καθώς επιλέγετε τοποθεσίες αποθηκευτικού χώρου βασισμένες στο διαδίκτυο.</string>
     <string name="intro_permission_storage">Η εφαρμογή χρησιμοποιεί την άδεια ανάγνωσης/εγγραφής του αποθηκευτικού χώρου ώστε να μπορεί να έχει πρόσβαση στον εξωτερικό αποθηκευτικό χώρο και να παρέχει την πιθανότητα δημιουργίας αντιγράφου των εξωτερικών δεδομένων/obb άλλων εφαρμογών.</string>
-    <string name="welcome_to_oabx">Καλώς ήλθατε στο Neo Backup!</string>
+    <string name="welcome_to_oabx">Καλώς ήρθατε στο Neo Backup!</string>
     <string name="storage_access">Πρόσβαση Αποθηκευτικού Χώρου</string>
-    <string name="enable_encryption_message">Δεν είναι ασφαλές να διατηρείτε τα δεδομένα σας στη συσκευή σας μη κρυπτογραφημένα. Για την ασφάλεια των δεδομένων σας ενεργοποιείστε την κρυπτογράφηση και ορίστε έναν κωδικό.</string>
+    <string name="enable_encryption_message">Δεν είναι ασφαλές να διατηρείτε τα δεδομένα σας στη συσκευή σας μη κρυπτογραφημένα. Για την ασφάλεια των δεδομένων σας ενεργοποιήστε την κρυπτογράφηση και ορίστε έναν κωδικό.</string>
     <string name="enable_encryption_title">Κρυπτογράφηση Δεδομένων</string>
     <string name="help_appTypeHint">* Το εικονίδιο του τύπου εφαρμογής είναι γκρι εάν η εφαρμογή είναι απεγκατεστημένη και σκούρο γκρι εάν η εφαρμογή είναι απενεργοποιημένη.</string>
     <string name="help_legend">Υπόμνημα:</string>
@@ -184,7 +177,7 @@
     <string name="dialog_unlock">Ξεκλείδωμα</string>
     <string name="dialog_start">Πάμε!</string>
     <string name="dialogSave">Αποθήκευση</string>
-    <string name="sched_add">Προσθήκη Προγράμματος</string>
+    <string name="sched_add">Προσθήκη χρονοδιαγράμματος</string>
     <string name="prefs_password_match_false">Οι κωδικοί δεν ταιριάζουν</string>
     <string name="prefs_password_match_true">Οι κωδικοί ταιριάζουν</string>
     <string name="prefs_passwordconfirmation">Επιβεβαίωση κωδικού κρυπτογράφησης</string>
@@ -220,7 +213,7 @@
     <string name="prefs_restoreallpermissions_summary">Παραχώρηση όλων των αδειών στην επαναφερθείσα εφαρμογή.</string>
     <string name="prefs_unset">Αποτυχία ορισμού</string>
     <string name="help_faq">Συχνές Ερωτήσεις</string>
-    <string name="main">Κυρίως</string>
+    <string name="main">Κύρια</string>
     <plurals name="updated_apps">
         <item quantity="one">%d ενημερωμένη εφαρμογή</item>
         <item quantity="other">%d ενημερωμένες εφαρμογές</item>
@@ -250,24 +243,24 @@
     <string name="global_blocklist_add">Προσθήκη στη γενική λίστα μπλοκαρίσματος</string>
     <string name="forceKill">Αναγκαστικός τερματισμός</string>
     <string name="logs_share_failed">Το αρχείο καταγραφής δε βρέθηκε</string>
-    <string name="sched_imported">Το πρόγραμμα εισήχθη επιτυχώς</string>
-    <string name="sched_exported">Τα προγράμματα εξήχθησαν επιτυχώς</string>
+    <string name="sched_imported">Το χρονοδιάγραμμα εισήχθη επιτυχώς</string>
+    <string name="sched_exported">Τα χρονοδιαγράμματα εξήχθησαν επιτυχώς</string>
     <string name="error_datachanged">Τα δεδομένα της εφαρμογής μετεβλήθησαν ενεργά κατά τη διάρκεια της δημιουργίας αντιγράφου. Δοκιμάστε να τερματίσετε τις διαδικασίες της πριν τη δημιουργία αντιγράφου</string>
     <string name="dialog_import">Εισαγωγή</string>
     <string name="dialog_export">Εξαγωγή</string>
-    <string name="schedule_failed">Η εκτέλεση του προγράμματος απέτυχε</string>
+    <string name="schedule_failed">Η εκτέλεση του χρονοδιαγράμματος απέτυχε</string>
     <string name="shell_initproblem">Αδυναμία εκκίνησης του διαχειριστή shell. Είτε απουσιάζει το toybox/busybox είτε η άδεια root είναι απενεργοποιημένη για την εφαρμογή.</string>
-    <string name="no_file_manager_message">Δεν υπάρχει διαχειριστής αρχείων για να διαχειριστεί το SAF. Ίσως έχετε απενεργοποιήσει τον προεγκατεστημένο διαχειριστή αρχείων. Παρακαλώ επαναφέρτε τον ή επανενεργοποιήστε τον.</string>
+    <string name="no_file_manager_message">Δεν υπάρχει διαχειριστής αρχείων για να διαχειριστεί το SAF. Ίσως έχετε απενεργοποιήσει τον προεγκατεστημένο διαχειριστή αρχείων. Παρακαλώ επαναφέρετε τον ή επανενεργοποιήστε τον.</string>
     <string name="no_file_manager_title">Απουσία διαχειριστή SAF</string>
-    <string name="prefs_schedulesexportimport_summary">Εξάγει ή εισάγει τη λίστα των προγραμμάτων που έχετε δημιουργήσει.</string>
-    <string name="prefs_schedulesexportimport">Εξαγωγή/εισαγωγή προγραμμάτων</string>
+    <string name="prefs_schedulesexportimport_summary">Εξάγει ή εισάγει τη λίστα των χρονοδιαγραμμάτων που έχετε δημιουργήσει.</string>
+    <string name="prefs_schedulesexportimport">Εξαγωγή/εισαγωγή χρονοδιαγραμμάτων</string>
     <string name="write_apps_list_all">Εγγράφηκε το αρχείο της λίστας όλων των εφαρμογών</string>
     <string name="write_apps_list_filtered">Εγγράφηκε το αρχείο της λίστας φιλτραρισμένων εφαρμογών</string>
     <string name="wait_noappslist">Η λίστα εφαρμογών δεν έχει αποκτηθεί ακόμα. Περιμένετε…</string>
     <string name="help_group_matrix">Η Ομάδα μας στο Matrix</string>
     <string name="help_group_telegram">Η Ομάδα μας στο Telegram</string>
-    <string name="all_apk">Σημείωση όλων των APK</string>
-    <string name="all_data">Σημείωση όλων των δεδομένων</string>
+    <string name="all_apk">Επιλογή όλων των APK</string>
+    <string name="all_data">Επιλογή όλων των δεδομένων</string>
     <string name="prefs_accent_8">Κολοκυθένιο Γαλάζιο</string>
     <string name="prefs_secondary_2">Λάιμ</string>
     <string name="prefs_mediadata">Δημιουργία αντιγράφου ασφαλείας αρχείων μέσων</string>
@@ -275,7 +268,7 @@
     <string name="home">Αρχική σελίδα</string>
     <string name="help_changelog">Κατάλογος αλλαγών</string>
     <string name="sortBackupDate">Ημερομηνία Αντιγράφου</string>
-    <string name="title_tags">Ταμπέλες:</string>
+    <string name="title_tags">Ετικέτες:</string>
     <string name="title_note">Σημείωση:</string>
     <string name="error_encryptionpassword">Ο κωδικός κρυπτογράφησης είτε δεν έχει οριστεί είτε είναι λανθασμένος!</string>
     <string name="prefs_secondary_color">Δευτερεύον χρώμα</string>
@@ -327,7 +320,7 @@
     <string name="spec_fingerprint">Δακτυλικά αποτυπώματα</string>
     <string name="intro_permission_calllogs">Η εφαρμογή χρειάζεται αυτή την άδεια για να μπορεί να δημιουργήσει αντίγραφα/επαναφέρει τα αρχεία καταγραφής κλήσεων.</string>
     <string name="prefs_laserbackground_summary">Χρήση κινούμενων έγχρωμων φώτων ως φόντο κατά τη φόρτωση/εργασία.</string>
-    <string name="grant_smsmms_message">Αυτό είναι απαραίτητο για να μπορείτε να δημιουργείτε αντίγραφα των/επαναφέρετε τα SMS/MMS σας.</string>
+    <string name="grant_smsmms_message">Αυτό είναι απαραίτητο για να μπορείτε να δημιουργείτε αντίγραφα ή να επαναφέρετε τα SMS/MMS σας.</string>
     <string name="see_faq">Δείτε τις Συχνές Ερωτήσεις!</string>
     <string name="prefs_singularbackuprestore_summary">Χρήση εναλλακτικής διάταξης στοιχείων επαναφοράς που επιτρέπει την επιλογή συγκεκριμένων αντιγράφων ασφαλείας προς επαναφορά.</string>
     <string name="prefs_dev_settings_summary">Μην αλλάξετε αν δεν σας το πει προγραμματιστής!</string>
@@ -348,7 +341,7 @@
     <string name="intro_permission_smsmms">Η εφαρμογή χρειάζεται αυτή την άδεια για να μπορέσει να δημιουργήσει αντίγραφα/επαναφέρει τα SMS/MMS σας.</string>
     <string name="root_missing">Λείπει το δικαίωμα ROOT!</string>
     <string name="delete">Διαγραφή</string>
-    <string name="grant_calllogs_message">Αυτό είναι απαραίτητο για να μπορείτε να δημιουργείτε αντίγραφα των/να επαναφέρετε τα αρχεία καταγραφής κλήσεων.</string>
+    <string name="grant_calllogs_message">Αυτό είναι απαραίτητο για να μπορείτε να δημιουργείτε αντίγραφα ή να επαναφέρετε τα αρχεία καταγραφής κλήσεων.</string>
     <string name="supended_apps_cleanup">καθαρισμός τυχόν εναπομεινάντων εφαρμογών σε αναστολή</string>
     <string name="spec_calllogsjson">JSON αρχείων καταγραφής κλήσεων</string>
     <string name="prefs_user_short">Προσωπικές Ρυθμίσεις</string>
@@ -377,7 +370,7 @@
     <string name="prefs_dev_settings">Ρυθμίσεις προγραμματιστή</string>
     <string name="prefs_restorepermissions_summary">Επαναφορά των δικαιωμάτων που είχαν χορηγηθεί στην εφαρμογή τη στιγμή της δημιουργίας αντιγράφου. Να σημειωθεί ότι ορισμένα δικαιώματα δεν μπορούν να χορηγηθούν προγραμματιστικά και έτσι προκαλούν την αποτυχία της επαναφοράς του πακέτου στο σύνολό του, την οποία στη συνέχεια το Neo Backup καλύπτει επαναφέροντας το πακέτο χωρίς δικαιώματα.</string>
     <string name="context_menu">Μενού περιβάλλοντος</string>
-    <string name="finished">τελειωμένο</string>
+    <string name="finished">ολοκληρωμένο</string>
     <string name="prefs_externaldata_rst_summary">Επαναφέρει δεδομένα που βρίσκονται στον εξωτερικό αποθηκευτικό χώρο (π.χ. /storage/emulated/0/Android/data/)</string>
     <string name="prefs_nobackupdata">Δημιουργία αντιγράφου των αρχείων no_backup</string>
     <string name="prefs_singularbackuprestore">Μεμονωμένη επαναφορά αντιγράφων ασφαλείας</string>
@@ -411,18 +404,18 @@
     <string name="prefs_altblocklayout_summary">Χρησιμοποιήστε μια εναλλακτική/παλιά διάταξη για μπλοκ σελίδων με περιθώρια αντί για έγχρωμες επιφάνειες.</string>
     <string name="filters_tags">Ετικέτες</string>
     <string name="search_package">Αναζήτηση εφαρμογής στο κατάστημα</string>
-    <string name="prefs_altbackupdate_summary">Χρησιμοποιήστε τη μορφή ημερομηνίας ISO σε εφεδρικά αντικείμενα αντί για την τοπική γλώσσα.</string>
+    <string name="prefs_altbackupdate_summary">Χρησιμοποιήστε τη μορφή ημερομηνίας ISO στα αντίγραφα ασφαλείας αντί για την τοπική γλώσσα.</string>
     <string name="prefs_altbackupdate">Εμφάνιση μορφής ημερομηνίας ISO σε αντίγραφα ασφαλείας</string>
     <string name="prefs_compression_type">Τύπος συμπίεσης</string>
     <string name="prefs_backupcache">Δημιουργία αντιγράφων ασφαλείας προσωρινών δεδομένων</string>
     <string name="prefs_backupcache_summary">Δημιουργία αντιγράφων ασφαλείας αρχείων σε καταλόγους προσωρινής μνήμης</string>
-    <string name="light_high_contrast">Φως (υψηλή αντίθεση)</string>
+    <string name="light_high_contrast">Φωτεινό (υψηλή αντίθεση)</string>
     <string name="dark_medium_contrast">Σκούρο (μέτρια αντίθεση)</string>
     <string name="dark_high_contrast">Σκούρο (υψηλή αντίθεση)</string>
     <string name="black_medium_contrast">Μαύρο (μέτρια αντίθεση)</string>
     <string name="about_build_FORMAT">%s (Κατασκευή %s)</string>
     <string name="black_high_contrast">Μαύρο (υψηλή αντίθεση)</string>
-    <string name="light_medium_contrast">Φως (μέτρια αντίθεση)</string>
+    <string name="light_medium_contrast">Φωτεινό (μέτρια αντίθεση)</string>
     <string name="prefs_pgp_key">Κλειδί PGP</string>
     <string name="prefs_pgp_passcode">Κωδικός πρόσβασης κλειδιού PGP</string>
     <string name="prefs_pgp_passcode_summary">Ο κωδικός πρόσβασης για το ξεκλείδωμα του κλειδιού PGP, εάν προστατεύεται.</string>
@@ -434,7 +427,7 @@
     <string name="prefs_cleanup_backupdir">Καθαρισμός καταλόγου αντιγράφων ασφαλείας</string>
     <string name="prefs_cleanup_backupdir_message">Σάρωση για κατεστραμμένα αντίγραφα ασφαλείας (π.χ. κατεστραμμένο αρχείο ιδιοτήτων, ιδιότητες χωρίς κατάλογο, κατάλογος χωρίς ιδιότητες) και στη συνέχεια, απλώς προσθέστε ετικέτα σε αυτά ή διαγράψτε τα.</string>
     <string name="dialogDelete">Διαγραφή</string>
-    <string name="dialogLabel">Απλά ετικέτα</string>
+    <string name="dialogLabel">Μόνο ετικέτα</string>
     <string name="enforce_backups_limit_FORMAT">Επιβολή του ορίου αντιγράφων ασφαλείας %d στις ακόλουθες εφαρμογές: %s</string>
     <string name="enforced_backups_limit_FORMAT">Επιβλήθηκε το όριο αντιγράφων ασφαλείας %d στις ακόλουθες εφαρμογές: %s</string>
     <string name="enforce_backups_limit_summary">Επιβολή του καθορισμένου ορίου αναθεωρήσεων αντιγράφων ασφαλείας σε όλες τις εφαρμογές που το υπερβαίνουν.</string>
@@ -445,4 +438,44 @@
     <string name="prefs_pgp_key_management">Διαχείριση κλειδιών OpenPGP</string>
     <string name="prefs_cleanup_backupdir_summary">Σάρωση για κατεστραμμένα αντίγραφα ασφαλείας (π.χ. κατεστραμμένο αρχείο ιδιοτήτων, ιδιότητες χωρίς κατάλογο, κατάλογος χωρίς ιδιότητες), προσθήκη ετικέτας και στη συνέχεια, διαγράψτε τα.</string>
     <string name="no_apps_to_enforce_backups_limit">Δεν υπάρχουν εφαρμογές για την επιβολή του ορίου αντιγράφων ασφαλείας</string>
+    <string name="prefs_useexactalarm_summary">Αν δεν χρησιμοποιείται το useAlarmClock, τότε χρησιμοποιήστε ακριβείς ειδοποιήσεις· διαφορετικά, χρησιμοποιήστε μη ακριβείς ειδοποιήσεις, οι οποίες ενδέχεται να είναι προτιμότερες για τη διάρκεια ζωής της μπαταρίας</string>
+    <string name="title_app_management">Διαχείριση εφαρμογών:</string>
+    <string name="title_backup_management">Διαχείριση αντιγράφων ασφαλείας:</string>
+    <string name="dialogUndo">Αναίρεση</string>
+    <string name="deleteScheduleDialogMessage">Διαγραφή χρονοδιαγράμματος;</string>
+    <string name="sched_blocklist_dialog_message">Μαύρη λίστα: %s</string>
+    <string name="sched_customlist_dialog_message">Προσαρμοσμένη λίστα: %s</string>
+    <plurals name="package_num">
+        <item quantity="one">%d πακέτο</item>
+        <item quantity="other">%d πακέτα</item>
+    </plurals>
+    <string name="packagesToBackup">Αριθμός πακέτων προς δημιουργία αντιγράφου: %d</string>
+    <string name="addBlocklistDialogMessage">Προσθήκη της εφαρμογής στη γενική λίστα μπλοκαρίσματος;</string>
+    <string name="stats_app_size">Μέγεθος εφαρμογών</string>
+    <string name="stats_data_size">Συνολικό μέγεθος δεδομένων</string>
+    <string name="enabled_schedules">Ενεργοποιημένα χρονοδιαγράμματα</string>
+    <string name="disabled_schedules">Απενεργοποιημένα χρονοδιαγράμματα</string>
+    <string name="notification_app_action">Ενέργειες εφαρμογής</string>
+    <string name="notification_schedules">Χρονοδιαγράμματα</string>
+    <string name="notification_handler">Διαχειριστής ειδοποιήσεων</string>
+    <string name="refresh_work_title">Ανανέωση λίστας αντιγράφων</string>
+    <string name="refresh_init">Αρχικοποίηση ανανέωσης</string>
+    <string name="invalidating_all">Εκκαθάριση προσωρινής μνήμης…</string>
+    <string name="invalidating_package">Εκκαθάριση προσωρινής μνήμης για %s…</string>
+    <string name="scanning_dirs">Σάρωση καταλόγου αντιγράφων…</string>
+    <string name="updating_db">Ενημέρωση βάσης δεδομένων εφαρμογών…</string>
+    <string name="refresh_completed">Η ανανέωση ολοκληρώθηκε</string>
+    <string name="refresh_failed">Η ανανέωση απέτυχε</string>
+    <string name="backupdir_inaccessible">Η τοποθεσία αντιγράφων δεν είναι προσβάσιμη</string>
+    <string name="unknown_error">Άγνωστο σφάλμα</string>
+    <string name="prefs_useexactalarm_title">Χρήση ακριβούς ειδοποίησης για χρονοδιαγράμματα</string>
+    <string name="dialog_ignore">Παράβλεψη</string>
+    <string name="prefs_enablestoragecheck">Ενεργοποίηση ελέγχου αποθηκευτικού χώρου</string>
+    <string name="prefs_enablestoragecheck_summary">Έλεγχος ελεύθερου αποθηκευτικού χώρου πριν από την έναρξη δημιουργίας αντιγράφου.</string>
+    <string name="keep_android_open">Διατηρήστε το Android ανοιχτό</string>
+    <string name="keep_android_open_notice">Η ανοιχτότητα του Android απειλείται από την Google. Χρειαζόμαστε τη βοήθειά σας: https://keepandroidopen.org/</string>
+    <string name="shortcut_run_schedule">Εκτέλεση %s</string>
+    <string name="schedule_not_found_or_disabled">Το χρονοδιάγραμμα δεν βρέθηκε ή είναι απενεργοποιημένο</string>
+    <string name="setup_FORMAT">Ρύθμιση: %s</string>
+    <string name="permissions">Δικαιώματα</string>
 </resources>
