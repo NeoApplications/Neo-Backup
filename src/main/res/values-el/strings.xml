@@ -116,7 +116,7 @@
     <string name="spec_wifiAccessPoints">Σημεία ασύρματης πρόσβασης</string>
     <!-- filebrowser_createDirectoryError: an error occured while trying to create the directory. format: string + " " + directory name -->
     <string name="error_creating_notification_channel">Αδυναμία δημιουργίας καναλιού ειδοποιήσεων</string>
-    <string name="error_updating_schedule_mode">Σφάλμα ενημέρωσης %1$s της προγραμματισμένης ενέργειας %2$d</string>
+    <string name="error_updating_schedule_mode">Σφάλμα ενημέρωσης %1$s του χρονοδιαγράμματος %2$d</string>
     <string name="permission_not_granted">Απαιτείται άδεια πρόσβασης στον εξωτερικό χώρο</string>
     <string name="restart_dialog">Φαίνεται πως η εφαρμογή χρειάζεται να επανεκκινηθεί</string>
     <string name="filter_options">Φίλτρα:</string>
@@ -154,7 +154,7 @@
     <string name="help_license">Άδεια</string>
     <string name="split_apks">Διαχωρισμός APKs</string>
     <string name="showSplitAPKs">Split-APK</string>
-    <string name="intro_welcome_message">Το Neo Backup (πρώην OAndBackupX) είναι ένα fork του διάσημου OAndBackup με σκοπό να φέρει το OAndBackup στο 202X και να αποτελέσει μέρος της σουίτας εφαρμογών Neo. Για την ώρα η εφαρμογή είναι ήδη πλήρως ξαναγραμμένη, το επόμενο βήμα θα είναι να καταστεί ανθεκτική και να προστεθούν κάποια μακροχρόνια προγραμματισμένα χαρακτηριστικά που θα μπορούσαν να διευκολύνουν τη ροή εργασιών δημιουργίας αντιγράφων/επαναφοράς με οποιαδήποτε συσκευή. \n Ως εκ τούτου, όλα τα είδη συνεισφοράς είναι πάντα ευπρόσδεκτα. \n \n Τώρα σχετικά με τη λειτουργικότητα της Εφαρμογής μας: \n • Απαιτεί δικαιώματα root και σας επιτρέπει να δημιουργήσετε αντίγραφα μεμονωμένων εφαρμογών και των δεδομένων τους. \n • Υποστηρίζεται τόσο η δημιουργία αντιγράφων και η επαναφορά μεμονωμένων προγραμμάτων μία τη φορά όσο και η δημιουργία αντιγράφων και η επαναφορά παρτίδων πολλαπλών προγραμμάτων. \n • Η επαναφορά εφαρμογών συστήματος πρέπει να είναι δυνατή δίχως να απαιτείται επανεκκίνηση στη συνέχεια. \n • Η δημιουργία αντιγράφων μπορεί να προγραμματιστεί δίχως όριο στον αριθμό των μεμονωμένων προγραμματισμένων ενεργειών και υπάρχει η πιθανότητα δημιουργίας προσαρμοσμένων λιστών από τη λίστα των εγκατεστημένων εφαρμογών.</string>
+    <string name="intro_welcome_message">Το Neo Backup (πρώην OAndBackupX) είναι ένα fork του διάσημου OAndBackup με σκοπό να φέρει το OAndBackup στο 202X και να αποτελέσει μέρος της σουίτας εφαρμογών Neo. Για την ώρα η εφαρμογή είναι ήδη πλήρως ξαναγραμμένη, το επόμενο βήμα θα είναι να καταστεί ανθεκτική και να προστεθούν κάποια μακροχρόνια προγραμματισμένα χαρακτηριστικά που θα μπορούσαν να διευκολύνουν τη ροή εργασιών δημιουργίας αντιγράφων/επαναφοράς με οποιαδήποτε συσκευή.\n\nΩς εκ τούτου, όλα τα είδη συνεισφοράς είναι πάντα ευπρόσδεκτα.\nΤώρα σχετικά με τη λειτουργικότητα της Εφαρμογής μας:\n• Απαιτεί δικαιώματα root και σας επιτρέπει να δημιουργήσετε αντίγραφα μεμονωμένων εφαρμογών και των δεδομένων τους.\n• Υποστηρίζεται τόσο η δημιουργία αντιγράφων και η επαναφορά μεμονωμένων προγραμμάτων μία τη φορά όσο και η δημιουργία αντιγράφων και η επαναφορά παρτίδων πολλαπλών προγραμμάτων.\n• Η επαναφορά εφαρμογών συστήματος πρέπει να είναι δυνατή δίχως να απαιτείται επανεκκίνηση στη συνέχεια.\n• Η δημιουργία αντιγράφων μπορεί να προγραμματιστεί δίχως όριο στον αριθμό των μεμονωμένων χρονοδιαγραμμάτων και υπάρχει η πιθανότητα δημιουργίας προσαρμοσμένων λιστών από τη λίστα των εγκατεστημένων εφαρμογών.</string>
     <string name="msg_appkill_warning">Η επιλεγμένη εφαρμογή(-ές) θα λάβει το σήμα τερματισμού, και θα συνεχιστεί αφού η εργασία ολοκληρωθεί. Ελέγξτε τις επεξεργασμένες εφαρμογές σας έπειτα (και αποφύγετε να τις εκκινήσετε καθώς η διεργασία ακόμα τρέχει).</string>
     <string name="intro_permission_batteryoptimization">Η εφαρμογή μπορεί να αντιμετωπίσει κάποια προβλήματα πραγματοποιώντας προγραμματισμένες δημιουργίες αντιγράφων σε ορισμένες ROMs οι οποίες υιοθετούν δυναμικές βελτιστοποιήσεις κατανάλωσης μπαταρίας π.χ. MIUI, αλλά ακόμα και σε βασικό AOSP τέτοιο πρόβλημα μπορεί να συμβεί.</string>
     <string name="intro_permission_usageaccess">Η εφαρμογή χρειάζεται αυτήν την άδεια ώστε να μπορεί να ελέγχει τα στατιστικά στοιχεία και τα μεγέθη των δεδομένων και των μνημών cache των εφαρμογών.</string>
@@ -177,7 +177,7 @@
     <string name="dialog_unlock">Ξεκλείδωμα</string>
     <string name="dialog_start">Πάμε!</string>
     <string name="dialogSave">Αποθήκευση</string>
-    <string name="sched_add">Προσθήκη προγραμματισμένης ενέργειας</string>
+    <string name="sched_add">Προσθήκη χρονοδιαγράμματος</string>
     <string name="prefs_password_match_false">Οι κωδικοί δεν ταιριάζουν</string>
     <string name="prefs_password_match_true">Οι κωδικοί ταιριάζουν</string>
     <string name="prefs_passwordconfirmation">Επιβεβαίωση κωδικού κρυπτογράφησης</string>
@@ -243,17 +243,17 @@
     <string name="global_blocklist_add">Προσθήκη στη γενική λίστα μπλοκαρίσματος</string>
     <string name="forceKill">Αναγκαστικός τερματισμός</string>
     <string name="logs_share_failed">Το αρχείο καταγραφής δε βρέθηκε</string>
-    <string name="sched_imported">Η προγραμματισμένη ενέργεια εισήχθη επιτυχώς</string>
-    <string name="sched_exported">Οι προγραμματισμένες ενέργειες εξήχθησαν επιτυχώς</string>
+    <string name="sched_imported">Το χρονοδιάγραμμα εισήχθη επιτυχώς</string>
+    <string name="sched_exported">Τα χρονοδιαγράμματα εξήχθησαν επιτυχώς</string>
     <string name="error_datachanged">Τα δεδομένα της εφαρμογής μετεβλήθησαν ενεργά κατά τη διάρκεια της δημιουργίας αντιγράφου. Δοκιμάστε να τερματίσετε τις διαδικασίες της πριν τη δημιουργία αντιγράφου</string>
     <string name="dialog_import">Εισαγωγή</string>
     <string name="dialog_export">Εξαγωγή</string>
-    <string name="schedule_failed">Η εκτέλεση της προγραμματισμένης ενέργειας απέτυχε</string>
+    <string name="schedule_failed">Η εκτέλεση του χρονοδιαγράμματος απέτυχε</string>
     <string name="shell_initproblem">Αδυναμία εκκίνησης του διαχειριστή shell. Είτε απουσιάζει το toybox/busybox είτε η άδεια root είναι απενεργοποιημένη για την εφαρμογή.</string>
     <string name="no_file_manager_message">Δεν υπάρχει διαχειριστής αρχείων για να διαχειριστεί το SAF. Ίσως έχετε απενεργοποιήσει τον προεγκατεστημένο διαχειριστή αρχείων. Παρακαλώ επαναφέρετε τον ή επανενεργοποιήστε τον.</string>
     <string name="no_file_manager_title">Απουσία διαχειριστή SAF</string>
-    <string name="prefs_schedulesexportimport_summary">Εξάγει ή εισάγει τη λίστα των προγραμματισμένων ενεργειών που έχετε δημιουργήσει.</string>
-    <string name="prefs_schedulesexportimport">Εξαγωγή/εισαγωγή προγραμματισμένων ενεργειών</string>
+    <string name="prefs_schedulesexportimport_summary">Εξάγει ή εισάγει τη λίστα των χρονοδιαγραμμάτων που έχετε δημιουργήσει.</string>
+    <string name="prefs_schedulesexportimport">Εξαγωγή/εισαγωγή χρονοδιαγραμμάτων</string>
     <string name="write_apps_list_all">Εγγράφηκε το αρχείο της λίστας όλων των εφαρμογών</string>
     <string name="write_apps_list_filtered">Εγγράφηκε το αρχείο της λίστας φιλτραρισμένων εφαρμογών</string>
     <string name="wait_noappslist">Η λίστα εφαρμογών δεν έχει αποκτηθεί ακόμα. Περιμένετε…</string>
@@ -311,7 +311,7 @@
     <string name="smsmms_permission_title">Δικαιώματα SMS/MMS</string>
     <string name="prefs_multilineinfochips">Πληροφορίες πολλαπλών γραμμών</string>
     <string name="prefs_mediadata_rst">Επαναφορά αρχείων πολυμέσων</string>
-    <string name="schedule">Προγραμματισμένη ενέργεια</string>
+    <string name="schedule">Χρονοδιάγραμμα</string>
     <string name="prefs_newandupdatednotification_summary">Εμφάνιση νέων εφαρμογών χρήστη δίπλα στις ενημερωμένες εφαρμογές στη γραμμή ειδοποιήσεων στην αρχική σελίδα.</string>
     <string name="sortAsc">Αύξουσα</string>
     <string name="prefs_deviceprotecteddata_rst">Επαναφορά δεδομένων που προστατεύονται από τη συσκευή</string>
@@ -381,7 +381,7 @@
     <string name="filters_latest">Τελευταίο αντίγραφο ασφαλείας</string>
     <string name="sortAppSize">Μέγεθος εφαρμογής</string>
     <string name="prefs_multilineinfochips_summary">Επιτρέπει την εμφάνιση πληροφοριών σε πολλές γραμμές.</string>
-    <string name="dialog_export_schedules">Εξαγωγή των προγραμματισμένων ενεργειών μου</string>
+    <string name="dialog_export_schedules">Εξαγωγή των χρονοδιαγραμμάτων μου</string>
     <string name="show_new_apps">Νέες εφαρμογές</string>
     <string name="prefs_deviceprotecteddata_summary">Δημιουργεί αντίγραφα των δεδομένων που βρίσκονται στο data/user_de</string>
     <string name="loading_list">Φόρτωση λίστας…</string>
@@ -442,7 +442,7 @@
     <string name="title_app_management">Διαχείριση εφαρμογών:</string>
     <string name="title_backup_management">Διαχείριση αντιγράφων ασφαλείας:</string>
     <string name="dialogUndo">Αναίρεση</string>
-    <string name="deleteScheduleDialogMessage">Διαγραφή προγραμματισμένης ενέργειας;</string>
+    <string name="deleteScheduleDialogMessage">Διαγραφή χρονοδιαγράμματος;</string>
     <string name="sched_blocklist_dialog_message">Μαύρη λίστα: %s</string>
     <string name="sched_customlist_dialog_message">Προσαρμοσμένη λίστα: %s</string>
     <plurals name="package_num">
@@ -453,10 +453,10 @@
     <string name="addBlocklistDialogMessage">Προσθήκη της εφαρμογής στη γενική λίστα μπλοκαρίσματος;</string>
     <string name="stats_app_size">Μέγεθος εφαρμογών</string>
     <string name="stats_data_size">Συνολικό μέγεθος δεδομένων</string>
-    <string name="enabled_schedules">Ενεργοποιημένες προγραμματισμένες ενέργειες</string>
-    <string name="disabled_schedules">Απενεργοποιημένες προγραμματισμένες ενέργειες</string>
+    <string name="enabled_schedules">Ενεργοποιημένα χρονοδιαγράμματα</string>
+    <string name="disabled_schedules">Απενεργοποιημένα χρονοδιαγράμματα</string>
     <string name="notification_app_action">Ενέργειες εφαρμογής</string>
-    <string name="notification_schedules">Προγραμματισμένες ενέργειες</string>
+    <string name="notification_schedules">Χρονοδιαγράμματα</string>
     <string name="notification_handler">Διαχειριστής ειδοποιήσεων</string>
     <string name="refresh_work_title">Ανανέωση λίστας αντιγράφων</string>
     <string name="refresh_init">Αρχικοποίηση ανανέωσης</string>
@@ -468,14 +468,14 @@
     <string name="refresh_failed">Η ανανέωση απέτυχε</string>
     <string name="backupdir_inaccessible">Η τοποθεσία αντιγράφων δεν είναι προσβάσιμη</string>
     <string name="unknown_error">Άγνωστο σφάλμα</string>
-    <string name="prefs_useexactalarm_title">Χρήση ακριβούς ειδοποίησης για προγραμματισμένες ενέργειες</string>
+    <string name="prefs_useexactalarm_title">Χρήση ακριβούς ειδοποίησης για χρονοδιαγράμματα</string>
     <string name="dialog_ignore">Παράβλεψη</string>
     <string name="prefs_enablestoragecheck">Ενεργοποίηση ελέγχου αποθηκευτικού χώρου</string>
     <string name="prefs_enablestoragecheck_summary">Έλεγχος ελεύθερου αποθηκευτικού χώρου πριν από την έναρξη δημιουργίας αντιγράφου.</string>
     <string name="keep_android_open">Διατηρήστε το Android ανοιχτό</string>
     <string name="keep_android_open_notice">Η ανοιχτότητα του Android απειλείται από την Google. Χρειαζόμαστε τη βοήθειά σας: https://keepandroidopen.org/</string>
     <string name="shortcut_run_schedule">Εκτέλεση %s</string>
-    <string name="schedule_not_found_or_disabled">Η προγραμματισμένη ενέργεια δεν βρέθηκε ή είναι απενεργοποιημένη</string>
+    <string name="schedule_not_found_or_disabled">Το χρονοδιάγραμμα δεν βρέθηκε ή είναι απενεργοποιημένο</string>
     <string name="setup_FORMAT">Ρύθμιση: %s</string>
     <string name="permissions">Δικαιώματα</string>
 </resources>
