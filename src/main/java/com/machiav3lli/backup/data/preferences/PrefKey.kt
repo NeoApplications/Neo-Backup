@@ -45,7 +45,7 @@ object PrefKey {
 
 object UserPrefKey {
     val LANGUAGES = stringPreferencesKey("user.languages")
-    val APP_THEME = intPreferencesKey("user.appThemeNeo")
+    val NEO_THEME = stringPreferencesKey("user.neoTheme")
     val APP_ACCENT_COLOR = intPreferencesKey(".appAccentColor")
     val APP_SECONDARY_COLOR = intPreferencesKey(".appSecondaryColor")
     val PATH_BACKUP_FOLDER = stringPreferencesKey("user.pathBackupFolder")

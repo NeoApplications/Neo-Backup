@@ -11,16 +11,13 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import com.machiav3lli.backup.THEME
-import com.machiav3lli.backup.ui.pages.pref_appTheme
+import com.machiav3lli.backup.ui.pages.pref_neoTheme
 import com.machiav3lli.backup.utils.extensions.Android
-import com.machiav3lli.backup.utils.getThemeContrast
-import com.machiav3lli.backup.utils.isBlackTheme
-import com.machiav3lli.backup.utils.isDynamicTheme
+import com.materialkolor.PaletteStyle
+import com.materialkolor.dynamiccolor.ColorSpec
+import com.materialkolor.rememberDynamicColorScheme
 
 @Composable
 fun AppTheme(
@@ -28,32 +25,29 @@ fun AppTheme(
     content: @Composable () -> Unit,
 ) {
     val context = LocalContext.current
-    val appTheme by pref_appTheme.state
-    val blackTheme by remember(appTheme) {
-        mutableStateOf(isBlackTheme)
-    }
-    val themeContrast by remember(appTheme) {
-        mutableStateOf(getThemeContrast(appTheme))
-    }
+    val neoTheme by pref_neoTheme.state
+
+    val staticColorScheme = rememberDynamicColorScheme(
+        seedColor = Color(neoTheme.seedColor),
+        isDark = darkTheme,
+        specVersion = ColorSpec.SpecVersion.SPEC_2025,
+        contrastLevel = neoTheme.contrast,
+        isAmoled = neoTheme.blackOnDark,
+        style = PaletteStyle.entries[neoTheme.paletteStyle],
+    )
 
     MaterialTheme(
         colorScheme = when {
-            isDynamicTheme && isSystemInDarkTheme() && blackTheme && Android.minSDK(Build.VERSION_CODES.S)
+            neoTheme.dynamicColor && darkTheme && neoTheme.blackOnDark && Android.minSDK(Build.VERSION_CODES.S)
                  -> dynamicBlackColorScheme(context)
 
-            isDynamicTheme && isSystemInDarkTheme() && Android.minSDK(Build.VERSION_CODES.S)
+            neoTheme.dynamicColor && darkTheme && Android.minSDK(Build.VERSION_CODES.S)
                  -> dynamicDarkColorScheme(context)
 
-            isDynamicTheme && Android.minSDK(Build.VERSION_CODES.S)
+            neoTheme.dynamicColor && Android.minSDK(Build.VERSION_CODES.S)
                  -> dynamicLightColorScheme(context)
 
-            darkTheme && blackTheme
-                 -> getBlackColors(themeContrast)
-
-            darkTheme
-                 -> getDarkColors(themeContrast)
-
-            else -> getLightColors(themeContrast)
+            else -> staticColorScheme
         },
         content = content
     )

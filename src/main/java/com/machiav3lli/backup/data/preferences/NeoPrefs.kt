@@ -26,6 +26,7 @@ import com.machiav3lli.backup.THEME
 import com.machiav3lli.backup.UpdatedFilter
 import com.machiav3lli.backup.accentColorItems
 import com.machiav3lli.backup.batchModesSequence
+import com.machiav3lli.backup.data.entity.NeoTheme
 import com.machiav3lli.backup.data.entity.SortFilterModel
 import com.machiav3lli.backup.possibleMainFilters
 import com.machiav3lli.backup.secondaryColorItems
@@ -57,10 +58,12 @@ import com.machiav3lli.backup.utils.recreateActivities
 import com.machiav3lli.backup.utils.restartApp
 import com.machiav3lli.backup.utils.setBackupDir
 import com.machiav3lli.backup.utils.setCustomTheme
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.module.dsl.singleOf
@@ -290,14 +293,14 @@ class NeoPrefs private constructor(val context: Context) : KoinComponent {
         dataStoreKey = UserPrefKey.LANGUAGES,
     )
 
-    val appTheme = PrefEnum(
+    val neoTheme = PrefTheme(
         titleId = R.string.prefs_theme,
         icon = Phosphor.Swatches,
-        entries = themeItems,
-        defaultValue = if (Android.minSDK(31)) THEME.DYNAMIC.ordinal else THEME.SYSTEM.ordinal,
-        onChanged = { onThemeChanged() },
+        defaultValue = if (Android.minSDK(31)) NeoTheme.DynamicSystem
+        else NeoTheme.SystemBlack,
+        onChanged = { MainScope().launch { onThemeChanged() } },
         dataStore = dataStore,
-        dataStoreKey = UserPrefKey.APP_THEME,
+        dataStoreKey = UserPrefKey.NEO_THEME,
     )
 
     val appAccentColor = PrefEnum(

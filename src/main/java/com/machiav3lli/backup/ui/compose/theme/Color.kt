@@ -3,6 +3,7 @@ package com.machiav3lli.backup.ui.compose.theme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.machiav3lli.backup.R
 
 val ColorNotInstalled @Composable get() = MaterialTheme.colorScheme.onSurfaceVariant
 val ColorDisabled = Color(0xFF888888)
@@ -17,6 +18,16 @@ val ColorOBB = Color(0xFFCAFB68)
 val ColorMedia = Color(0xFFFF8098)
 val ColorUpdated = Color(0xFFFF0000)
 val ColorExodus = Color(0xFFAB47BC)
+
+val presetColors = mapOf(
+    0xFF336644 to R.string.color_green,
+    0xFF2266BB to R.string.color_blue,
+    0xFFBBAADD to R.string.color_purple,
+    0xFF4499AA to R.string.color_teal,
+    0xFFEE9955 to R.string.color_orange,
+    0xFFCCAABB to R.string.color_pink,
+    0xFFCC3344 to R.string.color_red,
+)
 
 // Light Themes
 

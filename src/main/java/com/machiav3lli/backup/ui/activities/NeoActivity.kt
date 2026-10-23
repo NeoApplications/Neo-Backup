@@ -80,7 +80,7 @@ import com.machiav3lli.backup.ui.navigation.navigateUnique
 import com.machiav3lli.backup.ui.pages.RootMissing
 import com.machiav3lli.backup.ui.pages.SplashPage
 import com.machiav3lli.backup.ui.pages.persist_pageOnboarded
-import com.machiav3lli.backup.ui.pages.pref_appTheme
+import com.machiav3lli.backup.ui.pages.pref_neoTheme
 import com.machiav3lli.backup.utils.SystemUtils
 import com.machiav3lli.backup.utils.TraceUtils.classAndId
 import com.machiav3lli.backup.utils.allPermissionsGranted
@@ -207,9 +207,9 @@ class NeoActivity : BaseActivity() {
         setContent {
 
             navStack = rememberNavBackStack(NavRoute.Onboarding) as NavBackStack<NavRoute>
-            val appTheme by pref_appTheme.state
+            val neoTheme by pref_neoTheme.state
 
-            DisposableEffect(appTheme) {
+            DisposableEffect(neoTheme) {
                 enableEdgeToEdge(
                     statusBarStyle = SystemBarStyle.auto(
                         android.graphics.Color.TRANSPARENT,

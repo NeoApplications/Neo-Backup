@@ -20,6 +20,7 @@ import com.machiav3lli.backup.data.preferences.PrefEditString
 import com.machiav3lli.backup.data.preferences.PrefEnum
 import com.machiav3lli.backup.data.preferences.PrefInt
 import com.machiav3lli.backup.data.preferences.PrefList
+import com.machiav3lli.backup.data.preferences.PrefTheme
 import com.machiav3lli.backup.ui.compose.component.NeoPrefsGroup
 import com.machiav3lli.backup.ui.dialogs.BaseDialog
 import com.machiav3lli.backup.ui.dialogs.DSEnumPrefDialogUI
@@ -97,6 +98,7 @@ val pref_languages: PrefList get() = neoPrefs.languages
 val pref_appTheme: PrefEnum get() = neoPrefs.appTheme
 val pref_appAccentColor: PrefEnum get() = neoPrefs.appAccentColor
 val pref_appSecondaryColor: PrefEnum get() = neoPrefs.appSecondaryColor
+val pref_neoTheme: PrefTheme get() = neoPrefs.neoTheme
 val pref_pathBackupFolder: PrefEditString get() = neoPrefs.pathBackupFolder
 val pref_deviceLock: PrefBoolean get() = neoPrefs.deviceLock
 val pref_biometricLock: PrefBoolean get() = neoPrefs.biometricLock

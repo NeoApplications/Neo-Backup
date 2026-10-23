@@ -35,14 +35,14 @@ import com.machiav3lli.backup.ui.compose.theme.Contrast
 import java.util.Locale
 
 fun Context.setCustomTheme() {
-    AppCompatDelegate.setDefaultNightMode(getThemeStyleX(styleTheme))
-    if (!(isDynamicTheme && DynamicColors.isDynamicColorAvailable())) {
+    val appTheme = styleTheme
+    AppCompatDelegate.setDefaultNightMode(appTheme.nightMode)
+    if (!(appTheme.dynamicColor && DynamicColors.isDynamicColorAvailable())) {
         setTheme(R.style.AppTheme)
         //theme.applyAccentStyle()
         //theme.applySecondaryStyle()
     } // TODO allow fine control on using custom accent/secondary colors?
-    if (isBlackTheme && isNightMode())
-        theme.applyStyle(R.style.Black, true)
+    if (appTheme.blackOnDark && isNightMode()) theme.applyStyle(R.style.Black, true)
 }
 
 val isBlackTheme: Boolean

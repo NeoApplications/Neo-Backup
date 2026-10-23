@@ -32,6 +32,7 @@ import com.machiav3lli.backup.PREFS_LANGUAGES_SYSTEM
 import com.machiav3lli.backup.PREFS_SHARED_PRIVATE
 import com.machiav3lli.backup.R
 import com.machiav3lli.backup.config.BuildConfig
+import com.machiav3lli.backup.data.entity.NeoTheme
 import com.machiav3lli.backup.data.entity.StorageFile
 import com.machiav3lli.backup.manager.handler.LogsHandler.Companion.logException
 import com.machiav3lli.backup.manager.tasks.RefreshBackupsWorker
@@ -53,6 +54,7 @@ import com.machiav3lli.backup.ui.pages.pref_enableSpecialBackups
 import com.machiav3lli.backup.ui.pages.pref_encryption_mode
 import com.machiav3lli.backup.ui.pages.pref_giveAllPermissions
 import com.machiav3lli.backup.ui.pages.pref_languages
+import com.machiav3lli.backup.ui.pages.pref_neoTheme
 import com.machiav3lli.backup.ui.pages.pref_password
 import com.machiav3lli.backup.ui.pages.pref_pathBackupFolder
 import com.machiav3lli.backup.ui.pages.pref_pgpPasscode
@@ -214,10 +216,10 @@ val isAllowDowngrade: Boolean
 
 class StorageLocationNotConfiguredException : Exception("Storage Location has not been configured")
 
-var styleTheme: Int
-    get() = pref_appTheme.value
+var styleTheme: NeoTheme
+    get() = pref_neoTheme.value
     set(value) {
-        pref_appTheme.value = value
+        pref_neoTheme.value = value
     }
 
 var stylePrimary: Int
