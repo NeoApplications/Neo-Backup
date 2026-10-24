@@ -25,6 +25,7 @@ import com.machiav3lli.backup.data.entity.Pref
 import com.machiav3lli.backup.data.entity.StringPref
 import com.machiav3lli.backup.data.preferences.PrefEnum
 import com.machiav3lli.backup.data.preferences.PrefList
+import com.machiav3lli.backup.data.preferences.PrefTheme
 import com.machiav3lli.backup.ui.compose.blockBorderBottom
 import com.machiav3lli.backup.ui.compose.component.ActionButton
 import com.machiav3lli.backup.ui.compose.component.PrefsGroup
@@ -36,6 +37,7 @@ import com.machiav3lli.backup.ui.dialogs.DSListPrefDialogUI
 import com.machiav3lli.backup.ui.dialogs.EnumPrefDialogUI
 import com.machiav3lli.backup.ui.dialogs.ListPrefDialogUI
 import com.machiav3lli.backup.ui.dialogs.StringPrefDialogUI
+import com.machiav3lli.backup.ui.dialogs.ThemePrefDialogUI
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
@@ -85,6 +87,11 @@ fun OnboardingPrefsPage(
                             openDialogCustom = openDialog,
                         )
 
+                        is PrefTheme -> ThemePrefDialogUI(
+                            pref = currentPref.dsPref,
+                            openDialogCustom = openDialog,
+                        )
+
                         else        -> {}
                     }
                 }
@@ -118,7 +125,7 @@ fun OnboardingPrefsPage(
 private fun LazyListScope.OboardingPrefGroups(onPrefDialog: (Pref) -> Unit) {
     val userPrefs = persistentListOf(
         NeoPrefAdapter(pref_languages),
-        NeoPrefAdapter(pref_appTheme),
+        NeoPrefAdapter(pref_neoTheme),
         NeoPrefAdapter(pref_pathBackupFolder),
         NeoPrefAdapter(pref_deviceLock),
         NeoPrefAdapter(pref_biometricLock),

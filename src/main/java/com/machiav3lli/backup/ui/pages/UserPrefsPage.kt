@@ -25,6 +25,7 @@ import com.machiav3lli.backup.ui.compose.component.NeoPrefsGroup
 import com.machiav3lli.backup.ui.dialogs.BaseDialog
 import com.machiav3lli.backup.ui.dialogs.DSEnumPrefDialogUI
 import com.machiav3lli.backup.ui.dialogs.DSListPrefDialogUI
+import com.machiav3lli.backup.ui.dialogs.ThemePrefDialogUI
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 import org.koin.java.KoinJavaComponent.get
@@ -37,7 +38,7 @@ fun UserPrefsPage() {
 
     val prefs: PersistentList<PrefDelegate<out Any>> = persistentListOf(
         pref_languages,
-        pref_appTheme,
+        pref_neoTheme,
         //pref_appAccentColor,
         //pref_appSecondaryColor,
         pref_pathBackupFolder,
@@ -71,20 +72,24 @@ fun UserPrefsPage() {
         BaseDialog(onDismiss = { openDialog.value = false }) {
             when (currentPref) {
                 //pref_languages,
-                is PrefList -> DSListPrefDialogUI(
+                is PrefList  -> DSListPrefDialogUI(
                     pref = currentPref,
                     openDialogCustom = openDialog,
                 )
 
-                //pref_appTheme,
+                is PrefTheme -> ThemePrefDialogUI(
+                    pref = currentPref,
+                    openDialogCustom = openDialog,
+                )
+
                 //pref_appAccentColor,
                 //pref_appSecondaryColor,
-                is PrefEnum -> DSEnumPrefDialogUI(
+                is PrefEnum  -> DSEnumPrefDialogUI(
                     pref = currentPref,
                     openDialogCustom = openDialog,
                 )
 
-                else        -> {}
+                else         -> {}
             }
         }
     }
