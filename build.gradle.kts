@@ -275,10 +275,7 @@ tasks.withType<Test> {
 
 // Exclude (non-gradle) kts scripts from compilation
 tasks.withType<KotlinCompile>().configureEach {
-    setSource(sources.filterNot {
-        //it.name.endsWith(".generator.kts")
-        it.extension == "kts"
-    })
+    exclude("**/*.kts")
     compilerOptions {
         if (project.findProperty("enableComposeCompilerReports") == "true") {
             val metricsDir =
