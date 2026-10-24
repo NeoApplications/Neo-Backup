@@ -22,22 +22,17 @@ import com.machiav3lli.backup.LaunchableFilter
 import com.machiav3lli.backup.MAIN_FILTER_USER
 import com.machiav3lli.backup.R
 import com.machiav3lli.backup.Sort
-import com.machiav3lli.backup.THEME
 import com.machiav3lli.backup.UpdatedFilter
-import com.machiav3lli.backup.accentColorItems
 import com.machiav3lli.backup.batchModesSequence
 import com.machiav3lli.backup.data.entity.NeoTheme
 import com.machiav3lli.backup.data.entity.SortFilterModel
 import com.machiav3lli.backup.possibleMainFilters
-import com.machiav3lli.backup.secondaryColorItems
-import com.machiav3lli.backup.themeItems
 import com.machiav3lli.backup.ui.compose.component.StringEditPreference
 import com.machiav3lli.backup.ui.compose.icons.Phosphor
 import com.machiav3lli.backup.ui.compose.icons.phosphor.ArrowsOutLineVertical
 import com.machiav3lli.backup.ui.compose.icons.phosphor.CalendarX
 import com.machiav3lli.backup.ui.compose.icons.phosphor.CircleWavyWarning
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Clock
-import com.machiav3lli.backup.ui.compose.icons.phosphor.EyedropperSample
 import com.machiav3lli.backup.ui.compose.icons.phosphor.FingerprintSimple
 import com.machiav3lli.backup.ui.compose.icons.phosphor.FolderNotch
 import com.machiav3lli.backup.ui.compose.icons.phosphor.List
@@ -48,7 +43,6 @@ import com.machiav3lli.backup.ui.compose.icons.phosphor.TextAa
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Translate
 import com.machiav3lli.backup.ui.pages.pref_restartAppOnLanguageChange
 import com.machiav3lli.backup.utils.StorageLocationNotConfiguredException
-import com.machiav3lli.backup.utils.SystemUtils
 import com.machiav3lli.backup.utils.backupDirConfigured
 import com.machiav3lli.backup.utils.backupFolderExists
 import com.machiav3lli.backup.utils.extensions.Android
@@ -301,38 +295,6 @@ class NeoPrefs private constructor(val context: Context) : KoinComponent {
         onChanged = { MainScope().launch { onThemeChanged() } },
         dataStore = dataStore,
         dataStoreKey = UserPrefKey.NEO_THEME,
-    )
-
-    val appAccentColor = PrefEnum(
-        titleId = R.string.prefs_accent_color,
-        icon = Phosphor.EyedropperSample,
-        entries = accentColorItems,
-        defaultValue = with(SystemUtils.packageName) {
-            when {
-                contains("hg42")  -> 8
-                contains("debug") -> 4
-                else              -> 0
-            }
-        },
-        onChanged = { onThemeChanged() },
-        dataStore = dataStore,
-        dataStoreKey = UserPrefKey.APP_ACCENT_COLOR,
-    )
-
-    val appSecondaryColor = PrefEnum(
-        titleId = R.string.prefs_secondary_color,
-        icon = Phosphor.EyedropperSample,
-        entries = secondaryColorItems,
-        defaultValue = with(SystemUtils.packageName) {
-            when {
-                contains(".rel")  -> 0
-                contains("debug") -> 4
-                else              -> 3
-            }
-        },
-        onChanged = { onThemeChanged() },
-        dataStore = dataStore,
-        dataStoreKey = UserPrefKey.APP_SECONDARY_COLOR,
     )
 
     val pathBackupFolder = PrefEditString(

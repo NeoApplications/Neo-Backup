@@ -151,47 +151,6 @@ const val FIELD_NAME = "name"
 const val FIELD_PACKAGE_NAME = "packageName"
 const val FIELD_CUSTOM_TAGS = "customTags"
 
-enum class THEME {
-    LIGHT,
-    DARK,
-    BLACK,
-    LIGHT_MEDIUM,
-    DARK_MEDIUM,
-    BLACK_MEDIUM,
-    LIGHT_HIGH,
-    DARK_HIGH,
-    BLACK_HIGH,
-    SYSTEM,
-    SYSTEM_BLACK,
-    DYNAMIC,
-    DYNAMIC_LIGHT,
-    DYNAMIC_DARK,
-    DYNAMIC_BLACK,
-}
-
-val themeItems = mutableMapOf(
-    THEME.LIGHT.ordinal to R.string.prefs_theme_light,
-    THEME.DARK.ordinal to R.string.prefs_theme_dark,
-    THEME.BLACK.ordinal to R.string.prefs_theme_black,
-    THEME.LIGHT_MEDIUM.ordinal to R.string.light_medium_contrast,
-    THEME.DARK_MEDIUM.ordinal to R.string.dark_medium_contrast,
-    THEME.BLACK_MEDIUM.ordinal to R.string.black_medium_contrast,
-    THEME.LIGHT_HIGH.ordinal to R.string.light_high_contrast,
-    THEME.DARK_HIGH.ordinal to R.string.dark_high_contrast,
-    THEME.BLACK_HIGH.ordinal to R.string.black_high_contrast,
-).apply {
-    if (Android.minSDK(Build.VERSION_CODES.Q)) {
-        set(THEME.SYSTEM.ordinal, R.string.prefs_theme_system)
-        set(THEME.SYSTEM_BLACK.ordinal, R.string.prefs_theme_system_black)
-    }
-    if (Android.minSDK(Build.VERSION_CODES.S)) {
-        set(THEME.DYNAMIC.ordinal, R.string.prefs_theme_dynamic)
-        set(THEME.DYNAMIC_LIGHT.ordinal, R.string.prefs_theme_dynamic_light)
-        set(THEME.DYNAMIC_DARK.ordinal, R.string.prefs_theme_dynamic_dark)
-        set(THEME.DYNAMIC_BLACK.ordinal, R.string.prefs_theme_dynamic_black)
-    }
-}
-
 enum class ENCRYPTION {
     NONE,
     PASSWORD,

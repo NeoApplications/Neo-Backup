@@ -100,9 +100,6 @@ private val neoPrefs: NeoPrefs by lazy { get(NeoPrefs::class.java) }
 
 // User preferences (DataStore)
 val pref_languages: PrefList get() = neoPrefs.languages
-val pref_appTheme: PrefEnum get() = neoPrefs.appTheme
-val pref_appAccentColor: PrefEnum get() = neoPrefs.appAccentColor
-val pref_appSecondaryColor: PrefEnum get() = neoPrefs.appSecondaryColor
 val pref_neoTheme: PrefTheme get() = neoPrefs.neoTheme
 val pref_pathBackupFolder: PrefEditString get() = neoPrefs.pathBackupFolder
 val pref_deviceLock: PrefBoolean get() = neoPrefs.deviceLock

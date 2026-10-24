@@ -38,9 +38,6 @@ import com.machiav3lli.backup.manager.handler.LogsHandler.Companion.logException
 import com.machiav3lli.backup.manager.tasks.RefreshBackupsWorker
 import com.machiav3lli.backup.ui.pages.persist_salt
 import com.machiav3lli.backup.ui.pages.pref_allowDowngrade
-import com.machiav3lli.backup.ui.pages.pref_appAccentColor
-import com.machiav3lli.backup.ui.pages.pref_appSecondaryColor
-import com.machiav3lli.backup.ui.pages.pref_appTheme
 import com.machiav3lli.backup.ui.pages.pref_backupDeviceProtectedData
 import com.machiav3lli.backup.ui.pages.pref_backupExternalData
 import com.machiav3lli.backup.ui.pages.pref_backupMediaData
@@ -220,18 +217,6 @@ var styleTheme: NeoTheme
     get() = pref_neoTheme.value
     set(value) {
         pref_neoTheme.value = value
-    }
-
-var stylePrimary: Int
-    get() = pref_appAccentColor.value
-    set(value) {
-        pref_appAccentColor.value = value
-    }
-
-var styleSecondary: Int
-    get() = pref_appSecondaryColor.value
-    set(value) {
-        pref_appSecondaryColor.value = value
     }
 
 var language: String

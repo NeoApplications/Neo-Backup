@@ -214,11 +214,9 @@ class SuCommandPref(
 )
 
 val suCommand_summary
-    get() = """
-        the command used to elevate the shell to a 'root' shell (in our sense),
-        the whole command must be a shell, reading commands from stdin and executing them,
-        there are also builtin fallback commands
-        """.trimIndent().replace("\n", " ").trim()
+    get() = ("the command used to elevate the shell to a 'root' shell (in our sense), " +
+            "the whole command must be a shell, reading commands from stdin and executing them, " +
+            "there are also builtin fallback commands").trim()
 
 val suCommand_default = "su -c 'nsenter --mount=/proc/1/ns/mnt sh'"
 
@@ -252,7 +250,6 @@ val pref_suCommand = SuCommandPref(
                 pref.value = suCommand
         }
     }
-    pref.summary = suCommand_summary
     traceDebug { "summary: ${pref.summary}" }
     traceDebug { "pref: ${pref.dirty} ${pref.key} -> ${pref.icon?.name} ${pref.iconTint} (launch)" }
     pref.dirty.value = true

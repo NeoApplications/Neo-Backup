@@ -76,9 +76,9 @@ import com.machiav3lli.backup.utils.TraceUtils.endNanoTimer
 import com.machiav3lli.backup.utils.TraceUtils.methodName
 import com.machiav3lli.backup.utils.backupDirConfigured
 import com.machiav3lli.backup.utils.extensions.Android
-import com.machiav3lli.backup.utils.isDynamicTheme
 import com.machiav3lli.backup.utils.restartApp
 import com.machiav3lli.backup.utils.scheduleAlarmsOnce
+import com.machiav3lli.backup.utils.styleTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
@@ -182,7 +182,7 @@ class NeoApp : Application(), KoinStartup {
         DynamicColors.applyToActivitiesIfAvailable(
             this,
             DynamicColorsOptions.Builder()
-                .setPrecondition { _, _ -> isDynamicTheme }
+                .setPrecondition { _, _ -> styleTheme.dynamicColor }
                 .build()
         )
 

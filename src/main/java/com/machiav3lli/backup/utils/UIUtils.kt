@@ -27,11 +27,9 @@ import com.google.android.material.color.DynamicColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.machiav3lli.backup.PREFS_LANGUAGES_SYSTEM
 import com.machiav3lli.backup.R
-import com.machiav3lli.backup.THEME
 import com.machiav3lli.backup.data.entity.ActionResult
 import com.machiav3lli.backup.data.preferences.traceDebug
 import com.machiav3lli.backup.manager.handler.LogsHandler
-import com.machiav3lli.backup.ui.compose.theme.Contrast
 import java.util.Locale
 
 fun Context.setCustomTheme() {
@@ -39,49 +37,9 @@ fun Context.setCustomTheme() {
     AppCompatDelegate.setDefaultNightMode(appTheme.nightMode)
     if (!(appTheme.dynamicColor && DynamicColors.isDynamicColorAvailable())) {
         setTheme(R.style.AppTheme)
-        //theme.applyAccentStyle()
-        //theme.applySecondaryStyle()
     } // TODO allow fine control on using custom accent/secondary colors?
     if (appTheme.blackOnDark && isNightMode()) theme.applyStyle(R.style.Black, true)
 }
-
-val isBlackTheme: Boolean
-    get() = when (styleTheme) {
-        THEME.BLACK.ordinal,
-        THEME.BLACK_MEDIUM.ordinal,
-        THEME.BLACK_HIGH.ordinal,
-        THEME.SYSTEM_BLACK.ordinal,
-        THEME.DYNAMIC_BLACK.ordinal,
-             -> true
-
-        else -> false
-    }
-
-val isDynamicTheme: Boolean
-    get() = when (styleTheme) {
-        THEME.DYNAMIC.ordinal,
-        THEME.DYNAMIC_LIGHT.ordinal,
-        THEME.DYNAMIC_DARK.ordinal,
-        THEME.DYNAMIC_BLACK.ordinal,
-             -> true
-
-        else -> false
-    }
-
-fun getThemeContrast(theme: Int): Contrast = when (theme) {
-    THEME.LIGHT_MEDIUM.ordinal,
-    THEME.DARK_MEDIUM.ordinal,
-    THEME.BLACK_MEDIUM.ordinal,
-         -> Contrast.MEDIUM
-
-    THEME.LIGHT_HIGH.ordinal,
-    THEME.DARK_HIGH.ordinal,
-    THEME.BLACK_HIGH.ordinal,
-         -> Contrast.HIGH
-
-    else -> Contrast.NORMAL
-}
-
 
 private var sysLocale: LocaleList? = null
 private var sysLocaleJVM: Locale? = null
@@ -90,14 +48,14 @@ fun Context.setLanguage(lang: String = ""): Configuration {
 
     // only works on start of activity
 
-    var setLocaleCode = if (lang.isEmpty()) language else lang  // parameter for tests
+    var setLocaleCode = if (lang.isEmpty()) language else lang // parameter for tests
     traceDebug { "Locale.set: ${setLocaleCode}" }
 
     val config = resources.configuration
 
-    //TODO hg42 for now, cache the initial value, but this doesn't change with system settings
-    //TODO hg42 look for another method to retrieve the system setting
-    //TODO hg42 maybe asking the unwrapped app or activity context, but how to get this?
+    // TODO hg42 for now, cache the initial value, but this doesn't change with system settings
+    // TODO hg42 look for another method to retrieve the system setting
+    // TODO hg42 maybe asking the unwrapped app or activity context, but how to get this?
     if (sysLocale == null) {
         sysLocale = config.locales
         sysLocaleJVM = Locale.getDefault()
@@ -124,59 +82,27 @@ fun Context.setLanguage(lang: String = ""): Configuration {
     return config
 }
 
-//TODO hg42 at least one of the following Save buttons was reported as not doing anything
+// TODO hg42 at least one of the following Save buttons was reported as not doing anything
 fun Activity.showActionResult(result: ActionResult, saveMethod: DialogInterface.OnClickListener) =
     runOnUiThread {
-        val builder = MaterialAlertDialogBuilder(this)
-            .setPositiveButton(R.string.dialogOK, null)
+        val builder = MaterialAlertDialogBuilder(this).setPositiveButton(R.string.dialogOK, null)
         if (!result.succeeded) {
-            builder.setNegativeButton(R.string.dialogSave, saveMethod)      //TODO hg42 either this
-            builder.setTitle(R.string.errorDialogTitle)
+            builder.setNegativeButton(R.string.dialogSave, saveMethod) // TODO hg42 either this
+            builder
+                .setTitle(R.string.errorDialogTitle)
                 .setMessage(LogsHandler.handleErrorMessages(this, result.message))
             builder.show()
         }
     }
 
-fun getThemeStyleX(theme: Int) = when (theme) {
-    THEME.LIGHT.ordinal,
-    THEME.LIGHT_MEDIUM.ordinal,
-    THEME.LIGHT_HIGH.ordinal,
-    THEME.DYNAMIC_LIGHT.ordinal,
-         -> AppCompatDelegate.MODE_NIGHT_NO
-
-    THEME.DARK.ordinal,
-    THEME.BLACK.ordinal,
-    THEME.DARK_MEDIUM.ordinal,
-    THEME.BLACK_MEDIUM.ordinal,
-    THEME.DARK_HIGH.ordinal,
-    THEME.BLACK_HIGH.ordinal,
-    THEME.DYNAMIC_DARK.ordinal,
-    THEME.DYNAMIC_BLACK.ordinal,
-         -> AppCompatDelegate.MODE_NIGHT_YES
-
-    else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-}
-
 val Context.isDarkTheme: Boolean
-    get() = when (styleTheme) {
-        THEME.LIGHT.ordinal,
-        THEME.LIGHT_MEDIUM.ordinal,
-        THEME.LIGHT_HIGH.ordinal,
-        THEME.DYNAMIC_LIGHT.ordinal,
-             -> false
-
-        THEME.DARK.ordinal,
-        THEME.BLACK.ordinal,
-        THEME.DARK_MEDIUM.ordinal,
-        THEME.BLACK_MEDIUM.ordinal,
-        THEME.DARK_HIGH.ordinal,
-        THEME.BLACK_HIGH.ordinal,
-        THEME.DYNAMIC_DARK.ordinal,
-        THEME.DYNAMIC_BLACK.ordinal,
-             -> true
-
-        else -> isNightMode()
-    }
+    get() =
+        when (styleTheme.nightMode) {
+            AppCompatDelegate.MODE_NIGHT_NO  -> false
+            AppCompatDelegate.MODE_NIGHT_YES -> true
+            else                             -> isNightMode()
+        }
 
 fun Context.isNightMode() =
-    resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+    resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK) ==
+            Configuration.UI_MODE_NIGHT_YES
