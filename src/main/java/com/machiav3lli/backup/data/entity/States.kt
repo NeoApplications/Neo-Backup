@@ -46,5 +46,6 @@ data class AppState(
     val pkg: Package? = null,
     val backups: List<Backup> = emptyList(),
     val appExtras: AppExtras = AppExtras(),
-    val allTags: Set<String> = emptySet()
+    val allTags: PersistentSet<String> = persistentSetOf(),
+    val suggestionTags: PersistentSet<String> = persistentSetOf(),
 )

@@ -48,13 +48,15 @@ import com.machiav3lli.backup.ui.compose.component.DialogPositiveButton
 import com.machiav3lli.backup.ui.compose.component.SelectionChip
 import com.machiav3lli.backup.ui.compose.icons.Phosphor
 import com.machiav3lli.backup.ui.compose.icons.phosphor.X
+import kotlinx.collections.immutable.PersistentSet
+import kotlinx.collections.immutable.persistentSetOf
 
 @Composable
 fun StringInputDialogUI(
     titleText: String,
     initValue: String,
     openDialogCustom: MutableState<Boolean>,
-    suggestions: Set<String> = emptySet(),
+    suggestions: PersistentSet<String> = persistentSetOf(),
     onSave: ((String) -> Unit) = {},
 ) {
     val context = LocalContext.current

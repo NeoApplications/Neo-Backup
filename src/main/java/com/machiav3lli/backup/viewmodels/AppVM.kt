@@ -36,6 +36,8 @@ import com.machiav3lli.backup.ui.activities.NeoActivity
 import com.machiav3lli.backup.utils.SystemUtils
 import com.machiav3lli.backup.utils.TraceUtils.trace
 import com.machiav3lli.backup.utils.extensions.NeoViewModel
+import kotlinx.collections.immutable.minus
+import kotlinx.collections.immutable.toPersistentSet
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -59,7 +61,7 @@ class AppVM(
     }
 
     private val allTags = appExtrasRepository.getTagsMapFlow()
-        .mapLatest { it.map(ExtrasTags::customTags).flatten().toSet() }
+        .mapLatest { it.map(ExtrasTags::customTags).flatten().toPersistentSet() }
         .trace { "*** allTags <<- ${it.size}" }
 
     val appState = combine(
@@ -74,6 +76,7 @@ class AppVM(
             backups = bkups,
             appExtras = extras,
             allTags = tags,
+            suggestionTags = tags.minus(extras.customTags),
         )
     }
         .stateIn(

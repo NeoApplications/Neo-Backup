@@ -780,7 +780,7 @@ fun AppPage(
                                 titleText = stringResource(id = R.string.add_tag),
                                 initValue = dialogProps.value.second as String,
                                 openDialogCustom = openDialog,
-                                suggestions = state.allTags - state.appExtras.customTags,
+                                suggestions = state.suggestionTags,
                             ) {
                                 viewModel.setExtras(
                                     packageName,
