@@ -1,3 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="restoreConfirmation">রিস্টোর?</string>
+    <string name="handleApk">এপিকে</string>
+    <string name="handleData">ডেটা</string>
+    <string name="handleBoth">দুটোই</string>
+    <string name="radio_all">সব অ্যাপ</string>
+    <string name="radio_user">ইউজার অ্যাপস</string>
+    <string name="radio_system">সিস্টেম অ্যাপস</string>
+    <string name="radio_both">এপিকে ও ডেটা</string>
+    <string name="radio_apk">এপিকে</string>
+    <string name="radio_data">ডেটা</string>
+    <string name="radio_special">স্পেশাল ব্যাকআপ</string>
+    <string name="radio_updated">আপডেটেড</string>
+    <string name="radio_externaldata">এক্সটার্নাল ডেটা</string>
+    <string name="radio_deviceprotecteddata">ডিভাইস প্রটেকটেড ডেটা</string>
+    <string name="radio_obbdata">ওবিবি (OBB) ডেটা</string>
+    <string name="radio_mediadata">মিডিয়া ডেটা</string>
+    <string name="de_selectAll">সিলেক্ট/ডিসিলেক্ট সব</string>
+    <string name="refresh">রিফ্রেশ</string>
+    <string name="deleteBackup">ব্যাকআপ মুছুন</string>
+    <string name="uninstall">অ্যাপ আনইন্সটল</string>
+    <string name="uninstallProgress">আনইন্সটল হচ্ছে…</string>
+    <string name="showOnlySystem">শুধুমাত্র সিস্টেম অ্যাপ</string>
+    <string name="showOnlyUser">শুধুমাত্র ইউজার অ্যাপস</string>
 </resources>
