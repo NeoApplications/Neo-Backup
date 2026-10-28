@@ -91,7 +91,7 @@ class LogsHandler {
                         NeoApp.hitBusy(1000)
 
                         if (it.isFile) try {
-                            logs.add(Log(it))
+                            logs.add(Log.fromFile(it))
                         } catch (e: Throwable) {
                             // avoid recursion! never use: logErrors(message) or throw
                             val message =

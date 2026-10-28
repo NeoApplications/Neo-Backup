@@ -339,7 +339,7 @@ fun textLogShare(lines: List<String>, temporary: Boolean = false) {
         if (!temporary) {
             runCatching {
                 LogsHandler.writeToLogFile(text)?.let { file ->
-                    share(Log(file), asFile = true)
+                    share(Log.fromFile(file), asFile = true)
                 }
                 return
             }

@@ -23,6 +23,7 @@ import com.machiav3lli.backup.manager.handler.LogsHandler
 import com.machiav3lli.backup.utils.LocalDateTimeSerializer
 import com.machiav3lli.backup.utils.TraceUtils.canonicalName
 import com.machiav3lli.backup.utils.extensions.Android
+import com.machiav3lli.backup.utils.extensions.Quintuple
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import java.io.FileNotFoundException
@@ -30,53 +31,22 @@ import java.io.IOException
 import java.time.LocalDateTime
 
 @Serializable
-open class Log {
+data class Log(
     @OptIn(ExperimentalSerializationApi::class)
     @Serializable(with = LocalDateTimeSerializer::class)
-    var logDate: LocalDateTime = LocalDateTime.parse("2020-01-01T00:00:00")
-        private set
-
-    var deviceName: String = ""
-
-    var sdkCodename: String = ""
-
-    var cpuArch: String = ""
-
-    var logText: String = ""
-
-    constructor(text: String, date: LocalDateTime) {
-        this.logDate = date
-        this.deviceName = Android.deviceName
-        this.sdkCodename = Android.name
-        this.cpuArch = Android.mainPlatform
-        this.logText = text
-    }
-
-    constructor(logFile: StorageFile) {
-        try {
-            logFile.inputStream()!!.use { inputStream ->
-                val text = inputStream.reader().readText()
-                //initFromSerialized(text) ||
-                initFromText(text) ||
-                        throw Backup.BrokenBackupException(
-                            "$logFile is neither ${NeoApp.propsSerializer::class.simpleName} nor text header format"
-                        )
-            }
-        } catch (e: FileNotFoundException) {
-            throw Backup.BrokenBackupException(
-                "Cannot open $logFile",
-                e
-            )
-        } catch (e: IOException) {
-            throw Backup.BrokenBackupException(
-                "Cannot read $logFile",
-                e
-            )
-        } catch (e: Throwable) {
-            LogsHandler.unexpectedException(e, logFile)
-            throw Backup.BrokenBackupException("Unable to process $logFile. (${e::class.canonicalName}) $e")
-        }
-    }
+    val logDate: LocalDateTime = LocalDateTime.parse("2020-01-01T00:00:00"),
+    val deviceName: String = "",
+    val sdkCodename: String = "",
+    val cpuArch: String = "",
+    val logText: String = "",
+) {
+    constructor(text: String, date: LocalDateTime) : this(
+        logDate = date,
+        deviceName = Android.deviceName,
+        sdkCodename = Android.name,
+        cpuArch = Android.mainPlatform,
+        logText = text
+    )
 
     override fun toString(): String {
         return "LogItem{" +
@@ -93,52 +63,6 @@ open class Log {
         return logFile?.delete()
     }
 
-    fun initFromText(text: String): Boolean {
-        return try {
-            var valid = false
-            val lines = text.lines().toMutableList()
-            while (lines.isNotEmpty()) {
-                val line = lines.removeAt(0)
-                if (line.isBlank()) {
-                    this.logText = lines.joinToString("\n")
-                    lines.clear()
-                } else {
-                    try {
-                        val (field, value) = line.split(Regex(""":\s*"""), limit = 2)
-                        when (field) {
-                            "logDate"     -> {  // minimum data we need
-                                this.logDate = LocalDateTime.parse(value)
-                                valid = true
-                            }
-
-                            "deviceName"  -> {
-                                this.deviceName = value
-                            }
-
-                            "sdkCodename" -> {
-                                this.sdkCodename = value
-                            }
-
-                            "cpuArch"     -> {
-                                this.cpuArch = value
-                            }
-                        }
-                    } catch (e: Throwable) {
-                        if (valid) {
-                            // be tolerant, first non-header line, read remaining lines as text
-                            this.logText = lines.joinToString("\n")
-                            lines.clear()
-                        }
-                    }
-                }
-            }
-            valid
-        } catch (e: Throwable) {
-            LogsHandler.unexpectedException(e)
-            false
-        }
-    }
-
     fun toSerialized() = """
         logDate: $logDate
         deviceName: $deviceName
@@ -146,20 +70,93 @@ open class Log {
         cpuArch: $cpuArch
     """.trimIndent() + "\n\n" + logText
 
-    //fun initFromSerialized(text: String): Boolean {
-    //    return fromSerialized(text)?.let { item ->
-    //        this.logDate = item.logDate
-    //        this.deviceName = item.deviceName
-    //        this.sdkCodename = item.sdkCodename
-    //        this.cpuArch = item.cpuArch
-    //        this.logText = item.logText
-    //        true
-    //    } ?: false
-    //}
-    //
-    //fun toSerialized() = OABX.propsSerializer.encodeToString(this)
-    //
-    //companion object {
-    //    fun fromSerialized(serialized: String) = runCatching { OABX.propsSerializer.decodeFromString<Log>(serialized) }.getOrNull()
-    //}
+    companion object {
+        fun fromFile(logFile: StorageFile): Log {
+            try {
+                logFile.inputStream()!!.use { inputStream ->
+                    val text = inputStream.reader().readText()
+                    initFromText(text).let {
+                        return Log(it.first, it.second, it.third, it.fourth, it.fifth)
+                    }
+                }
+            } catch (e: Backup.BrokenBackupException) {
+                throw Backup.BrokenBackupException(
+                    "Cannot read $logFile",
+                    e
+                )
+            } catch (e: FileNotFoundException) {
+                throw Backup.BrokenBackupException(
+                    "Cannot open $logFile",
+                    e
+                )
+            } catch (e: IOException) {
+                throw Backup.BrokenBackupException(
+                    "Cannot read $logFile",
+                    e
+                )
+            } catch (e: Throwable) {
+                LogsHandler.unexpectedException(e, logFile)
+                throw Backup.BrokenBackupException("Unable to process $logFile. (${e::class.canonicalName}) $e")
+            }
+        }
+
+        private fun initFromText(text: String): Quintuple<LocalDateTime, String, String, String, String> =
+            try {
+                var valid = false
+                val lines = text.lines().toMutableList()
+                var logDate: LocalDateTime? = null
+                var deviceName = ""
+                var sdkCodename = ""
+                var cpuArch = ""
+                var logText = ""
+                while (lines.isNotEmpty()) {
+                    val line = lines.removeAt(0)
+                    if (line.isBlank()) {
+                        logText = lines.joinToString("\n")
+                        lines.clear()
+                    } else {
+                        try {
+                            val (field, value) = line.split(Regex(""":\s*"""), limit = 2)
+                            when (field) {
+                                "logDate"     -> {  // minimum data we need
+                                    logDate = LocalDateTime.parse(value)
+                                    valid = true
+                                }
+
+                                "deviceName"  -> {
+                                    deviceName = value
+                                }
+
+                                "sdkCodename" -> {
+                                    sdkCodename = value
+                                }
+
+                                "cpuArch"     -> {
+                                    cpuArch = value
+                                }
+                            }
+                        } catch (_: Throwable) {
+                            if (valid) {
+                                // be tolerant, first non-header line, read remaining lines as text
+                                logText = lines.joinToString("\n")
+                                lines.clear()
+                            }
+                        }
+                    }
+                }
+                if (logDate != null) Quintuple(
+                    logDate,
+                    deviceName,
+                    sdkCodename,
+                    cpuArch,
+                    logText
+                )
+                else throw Backup.BrokenBackupException(
+                    "Log file is neither ${NeoApp.mainSerializer::class.simpleName} nor text header format"
+                )
+            } catch (e: Throwable) {
+                LogsHandler.unexpectedException(e)
+                throw e
+            }
+    }
 }
