@@ -9,15 +9,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.InputTransformation
+import androidx.compose.foundation.text.input.TextObfuscationMode
+import androidx.compose.foundation.text.input.clearText
+import androidx.compose.foundation.text.input.placeCursorAtEnd
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SecureTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -38,12 +43,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.machiav3lli.backup.R
 import com.machiav3lli.backup.data.entity.EnumPref
@@ -61,6 +62,7 @@ import com.machiav3lli.backup.ui.compose.icons.phosphor.EyeSlash
 import com.machiav3lli.backup.ui.compose.icons.phosphor.X
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun EnumPrefDialogUI(
@@ -203,35 +205,42 @@ fun StringPrefDialogUI(
     openDialogCustom: MutableState<Boolean>,
     onChanged: (() -> Unit) = {},
 ) {
-    val context = LocalContext.current
     val focusManager = LocalFocusManager.current
     val mainFocusRequester = remember { FocusRequester() }
     val confirmFocusRequester = remember { FocusRequester() }
     var focusField by remember { mutableStateOf("main") }
 
-    var savedValue by remember { mutableStateOf(TextFieldValue(if (isPrivate) "" else pref.value)) }
-    var savedValueConfirm by remember { mutableStateOf(TextFieldValue("")) }
-    var isEdited by remember { mutableStateOf(false) }
+    val savedValue = rememberTextFieldState(if (isPrivate) "" else pref.value)
+    val savedValueConfirm = rememberTextFieldState()
     var notMatching by remember { mutableStateOf(false) }
 
     val textColor by animateColorAsState(
         targetValue = if (isPrivate) {
-            if (savedValue != savedValueConfirm)
+            if (savedValue.text != savedValueConfirm.text)
                 Color.Red
             else
                 Color.Green
         } else
             MaterialTheme.colorScheme.onSurface, label = "textColor"
     )
+    val rejectControlChars = remember {
+        InputTransformation {
+            if (RE_finishChars.containsMatchIn(asCharSequence()) ||
+                RE_jumpChars.containsMatchIn(asCharSequence())
+            ) {
+                revertAllChanges()
+            }
+        }
+    }
 
     fun submit() {
         focusManager.clearFocus()
-        if (confirm && (savedValue != savedValueConfirm)) {
+        if (confirm && (savedValue.text != savedValueConfirm.text)) {
             notMatching = true
             focusField = "confirm"
         } else {
-            if (pref.value != savedValue.text) {
-                pref.value = savedValue.text
+            if (pref.value != savedValue.text.toString()) {
+                pref.value = savedValue.text.toString()
                 onChanged()
             }
             openDialogCustom.value = false
@@ -239,20 +248,17 @@ fun StringPrefDialogUI(
     }
 
     LaunchedEffect(focusField) {
-        delay(100)
+        delay(100.milliseconds)
         when (focusField) {
             "main"    -> {
                 mainFocusRequester.requestFocus()
-                val end = savedValue.text.length
-                savedValue = TextFieldValue(savedValue.text, selection = TextRange(end, end))
+                savedValue.edit { placeCursorAtEnd() }
             }
 
             "confirm" -> {
                 if (confirm) {
                     confirmFocusRequester.requestFocus()
-                    val end = savedValueConfirm.text.length
-                    savedValueConfirm =
-                        TextFieldValue(savedValueConfirm.text, selection = TextRange(end, end))
+                    savedValueConfirm.edit { placeCursorAtEnd() }
                 }
             }
         }
@@ -275,12 +281,12 @@ fun StringPrefDialogUI(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(text = stringResource(pref.titleId), style = MaterialTheme.typography.titleLarge)
-            TextField(
+            SecureTextField(
                 modifier = Modifier
                     .shadow(1.dp, MaterialTheme.shapes.medium)
                     .fillMaxWidth()
                     .focusRequester(mainFocusRequester),
-                value = savedValue,
+                state = savedValue,
                 colors = TextFieldDefaults.colors(
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
@@ -290,45 +296,39 @@ fun StringPrefDialogUI(
                     unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
                 ),
                 shape = MaterialTheme.shapes.medium,
-                singleLine = true,
-                onValueChange = {
-                    isEdited = true
-                    if (it.text.contains(RE_finishChars)) {
-                        if (confirm)
-                            focusField = "confirm"
-                        else
-                            submit()
-                    } else if (it.text.contains(RE_jumpChars)) {
-                        if (confirm)
-                            focusField = "confirm"
-                    } else
-                        savedValue = it         // only save when no control char
-                },
-                visualTransformation = if (isPasswordVisible)
-                    VisualTransformation.None
-                else
-                    PasswordVisualTransformation(),
+                textObfuscationMode = if (isPasswordVisible) TextObfuscationMode.Visible
+                else TextObfuscationMode.Hidden,
+                inputTransformation = rejectControlChars,
                 keyboardOptions = KeyboardOptions.Default.copy(
                     imeAction = ImeAction.Done,
-                    keyboardType = if (isPrivate) KeyboardType.Password else KeyboardType.Text
+                    keyboardType = when {
+                        !isPrivate        -> KeyboardType.Text
+                        isPasswordVisible -> KeyboardType.PasswordVisible
+                        else              -> KeyboardType.Password
+                    },
                 ),
-                keyboardActions = KeyboardActions(onDone = {
+                onKeyboardAction = {
                     if (confirm)
                         focusField = "confirm"
                     else
                         submit()
-                }),
+                },
                 trailingIcon = {
                     Row {
-                        if (isPrivate)
-                            IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
-                                Icon(
-                                    imageVector = if (isPasswordVisible) Phosphor.Eye else Phosphor.EyeSlash,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.onSurface,
-                                )
-                            }
-                        IconButton(onClick = { savedValue = TextFieldValue("") }) {
+                        if (isPrivate) IconButton(
+                            shapes = IconButtonDefaults.shapes(),
+                            onClick = { isPasswordVisible = !isPasswordVisible },
+                        ) {
+                            Icon(
+                                imageVector = if (isPasswordVisible) Phosphor.Eye else Phosphor.EyeSlash,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onSurface,
+                            )
+                        }
+                        IconButton(
+                            shapes = IconButtonDefaults.shapes(),
+                            onClick = { savedValue.clearText() },
+                        ) {
                             Icon(
                                 imageVector = Phosphor.X,
                                 contentDescription = null,
@@ -339,12 +339,12 @@ fun StringPrefDialogUI(
                 },
             )
             if (confirm) {
-                TextField(
+                SecureTextField(
                     modifier = Modifier
                         .shadow(1.dp, MaterialTheme.shapes.medium)
                         .fillMaxWidth()
                         .focusRequester(confirmFocusRequester),
-                    value = savedValueConfirm,
+                    state = savedValueConfirm,
                     colors = TextFieldDefaults.colors(
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent,
@@ -354,38 +354,32 @@ fun StringPrefDialogUI(
                         unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
                     ),
                     shape = MaterialTheme.shapes.medium,
-                    singleLine = true,
-                    onValueChange = {
-                        isEdited = true
-                        if (it.text.contains(RE_finishChars))
-                            submit()
-                        else if (it.text.contains(RE_jumpChars))
-                            focusField = "main"
-                        else
-                            savedValueConfirm = it      // only save when no control char
-                    },
-                    visualTransformation = if (isPasswordVisible)
-                        VisualTransformation.None
-                    else
-                        PasswordVisualTransformation(),
+                    textObfuscationMode = if (isPasswordVisible) TextObfuscationMode.Visible
+                    else TextObfuscationMode.Hidden,
+                    inputTransformation = rejectControlChars,
                     keyboardOptions = KeyboardOptions.Default.copy(
                         imeAction = ImeAction.Done,
-                        keyboardType = KeyboardType.Password
+                        keyboardType = if (isPasswordVisible) KeyboardType.PasswordVisible else KeyboardType.Password,
                     ),
-                    keyboardActions = KeyboardActions(onDone = {
+                    onKeyboardAction = {
                         submit()
-                    }),
+                    },
                     trailingIcon = {
                         Row {
-                            if (isPrivate)
-                                IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
-                                    Icon(
-                                        imageVector = if (isPasswordVisible) Phosphor.Eye else Phosphor.EyeSlash,
-                                        contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.onSurface,
-                                    )
-                                }
-                            IconButton(onClick = { savedValueConfirm = TextFieldValue("") }) {
+                            if (isPrivate) IconButton(
+                                shapes = IconButtonDefaults.shapes(),
+                                onClick = { isPasswordVisible = !isPasswordVisible },
+                            ) {
+                                Icon(
+                                    imageVector = if (isPasswordVisible) Phosphor.Eye else Phosphor.EyeSlash,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onSurface,
+                                )
+                            }
+                            IconButton(
+                                shapes = IconButtonDefaults.shapes(),
+                                onClick = { savedValueConfirm.clearText() },
+                            ) {
                                 Icon(
                                     imageVector = Phosphor.X,
                                     contentDescription = null,
