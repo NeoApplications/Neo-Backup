@@ -33,14 +33,11 @@ import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import coil.ImageLoader
-import coil.imageLoader
 import com.machiav3lli.backup.R
 import com.machiav3lli.backup.data.dbs.entity.Schedule
 import com.machiav3lli.backup.data.entity.ChipItem
@@ -59,7 +56,6 @@ fun HomePackageRecycler(
     modifier: Modifier = Modifier,
     productsList: PersistentList<Package>,
     selected: (String) -> Boolean,
-    imageLoader: ImageLoader = LocalContext.current.imageLoader,
     onLongClick: (Package) -> Unit = {},
     onClick: (Package) -> Unit = {},
 ) {
@@ -71,7 +67,6 @@ fun HomePackageRecycler(
         MainPackageItem(
             it,
             selected(it.packageName),
-            imageLoader,
             onLongClick,
             onClick
         )
@@ -82,7 +77,6 @@ fun HomePackageRecycler(
 fun UpdatedPackageRecycler(
     modifier: Modifier = Modifier,
     productsList: PersistentList<Package>?,
-    imageLoader: ImageLoader = LocalContext.current.imageLoader,
     onClick: (Package) -> Unit = {},
 ) {
     HorizontalItemList(
@@ -92,7 +86,6 @@ fun UpdatedPackageRecycler(
     ) {
         UpdatedPackageItem(
             it,
-            imageLoader,
             Modifier.animateItem(),
             onClick,
         )

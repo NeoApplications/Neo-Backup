@@ -24,10 +24,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import coil.ImageLoader
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
-import coil.imageLoader
 import coil.request.ImageRequest
 import coil.size.Size
 import com.machiav3lli.backup.EnabledFilter
@@ -101,7 +99,6 @@ fun PackageIcon(
     imageData: Any,
     isSpecial: Boolean = false,
     isSystem: Boolean = false,
-    imageLoader: ImageLoader = LocalContext.current.imageLoader,
 ) {
     //beginNanoTimer("pkgIcon.rCAIP")
     Image(
@@ -110,8 +107,7 @@ fun PackageIcon(
             .clip(MaterialTheme.shapes.medium),
         painter = cachedAsyncImagePainter(
             model = imageData,
-            imageLoader = imageLoader,
-            altPainter = placeholderIconPainter(isSpecial, isSystem, imageLoader)
+            altPainter = placeholderIconPainter(isSpecial, isSystem)
         ),
         contentDescription = null,
         contentScale = ContentScale.Crop
@@ -122,7 +118,6 @@ fun PackageIcon(
 @Composable
 fun cachedAsyncImagePainter(
     model: Any,
-    imageLoader: ImageLoader = LocalContext.current.imageLoader,
     altPainter: Painter? = null,
 ): Painter {
     //beginNanoTimer("rmbrCachedAIP")
@@ -137,7 +132,6 @@ fun cachedAsyncImagePainter(
         val rememberedPainter =
             rememberAsyncImagePainter(
                 model = request,
-                imageLoader = imageLoader,
                 onState = {
                     if (it !is AsyncImagePainter.State.Loading)
                         it.painter?.let { painter ->
@@ -161,14 +155,12 @@ fun cachedAsyncImagePainter(
 fun placeholderIconPainter(
     isSpecial: Boolean = false,
     isSystem: Boolean = false,
-    imageLoader: ImageLoader = LocalContext.current.imageLoader,
 ) = rememberAsyncImagePainter(
     when {
         isSpecial -> R.drawable.ic_placeholder_special
         isSystem  -> R.drawable.ic_placeholder_system
         else      -> R.drawable.ic_placeholder_user
     },
-    imageLoader = imageLoader,
 )
 
 @Composable

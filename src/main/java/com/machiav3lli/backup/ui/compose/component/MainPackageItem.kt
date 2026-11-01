@@ -15,7 +15,6 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
-import coil.ImageLoader
 import com.machiav3lli.backup.data.dbs.entity.SpecialInfo
 import com.machiav3lli.backup.data.entity.Package
 import com.machiav3lli.backup.data.preferences.traceTiming
@@ -29,7 +28,6 @@ import com.machiav3lli.backup.utils.getFormattedDate
 fun MainPackageItem(
     pkg: Package,
     selected: Boolean,
-    imageLoader: ImageLoader,
     onLongClick: (Package) -> Unit = {},
     onAction: (Package) -> Unit = {},
 ) {
@@ -57,7 +55,6 @@ fun MainPackageItem(
                 imageData = pkg.iconData,
                 isSpecial = pkg.isSpecial,
                 isSystem = pkg.isSystem,
-                imageLoader = imageLoader,
             )
         },
         headlineContent = {
