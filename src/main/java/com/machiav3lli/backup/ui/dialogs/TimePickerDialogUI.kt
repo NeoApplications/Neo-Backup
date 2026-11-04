@@ -24,31 +24,27 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimePicker
+import androidx.compose.material3.TimePickerDefaults
 import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.machiav3lli.backup.R
 import com.machiav3lli.backup.ui.compose.component.DialogNegativeButton
 import com.machiav3lli.backup.ui.compose.component.DialogPositiveButton
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimePickerDialogUI(
     state: TimePickerState,
     openDialogCustom: MutableState<Boolean>,
     onSave: (hour: Int, minute: Int) -> Unit,
 ) {
-    val context = LocalContext.current
-
     Card(
         shape = MaterialTheme.shapes.extraLarge,
         modifier = Modifier.padding(8.dp),
@@ -66,7 +62,10 @@ fun TimePickerDialogUI(
                 text = stringResource(R.string.schedule),
                 style = MaterialTheme.typography.titleLarge
             )
-            TimePicker(state)
+            TimePicker(
+                state = state,
+                shapes = TimePickerDefaults.shapes(),
+            )
             Row(
                 Modifier
                     .fillMaxWidth()

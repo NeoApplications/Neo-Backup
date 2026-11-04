@@ -1,7 +1,6 @@
 package com.machiav3lli.backup.ui.pages
 
 import android.os.Build
-import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -11,18 +10,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
@@ -32,19 +25,17 @@ import com.machiav3lli.backup.data.entity.BooleanPref
 import com.machiav3lli.backup.data.entity.IntPref
 import com.machiav3lli.backup.data.entity.LaunchPref
 import com.machiav3lli.backup.data.entity.Pref
-import com.machiav3lli.backup.data.entity.PrefUI
 import com.machiav3lli.backup.data.entity.StorageFile
 import com.machiav3lli.backup.data.entity.StringPref
+import com.machiav3lli.backup.data.entity.SuCommandPref
 import com.machiav3lli.backup.data.preferences.traceDebug
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.findSuCommand
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.isLikeRoot
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.suCommand
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.validateSuCommand
-import com.machiav3lli.backup.ui.compose.component.BasePreference
 import com.machiav3lli.backup.ui.compose.component.PrefsExpandableGroupHeader
 import com.machiav3lli.backup.ui.compose.component.PrefsGroup
 import com.machiav3lli.backup.ui.compose.component.PrefsGroupCollapsed
-import com.machiav3lli.backup.ui.compose.component.TextInput
 import com.machiav3lli.backup.ui.compose.icons.Phosphor
 import com.machiav3lli.backup.ui.compose.icons.phosphor.AndroidLogo
 import com.machiav3lli.backup.ui.compose.icons.phosphor.AsteriskSimple
@@ -53,7 +44,6 @@ import com.machiav3lli.backup.ui.compose.icons.phosphor.ClockCounterClockwise
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Hash
 import com.machiav3lli.backup.ui.compose.icons.phosphor.ShieldStar
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Warning
-import com.machiav3lli.backup.ui.compose.mix
 import com.machiav3lli.backup.utils.SystemUtils.numCores
 import com.machiav3lli.backup.utils.extensions.Android
 import com.machiav3lli.backup.utils.scheduleAlarmsOnce
@@ -115,110 +105,31 @@ fun AdvancedPrefsPage() {
             }
         }
         item {
-            //Box {  // hg42: use Box as workaround for weird animation behavior  //TODO hg42 seems to be fixed now? //TODO wech
             AnimatedVisibility(
                 visible = expanded,
-                //enter = EnterTransition.None,
-                //exit = ExitTransition.None
                 enter = expandVertically() + fadeIn(),
-                exit = shrinkVertically() + fadeOut()
+                exit = shrinkVertically() + fadeOut(),
             ) {
                 DevPrefGroups()
             }
-            //}
         }
     }
 }
 
 
-val debug = if (NeoApp.isDebug)
+val debug = if (!NeoApp.isRelease)
     "dev"
 else
     "debug"
 
-val hg42 = if (NeoApp.isHg42)
-    "dev"
-else
-    "hg42"
-
-
 // TODO move some of the dev prefs to advanced/service
 //---------------------------------------- developer settings - advanced users
 
-@Composable
-fun SuCommandPreference(
-    modifier: Modifier = Modifier,
-    pref: StringPref,
-    dirty: Boolean = pref.dirty.value,
-    index: Int = 0,
-    groupSize: Int = 1,
-) {
-    //traceCompose { "SuCommandPreference: $pref" }
-    BasePreference(
-        modifier = modifier,
-        pref = pref,
-        dirty = dirty,
-        titleId = pref.titleId,
-        summaryId = pref.summaryId,
-        summary = pref.summary,
-        index = index,
-        groupSize = groupSize,
-        bottomWidget = {
-            LaunchedEffect(true) {
-                pref.onChanged?.invoke(pref)
-            }
-            if (pref.value != suCommand) {
-                Text(
-                    "=> $suCommand",
-                    color = Color.Cyan.mix(MaterialTheme.colorScheme.onSurface),
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(vertical = 4.dp),
-                )
-            }
-            TextInput(
-                pref.value,
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                pref.value = it
-            }
-        },
-    )
-}
-
-class SuCommandPref(
-    key: String,
-    private: Boolean = true,
-    defaultValue: String,
-    @StringRes titleId: Int = -1,
-    @StringRes summaryId: Int = -1,
-    summary: String? = null,
-    UI: PrefUI? = null,
-    icon: ImageVector? = null,
-    iconTint: ((Pref) -> Color)? = null,
-    enableIf: (() -> Boolean)? = null,
-    onChanged: ((Pref) -> Unit)? = null,
-) : StringPref(
-    key = key,
-    private = private,
-    defaultValue = defaultValue,
-    titleId = titleId,
-    summaryId = summaryId,
-    summary = summary,
-    UI = UI ?: { pref, onDialogUI, index, groupSize ->
-        SuCommandPreference(pref = pref as SuCommandPref, index = index, groupSize = groupSize)
-    },
-    icon = icon,
-    iconTint = iconTint,
-    enableIf = enableIf,
-    onChanged = onChanged
-)
-
-val suCommand_summary
-    get() = ("the command used to elevate the shell to a 'root' shell (in our sense), " +
+const val suCommand_summary =
+    "the command used to elevate the shell to a 'root' shell (in our sense), " +
             "the whole command must be a shell, reading commands from stdin and executing them, " +
-            "there are also builtin fallback commands").trim()
-
-val suCommand_default = "su -c 'nsenter --mount=/proc/1/ns/mnt sh'"
+            "there are also builtin fallback commands"
+const val suCommand_default = "su -c 'nsenter --mount=/proc/1/ns/mnt sh'"
 
 val pref_suCommand = SuCommandPref(
     key = "dev-adv.suCommand",
@@ -242,13 +153,11 @@ val pref_suCommand = SuCommandPref(
     var test = pref.value
     if (test == "")
         test = suCommand_default
-    if (test != suCommand) {
-        if (!validateSuCommand(test)) {
-            findSuCommand()
-            traceDebug { "findSuCommand: suCommand = $suCommand" }
-            if (pref.value == "")
-                pref.value = suCommand
-        }
+    if (test != suCommand && !validateSuCommand(test)) {
+        findSuCommand()
+        traceDebug { "findSuCommand: suCommand = $suCommand" }
+        if (pref.value == "")
+            pref.value = suCommand
     }
     traceDebug { "summary: ${pref.summary}" }
     traceDebug { "pref: ${pref.dirty} ${pref.key} -> ${pref.icon?.name} ${pref.iconTint} (launch)" }
@@ -414,30 +323,6 @@ val pref_restartAppOnLanguageChange = BooleanPref(
     defaultValue = false
 )
 
-val pref_useYamlPreferences = BooleanPref(
-    key = "$debug-alt.useYamlPreferences",
-    summary = "create human readable yaml format for preferences",
-    defaultValue = false
-)
-
-val pref_useYamlSchedules = BooleanPref(
-    key = "$debug-alt.useYamlSchedules",
-    summary = "create human readable yaml format for schedules",
-    defaultValue = false
-)
-
-val pref_useYamlProperties = BooleanPref(
-    key = "$debug-alt.useYamlProperties",
-    summary = "create human readable yaml format for backup properties",
-    defaultValue = false
-)
-
-val pref_prettyJson = BooleanPref(  //TODO hg42 to be removed
-    key = "dev-alt.prettyJson",
-    summary = "create human readable json files. Note they should be compatible in both directions",
-    defaultValue = true
-)
-
 val pref_busyTurnTime = IntPref(
     key = "dev-alt.busyTurnTime",
     summary = "time the animated busy bars need for one rotation (ms)",
@@ -456,7 +341,7 @@ val pref_versionOpacity = IntPref(
 val pref_busyHitTime = IntPref(
     key = "dev-alt.busyHitTime",
     summary = "time being busy after hitting the watchdog (ms)",
-    entries = (NeoApp.busyTick..4000 step NeoApp.busyTick).toList(),
+    entries = (NeoApp.BUSY_TICK..4000 step NeoApp.BUSY_TICK).toList(),
     defaultValue = 2000
 )
 
@@ -510,7 +395,7 @@ val pref_useForegroundInService = BooleanPref(
 
 val pref_useForegroundInJob = BooleanPref(
     key = "dev-alt.useForegroundInJob",
-    summary = "sue foreground notification in each job (per package)",
+    summary = "use foreground notification in each job (per package)",
     defaultValue = false
 )
 
@@ -632,11 +517,6 @@ val pref_useExactAlarm = BooleanPref(
 )
 
 //---------------------------------------- values that should persist for internal purposes (no UI)
-
-val persist_firstLaunch = BooleanPref(
-    key = "persist.firstLaunch",
-    defaultValue = false
-)
 
 val persist_pageOnboarded = IntPref(
     key = "persist.pageOnboarded",

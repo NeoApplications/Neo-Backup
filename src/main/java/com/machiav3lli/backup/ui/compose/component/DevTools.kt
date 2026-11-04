@@ -104,17 +104,17 @@ import com.machiav3lli.backup.ui.pages.TerminalText
 import com.machiav3lli.backup.ui.pages.logRel
 import com.machiav3lli.backup.ui.pages.supportInfoLogShare
 import com.machiav3lli.backup.utils.SystemUtils
-import com.machiav3lli.backup.utils.TraceUtils.trace
 import com.machiav3lli.backup.utils.recreateActivities
 import com.machiav3lli.backup.utils.restartApp
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.yield
 import java.io.File
+
+// TODO break in parts
 
 @Composable
 fun SimpleButton(
@@ -346,7 +346,7 @@ val devToolsTabs = listOf<Pair<String, @Composable () -> Any>>(
     "term" to { DevTerminalTab() },
     "devsett" to { DevSettingsTab() },
     "plugins" to { DevPluginsTab() },
-) + if (NeoApp.isDebug) listOf<Pair<String, @Composable () -> Any>>(
+) + if (!NeoApp.isRelease) listOf<Pair<String, @Composable () -> Any>>(
     //"refreshScreen" to { OABX.context.recreateActivities(); devToolsTab.value = "" },
     //"invBackupLoc" to { FileUtils.invalidateBackupLocation() ; devToolsTab.value = "" },
     //"updateAppTables" to { OABX.context.updateAppTables() ; devToolsTab.value = "" },
@@ -436,15 +436,15 @@ fun DevSettingsTab() {
                 }.filter { it.isNotEmpty() }
                 PrefsGroup(
                     prefs =
-                    Pref.prefGroups.values.flatten()
-                        .filter { pref ->
-                            pref.group !in listOf("persist", "kill") &&
-                                    alternates.any { alt ->
-                                        alt.all { key ->
-                                            pref.key.contains(key, ignoreCase = true)
+                        Pref.prefGroups.values.flatten()
+                            .filter { pref ->
+                                pref.group !in listOf("persist", "kill") &&
+                                        alternates.any { alt ->
+                                            alt.all { key ->
+                                                pref.key.contains(key, ignoreCase = true)
+                                            }
                                         }
-                                    }
-                        }.toPersistentList()
+                            }.toPersistentList()
                 )
             }
         }
@@ -840,22 +840,6 @@ val pref_loadPreferences = LaunchPref(
     }
 }
 
-fun testOnStart() {
-    if (NeoApp.isDebug) {
-        if (1 == 0)
-            MainScope().launch(Dispatchers.Main) {
-                trace { "############################################################ testOnStart: waiting..." }
-                delay(3000)
-                trace { "############################################################ testOnStart: running..." }
-
-                //openFileManager(OABX.backupRoot)
-
-                //pref_savePreferences.onClick()
-                trace { "############################################################ testOnStart: end." }
-            }
-    }
-}
-
 fun openFileManager(folder: StorageFile) {
     folder.uri?.let { uri ->
         MainScope().launch(Dispatchers.Default) {
@@ -1078,13 +1062,14 @@ fun DevTools(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            Row(modifier = Modifier
-                //.wrapContentSize()
-                .padding(8.dp, 4.dp, 8.dp, 0.dp)
-                .combinedClickable(
-                    onClick = { expanded.value = false },
-                    onLongClick = { tab = "" }
-                )
+            Row(
+                modifier = Modifier
+                    //.wrapContentSize()
+                    .padding(8.dp, 4.dp, 8.dp, 0.dp)
+                    .combinedClickable(
+                        onClick = { expanded.value = false },
+                        onLongClick = { tab = "" }
+                    )
             ) {
                 Box(
                     modifier = Modifier

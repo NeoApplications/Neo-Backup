@@ -22,9 +22,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -65,6 +65,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.lang.Float.max
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun ProgressIndicator() {
@@ -124,7 +125,7 @@ fun TitleOrInfoLog(
         tempShowInfo.value = true
         scope.launch {
             scroll.scrollTo(scroll.maxValue)
-            delay(5000)
+            delay(5000.milliseconds)
             tempShowInfo.value = false
         }
     }
@@ -163,7 +164,6 @@ fun TitleOrInfoLog(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
     title: String,
@@ -221,7 +221,6 @@ fun TopBar(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainTopBar(
     title: String,
@@ -363,10 +362,13 @@ fun WideSearchField(
                     enter = expandHorizontally(expandFrom = Alignment.Start),
                     exit = shrinkHorizontally(shrinkTowards = Alignment.Start),
                 ) {
-                    IconButton(onClick = {
-                        textFieldValue = ""
-                        onCleanQuery()
-                    }) {
+                    IconButton(
+                        shapes = IconButtonDefaults.shapes(),
+                        onClick = {
+                            textFieldValue = ""
+                            onCleanQuery()
+                        },
+                    ) {
                         Icon(
                             imageVector = Phosphor.ArrowUUpLeft,
                             contentDescription = stringResource(id = R.string.clear_text)
@@ -381,6 +383,7 @@ fun WideSearchField(
         )
         if (showCloseButton) IconButton(
             modifier = Modifier.padding(top = 8.dp),
+            shapes = IconButtonDefaults.shapes(),
             onClick = {
                 textFieldValue = ""
                 onCleanQuery()
@@ -419,13 +422,13 @@ fun ProgressPreview() {
             while (count < maxCount) {
                 NeoApp.beginBusy()
                 NeoApp.addInfoLogText("count is $count")
-                delay(1000)
+                delay(1000.milliseconds)
                 count = (count + 1) % (maxCount + 2)
                 NeoApp.endBusy()
                 if (count > maxCount)
                     NeoApp.setProgress()
                 NeoApp.addInfoLogText("count is $count")
-                delay(1000)
+                delay(1000.milliseconds)
             }
         }
     }

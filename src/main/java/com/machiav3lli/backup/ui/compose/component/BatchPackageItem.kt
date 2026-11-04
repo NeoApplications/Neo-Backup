@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
@@ -25,6 +26,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.machiav3lli.backup.R
 import com.machiav3lli.backup.data.entity.Package
+import com.machiav3lli.backup.manager.handler.verKnown
 import com.machiav3lli.backup.ui.compose.icons.Phosphor
 import com.machiav3lli.backup.ui.compose.icons.phosphor.AsteriskSimple
 import com.machiav3lli.backup.ui.compose.icons.phosphor.CircleWavyWarning
@@ -70,27 +72,34 @@ fun BatchPackageItem(
 
     ListItem(
         modifier = Modifier
-            .fillMaxWidth()
-            .clip(MaterialTheme.shapes.large)
-            .clickable {
-                val checked = (apkChecked || !showApk) && (dataChecked || !showData)
-                if (showApk) apkChecked = !checked
-                if (showData) dataChecked = !checked
-                onClick(packageItem, apkChecked, dataChecked)
-            },
+            .fillMaxWidth(),
+        onClick = {
+            val checked = (apkChecked || !showApk) && (dataChecked || !showData)
+            if (showApk) apkChecked = !checked
+            if (showData) dataChecked = !checked
+            onClick(packageItem, apkChecked, dataChecked)
+        },
+        shapes = ListItemDefaults.shapes(MaterialTheme.shapes.large),
         colors = ListItemDefaults.colors(
             containerColor = Color.Transparent,
         ),
+        verticalAlignment = Alignment.CenterVertically,
         leadingContent = {
-            Row {
-                Checkbox(checked = apkChecked,
+            Row(
+                modifier = Modifier.padding(start = 16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(22.dp),
+            ) {
+                Checkbox(
+                    checked = apkChecked,
                     enabled = showApk,
                     onCheckedChange = {
                         apkChecked = it
                         onApkClick(packageItem, it)
                     }
                 )
-                Checkbox(checked = dataChecked,
+                Checkbox(
+                    checked = dataChecked,
                     enabled = showData,
                     onCheckedChange = {
                         dataChecked = it
@@ -99,7 +108,7 @@ fun BatchPackageItem(
                 )
             }
         },
-        headlineContent = {
+        content = {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Text(
                     text = packageItem.packageLabel,
@@ -178,7 +187,7 @@ fun RestorePackageItem(
             colors = ListItemDefaults.colors(
                 containerColor = Color.Transparent,
             ),
-            headlineContent = {
+            content = {
                 Row(modifier = Modifier.fillMaxWidth()) {
                     Text(
                         text = packageItem.packageLabel,

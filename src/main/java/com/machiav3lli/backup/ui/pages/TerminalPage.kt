@@ -124,6 +124,8 @@ import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.time.LocalDateTime
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 
 //var terminalShell = shellDefaultBuilder().build()
@@ -426,7 +428,7 @@ fun TerminalText(
 
     autoScroll = listState.isAtBottom()
 
-    val lines = if (search.length > 0)
+    val lines = if (search.isNotEmpty())
         text.filter { it.contains(search, ignoreCase = true) } + (1..4).map { "" }
     else
         text
@@ -619,8 +621,6 @@ fun Terminal(
     var command by remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
     val focusManager = LocalFocusManager.current
-    //val shellFocusRequester = remember { FocusRequester() }
-    //SideEffect { shellFocusRequester.requestFocus() }
     val padding = 4.dp
 
     fun launch(todo: () -> Unit) {
@@ -635,7 +635,7 @@ fun Terminal(
             hittingBusy.launch {
                 while (true) {
                     NeoApp.hitBusy(50)
-                    delay(50)
+                    delay(50.milliseconds)
                 }
             }
 
@@ -797,7 +797,7 @@ fun PreviewTerminalText() {
 
     LaunchedEffect(true) {
         launch {
-            delay(3000)
+            delay(3.seconds)
             text.add("some added text")
         }
     }

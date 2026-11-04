@@ -2,8 +2,6 @@ package com.machiav3lli.backup.ui.compose.component
 
 import androidx.annotation.StringRes
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.LocalIndication
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,7 +14,6 @@ import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
@@ -36,7 +33,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -76,6 +72,7 @@ import com.machiav3lli.backup.utils.backupFolderExists
 import kotlinx.coroutines.delay
 import org.koin.compose.koinInject
 import kotlin.math.roundToInt
+import kotlin.time.Duration.Companion.milliseconds
 
 const val UNDEFINED_VALUE = "---"
 
@@ -86,7 +83,6 @@ fun PrefIcon(
     tint: Color? = null,
 ) {
     val title = if (titleId < 0) null else stringResource(id = titleId)
-    //traceCompose { "PrefIcon: $title ${icon?.name} $tint" }
 
     if (icon != null)
         Icon(
@@ -129,39 +125,34 @@ fun BasePreference(
     )
 
     LaunchedEffect(dirty) {
-        delay(500)
+        delay(500.milliseconds)
         traceDebug { "pref: $dirty ${pref.key} -> ${pref.icon?.name} ${pref.iconTint} (basepref launch)" }
         pref.dirty.value = false
     }
 
-    //traceCompose { "BasePreference: $dirty ${pref.key} -> ${pref.icon?.name} ${pref.iconTint}" }
-
     ListItem(
         modifier = modifier
-            .fillMaxWidth()
-            .clip(
-                RoundedCornerShape(
-                    topStart = if (base == 0f) MaterialTheme.shapes.large.topStart
-                    else MaterialTheme.shapes.extraSmall.topStart,
-                    topEnd = if (base == 0f) MaterialTheme.shapes.large.topEnd
-                    else MaterialTheme.shapes.extraSmall.topEnd,
-                    bottomStart = if (rank == 1f) MaterialTheme.shapes.large.bottomStart
-                    else MaterialTheme.shapes.extraSmall.bottomStart,
-                    bottomEnd = if (rank == 1f) MaterialTheme.shapes.large.bottomEnd
-                    else MaterialTheme.shapes.extraSmall.bottomEnd
-                )
+            .fillMaxWidth(),
+        onClick = onClick ?: {},
+        enabled = isEnabled,
+        interactionSource = interactionSource,
+        shapes = ListItemDefaults.shapes(
+            shape = RoundedCornerShape(
+                topStart = if (base == 0f) MaterialTheme.shapes.large.topStart
+                else MaterialTheme.shapes.extraSmall.topStart,
+                topEnd = if (base == 0f) MaterialTheme.shapes.large.topEnd
+                else MaterialTheme.shapes.extraSmall.topEnd,
+                bottomStart = if (rank == 1f) MaterialTheme.shapes.large.bottomStart
+                else MaterialTheme.shapes.extraSmall.bottomStart,
+                bottomEnd = if (rank == 1f) MaterialTheme.shapes.large.bottomEnd
+                else MaterialTheme.shapes.extraSmall.bottomEnd
             )
-            .clickable(
-                enabled = isEnabled,
-                interactionSource = interactionSource,
-                indication = LocalIndication.current,
-                onClick = onClick ?: {}
-            ),
+        ),
         colors = ListItemDefaults.colors(
             containerColor = surfaceColor,
         ),
         leadingContent = { PrefIcon(pref.icon, pref.titleId, pref.iconTint?.invoke(pref)) },
-        headlineContent = {
+        content = {
             Text(
                 text = if (titleId != -1) stringResource(id = titleId) else pref.key,
                 color = MaterialTheme.colorScheme.onSurface,
@@ -245,37 +236,34 @@ fun BasePreference(
     )
 
     LaunchedEffect(dirty) {
-        delay(500)
+        delay(500.milliseconds)
         traceDebug { "pref: $dirty ${pref.key} -> ${pref.icon?.name} ${pref.iconTint} (basepref launch)" }
         pref.dirty.value = false
     }
 
     ListItem(
         modifier = modifier
-            .fillMaxWidth()
-            .clip(
-                RoundedCornerShape(
-                    topStart = if (base == 0f) MaterialTheme.shapes.large.topStart
-                    else MaterialTheme.shapes.extraSmall.topStart,
-                    topEnd = if (base == 0f) MaterialTheme.shapes.large.topEnd
-                    else MaterialTheme.shapes.extraSmall.topEnd,
-                    bottomStart = if (rank == 1f) MaterialTheme.shapes.large.bottomStart
-                    else MaterialTheme.shapes.extraSmall.bottomStart,
-                    bottomEnd = if (rank == 1f) MaterialTheme.shapes.large.bottomEnd
-                    else MaterialTheme.shapes.extraSmall.bottomEnd
-                )
+            .fillMaxWidth(),
+        enabled = isEnabled,
+        onClick = onClick ?: {},
+        interactionSource = interactionSource,
+        shapes = ListItemDefaults.shapes(
+            RoundedCornerShape(
+                topStart = if (base == 0f) MaterialTheme.shapes.large.topStart
+                else MaterialTheme.shapes.extraSmall.topStart,
+                topEnd = if (base == 0f) MaterialTheme.shapes.large.topEnd
+                else MaterialTheme.shapes.extraSmall.topEnd,
+                bottomStart = if (rank == 1f) MaterialTheme.shapes.large.bottomStart
+                else MaterialTheme.shapes.extraSmall.bottomStart,
+                bottomEnd = if (rank == 1f) MaterialTheme.shapes.large.bottomEnd
+                else MaterialTheme.shapes.extraSmall.bottomEnd
             )
-            .clickable(
-                enabled = isEnabled,
-                interactionSource = interactionSource,
-                indication = LocalIndication.current,
-                onClick = onClick ?: {}
-            ),
+        ),
         colors = ListItemDefaults.colors(
             containerColor = surfaceColor,
         ),
         leadingContent = { PrefIcon(pref.icon, pref.titleId, pref.iconTint?.invoke(pref)) },
-        headlineContent = {
+        content = {
             Text(
                 text = if (titleId != -1) stringResource(id = titleId) else pref.key,
                 color = MaterialTheme.colorScheme.onSurface,
@@ -398,7 +386,7 @@ fun StringPreference(
 @Preview
 @Composable
 fun StringPreferencePreview() {
-    val pref_pathBackupFolder = StringPref(
+    val prefString = StringPref(
         key = "user.pathBackupFolder",
         titleId = R.string.prefs_pathbackupfolder,
         icon = Phosphor.FolderNotch,
@@ -407,7 +395,7 @@ fun StringPreferencePreview() {
     )
 
     StringPreference(
-        pref = pref_pathBackupFolder,
+        pref = prefString,
     )
 }
 
@@ -477,7 +465,7 @@ fun StringEditPreference(
 @Preview
 @Composable
 fun StringEditPreferencePreview() {
-    val pref_suCommand = StringEditPref(
+    val prefStringEdit = StringEditPref(
         key = "user.suCommand",
         icon = Phosphor.Hash,
         iconTint = {
@@ -489,7 +477,7 @@ fun StringEditPreferencePreview() {
         defaultValue = "su --mount-master",
     )
 
-    val pref = pref_suCommand
+    val pref = prefStringEdit
 
     Column {
         Column {
@@ -506,7 +494,7 @@ fun StringEditPreferencePreview() {
             )
         }
 
-        val pref_pathBackupFolder = StringEditPref(
+        val prefStringEdit2 = StringEditPref(
             key = "user.pathBackupFolder",
             titleId = R.string.prefs_pathbackupfolder,
             icon = Phosphor.FolderNotch,
@@ -515,7 +503,7 @@ fun StringEditPreferencePreview() {
         )
 
         StringEditPreference(
-            pref = pref_pathBackupFolder,
+            pref = prefStringEdit2,
         )
     }
 }
@@ -678,49 +666,6 @@ fun SwitchPreference(
                     .height(ICON_SIZE_SMALL),
                 checked = checked,
                 interactionSource = interactionSource,
-                onCheckedChange = {
-                    onCheckedChange(it)
-                    check(it)
-                },
-                enabled = isEnabled,
-            )
-        },
-    )
-}
-
-@Composable
-fun CheckboxPreference(
-    pref: BooleanPref,
-    modifier: Modifier = Modifier,
-    dirty: Boolean = pref.dirty.value,
-    index: Int = 0,
-    groupSize: Int = 1,
-    onCheckedChange: (Boolean) -> Unit = {},
-) {
-    var checked by remember(pref.value) { mutableStateOf(pref.value) }  //TODO hg42 remove remember ???
-    val check = { value: Boolean ->
-        pref.value = value
-        checked = value
-    }
-
-    BasePreference(
-        modifier = modifier,
-        pref = pref,
-        dirty = dirty,
-        titleId = pref.titleId,
-        summaryId = pref.summaryId,
-        summary = pref.summary,
-        index = index,
-        groupSize = groupSize,
-        onClick = {
-            onCheckedChange(!checked)
-            check(!checked)
-        },
-        endWidget = { isEnabled ->
-            Checkbox(
-                modifier = Modifier
-                    .height(ICON_SIZE_SMALL),
-                checked = checked,
                 onCheckedChange = {
                     onCheckedChange(it)
                     check(it)

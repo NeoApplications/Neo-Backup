@@ -1,7 +1,6 @@
 package com.machiav3lli.backup.ui.compose.component
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -30,9 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.machiav3lli.backup.BUTTON_SIZE_MEDIUM
 import com.machiav3lli.backup.ICON_SIZE_MEDIUM
-import com.machiav3lli.backup.data.preferences.traceDebug
 import com.machiav3lli.backup.data.entity.Pref
 import com.machiav3lli.backup.data.preferences.PrefDelegate
+import com.machiav3lli.backup.data.preferences.traceDebug
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
@@ -159,9 +158,9 @@ fun PrefsExpandableGroupHeader(
 
     ListItem(
         modifier = modifier
-            .fillMaxWidth()
-            .clip(MaterialTheme.shapes.large)
-            .clickable { onClick() },
+            .fillMaxWidth(),
+        onClick = onClick,
+        shapes = ListItemDefaults.shapes(MaterialTheme.shapes.large),
         colors = ListItemDefaults.colors(
             containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
             leadingIconColor = MaterialTheme.colorScheme.onSurface,
@@ -175,7 +174,7 @@ fun PrefsExpandableGroupHeader(
                     .size(ICON_SIZE_MEDIUM),
             )
         },
-        headlineContent = {
+        content = {
             Text(
                 text = stringResource(id = titleId),
                 color = MaterialTheme.colorScheme.primary,

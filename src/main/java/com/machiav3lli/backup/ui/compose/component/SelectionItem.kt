@@ -17,9 +17,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -69,6 +72,65 @@ fun MultiSelectionListItem(
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
         )
+    }
+}
+
+@Composable
+fun SelectableRow(
+    modifier: Modifier = Modifier,
+    title: String,
+    selectedState: Boolean,
+    onClick: () -> Unit,
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable {
+                onClick()
+            },
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        RadioButton(
+            selected = selectedState,
+            onClick = {
+                onClick()
+            },
+            modifier = Modifier.padding(horizontal = 8.dp),
+            colors = RadioButtonDefaults.colors(
+                selectedColor = MaterialTheme.colorScheme.primary,
+                unselectedColor = MaterialTheme.colorScheme.onSurface
+            )
+        )
+        Text(text = title)
+    }
+}
+
+@Composable
+fun CheckableRow(
+    title: String,
+    checkedState: MutableState<Boolean>,
+    onClick: () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                checkedState.value = !checkedState.value
+                onClick()
+            },
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Checkbox(
+            checked = checkedState.value,
+            onCheckedChange = {
+                checkedState.value = it
+            },
+            modifier = Modifier.padding(horizontal = 8.dp),
+            colors = CheckboxDefaults.colors(
+                checkedColor = MaterialTheme.colorScheme.primary,
+            )
+        )
+        Text(text = title)
     }
 }
 

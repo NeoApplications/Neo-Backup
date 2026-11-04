@@ -185,7 +185,7 @@ class ShellHandler {
     }
 
     init {
-        Shell.enableVerboseLogging = NeoApp.isDebug
+        Shell.enableVerboseLogging = !NeoApp.isRelease
         initPrivilegedShell()
 
         runCatching {

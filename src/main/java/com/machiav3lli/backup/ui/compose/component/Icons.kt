@@ -3,8 +3,6 @@ package com.machiav3lli.backup.ui.compose.component
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -83,24 +81,21 @@ fun ButtonIcon(
     @StringRes textId: Int,
     tint: Color = LocalContentColor.current,
 ) {
-    //beginNanoTimer("btnIcon")
     Image(
         imageVector = icon,
         contentDescription = stringResource(id = textId),
         modifier = Modifier.size(ICON_SIZE_SMALL),
         colorFilter = ColorFilter.tint(tint),
     )
-    //endNanoTimer("btnIcon")
 }
 
 @Composable
 fun PackageIcon(
     modifier: Modifier = Modifier,
-    imageData: Any,
+    imageData: Any, // TODO consider Arrow
     isSpecial: Boolean = false,
     isSystem: Boolean = false,
 ) {
-    //beginNanoTimer("pkgIcon.rCAIP")
     Image(
         modifier = modifier
             .size(ICON_SIZE_LARGE)
@@ -112,7 +107,6 @@ fun PackageIcon(
         contentDescription = null,
         contentScale = ContentScale.Crop
     )
-    //endNanoTimer("pkgIcon.rCAIP")
 }
 
 @Composable
@@ -120,10 +114,8 @@ fun cachedAsyncImagePainter(
     model: Any,
     altPainter: Painter? = null,
 ): Painter {
-    //beginNanoTimer("rmbrCachedAIP")
     var painter = IconCache.getIcon(model)
     if (painter == null) {
-        //beginNanoTimer("rmbrAIP")
         val request =
             ImageRequest.Builder(LocalContext.current)
                 .data(model)
@@ -139,7 +131,6 @@ fun cachedAsyncImagePainter(
                         }
                 }
             )
-        //endNanoTimer("rmbrAIP")
         painter = if (rememberedPainter.state is AsyncImagePainter.State.Success) {
             //synchronized(painterCache) { painterCache.put(model, rememberedPainter) }
             rememberedPainter
@@ -147,7 +138,6 @@ fun cachedAsyncImagePainter(
             altPainter ?: rememberedPainter
         }
     }
-    //endNanoTimer("rmbrCachedAIP")
     return painter
 }
 
@@ -164,11 +154,9 @@ fun placeholderIconPainter(
 )
 
 @Composable
-fun RowScope.PackageLabels(
+fun PackageLabels(
     item: Package,
 ) {
-    //beginNanoTimer("pkgLabels")
-
     if (item.isUpdated) {
         ButtonIcon(
             Phosphor.CircleWavyWarning, R.string.radio_updated,
@@ -227,8 +215,6 @@ fun RowScope.PackageLabels(
             else              -> ColorUser
         }
     )
-
-    //endNanoTimer("pkgLabels")
 }
 
 @Composable
@@ -404,16 +390,16 @@ fun CardSubRow(
 ) {
     ListItem(
         modifier = modifier
-            .fillMaxWidth()
-            .clip(MaterialTheme.shapes.large)
-            .clickable { onClick() },
+            .fillMaxWidth(),
+        onClick = onClick,
+        shapes = ListItemDefaults.shapes(MaterialTheme.shapes.large),
         colors = ListItemDefaults.colors(
             containerColor = Color.Transparent,
         ),
         leadingContent = {
             Icon(imageVector = icon, contentDescription = text, tint = iconColor)
         },
-        headlineContent = {
+        content = {
             Text(
                 text = text,
                 maxLines = 2,

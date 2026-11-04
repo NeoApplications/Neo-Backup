@@ -23,12 +23,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -44,13 +46,14 @@ import androidx.compose.ui.unit.dp
 import com.machiav3lli.backup.R
 import com.machiav3lli.backup.ui.compose.component.DialogNegativeButton
 import com.machiav3lli.backup.ui.compose.component.DialogPositiveButton
+import kotlinx.collections.immutable.PersistentList
 import kotlin.math.roundToInt
 
 @Composable
 fun IntPickerDialogUI(
     value: Int,
     defaultValue: Int,
-    entries: List<Int>,
+    entries: PersistentList<Int>,
     openDialogCustom: MutableState<Boolean>,
     onSave: (Int) -> Unit,
 ) {
@@ -58,11 +61,12 @@ fun IntPickerDialogUI(
     var currentValue by remember {
         mutableIntStateOf(value)
     }
-    var sliderIndex by remember {
-        mutableIntStateOf(
-            (entries.indexOfFirst { it >= currentValue }.takeUnless { it < 0 }
-                ?: entries.indexOf(defaultValue))
-                .coerceIn(0, entries.size - 1)
+    val sliderState = remember {
+        SliderState(
+            value = (entries.indexOf(value).takeUnless { it == -1 }
+                ?: entries.indexOf(defaultValue)).toFloat(),
+            trackRange = 0f..entries.lastIndex.toFloat(),
+            steps = entries.size - 2
         )
     }
 
@@ -85,14 +89,16 @@ fun IntPickerDialogUI(
             )
             Row {
                 Slider(
-                    modifier = Modifier.weight(1f, false),
-                    value = sliderIndex.toFloat(),
-                    valueRange = 0f..(entries.size - 1).toFloat(),
+                    state = sliderState,
+                    modifier = Modifier
+                        .weight(1f, false)
+                        .requiredHeight(24.dp),
                     onValueChange = {
-                        sliderIndex = it.roundToInt()
-                        currentValue = entries[sliderIndex]
+                        sliderState.value = it
                     },
-                    steps = entries.size - 1,
+                    onValueChangeFinished = {
+                        currentValue = entries[sliderState.value.roundToInt()]
+                    }
                 )
                 Spacer(modifier = Modifier.requiredWidth(8.dp))
                 Text(
@@ -110,7 +116,7 @@ fun IntPickerDialogUI(
                     openDialogCustom.value = false
                 }
                 DialogPositiveButton(text = stringResource(id = R.string.dialogSave)) {
-                    onSave(entries[sliderIndex])
+                    onSave(entries[sliderState.value.roundToInt()])
                     openDialogCustom.value = false
                 }
             }

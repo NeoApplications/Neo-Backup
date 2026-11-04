@@ -1,7 +1,6 @@
 package com.machiav3lli.backup.ui.compose.component
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ListItem
@@ -12,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import com.machiav3lli.backup.data.dbs.entity.SpecialInfo
@@ -31,20 +29,14 @@ fun MainPackageItem(
     onLongClick: (Package) -> Unit = {},
     onAction: (Package) -> Unit = {},
 ) {
-    //beginBusy("item")
     beginNanoTimer("item")
-
-    //traceCompose { "<${pkg.packageName}> MainPackageItemX ${pkg.packageInfo.icon} ${imageData.hashCode()}" }
-    //traceCompose { "<${pkg.packageName}> MainPackageItemX" }
 
     ListItem(
         modifier = Modifier
-            .fillMaxWidth()
-            .clip(MaterialTheme.shapes.large)
-            .combinedClickable(
-                onClick = { onAction(pkg) },
-                onLongClick = { onLongClick(pkg) }
-            ),
+            .fillMaxWidth(),
+        onClick = { onAction(pkg) },
+        onLongClick = { onLongClick(pkg) },
+        shapes = ListItemDefaults.shapes(MaterialTheme.shapes.large),
         colors = ListItemDefaults.colors(
             containerColor = if (selected) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.7f)
             else Color.Transparent,
@@ -57,7 +49,7 @@ fun MainPackageItem(
                 isSystem = pkg.isSystem,
             )
         },
-        headlineContent = {
+        content = {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Text(
                     text = pkg.packageLabel,
@@ -111,13 +103,11 @@ fun MainPackageItem(
     )
 
     endNanoTimer("item")
-    //endBusy("item")
 
     if (traceTiming.pref.value)
         nanoTiming["item.package"]?.let {
             if (it.second > 0 && it.second % logEachN == 0L) {
                 logNanoTiming()
-                //clearNanoTiming("item")
             }
         }
 }

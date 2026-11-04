@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
@@ -94,9 +93,9 @@ import com.machiav3lli.backup.utils.getStartScheduleMessage
 import com.machiav3lli.backup.utils.specialBackupsEnabled
 import com.machiav3lli.backup.utils.timeLeft
 import com.machiav3lli.backup.viewmodels.ScheduleVM
+import kotlinx.collections.immutable.toPersistentList
 import java.time.LocalTime
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SchedulePage(
     scheduleId: Long,
@@ -132,7 +131,9 @@ fun SchedulePage(
                     colors = ListItemDefaults.colors(
                         containerColor = Color.Transparent,
                     ),
-                    headlineContent = {
+                    shapes = ListItemDefaults.shapes(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    content = {
                         TextEditBlock(
                             initText = schedule.name,
                             label = stringResource(R.string.sched_name),
@@ -247,7 +248,7 @@ fun SchedulePage(
                             list = if (specialBackupsEnabled) mainFilterChipItems
                             else mainFilterChipItemsSansSpecial,
                             selectedFlags = schedule.filter
-                        ) { flags, flag ->
+                        ) { flags, _ ->
                             refresh(
                                 schedule.copy(filter = flags),
                                 false,
@@ -452,7 +453,7 @@ fun SchedulePage(
                         -> IntPickerDialogUI(
                         value = schedule.interval,
                         defaultValue = 1,
-                        entries = (1..30).toList(),
+                        entries = (1..30).toPersistentList(),
                         openDialogCustom = openDialog,
                     ) {
                         refresh(

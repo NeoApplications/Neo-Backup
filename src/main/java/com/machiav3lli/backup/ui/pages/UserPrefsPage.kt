@@ -11,7 +11,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.machiav3lli.backup.data.preferences.NeoPrefs
 import com.machiav3lli.backup.data.preferences.PrefBoolean
@@ -32,15 +31,12 @@ import org.koin.java.KoinJavaComponent.get
 
 @Composable
 fun UserPrefsPage() {
-    val context = LocalContext.current
     val openDialog = remember { mutableStateOf(false) }
     var dialogsPref by remember { mutableStateOf<PrefDelegate<out Any>?>(null) }
 
     val prefs: PersistentList<PrefDelegate<out Any>> = persistentListOf(
         pref_languages,
         pref_neoTheme,
-        //pref_appAccentColor,
-        //pref_appSecondaryColor,
         pref_pathBackupFolder,
         pref_deviceLock,
         pref_biometricLock,
@@ -82,8 +78,6 @@ fun UserPrefsPage() {
                     openDialogCustom = openDialog,
                 )
 
-                //pref_appAccentColor,
-                //pref_appSecondaryColor,
                 is PrefEnum  -> DSEnumPrefDialogUI(
                     pref = currentPref,
                     openDialogCustom = openDialog,

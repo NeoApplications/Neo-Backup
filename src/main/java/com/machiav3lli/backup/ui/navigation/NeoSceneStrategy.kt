@@ -2,7 +2,7 @@ package com.machiav3lli.backup.ui.navigation
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheetProperties
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation3.runtime.NavEntry
@@ -67,7 +67,7 @@ class NeoSceneStrategy<T : Any>(val windowSizeClass: WindowSizeClass) : SceneStr
 
 @Composable
 fun <T : Any> rememberNeoSceneStrategy(): NeoSceneStrategy<T> {
-    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+    val windowSizeClass = currentWindowAdaptiveInfoV2().windowSizeClass
     return remember(windowSizeClass) {
         NeoSceneStrategy(windowSizeClass)
     }

@@ -12,6 +12,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -106,7 +107,10 @@ fun KeyDialogUI(
                 keyboardActions = KeyboardActions(onDone = { passcodeFR.requestFocus() }),
                 trailingIcon = {
                     Row {
-                        IconButton(onClick = { userId = "" }) {
+                        IconButton(
+                            shapes = IconButtonDefaults.shapes(),
+                            onClick = { userId = "" },
+                        ) {
                             Icon(
                                 imageVector = Phosphor.X,
                                 contentDescription = null,
@@ -145,14 +149,20 @@ fun KeyDialogUI(
                 keyboardActions = KeyboardActions(onDone = { submit() }),
                 trailingIcon = {
                     Row {
-                        IconButton(onClick = { isPasscodeVisible = !isPasscodeVisible }) {
+                        IconButton(
+                            shapes = IconButtonDefaults.shapes(),
+                            onClick = { isPasscodeVisible = !isPasscodeVisible },
+                        ) {
                             Icon(
                                 imageVector = if (isPasscodeVisible) Phosphor.Eye else Phosphor.EyeSlash,
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.onSurface,
                             )
                         }
-                        IconButton(onClick = { passcode = "" }) {
+                        IconButton(
+                            shapes = IconButtonDefaults.shapes(),
+                            onClick = { passcode = "" },
+                        ) {
                             Icon(
                                 imageVector = Phosphor.X,
                                 contentDescription = null,

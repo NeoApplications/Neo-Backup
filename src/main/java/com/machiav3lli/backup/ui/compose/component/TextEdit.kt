@@ -14,6 +14,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
@@ -125,10 +126,13 @@ fun TextEditBlock(
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        IconButton(onClick = {
-            onCancel()
-            onExpanded(false)
-        }) {
+        IconButton(
+            shapes = IconButtonDefaults.shapes(),
+            onClick = {
+                onCancel()
+                onExpanded(false)
+            },
+        ) {
             Icon(
                 imageVector = Phosphor.X,
                 contentDescription = stringResource(id = R.string.dialogCancel)
@@ -151,10 +155,13 @@ fun TextEditBlock(
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
         )
-        IconButton(onClick = {
-            onSave(tagName)
-            onExpanded(false)
-        }) {
+        IconButton(
+            shapes = IconButtonDefaults.shapes(),
+            onClick = {
+                onSave(tagName)
+                onExpanded(false)
+            },
+        ) {
             Icon(
                 imageVector = Phosphor.CheckCircle,
                 contentDescription = stringResource(id = R.string.dialogSave)

@@ -46,13 +46,14 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import kotlin.math.min
+import kotlin.time.Duration.Companion.milliseconds
 
-val countTime = 100
-val resetTime = 200
+const val countTime = 100
+const val resetTime = 200
 
 var externalState = mutableIntStateOf(0)
 var externalByState by mutableIntStateOf(0)
-val externalStateValue get() = externalState.value
+val externalStateValue get() = externalState.intValue
 val externalByStateValue get() = externalByState
 var externalValue = 0
 
@@ -82,7 +83,7 @@ private val recomposeModifier =
         // Start the timeout, and reset everytime there's a recomposition. (Using totalCompositions
         // as the key is really just to cause the timer to restart every composition).
         LaunchedEffect(totalCompositions[0]) {
-            delay(resetTime.toLong())
+            delay(resetTime.milliseconds)
             totalCompositionsAtLastTimeout.longValue = totalCompositions[0]
         }
         Modifier.drawWithCache {
@@ -339,7 +340,7 @@ fun Remember__Param10(param: Int) {
 
 @Composable
 fun DerivedState_State() {
-    val value by remember { derivedStateOf { externalState.value } }
+    val value by remember { derivedStateOf { externalState.intValue } }
     Row {
         Text(
             text = "   $value   ",
@@ -356,7 +357,7 @@ fun DerivedState_State() {
 
 @Composable
 fun DerivedState_State10() {
-    val value by remember { derivedStateOf { externalState.value / 10 } }
+    val value by remember { derivedStateOf { externalState.intValue / 10 } }
     Row {
         Text(
             text = "   $value   ",
@@ -475,7 +476,7 @@ fun DerivedState_byStateValue10() {
 
 @Composable
 fun RememberKey_State_stateofState() {
-    val value by remember(externalState.value) { mutableStateOf(externalState.value) }
+    val value by remember(externalState.intValue) { mutableStateOf(externalState.intValue) }
     Row {
         Text(
             text = "   $value   ",
@@ -492,7 +493,7 @@ fun RememberKey_State_stateofState() {
 
 @Composable
 fun RememberKey_State_stateofState10() {
-    val value by remember(externalState.value) { mutableStateOf(externalState.value / 10) }
+    val value by remember(externalState.intValue) { mutableStateOf(externalState.intValue / 10) }
     Row {
         Text(
             text = "   $value   ",
@@ -509,7 +510,7 @@ fun RememberKey_State_stateofState10() {
 
 @Composable
 fun RememberKey_State10_stateofState10() {
-    val value by remember(externalState.value / 10) { mutableStateOf(externalState.value / 10) }
+    val value by remember(externalState.intValue / 10) { mutableStateOf(externalState.intValue / 10) }
     Row {
         Text(
             text = "   $value   ",
@@ -526,7 +527,7 @@ fun RememberKey_State10_stateofState10() {
 
 @Composable
 fun RememberKey_State_State() {
-    val value = remember(externalState.value) { externalState.value }
+    val value = remember(externalState.intValue) { externalState.intValue }
     Row {
         Text(
             text = "   $value   ",
@@ -543,7 +544,7 @@ fun RememberKey_State_State() {
 
 @Composable
 fun RememberKey_State_State10() {
-    val value = remember(externalState.value) { externalState.value / 10 }
+    val value = remember(externalState.intValue) { externalState.intValue / 10 }
     Row {
         Text(
             text = "   $value   ",
@@ -560,7 +561,7 @@ fun RememberKey_State_State10() {
 
 @Composable
 fun RememberKey_State10_State10() {
-    val value = remember(externalState.value / 10) { externalState.value / 10 }
+    val value = remember(externalState.intValue / 10) { externalState.intValue / 10 }
     Row {
         Text(
             text = "   $value   ",
@@ -781,10 +782,9 @@ fun RememberKey_Param10_Param10(param: Int) {
 
 @Composable
 fun Param(param: Int) {
-    val value = param
     Row {
         Text(
-            text = "   $value   ",
+            text = "   $param   ",
             textAlign = TextAlign.End,
             modifier = Modifier
                 .width(70.dp)
@@ -823,11 +823,11 @@ fun TheComposable() {
             .padding(8.dp)
     ) {
 
-        Text("externalValue: ${externalValue}")
-        Text("externalState: ${externalState.value}")
-        Text("externalByState: ${externalByState}")
-        Text("externalStateValue: ${externalStateValue}")
-        Text("externalByStateValue: ${externalByStateValue}")
+        Text("externalValue: $externalValue")
+        Text("externalState: ${externalState.intValue}")
+        Text("externalByState: $externalByState")
+        Text("externalStateValue: $externalStateValue")
+        Text("externalByStateValue: $externalByStateValue")
 
         //invocations-begin
         Text("")
@@ -880,15 +880,15 @@ fun TheComposable() {
 }
 
 fun startCounter() {
-    externalState.value = 0
+    externalState.intValue = 0
     externalByState = 0
     externalValue = 0
     CoroutineScope(Dispatchers.IO).launch {
         while (true) {
             externalValue++
-            externalState.value = externalValue
+            externalState.intValue = externalValue
             externalByState = externalValue
-            delay(countTime.toLong())
+            delay(countTime.milliseconds)
         }
     }
 }

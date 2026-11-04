@@ -2,7 +2,6 @@ package com.machiav3lli.backup.utils
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import androidx.core.net.toUri
 import com.machiav3lli.backup.NeoApp
 import kotlinx.coroutines.Job
@@ -12,6 +11,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import kotlin.system.exitProcess
+import kotlin.time.Duration.Companion.milliseconds
 
 fun Context.restartApp(data: String? = null) {
     Timber.w(
@@ -30,7 +30,7 @@ fun Context.restartApp(data: String? = null) {
 
             // eventually start with navigation data
             if (data != null)
-                intent.setData(Uri.parse(data))
+                intent.data = data.toUri()
 
             context.startActivity(intent)
 
@@ -47,13 +47,12 @@ fun recreateActivities() {
         recreateActivitiesJob?.cancel()
     }
     recreateActivitiesJob = MainScope().launch {
-        //Timber.w("recreating activities...")
-        delay(500)
+        delay(500.milliseconds)
         Timber.w(
             "recreating activities ${
-                NeoApp.activities.map {
+                NeoApp.activities.joinToString(" ") {
                     "${it.javaClass.simpleName}@${Integer.toHexString(it.hashCode())}"
-                }.joinToString(" ")
+                }
             }"
         )
         NeoApp.activities

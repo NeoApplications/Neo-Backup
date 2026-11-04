@@ -17,7 +17,6 @@
  */
 package com.machiav3lli.backup.ui.pages
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -39,9 +38,8 @@ import com.machiav3lli.backup.utils.extensions.koinNeoViewModel
 import com.machiav3lli.backup.viewmodels.LogsVM
 import kotlinx.collections.immutable.toPersistentList
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun LogsPage(viewModel: LogsVM = koinNeoViewModel(), navigateUp: () -> Unit) {
+fun LogsPage(navigateUp: () -> Unit) {
 
     Scaffold(
         containerColor = Color.Transparent,
@@ -58,13 +56,12 @@ fun LogsPage(viewModel: LogsVM = koinNeoViewModel(), navigateUp: () -> Unit) {
             )
         }
     ) { paddingValues ->
-
-        Logs(viewModel, modifier = Modifier.padding(paddingValues))
+        Logs(modifier = Modifier.padding(paddingValues))
     }
 }
 
 @Composable
-fun Logs(viewModel: LogsVM = koinNeoViewModel(), modifier: Modifier = Modifier) {
+fun Logs(modifier: Modifier = Modifier, viewModel: LogsVM = koinNeoViewModel()) {
 
     val logs = remember(viewModel) { viewModel.logsList }
 
@@ -76,7 +73,7 @@ fun Logs(viewModel: LogsVM = koinNeoViewModel(), modifier: Modifier = Modifier) 
         modifier = modifier
             .blockBorderBottom()
             .fillMaxSize(),
-        productsList = logs.sortedByDescending(Log::logDate).toPersistentList(),
+        logsList = logs.sortedByDescending(Log::logDate).toPersistentList(),
         onShare = { viewModel.shareLog(it, pref_shareAsFile.value) },
         onDelete = { viewModel.deleteLog(it) }
     )

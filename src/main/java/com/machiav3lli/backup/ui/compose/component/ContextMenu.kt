@@ -61,6 +61,10 @@ import com.machiav3lli.backup.ui.compose.icons.phosphor.X
 import com.machiav3lli.backup.ui.pages.pref_fixNavBarOverlap
 import com.machiav3lli.backup.utils.SystemUtils.numCores
 import com.machiav3lli.backup.utils.SystemUtils.runParallel
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.PersistentSet
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.asCoroutineDispatcher
@@ -70,6 +74,7 @@ import kotlinx.coroutines.yield
 import org.koin.compose.koinInject
 import java.util.concurrent.Executors
 import kotlin.math.roundToInt
+import kotlin.time.Duration.Companion.milliseconds
 
 const val logEachN = 1000L
 
@@ -165,7 +170,7 @@ fun TextInputMenuItem(
     val textFieldFocusRequester = remember { FocusRequester() }
 
     LaunchedEffect(textFieldFocusRequester) {
-        delay(100)
+        delay(100.milliseconds)
         textFieldFocusRequester.requestFocus()
     }
 
@@ -214,9 +219,9 @@ fun TextInputMenuItem(
 @Composable
 fun Selections(
     action: MenuAction,
-    selection: Set<String> = emptySet(),
-    blocklist: Set<String> = emptySet(),
-    schedules: List<Schedule> = emptyList(),
+    selection: PersistentSet<String> = persistentSetOf(),
+    blocklist: PersistentSet<String> = persistentSetOf(),
+    schedules: PersistentList<Schedule> = persistentListOf(),
     onUpdateBlocklist: (Set<String>) -> Unit = {},
     onUpdateSchedule: (Schedule) -> Unit = {},
     onAction: (Set<String>) -> Unit = {},
@@ -303,8 +308,6 @@ fun Selections(
                                         onAction(selection)
                                     }
                                 }
-
-                                else           -> {}
                             }
                         }
                     )
@@ -361,8 +364,6 @@ fun Selections(
                         onUpdateBlocklist(selection.toSet())
                         onAction(selection)
                     }
-
-                    else           -> {}
                 }
             }
         )
@@ -371,8 +372,8 @@ fun Selections(
 
 @Composable
 fun SelectionGetMenu(
-    blocklist: Set<String>,
-    schedules: List<Schedule>,
+    blocklist: PersistentSet<String>,
+    schedules: PersistentList<Schedule>,
     onAction: (Set<String>) -> Unit = {},
 ) {
     Selections(
@@ -385,9 +386,9 @@ fun SelectionGetMenu(
 
 @Composable
 fun SelectionPutMenu(
-    selection: Set<String>,
-    blocklist: Set<String>,
-    schedules: List<Schedule>,
+    selection: PersistentSet<String>,
+    blocklist: PersistentSet<String>,
+    schedules: PersistentList<Schedule>,
     onUpdateBlocklist: (Set<String>) -> Unit,
     onUpdateSchedule: (Schedule) -> Unit,
     onAction: () -> Unit = {},
@@ -396,7 +397,7 @@ fun SelectionPutMenu(
     val name = remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
 
-    NeoApp.backupRoot?.let { backupRoot ->
+    NeoApp.backupRoot?.let { _ ->
         TextInputMenuItem(
             text = name.value,
             placeholder = "new selection name",
@@ -498,12 +499,16 @@ suspend fun forEachPackage(
     parallel: Boolean = true,
     todo: suspend (p: Package) -> Unit = {},
 ) {
+    fun job(p: Package) = suspend {
+        if (select == true && selection.contains(p.packageName))
+            toggleSelection(p.packageName)
+        traceContextMenu { "$action ${p.packageName}" }
+        todo(p)
+    }
+
     if (parallel) {
         runParallel(packages, scope = menuScope, pool = menuPool) {
-            if (select == true && selection.contains(it.packageName))
-                toggleSelection(it.packageName)
-            traceContextMenu { "$action ${it.packageName}" }
-            todo(it)
+            job(it)
             select?.let { selected ->
                 if (selected != selection.contains(it.packageName))
                     toggleSelection(it.packageName)
@@ -511,10 +516,7 @@ suspend fun forEachPackage(
         }
     } else {
         packages.forEach {
-            if (select == true && selection.contains(it.packageName))
-                toggleSelection(it.packageName)
-            traceContextMenu { "$action ${it.packageName}" }
-            todo(it)
+            job(it)
             yield()
             select?.let { selected ->
                 if (selected != selection.contains(it.packageName))
@@ -630,10 +632,10 @@ fun launchLimitBackups(
 fun MainPackageContextMenu(
     expanded: MutableState<Boolean>,
     packageItem: Package?,
-    productsList: List<Package>,
-    selection: Set<String>,
-    blocklist: Set<String>,
-    schedules: List<Schedule>,
+    productsList: PersistentList<Package>,
+    selection: PersistentSet<String>,
+    blocklist: PersistentSet<String>,
+    schedules: PersistentList<Schedule>,
     toggleSelection: (String) -> Unit,
     onUpdateBlocklist: (Set<String>) -> Unit,
     onUpdateSchedule: (Schedule) -> Unit,
@@ -678,7 +680,7 @@ fun MainPackageContextMenu(
         onDismissRequest = { expanded.value = false }
     ) {
 
-        if (NeoApp.isDebug) {
+        if (!NeoApp.isRelease) {
             val number = remember { mutableIntStateOf(0) }
             DropdownMenuItem(
                 text = { Text("test = ${number.intValue}") },

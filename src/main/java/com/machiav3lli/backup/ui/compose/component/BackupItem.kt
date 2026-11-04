@@ -20,7 +20,6 @@ import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PlainTooltip
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TooltipAnchorPosition
 import androidx.compose.material3.TooltipBox
@@ -33,7 +32,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -61,7 +59,7 @@ import java.io.File
 import java.time.LocalDateTime
 
 @Composable
-fun BackupItem_headlineContent(
+fun BackupItemHeadlineContent(
     item: Backup,
 ) {
     Row(
@@ -95,7 +93,7 @@ fun BackupItem_headlineContent(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BackupItem_supportingContent(
+fun BackupItemSupportingContent(
     item: Backup,
     onNote: ((Backup) -> Unit)? = null,
 ) {
@@ -161,12 +159,16 @@ fun BackupItem_supportingContent(
                     }
                 }
             }
-            val compressionText = if (item.isCompressed) {
-                if (item.compressionType.isNullOrEmpty())
-                    "gz"
-                else
-                    "${item.compressionType}"
-            } else ""
+            val compressionText =
+                when {
+                    item.isCompressed && !item.compressionType.isNullOrBlank()
+                        -> item.compressionType
+
+                    item.isCompressed
+                        -> "gz"
+
+                    else -> ""
+                }
             if (compressionText.isNotEmpty()) Badge(containerColor = MaterialTheme.colorScheme.secondaryContainer) {
                 Text(
                     text = compressionText,
@@ -202,6 +204,7 @@ fun BackupItem_supportingContent(
 @Composable
 fun BackupItem(
     item: Backup,
+    modifier: Modifier = Modifier,
     onRestore: (Backup) -> Unit = { },
     onDelete: (Backup) -> Unit = { },
     onNote: (Backup) -> Unit = { },
@@ -221,18 +224,20 @@ fun BackupItem(
     )
 
     ListItem(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(MaterialTheme.shapes.large),
+        modifier = modifier
+            .fillMaxWidth(),
+        shapes = ListItemDefaults.shapes(
+            MaterialTheme.shapes.large
+        ),
         colors = ListItemDefaults.colors(
             containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
         ),
-        headlineContent = { BackupItem_headlineContent(item) },
+        content = { BackupItemHeadlineContent(item) },
         supportingContent = {
             Column(
                 verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
-                BackupItem_supportingContent(item, onNote = onNote)
+                BackupItemSupportingContent(item, onNote = onNote)
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -291,39 +296,39 @@ fun RestoreBackupItem(
     val showApk by remember(item) { mutableStateOf(item.hasApk) }
     val showData by remember(item) { mutableStateOf(item.hasData) }
 
-    Surface(
-        color = MaterialTheme.colorScheme.surfaceContainerHigh,
-        shape = MaterialTheme.shapes.large,
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Checkbox(
-                checked = apkChecked,
-                enabled = showApk,
-                onCheckedChange = {
-                    apkChecked = it
-                    onApkClick(item.packageName, it, index)
-                }
-            )
-            Checkbox(
-                checked = dataChecked,
-                enabled = showData,
-                onCheckedChange = {
-                    dataChecked = it
-                    onDataClick(item.packageName, it, index)
-                }
-            )
-            ListItem(
-                modifier = Modifier.fillMaxWidth(),
-                colors = ListItemDefaults.colors(
-                    containerColor = Color.Transparent,
-                ),
-                headlineContent = { BackupItem_headlineContent(item) },
-                supportingContent = { BackupItem_supportingContent(item) },
-            )
-        }
-    }
+    ListItem(
+        modifier = Modifier.fillMaxWidth(),
+        shapes = ListItemDefaults.shapes(MaterialTheme.shapes.large),
+        colors = ListItemDefaults.colors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+        ),
+        verticalAlignment = Alignment.CenterVertically,
+        leadingContent = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(22.dp),
+            ) {
+                Checkbox(
+                    checked = apkChecked,
+                    enabled = showApk,
+                    onCheckedChange = {
+                        apkChecked = it
+                        onApkClick(item.packageName, it, index)
+                    }
+                )
+                Checkbox(
+                    checked = dataChecked,
+                    enabled = showData,
+                    onCheckedChange = {
+                        dataChecked = it
+                        onDataClick(item.packageName, it, index)
+                    }
+                )
+            }
+        },
+        content = { BackupItemHeadlineContent(item) },
+        supportingContent = { BackupItemSupportingContent(item) },
+    )
 }
 
 @Preview(showBackground = true)

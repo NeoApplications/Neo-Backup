@@ -10,6 +10,7 @@ import androidx.compose.material3.SingleChoiceSegmentedButtonRowScope
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
@@ -18,8 +19,6 @@ import androidx.compose.ui.unit.dp
 fun SingleChoiceSegmentedButtonRowScope.SegmentedTabButton(
     text: String,
     icon: ImageVector,
-    index: Int,
-    count: Int,
     selected: () -> Boolean,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
@@ -28,14 +27,14 @@ fun SingleChoiceSegmentedButtonRowScope.SegmentedTabButton(
         modifier = modifier,
         selected = selected(),
         onClick = onClick,
-        border = BorderStroke(2.dp, MaterialTheme.colorScheme.surfaceContainerHighest),
+        border = BorderStroke(0.dp, Color.Transparent),
         colors = SegmentedButtonDefaults.colors(
             activeContainerColor = MaterialTheme.colorScheme.primaryContainer,
             activeContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            inactiveContainerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
-            inactiveContentColor = MaterialTheme.colorScheme.onSurface,
+            inactiveContainerColor = Color.Transparent,
+            inactiveContentColor = MaterialTheme.colorScheme.onBackground,
         ),
-        shape = itemShape(index, count, selected),
+        shape = MaterialTheme.shapes.extraLarge,
         icon = {
             Icon(imageVector = icon, contentDescription = text)
         }

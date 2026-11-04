@@ -40,7 +40,6 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -70,7 +69,6 @@ fun EnumPrefDialogUI(
     openDialogCustom: MutableState<Boolean>,
     onChanged: (() -> Unit) = {},
 ) {
-    val context = LocalContext.current
     var selected by remember { mutableIntStateOf(pref.value) }
     val entryPairs = pref.entries.toList()
 
@@ -135,7 +133,6 @@ fun ListPrefDialogUI(
     openDialogCustom: MutableState<Boolean>,
     onChanged: (() -> Unit) = {},
 ) {
-    val context = LocalContext.current
     var selected by remember { mutableStateOf(pref.value) }
     val entryPairs = pref.entries.toList()
 

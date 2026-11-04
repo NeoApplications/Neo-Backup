@@ -31,6 +31,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import com.machiav3lli.backup.R
 import com.machiav3lli.backup.manager.handler.showNotification
@@ -50,6 +51,7 @@ import com.machiav3lli.backup.viewmodels.ExportsVM
 @Composable
 fun SchedulesExportsPage(viewModel: ExportsVM = koinNeoViewModel(), navigateUp: () -> Unit) {
     val context = LocalContext.current
+    val res = LocalResources.current
     val exports by viewModel.exportsList.collectAsState()
 
     SideEffect {
@@ -86,12 +88,12 @@ fun SchedulesExportsPage(viewModel: ExportsVM = koinNeoViewModel(), navigateUp: 
                 .padding(paddingValues)
                 .blockBorderBottom()
                 .fillMaxSize(),
-            productsList = exports,
+            schedsList = exports,
             onImport = {
                 viewModel.importSchedule(it) { name, id ->
                     showNotification(
                         context, NeoActivity::class.java, id,
-                        context.getString(R.string.sched_imported), name, false
+                        res.getString(R.string.sched_imported), name, false
                     )
                 }
             },

@@ -2,6 +2,7 @@ package com.machiav3lli.backup.ui.pages
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Resources
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -22,6 +23,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.machiav3lli.backup.DamagedOp
@@ -70,12 +72,13 @@ fun ToolsPrefsPage(
     viewModel: HomeVM = koinNeoViewModel(),
 ) {
     val context = LocalContext.current
+    val res = LocalResources.current
     val neoActivity = LocalActivity.current as NeoActivity
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
     val openDialog = remember { mutableStateOf(false) }
-    val dialogProps: MutableState<Triple<DialogMode, Any?, Any?>> = remember {
-        mutableStateOf(Triple(DialogMode.NONE, null, null))
+    val dialogProps: MutableState<Triple<DialogMode, Any?, () -> Unit>> = remember {
+        mutableStateOf(Triple(DialogMode.NONE, null, {}))
     }
     val mainState by viewModel.state.collectAsState()
     val tagsMap by viewModel.tagsMap.collectAsState()
@@ -138,7 +141,8 @@ fun ToolsPrefsPage(
                                     openDialog.value = true
                                 }
 
-                                pref_enforceBackupsLimit   -> context.onClickEnforceBackupsLimit(
+                                pref_enforceBackupsLimit   -> onClickEnforceBackupsLimit(
+                                    res,
                                     mainState.packages,
                                     snackbarHostState,
                                     coroutineScope
@@ -194,7 +198,7 @@ fun ToolsPrefsPage(
                     messageText = primary.toString(),
                     onDismiss = { openDialog.value = false },
                     primaryText = stringResource(R.string.dialogYes),
-                    primaryAction = second as () -> Unit,
+                    primaryAction = second,
                 )
 
                 DialogMode.ENFORCE_LIMIT
@@ -203,7 +207,7 @@ fun ToolsPrefsPage(
                     messageText = primary.toString(),
                     onDismiss = { openDialog.value = false },
                     primaryText = stringResource(R.string.dialogYes),
-                    primaryAction = second as () -> Unit,
+                    primaryAction = second,
                 )
 
                 DialogMode.TOOL_CLEANUP_BACKUP_DIR
@@ -214,7 +218,7 @@ fun ToolsPrefsPage(
                     primaryText = stringResource(R.string.dialogDelete),
                     primaryAction = primary as () -> Unit,
                     secondaryText = stringResource(R.string.dialogLabel),
-                    secondaryAction = second as () -> Unit,
+                    secondaryAction = second,
                 )
 
                 DialogMode.TOOL_SAVE_APPS_LIST
@@ -225,7 +229,7 @@ fun ToolsPrefsPage(
                     primaryText = stringResource(R.string.radio_all),
                     primaryAction = primary as () -> Unit,
                     secondaryText = stringResource(R.string.filtered_list),
-                    secondaryAction = second as () -> Unit,
+                    secondaryAction = second,
                 )
 
                 else -> {}
@@ -318,7 +322,8 @@ val pref_enforceBackupsLimit = LinkPref(
     icon = Phosphor.Hash,
 )
 
-private fun Context.onClickEnforceBackupsLimit(
+private fun onClickEnforceBackupsLimit(
+    res: Resources,
     packageList: Collection<Package>,
     snackbarHostState: SnackbarHostState,
     coroutineScope: CoroutineScope,
@@ -330,7 +335,7 @@ private fun Context.onClickEnforceBackupsLimit(
     }
     if (packagesForHousekeeping.isNotEmpty()) {
         showDialog(
-            getString(
+            res.getString(
                 R.string.enforce_backups_limit_FORMAT,
                 pref_numBackupRevisions.value,
                 packagesForHousekeeping.joinToString { it.packageLabel }
@@ -343,7 +348,7 @@ private fun Context.onClickEnforceBackupsLimit(
                 }
                 snackbarHostState.show(
                     coroutineScope,
-                    getString(
+                    res.getString(
                         R.string.enforced_backups_limit_FORMAT,
                         pref_numBackupRevisions.value,
                         packagesForHousekeeping.joinToString { it.packageLabel }
@@ -354,7 +359,7 @@ private fun Context.onClickEnforceBackupsLimit(
     } else {
         snackbarHostState.show(
             coroutineScope,
-            getString(R.string.no_apps_to_enforce_backups_limit),
+            res.getString(R.string.no_apps_to_enforce_backups_limit),
         )
     }
     return true

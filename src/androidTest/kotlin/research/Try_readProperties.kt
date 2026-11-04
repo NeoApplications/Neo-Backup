@@ -170,7 +170,7 @@ class Try_readProperties {
                     packageName?.let { backups.put(it, backupList) }
             }
         }
-        val serialized = NeoApp.propsSerializer.encodeToString(backups)
+        val serialized = NeoApp.mainSerializer.encodeToString(backups)
         //StorageFile(File("/sdcard/test.map")).outputStream()?.write(serialized.toByteArray())
         //Timber.i("backups: $serialized")
         Timber.i("packages: ${backups.size} backups: ${backups.map { it.value.size }.sum()}")
@@ -207,7 +207,7 @@ class Try_readProperties {
             Timber.i("file ${file.path} size: $size")
             val text = file.readText()
             Timber.i("text size: ${text.length}")
-            backups = NeoApp.propsSerializer.decodeFromString(text)
+            backups = NeoApp.mainSerializer.decodeFromString(text)
         }
         Timber.i("packages: ${backups.size} backups: ${backups.map { it.value.size }.sum()}")
         Timber.w("time backups from single map file: $time ms")

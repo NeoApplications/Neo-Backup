@@ -58,6 +58,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -123,6 +124,7 @@ fun AppPage(
     onDismiss: () -> Unit,
 ) {
     val context = LocalContext.current
+    val res = LocalResources.current
     val mActivity = LocalActivity.current as NeoActivity
     val openDialog = remember { mutableStateOf(false) }
     val dialogProps: MutableState<Pair<DialogMode, Any>> = remember {
@@ -276,8 +278,8 @@ fun AppPage(
                             containerColor = MaterialTheme.colorScheme.primary,
                             contentColor = MaterialTheme.colorScheme.onPrimary,
                         ) {
-                            val intent =
-                                Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             intent.data =
                                 Uri.fromParts(
                                     "package",
@@ -414,23 +416,25 @@ fun AppPage(
                                 colors = ListItemDefaults.colors(
                                     containerColor = Color.Transparent,
                                 ),
-                                trailingContent = {
-                                    RoundButton(
-                                        icon = Phosphor.NotePencil,
-                                        description = stringResource(R.string.edit_note),
-                                    ) {
-                                        dialogProps.value = Pair(DialogMode.NOTE, state.appExtras.note)
-                                        openDialog.value = true
-                                    }
-                                },
+                                shapes = ListItemDefaults.shapes(),
                                 overlineContent = {
                                     Text(
                                         text = stringResource(id = R.string.title_note),
                                         maxLines = 1,
                                     )
                                 },
-                                headlineContent = {
+                                content = {
                                     Text(state.appExtras.note)
+                                },
+                                trailingContent = {
+                                    RoundButton(
+                                        icon = Phosphor.NotePencil,
+                                        description = stringResource(R.string.edit_note),
+                                    ) {
+                                        dialogProps.value =
+                                            Pair(DialogMode.NOTE, state.appExtras.note)
+                                        openDialog.value = true
+                                    }
                                 }
                             )
                         }
@@ -505,7 +509,7 @@ fun AppPage(
                                 ) {
                                     snackbarHostState.show(
                                         coroutineScope = coroutineScope,
-                                        message = context.getString(R.string.notInstalledModeDataWarning)
+                                        message = res.getString(R.string.notInstalledModeDataWarning)
                                     )
                                 } else {
                                     dialogProps.value = Pair(DialogMode.RESTORE, item)
@@ -604,9 +608,7 @@ fun AppPage(
                                     snackbarHostState.show(
                                         coroutineScope = coroutineScope,
                                         message = "${pkg.packageLabel}: ${
-                                            context.getString(
-                                                R.string.deleteBackup
-                                            )
+                                            res.getString(R.string.deleteBackup)
                                         }"
                                     )
                                     if (!pkg.hasBackups) {
@@ -629,9 +631,7 @@ fun AppPage(
                                     snackbarHostState.show(
                                         coroutineScope = coroutineScope,
                                         message = "${pkg.packageLabel}: ${
-                                            context.getString(
-                                                R.string.delete_all_backups
-                                            )
+                                            res.getString(R.string.delete_all_backups)
                                         }"
                                     )
                                 }
@@ -718,9 +718,7 @@ fun AppPage(
                                     snackbarHostState.show(
                                         coroutineScope = coroutineScope,
                                         message = "${pkg.packageLabel}: ${
-                                            context.getString(
-                                                R.string.uninstallProgress
-                                            )
+                                            res.getString(R.string.uninstallProgress)
                                         }"
                                     )
                                 }

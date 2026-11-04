@@ -17,6 +17,7 @@
  */
 package com.machiav3lli.backup.data.dbs.entity
 
+import androidx.compose.runtime.Stable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
@@ -39,6 +40,7 @@ import com.machiav3lli.backup.manager.handler.regexPackageFolder
 import com.machiav3lli.backup.ui.pages.pref_createInvalidBackups
 import com.machiav3lli.backup.utils.LocalDateTimeSerializer
 import com.machiav3lli.backup.utils.SystemUtils
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import java.io.FileNotFoundException
@@ -53,7 +55,8 @@ import java.time.LocalDateTime
     ]
 )
 @Serializable
-data class Backup @OptIn(kotlinx.serialization.ExperimentalSerializationApi::class) constructor(
+@Stable
+data class Backup(
     val backupVersionCode: Int = 0,
     val packageName: String,
     val packageLabel: String,
@@ -64,6 +67,7 @@ data class Backup @OptIn(kotlinx.serialization.ExperimentalSerializationApi::cla
     val sourceDir: String? = null,
     val splitSourceDirs: Array<String> = arrayOf(),
     val isSystem: Boolean = false,
+    @OptIn(ExperimentalSerializationApi::class)
     @Serializable(with = LocalDateTimeSerializer::class)
     val backupDate: LocalDateTime,
     val hasApk: Boolean = false,
@@ -127,10 +131,10 @@ data class Backup @OptIn(kotlinx.serialization.ExperimentalSerializationApi::cla
     )
 
     val isCompressed: Boolean
-        get() = compressionType != null && compressionType?.isNotEmpty() == true
+        get() = !compressionType.isNullOrEmpty()
 
     val isEncrypted: Boolean
-        get() = cipherType != null && cipherType?.isNotEmpty() == true
+        get() = !cipherType.isNullOrEmpty()
 
     val hasData: Boolean
         get() = hasAppData || hasExternalData || hasDevicesProtectedData || hasMediaData || hasObbData
@@ -218,11 +222,11 @@ data class Backup @OptIn(kotlinx.serialization.ExperimentalSerializationApi::cla
     override fun hashCode(): Int {
         var result = packageName.hashCode()
         result = 31 * result + backupVersionCode
-        result = 31 * result + (packageLabel?.hashCode() ?: 0)
-        result = 31 * result + (versionName?.hashCode() ?: 0)
+        result = 31 * result + (packageLabel.hashCode())
+        result = 31 * result + versionName.hashCode()
         result = 31 * result + versionCode
         result = 31 * result + profileId
-        result = 31 * result + (sourceDir?.hashCode() ?: 0)
+        result = 31 * result + sourceDir.hashCode()
         result = 31 * result + splitSourceDirs.contentHashCode()
         result = 31 * result + isSystem.hashCode()
         result = 31 * result + backupDate.hashCode()
@@ -232,10 +236,10 @@ data class Backup @OptIn(kotlinx.serialization.ExperimentalSerializationApi::cla
         result = 31 * result + hasExternalData.hashCode()
         result = 31 * result + hasObbData.hashCode()
         result = 31 * result + hasMediaData.hashCode()
-        result = 31 * result + (compressionType?.hashCode() ?: 0)
-        result = 31 * result + (cipherType?.hashCode() ?: 0)
+        result = 31 * result + compressionType.hashCode()
+        result = 31 * result + cipherType.hashCode()
         result = 31 * result + (iv?.contentHashCode() ?: 0)
-        result = 31 * result + (cpuArch?.hashCode() ?: 0)
+        result = 31 * result + cpuArch.hashCode()
         result = 31 * result + isEncrypted.hashCode()
         result = 31 * result + permissions.hashCode()
         result = 31 * result + persistent.hashCode()
@@ -245,7 +249,7 @@ data class Backup @OptIn(kotlinx.serialization.ExperimentalSerializationApi::cla
         return result
     }
 
-    fun toSerialized() = NeoApp.toSerialized(NeoApp.propsSerializer, this)
+    fun toSerialized() = NeoApp.toSerialized(NeoApp.mainSerializer, this)
 
     class BrokenBackupException @JvmOverloads internal constructor(
         message: String?,
@@ -352,7 +356,7 @@ data class Backup @OptIn(kotlinx.serialization.ExperimentalSerializationApi::cla
                                 com.machiav3lli.backup.BuildConfig.MAJOR * 1000 +
                                         com.machiav3lli.backup.BuildConfig.MINOR
                             },\n" +
-                            "    \"packageName\": \"${"..." + if (why != null) "$why" else ""}\",\n" +
+                            "    \"packageName\": \"${"..." + (why ?: "")}\",\n" +
                             "    \"packageLabel\": \"? INVALID\",\n" +
                             "    \"versionName\": \"$packageNameFixed\",\n" +
                             "    \"versionCode\": 0,\n" +

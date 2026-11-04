@@ -45,13 +45,15 @@ import com.machiav3lli.backup.ui.compose.theme.ColorSpecial
 import com.machiav3lli.backup.ui.compose.theme.ColorSystem
 import com.machiav3lli.backup.ui.compose.theme.ColorUpdated
 import com.machiav3lli.backup.ui.compose.theme.ColorUser
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.toPersistentList
 
 data class AppStats(
     val nApps: Int,
     val nBackups: Int,
     val nUpdated: Int,
     val szApps: Long,
-    val szData: Long
+    val szData: Long,
 )
 
 fun getStats(appsList: List<Package>): AppStats {   //TODO hg42 we actually want the separate parts, need to find an api
@@ -84,7 +86,7 @@ fun List<AppExtras>.get(packageName: String) =
     find { it.packageName == packageName } ?: AppExtras(packageName)
 
 @Composable
-fun Package.infoChips(): List<InfoChipItem> = listOfNotNull(
+fun Package.infoChips(): PersistentList<InfoChipItem> = listOfNotNull(
     InfoChipItem(
         flag = CHIP_TYPE,
         text = stringResource(
@@ -138,4 +140,4 @@ fun Package.infoChips(): List<InfoChipItem> = listOfNotNull(
         flag = CHIP_SPLIT,
         text = stringResource(id = R.string.split_apks),
     ) else null
-)
+).toPersistentList()

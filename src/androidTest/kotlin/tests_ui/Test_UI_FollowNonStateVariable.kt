@@ -38,6 +38,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import timber.log.Timber
 import java.util.concurrent.ConcurrentLinkedQueue
+import kotlin.time.Duration.Companion.milliseconds
 
 //val queue1 = mutableStateListOf<String>()
 val queue1 = mutableListOf<String>()
@@ -50,7 +51,7 @@ val init = run {
     GlobalScope.launch {
         repeat(20) {
             counter += 1
-            delay(50)
+            delay(50.milliseconds)
             queue1.add("some added text $counter")
             queue2.add("some added text $counter")
         }
@@ -98,7 +99,7 @@ fun TerminalTextPreview() {
     LaunchedEffect(Unit) {
         launch {
             while (true) {
-                delay(100)
+                delay(100.milliseconds)
                 recompose++
             }
         }
@@ -131,7 +132,7 @@ fun TestPreview() {
     LaunchedEffect(Unit) {
         launch {
             while (true) {
-                delay(100)
+                delay(100.milliseconds)
                 recompose++
             }
         }

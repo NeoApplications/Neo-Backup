@@ -17,6 +17,7 @@
  */
 package com.machiav3lli.backup.data.dbs.entity
 
+import androidx.compose.runtime.Stable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
@@ -56,6 +57,7 @@ import java.io.IOException
     ]
 )
 @Serializable
+@Stable
 data class Schedule(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
@@ -225,10 +227,9 @@ data class Schedule(
         }
     }
 
-    fun toSerialized() = NeoApp.toSerialized(NeoApp.schedSerializer, this)
+    fun toSerialized() = NeoApp.toSerialized(NeoApp.mainSerializer, this)
 
     companion object {
-
         fun fromSerialized(serialized: String) = NeoApp.fromSerialized<Schedule>(serialized)
 
         @RenameColumn(

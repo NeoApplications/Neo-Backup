@@ -43,7 +43,9 @@ import androidx.compose.ui.unit.dp
 import com.machiav3lli.backup.ALT_MODE_APK
 import com.machiav3lli.backup.ALT_MODE_BOTH
 import com.machiav3lli.backup.ALT_MODE_DATA
+import com.machiav3lli.backup.NeoApp
 import com.machiav3lli.backup.R
+import com.machiav3lli.backup.data.entity.BooleanPref
 import com.machiav3lli.backup.data.entity.ColoringState
 import com.machiav3lli.backup.data.entity.Package
 import com.machiav3lli.backup.data.preferences.traceCompose
@@ -57,10 +59,15 @@ import com.machiav3lli.backup.ui.compose.icons.Phosphor
 import com.machiav3lli.backup.ui.compose.icons.phosphor.ArchiveTray
 import com.machiav3lli.backup.ui.compose.icons.phosphor.ClockCounterClockwise
 import com.machiav3lli.backup.ui.compose.icons.phosphor.DiamondsFour
+import com.machiav3lli.backup.ui.compose.icons.phosphor.FloppyDisk
 import com.machiav3lli.backup.ui.compose.icons.phosphor.FunnelSimple
+import com.machiav3lli.backup.ui.compose.icons.phosphor.GameController
 import com.machiav3lli.backup.ui.compose.icons.phosphor.HardDrives
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Nut
+import com.machiav3lli.backup.ui.compose.icons.phosphor.PlayCircle
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Prohibit
+import com.machiav3lli.backup.ui.compose.icons.phosphor.ProhibitInset
+import com.machiav3lli.backup.ui.compose.icons.phosphor.ShieldCheckered
 import com.machiav3lli.backup.ui.compose.theme.ColorAPK
 import com.machiav3lli.backup.ui.compose.theme.ColorData
 import com.machiav3lli.backup.ui.dialogs.BaseDialog
@@ -75,7 +82,7 @@ fun BatchPage(
     viewModel: BatchVM,
     backupBoolean: Boolean
 ) {
-    val main = LocalActivity.current as NeoActivity
+    val neoActivity = LocalActivity.current as NeoActivity
     val state by viewModel.state.collectAsState()
     val openBatchDialog = remember { mutableStateOf(false) }
     val openBlocklist = retain { mutableStateOf(false) }
@@ -130,7 +137,7 @@ fun BatchPage(
                         positive = true,
                         fullWidth = true,
                     ) {
-                        main.navigateSortFilterSheet(
+                        neoActivity.navigateSortFilterSheet(
                             if (backupBoolean) NavItem.Backup
                             else NavItem.Restore
                         )
@@ -149,57 +156,57 @@ fun BatchPage(
             ) {
                 Row(
                     modifier = Modifier.padding(8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    StateChip(
-                        icon = Phosphor.DiamondsFour,
-                        text = stringResource(id = R.string.all_apk),
-                        checked = allApkChecked,
-                        color = ColorAPK,
-                    ) {
-                        val checkBoolean = !allApkChecked
-                        when {
-                            checkBoolean -> state.filteredPackages
-                                .filter { (backupBoolean && !it.isSpecial) || it.latestBackup?.hasApk == true }
-                                .map(Package::packageName)
-                                .forEach {
-                                    viewModel.apkBackupCheckedList[it] = 0
-                                }
+                    Row {
+                        StateChip(
+                            icon = Phosphor.DiamondsFour,
+                            text = stringResource(id = R.string.all_apk),
+                            checked = allApkChecked,
+                            color = ColorAPK,
+                        ) { checkBoolean ->
+                            when {
+                                checkBoolean -> state.filteredPackages
+                                    .filter { (backupBoolean && !it.isSpecial) || it.latestBackup?.hasApk == true }
+                                    .map(Package::packageName)
+                                    .forEach {
+                                        viewModel.apkBackupCheckedList[it] = 0
+                                    }
 
-                            else         -> state.filteredPackages
-                                .filter { backupBoolean || it.latestBackup?.hasApk == true }
-                                .map(Package::packageName)
-                                .forEach {
-                                    viewModel.apkBackupCheckedList[it] = -1
-                                }
+                                else         -> state.filteredPackages
+                                    .filter { backupBoolean || it.latestBackup?.hasApk == true }
+                                    .map(Package::packageName)
+                                    .forEach {
+                                        viewModel.apkBackupCheckedList[it] = -1
+                                    }
+                            }
                         }
-                    }
-                    StateChip(
-                        icon = Phosphor.HardDrives,
-                        text = stringResource(id = R.string.all_data),
-                        checked = allDataChecked,
-                        color = ColorData,
-                    ) {
-                        val checkBoolean = !allDataChecked
-                        when {
-                            checkBoolean -> state.filteredPackages
-                                .filter { backupBoolean || it.latestBackup?.hasData == true }
-                                .map(Package::packageName)
-                                .forEach {
-                                    viewModel.dataBackupCheckedList[it] = 0
-                                }
+                        StateChip(
+                            icon = Phosphor.HardDrives,
+                            text = stringResource(id = R.string.all_data),
+                            checked = allDataChecked,
+                            color = ColorData,
+                        ) { checkBoolean ->
+                            when {
+                                checkBoolean -> state.filteredPackages
+                                    .filter { backupBoolean || it.latestBackup?.hasData == true }
+                                    .map(Package::packageName)
+                                    .forEach {
+                                        viewModel.dataBackupCheckedList[it] = 0
+                                    }
 
-                            else         -> state.filteredPackages
-                                .filter { backupBoolean || it.latestBackup?.hasData == true }
-                                .map(Package::packageName)
-                                .forEach {
-                                    viewModel.dataBackupCheckedList[it] = -1
-                                }
+                                else         -> state.filteredPackages
+                                    .filter { backupBoolean || it.latestBackup?.hasData == true }
+                                    .map(Package::packageName)
+                                    .forEach {
+                                        viewModel.dataBackupCheckedList[it] = -1
+                                    }
+                            }
                         }
                     }
                     RoundButton(icon = Phosphor.Nut) {
-                        main.navigateBatchPrefsSheet(backupBoolean)
+                        neoActivity.navigateBatchPrefsSheet(backupBoolean)
                     }
                     ActionButton(
                         text = stringResource(id = if (backupBoolean) R.string.backup else R.string.restore),
@@ -274,12 +281,12 @@ fun BatchPage(
                 selectedData = selectedData,
                 onDismiss = { openBatchDialog.value = false },
             ) {
-                if (pref_singularBackupRestore.value && !backupBoolean) main.startBatchRestoreAction(
+                if (pref_singularBackupRestore.value && !backupBoolean) neoActivity.startBatchRestoreAction(
                     selectedPackageNames = selectedPackageNames,
                     selectedApk = selectedApk,
                     selectedData = selectedData,
                 )
-                else main.startBatchAction(
+                else neoActivity.startBatchAction(
                     backupBoolean,
                     selectedPackageNames = selectedPackageNames,
                     selectedModes = selectedPackageNames.map { pn ->
@@ -296,3 +303,102 @@ fun BatchPage(
         }
     }
 }
+
+val pref_backupDeviceProtectedData = BooleanPref(
+    key = "srv-bkp.backupDeviceProtectedData",
+    titleId = R.string.prefs_deviceprotecteddata,
+    summaryId = R.string.prefs_deviceprotecteddata_summary,
+    icon = Phosphor.ShieldCheckered,
+    defaultValue = true
+)
+
+val pref_backupExternalData = BooleanPref(
+    key = "srv-bkp.backupExternalData",
+    titleId = R.string.prefs_externaldata,
+    summaryId = R.string.prefs_externaldata_summary,
+    icon = Phosphor.FloppyDisk,
+    defaultValue = true
+)
+
+val pref_backupObbData = BooleanPref(
+    key = "srv-bkp.backupObbData",
+    titleId = R.string.prefs_obbdata,
+    summaryId = R.string.prefs_obbdata_summary,
+    icon = Phosphor.GameController,
+    defaultValue = true
+)
+
+val pref_backupMediaData = BooleanPref(
+    key = "srv-bkp.backupMediaData",
+    titleId = R.string.prefs_mediadata,
+    summaryId = R.string.prefs_mediadata_summary,
+    icon = Phosphor.PlayCircle,
+    defaultValue = true
+)
+
+val pref_backupNoBackupData = BooleanPref(
+    key = "srv-bkp.backupNoBackupData",
+    titleId = R.string.prefs_nobackupdata,
+    summaryId = R.string.prefs_nobackupdata_summary,
+    icon = Phosphor.ProhibitInset,
+    defaultValue = false,
+    onChanged = { NeoApp.assets.updateExcludeFiles() },
+)
+
+val pref_backupCache = BooleanPref(
+    key = "srv-bkp.backupCache",
+    titleId = R.string.prefs_backupcache,
+    summaryId = R.string.prefs_backupcache_summary,
+    icon = Phosphor.Prohibit,
+    defaultValue = false
+)
+
+
+val pref_restoreDeviceProtectedData = BooleanPref(
+    key = "srv-rst.restoreDeviceProtectedData",
+    titleId = R.string.prefs_deviceprotecteddata_rst,
+    summaryId = R.string.prefs_deviceprotecteddata_rst_summary,
+    icon = Phosphor.ShieldCheckered,
+    defaultValue = true
+)
+
+val pref_restoreExternalData = BooleanPref(
+    key = "srv-rst.restoreExternalData",
+    titleId = R.string.prefs_externaldata_rst,
+    summaryId = R.string.prefs_externaldata_rst_summary,
+    icon = Phosphor.FloppyDisk,
+    defaultValue = true
+)
+
+val pref_restoreObbData = BooleanPref(
+    key = "srv-rst.restoreObbData",
+    titleId = R.string.prefs_obbdata_rst,
+    summaryId = R.string.prefs_obbdata_rst_summary,
+    icon = Phosphor.GameController,
+    defaultValue = true
+)
+
+val pref_restoreMediaData = BooleanPref(
+    key = "srv-rst.restoreMediaData",
+    titleId = R.string.prefs_mediadata_rst,
+    summaryId = R.string.prefs_mediadata_rst_summary,
+    icon = Phosphor.PlayCircle,
+    defaultValue = true
+)
+
+val pref_restoreNoBackupData = BooleanPref(
+    key = "srv-rst.restoreNoBackupData",
+    titleId = R.string.prefs_nobackupdata_rst,
+    summaryId = R.string.prefs_nobackupdata_rst_summary,
+    icon = Phosphor.ProhibitInset,
+    defaultValue = false,
+    onChanged = { NeoApp.assets.updateExcludeFiles() },
+)
+
+val pref_restoreCache = BooleanPref(
+    key = "srv-rst.restoreCache",
+    titleId = R.string.prefs_restorecache,
+    summaryId = R.string.prefs_restorecache_summary,
+    icon = Phosphor.Prohibit,
+    defaultValue = false
+)

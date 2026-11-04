@@ -56,6 +56,7 @@ import timber.log.Timber
 import java.time.LocalTime
 import java.util.concurrent.TimeUnit
 import kotlin.math.max
+import kotlin.time.Duration.Companion.milliseconds
 
 fun calcRuntimeDiff(schedule: Schedule): Pair<Long, Long> {
     val now = Calendar.getInstance()
@@ -110,7 +111,7 @@ fun calcRuntimeDiff(schedule: Schedule): Pair<Long, Long> {
 }
 
 const val updateInterval = 1_000L
-val useSeconds = updateInterval < 60_000
+const val useSeconds = updateInterval < 60_000
 
 fun calcTimeLeft(schedule: Schedule): Pair<String, String> {
     var absTime = ""
@@ -139,7 +140,7 @@ fun calcTimeLeft(schedule: Schedule): Pair<String, String> {
 fun Schedule.timeLeft(): StateFlow<Pair<String, String>> = flow {
     while (true) {
         if (this@timeLeft.enabled) emit(calcTimeLeft(this@timeLeft))
-        delay(updateInterval)
+        delay(updateInterval.milliseconds)
     }
 }
     .stateIn(
@@ -195,7 +196,7 @@ suspend fun scheduleNextAlarm(context: Context, scheduleId: Long, rescheduleBool
                         scheduleRepo.update(schedule)
                         val message = "timeLeft < 1 min -> set schedule $schedule"
                         traceSchedule { "[${schedule.id}] **************************************** $message" }
-                        if (NeoApp.isDebug || NeoApp.isHg42 || pref_autoLogSuspicious.value)
+                        if (!NeoApp.isRelease || pref_autoLogSuspicious.value)
                             textLog(
                                 listOf(
                                     message,

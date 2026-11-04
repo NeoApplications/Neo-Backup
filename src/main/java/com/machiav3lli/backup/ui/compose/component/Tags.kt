@@ -15,9 +15,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Badge
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.InputChip
 import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.MaterialTheme
@@ -55,7 +55,6 @@ import com.machiav3lli.backup.ui.compose.icons.phosphor.X
 import com.machiav3lli.backup.ui.compose.icons.phosphor.XCircle
 import java.time.LocalDateTime
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TagsBlock(
     modifier: Modifier = Modifier,
@@ -171,9 +170,10 @@ fun AddTagView(
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        IconButton(onClick = {
-            onCancel()
-        }) {
+        IconButton(
+            shapes = IconButtonDefaults.shapes(),
+            onClick = { onCancel() },
+        ) {
             Icon(
                 imageVector = Phosphor.X,
                 contentDescription = stringResource(id = R.string.dialogCancel)
@@ -198,11 +198,14 @@ fun AddTagView(
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
         )
-        IconButton(onClick = {
-            onAdd(tagName)
-            textFieldValue = TextFieldValue("", TextRange(0))
-            tagName = ""
-        }) {
+        IconButton(
+            shapes = IconButtonDefaults.shapes(),
+            onClick = {
+                onAdd(tagName)
+                textFieldValue = TextFieldValue("", TextRange(0))
+                tagName = ""
+            },
+        ) {
             Icon(
                 imageVector = Phosphor.PlusCircle,
                 contentDescription = stringResource(id = R.string.add_tag)

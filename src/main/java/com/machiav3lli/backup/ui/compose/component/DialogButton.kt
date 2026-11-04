@@ -22,7 +22,7 @@ fun DialogPositiveButton(
     onClick: () -> Unit = {},
 ) {
     TextButton(
-        shape = MaterialTheme.shapes.large,
+        shapes = ButtonDefaults.shapes(MaterialTheme.shapes.large),
         onClick = onClick,
         modifier = modifier,
         colors =
@@ -47,7 +47,7 @@ fun DialogPositiveButton(
     onClick: () -> Unit = {},
 ) {
     ElevatedButton(
-        shape = MaterialTheme.shapes.large,
+        shapes = ButtonDefaults.shapes(MaterialTheme.shapes.large),
         onClick = onClick,
         modifier = modifier,
         colors =
@@ -77,7 +77,7 @@ fun DialogNegativeButton(
     onClick: () -> Unit = {},
 ) {
     TextButton(
-        shape = MaterialTheme.shapes.large,
+        shapes = ButtonDefaults.shapes(MaterialTheme.shapes.large),
         onClick = onClick,
         modifier = modifier,
     ) {

@@ -85,6 +85,7 @@ import com.machiav3lli.backup.utils.altModeToMode
 import com.machiav3lli.backup.utils.extensions.IconCache
 import com.machiav3lli.backup.utils.extensions.koinNeoViewModel
 import com.machiav3lli.backup.viewmodels.HomeVM
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
@@ -153,11 +154,9 @@ fun HomePage(
 
     // prefetch icons
     if (mainState.filteredPackages.size > IconCache.size) {    // includes empty cache and empty filteredList
-        //beginNanoTimer("prefetchIcons")
         mainState.filteredPackages.forEach { pkg ->
             cachedAsyncImagePainter(model = pkg.iconData)
         }
-        //endNanoTimer("prefetchIcons")
     }
 
     BackHandler {
@@ -311,7 +310,7 @@ fun HomePage(
                                 productsList = mainState.filteredPackages,
                                 selection = mainState.selection,
                                 blocklist = mainState.blocklist,
-                                schedules = schedules,
+                                schedules = schedules.toPersistentList(),
                                 toggleSelection = viewModel::toggleSelection,
                                 onUpdateBlocklist = viewModel::updateBlocklist,
                                 onUpdateSchedule = viewModel::updateSchedule,

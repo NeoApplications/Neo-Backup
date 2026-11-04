@@ -32,6 +32,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import kotlin.time.Duration.Companion.seconds
 
 // TODO make main way of refresh & handle new installed and backup list
 class PackageUnInstalledReceiver : BroadcastReceiver(), KoinComponent {
@@ -73,7 +74,7 @@ class PackageUnInstalledReceiver : BroadcastReceiver(), KoinComponent {
                     }
 
                     if (pref_autoLogUnInstallBroadcast.value) {
-                        delay(60_0000)
+                        delay(60.seconds)
                         supportLog("PackageUnInstalledReceiver")
                     }
                 } catch (e: Throwable) {

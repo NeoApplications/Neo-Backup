@@ -7,15 +7,12 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.scene.Scene
 
-
-@OptIn(ExperimentalMaterial3Api::class)
-class ListDetailScene<T : Any>(
+internal data class ListDetailScene<T : Any>(
     override val key: Any,
     override val previousEntries: List<NavEntry<T>>,
     val listEntry: NavEntry<T>,

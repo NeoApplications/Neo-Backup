@@ -7,7 +7,6 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -41,7 +40,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -82,6 +80,7 @@ fun ActionButton(
                 else                   -> MaterialTheme.colorScheme.secondaryContainer
             }
         ),
+        shapes = ButtonDefaults.shapes(MaterialTheme.shapes.extraExtraLarge),
         enabled = enabled,
         onClick = onClick,
     ) {
@@ -113,6 +112,7 @@ fun OutlinedActionButton(
                 else                   -> MaterialTheme.colorScheme.onSurface
             },
         ),
+        shapes = ButtonDefaults.shapes(MaterialTheme.shapes.extraExtraLarge),
         border = BorderStroke(
             width = 1.dp,
             color = when (coloring) {
@@ -134,7 +134,6 @@ fun OutlinedActionButton(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CardButton(
     modifier: Modifier = Modifier,
@@ -145,12 +144,11 @@ fun CardButton(
     onClick: () -> Unit,
 ) {
     ListItem(
-        modifier = modifier
-            .clip(MaterialTheme.shapes.extraLarge)
-            .clickable(
-                onClick = onClick,
-                enabled = enabled,
-            ),
+        modifier = modifier,
+        onClick = onClick,
+        enabled = enabled,
+        shapes = ListItemDefaults.shapes(MaterialTheme.shapes.extraLarge),
+        verticalAlignment = Alignment.CenterVertically,
         colors = ListItemDefaults.colors(
             leadingIconColor = when (coloring) {
                 ColoringState.Positive -> MaterialTheme.colorScheme.onPrimaryContainer
@@ -171,7 +169,7 @@ fun CardButton(
         leadingContent = {
             Icon(imageVector = icon, contentDescription = description)
         },
-        headlineContent = {
+        content = {
             Text(
                 text = description,
                 overflow = TextOverflow.Ellipsis,
@@ -211,7 +209,7 @@ fun IconTextButton(
                     containerColor = containerColor,
                     contentColor = contentColor,
                 ),
-                shape = MaterialTheme.shapes.extraLarge,
+                shapes = IconButtonDefaults.shapes(MaterialTheme.shapes.extraLarge),
                 enabled = enabled,
                 onClick = onClick
             ) {
@@ -263,7 +261,7 @@ fun OutlinedIconTextButton(
                     width = 1.dp,
                     color = containerColor,
                 ),
-                shape = MaterialTheme.shapes.extraLarge,
+                shapes = IconButtonDefaults.shapes(MaterialTheme.shapes.extraLarge),
                 enabled = enabled,
                 onClick = onClick
             ) {
@@ -299,7 +297,7 @@ fun RoundButton(
         colors = if (filled) IconButtonDefaults.filledIconButtonColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
         ) else IconButtonDefaults.iconButtonColors(),
-        shape = CircleShape,
+        shapes = IconButtonDefaults.shapes(CircleShape),
         onClick = onClick
     ) {
         Icon(
@@ -327,6 +325,7 @@ fun FilledRoundButton(
             containerColor = tint,
             contentColor = onTint,
         ),
+        shapes = IconButtonDefaults.shapes(),
         onClick = onClick,
     ) {
         Icon(
@@ -340,7 +339,6 @@ fun FilledRoundButton(
 @Composable
 fun RefreshButton(
     modifier: Modifier = Modifier,
-    tint: Color = MaterialTheme.colorScheme.onSurface,
     hideIfNotBusy: Boolean = false,
     onClick: () -> Unit = {},
 ) {

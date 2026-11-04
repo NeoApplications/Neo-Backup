@@ -37,14 +37,9 @@ import com.machiav3lli.backup.ui.compose.component.StringPreference
 import com.machiav3lli.backup.ui.compose.icons.Phosphor
 import com.machiav3lli.backup.ui.compose.icons.phosphor.FileZip
 import com.machiav3lli.backup.ui.compose.icons.phosphor.FloppyDisk
-import com.machiav3lli.backup.ui.compose.icons.phosphor.GameController
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Hash
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Key
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Password
-import com.machiav3lli.backup.ui.compose.icons.phosphor.PlayCircle
-import com.machiav3lli.backup.ui.compose.icons.phosphor.Prohibit
-import com.machiav3lli.backup.ui.compose.icons.phosphor.ProhibitInset
-import com.machiav3lli.backup.ui.compose.icons.phosphor.ShieldCheckered
 import com.machiav3lli.backup.ui.compose.icons.phosphor.ShieldStar
 import com.machiav3lli.backup.ui.compose.icons.phosphor.TagSimple
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Textbox
@@ -211,105 +206,6 @@ val pref_pgpPasscode = PasswordPref(
     icon = Phosphor.Password,
     enableIf = { pref_encryption_mode.value == ENCRYPTION.PGP.ordinal },
     defaultValue = "",
-)
-
-
-val pref_backupDeviceProtectedData = BooleanPref(
-    key = "srv-bkp.backupDeviceProtectedData",
-    titleId = R.string.prefs_deviceprotecteddata,
-    summaryId = R.string.prefs_deviceprotecteddata_summary,
-    icon = Phosphor.ShieldCheckered,
-    defaultValue = true
-)
-
-val pref_backupExternalData = BooleanPref(
-    key = "srv-bkp.backupExternalData",
-    titleId = R.string.prefs_externaldata,
-    summaryId = R.string.prefs_externaldata_summary,
-    icon = Phosphor.FloppyDisk,
-    defaultValue = true
-)
-
-val pref_backupObbData = BooleanPref(
-    key = "srv-bkp.backupObbData",
-    titleId = R.string.prefs_obbdata,
-    summaryId = R.string.prefs_obbdata_summary,
-    icon = Phosphor.GameController,
-    defaultValue = true
-)
-
-val pref_backupMediaData = BooleanPref(
-    key = "srv-bkp.backupMediaData",
-    titleId = R.string.prefs_mediadata,
-    summaryId = R.string.prefs_mediadata_summary,
-    icon = Phosphor.PlayCircle,
-    defaultValue = true
-)
-
-val pref_backupNoBackupData = BooleanPref(
-    key = "srv-bkp.backupNoBackupData",
-    titleId = R.string.prefs_nobackupdata,
-    summaryId = R.string.prefs_nobackupdata_summary,
-    icon = Phosphor.ProhibitInset,
-    defaultValue = false,
-    onChanged = { NeoApp.assets.updateExcludeFiles() },
-)
-
-val pref_backupCache = BooleanPref(
-    key = "srv-bkp.backupCache",
-    titleId = R.string.prefs_backupcache,
-    summaryId = R.string.prefs_backupcache_summary,
-    icon = Phosphor.Prohibit,
-    defaultValue = false
-)
-
-val pref_restoreDeviceProtectedData = BooleanPref(
-    key = "srv-rst.restoreDeviceProtectedData",
-    titleId = R.string.prefs_deviceprotecteddata_rst,
-    summaryId = R.string.prefs_deviceprotecteddata_rst_summary,
-    icon = Phosphor.ShieldCheckered,
-    defaultValue = true
-)
-
-val pref_restoreExternalData = BooleanPref(
-    key = "srv-rst.restoreExternalData",
-    titleId = R.string.prefs_externaldata_rst,
-    summaryId = R.string.prefs_externaldata_rst_summary,
-    icon = Phosphor.FloppyDisk,
-    defaultValue = true
-)
-
-val pref_restoreObbData = BooleanPref(
-    key = "srv-rst.restoreObbData",
-    titleId = R.string.prefs_obbdata_rst,
-    summaryId = R.string.prefs_obbdata_rst_summary,
-    icon = Phosphor.GameController,
-    defaultValue = true
-)
-
-val pref_restoreMediaData = BooleanPref(
-    key = "srv-rst.restoreMediaData",
-    titleId = R.string.prefs_mediadata_rst,
-    summaryId = R.string.prefs_mediadata_rst_summary,
-    icon = Phosphor.PlayCircle,
-    defaultValue = true
-)
-
-val pref_restoreNoBackupData = BooleanPref(
-    key = "srv-rst.restoreNoBackupData",
-    titleId = R.string.prefs_nobackupdata_rst,
-    summaryId = R.string.prefs_nobackupdata_rst_summary,
-    icon = Phosphor.ProhibitInset,
-    defaultValue = false,
-    onChanged = { NeoApp.assets.updateExcludeFiles() },
-)
-
-val pref_restoreCache = BooleanPref(
-    key = "srv-rst.restoreCache",
-    titleId = R.string.prefs_restorecache,
-    summaryId = R.string.prefs_restorecache_summary,
-    icon = Phosphor.Prohibit,
-    defaultValue = false
 )
 
 val pref_restorePermissions = BooleanPref(

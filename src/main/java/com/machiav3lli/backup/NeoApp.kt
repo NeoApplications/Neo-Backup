@@ -62,10 +62,6 @@ import com.machiav3lli.backup.ui.activities.NeoActivity
 import com.machiav3lli.backup.ui.activities.viewModelsModule
 import com.machiav3lli.backup.ui.pages.pref_busyHitTime
 import com.machiav3lli.backup.ui.pages.pref_cancelOnStart
-import com.machiav3lli.backup.ui.pages.pref_prettyJson
-import com.machiav3lli.backup.ui.pages.pref_useYamlPreferences
-import com.machiav3lli.backup.ui.pages.pref_useYamlProperties
-import com.machiav3lli.backup.ui.pages.pref_useYamlSchedules
 import com.machiav3lli.backup.utils.FileUtils.BackupLocationInAccessibleException
 import com.machiav3lli.backup.utils.ISO_DATE_TIME_FORMAT_MS
 import com.machiav3lli.backup.utils.StorageLocationNotConfiguredException
@@ -107,6 +103,7 @@ import java.lang.ref.WeakReference
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.system.exitProcess
+import kotlin.time.Duration.Companion.milliseconds
 
 val RESCUE_NAV get() = "rescue"
 
@@ -219,74 +216,20 @@ class NeoApp : Application(), KoinStartup {
     }
 
     companion object {
-
         @ExperimentalSerializationApi
-        val serMod = SerializersModule {
-            //contextual(Boolean.serializer())
-            //contextual(Int.serializer())
-            //contextual(String.serializer())
-            //polymorphic(Any::class) {
-            //    subclass(Boolean.serializer())
-            //    subclass(Int.serializer())
-            //    subclass(String.serializer())
-            //}
-            //polymorphic(Any::class) {
-            //    subclass(Boolean::class)
-            //    subclass(Int::class)
-            //    subclass(String::class)
-            //}
-            //polymorphic(Any::class) {
-            //    subclass(Boolean::class, Boolean.serializer())
-            //    subclass(Int::class, Int.serializer())
-            //    subclass(String::class, String.serializer())
-            //}
-            //polymorphic(Any::class, Boolean::class, Boolean.serializer())
-            //polymorphic(Any::class, Int::class, Int.serializer())
-            //polymorphic(Any::class, String::class, String.serializer())
-        }
-
-        // create alternatives here and switch when used to allow dynamic prefs
-        @OptIn(ExperimentalSerializationApi::class)
-        val JsonDefault = Json {
-            serializersModule = serMod
-        }
+        val serMod = SerializersModule { }
 
         @OptIn(ExperimentalSerializationApi::class)
         val JsonPretty = Json {
             serializersModule = serMod
+            ignoreUnknownKeys = true
             prettyPrint = true
         }
 
         @OptIn(ExperimentalSerializationApi::class)
         val YamlDefault = Yaml(serMod)
 
-        private val propsSerializerDef: Pair<String, StringFormat>
-            get() =
-                when {
-                    pref_useYamlProperties.value -> "yaml" to YamlDefault
-                    pref_prettyJson.value        -> "json" to JsonPretty
-                    else                         -> "json" to JsonDefault
-                }
-        val propsSerializer: StringFormat get() = propsSerializerDef.second
-        private val propsSerializerSuffix: String get() = propsSerializerDef.first
-
-        private val prefsSerializerDef: Pair<String, StringFormat>
-            get() =
-                when {
-                    pref_useYamlPreferences.value -> "yaml" to YamlDefault
-                    else                          -> "json" to JsonPretty
-                }
-        private val prefsSerializer: StringFormat get() = prefsSerializerDef.second
-        private val prefsSerializerSuffix: String get() = prefsSerializerDef.first
-
-        private val schedSerializerDef: Pair<String, StringFormat>
-            get() =
-                when {
-                    pref_useYamlSchedules.value -> "yaml" to YamlDefault
-                    else                        -> "json" to JsonPretty
-                }
-        val schedSerializer: StringFormat get() = schedSerializerDef.second
-        private val schedSerializerSuffix: String get() = schedSerializerDef.first
+        val mainSerializer: StringFormat get() = JsonPretty
 
         inline fun <reified T> toSerialized(serializer: StringFormat, value: T) =
             serializer.encodeToString(value)
@@ -294,7 +237,7 @@ class NeoApp : Application(), KoinStartup {
         inline fun <reified T> fromSerialized(serialized: String): T {
             traceSerialize { "serialized: <-- $serialized" }
             val props: T = try {
-                JsonDefault.decodeFromString(serialized)
+                JsonPretty.decodeFromString(serialized)
             } catch (_: Throwable) {
                 YamlDefault.decodeFromString(serialized)
             }
@@ -406,7 +349,6 @@ class NeoApp : Application(), KoinStartup {
         }
 
         var startup = true
-        const val startupMsg = "******************** startup" // ensure it's the same for begin/end
 
         // app should always be created
         var refNB: WeakReference<NeoApp> = WeakReference(null)
@@ -502,9 +444,6 @@ class NeoApp : Application(), KoinStartup {
         }
 
         val isRelease get() = SystemUtils.packageName.endsWith(".backup")
-        val isDebug get() = SystemUtils.packageName.contains("debug")
-        val isNeo get() = SystemUtils.packageName.contains("neo")
-        val isHg42 get() = SystemUtils.packageName.contains("hg42")
 
         //------------------------------------------------------------------------------------------ backupRoot
 
@@ -531,7 +470,7 @@ class NeoApp : Application(), KoinStartup {
 
         var infoLogLines = mutableStateListOf<String>()
 
-        const val nInfoLogLines = 100
+        const val NUM_INFO_LOG_LINES = 100
         var showInfoLog by mutableStateOf(false)
 
         fun clearInfoLogText() {
@@ -543,12 +482,12 @@ class NeoApp : Application(), KoinStartup {
         fun addInfoLogText(value: String) {
             synchronized(infoLogLines) {
                 infoLogLines.add(value)
-                if (infoLogLines.size > nInfoLogLines)
+                if (infoLogLines.size > NUM_INFO_LOG_LINES)
                     infoLogLines.drop(1)
             }
         }
 
-        fun getInfoLogText(n: Int = nInfoLogLines, fill: String? = null): String {
+        fun getInfoLogText(n: Int = NUM_INFO_LOG_LINES, fill: String? = null): String {
             synchronized(infoLogLines) {
                 val lines = infoLogLines.takeLast(n).toMutableList()
                 if (fill != null)
@@ -624,9 +563,9 @@ class NeoApp : Application(), KoinStartup {
 
         //------------------------------------------------------------------------------------------ busy
 
+        const val BUSY_TICK = 250
         var busyCountDownAtomic = AtomicInteger(0)
         var busyLevelAtomic = AtomicInteger(0)
-        val busyTick = 250
         var busy = mutableStateOf(false)
         var busyLevel = mutableIntStateOf(0)
         var busyCountDown = mutableIntStateOf(0)
@@ -634,7 +573,7 @@ class NeoApp : Application(), KoinStartup {
         init {
             CoroutineScope(Dispatchers.IO).launch {
                 while (true) {
-                    delay(busyTick.toLong())
+                    delay(BUSY_TICK.milliseconds)
                     busyCountDownAtomic.getAndUpdate {
                         if (it > 0) {
                             val next = it - 1
@@ -657,7 +596,7 @@ class NeoApp : Application(), KoinStartup {
 
         fun hitBusy(time: Int = pref_busyHitTime.value) {
             busyCountDownAtomic.set(
-                time / busyTick
+                time / BUSY_TICK
             )
         }
 

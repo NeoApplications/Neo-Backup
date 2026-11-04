@@ -12,9 +12,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,12 +34,12 @@ fun ExportedScheduleItem(
 ) {
     ListItem(
         modifier = Modifier
-            .fillMaxWidth()
-            .clip(MaterialTheme.shapes.large),
+            .fillMaxWidth(),
+        shapes = ListItemDefaults.shapes(MaterialTheme.shapes.large),
         colors = ListItemDefaults.colors(
             containerColor = Color.Transparent,
         ),
-        headlineContent = {
+        content = {
             Row(
                 modifier = Modifier.fillMaxWidth(),
             ) {
@@ -65,7 +64,7 @@ fun ExportedScheduleItem(
                 ) {
                     var setTime = LocalTime.of(item.timeHour, item.timeMinute).toString()
                     setTime += " ${
-                        LocalContext.current.resources
+                        LocalResources.current
                             .getQuantityString(
                                 R.plurals.sched_interval_formal,
                                 item.interval,

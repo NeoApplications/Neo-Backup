@@ -198,7 +198,7 @@ class NeoActivity : BaseActivity() {
         if (!ShellHandler.checkRootEquivalent()) {
             setContent {
                 AppTheme {
-                    RootMissing(this)
+                    RootMissing(this::finishAffinity)
                 }
             }
             return

@@ -22,7 +22,6 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import android.os.PowerManager
 import android.provider.Settings
@@ -45,6 +44,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -308,7 +308,7 @@ fun OnboardingPermsPage(
                     primaryText = stringResource(R.string.dialog_approve),
                     primaryAction = {
                         val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
-                        intent.data = Uri.parse("package:$packageName")
+                        intent.data = "package:$packageName".toUri()
                         try {
                             mainActivity.startActivity(intent)
                             persist_ignoreBatteryOptimization.value =

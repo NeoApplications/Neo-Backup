@@ -1,7 +1,6 @@
 package com.machiav3lli.backup.ui.pages
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
@@ -76,7 +75,7 @@ fun SplashPage() {
                 text = listOf(
                     SystemUtils.packageName,
                     SystemUtils.versionName,
-                    context.applicationIssuer?.let { "signed by $it" } ?: "",
+                    "signed by ${context.applicationIssuer}",
                 ).joinToString("\n"),
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurface
@@ -88,7 +87,7 @@ fun SplashPage() {
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun RootMissing(activity: Activity? = null) {
+fun RootMissing(finishAffinity: () -> Unit = {}) {
     val context = LocalContext.current
 
     Scaffold(
@@ -124,7 +123,7 @@ fun RootMissing(activity: Activity? = null) {
                 modifier = Modifier.fillMaxWidth(1f),
                 coloring = ColoringState.Negative,
             ) {
-                activity?.finishAffinity()
+                finishAffinity()
                 exitProcess(0)
             }
             OutlinedActionButton(

@@ -93,6 +93,7 @@ fun SortFilterSheet(
     viewModel: MainVM,
     onDismiss: () -> Unit,
 ) {
+    val context = LocalContext.current
     val nestedScrollConnection = rememberNestedScrollInteropConnection()
     val state by viewModel.state.collectAsState()
     val tagsMap by viewModel.tagsMap.collectAsState()
@@ -117,10 +118,11 @@ fun SortFilterSheet(
                 verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically)
             ) {
                 ListItem(
+                    shapes = ListItemDefaults.shapes(),
                     colors = ListItemDefaults.colors(
                         containerColor = Color.Transparent,
                     ),
-                    headlineContent = {
+                    content = {
                         LazyVerticalGrid(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -152,20 +154,14 @@ fun SortFilterSheet(
                             }
                             item(key = R.string.stats_app_size, span = { GridItemSpan(3) }) {
                                 DoubleVerticalText(
-                                    upperText = Formatter.formatFileSize(
-                                        LocalContext.current,
-                                        stats.szApps ?: 0
-                                    ),
+                                    upperText = Formatter.formatFileSize(context, stats.szApps),
                                     bottomText = stringResource(id = R.string.stats_app_size),
                                     modifier = Modifier.weight(1f)
                                 )
                             }
                             item(key = R.string.stats_data_size, span = { GridItemSpan(3) }) {
                                 DoubleVerticalText(
-                                    upperText = Formatter.formatFileSize(
-                                        LocalContext.current,
-                                        stats.szData ?: 0
-                                    ),
+                                    upperText = Formatter.formatFileSize(context, stats.szData),
                                     bottomText = stringResource(id = R.string.stats_data_size),
                                     modifier = Modifier.weight(1f)
                                 )

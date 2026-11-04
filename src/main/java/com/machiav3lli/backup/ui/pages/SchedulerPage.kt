@@ -18,7 +18,6 @@
 package com.machiav3lli.backup.ui.pages
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
@@ -126,7 +125,7 @@ fun SchedulerPage(viewModel: SchedulesVM = koinNeoViewModel()) {
             }
         },
         detailPane = {
-            scheduleSheetId.value = paneNavigator.currentDestination
+            scheduleSheetId.longValue = paneNavigator.currentDestination
                 ?.takeIf { it.pane == this.paneRole }?.contentKey
                 .toString().toLongOrDefault(-1L)
 

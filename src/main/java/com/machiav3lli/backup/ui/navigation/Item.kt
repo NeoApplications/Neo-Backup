@@ -3,17 +3,14 @@ package com.machiav3lli.backup.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation3.runtime.NavKey
-import com.machiav3lli.backup.NeoApp
 import com.machiav3lli.backup.R
 import com.machiav3lli.backup.ui.compose.icons.Phosphor
 import com.machiav3lli.backup.ui.compose.icons.phosphor.ArchiveTray
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Bug
 import com.machiav3lli.backup.ui.compose.icons.phosphor.CalendarX
 import com.machiav3lli.backup.ui.compose.icons.phosphor.ClockCounterClockwise
-import com.machiav3lli.backup.ui.compose.icons.phosphor.Detective
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Flask
 import com.machiav3lli.backup.ui.compose.icons.phosphor.House
-import com.machiav3lli.backup.ui.compose.icons.phosphor.Infinity
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Key
 import com.machiav3lli.backup.ui.compose.icons.phosphor.SlidersHorizontal
 import com.machiav3lli.backup.ui.compose.icons.phosphor.UserGear
@@ -37,17 +34,9 @@ sealed class NavItem(
     val content: @Composable () -> Unit = {}
 ) {
     data object Home :
-        NavItem(
-            R.string.home,
-            when {
-                NeoApp.isNeo -> Phosphor.Infinity
-                NeoApp.isDebug -> Phosphor.Bug
-                NeoApp.isHg42 -> Phosphor.Detective
-                else -> Phosphor.House
-            },
-            "home",
-            { HomePage() }
-        )
+        NavItem(R.string.home, Phosphor.House, "home", {
+            HomePage()
+        })
 
     data object Backup :
         NavItem(R.string.backup, Phosphor.ArchiveTray, "batch_backup", {

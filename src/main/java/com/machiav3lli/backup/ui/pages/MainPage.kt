@@ -42,6 +42,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.retain.retain
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -196,13 +197,15 @@ fun MainPage(
                                 colors = ListItemDefaults.colors(
                                     containerColor = Color.Transparent,
                                 ),
+                                shapes = ListItemDefaults.shapes(),
+                                verticalAlignment = Alignment.CenterVertically,
                                 leadingContent = {
                                     Icon(
                                         imageVector = Phosphor.CircleWavyWarning,
                                         contentDescription = stringResource(R.string.keep_android_open),
                                     )
                                 },
-                                headlineContent = {
+                                content = {
                                     Text(
                                         text = stringResource(R.string.keep_android_open_notice),
                                         style = MaterialTheme.typography.bodyMedium,

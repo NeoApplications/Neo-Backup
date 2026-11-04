@@ -22,6 +22,7 @@ import com.machiav3lli.backup.ui.compose.component.ListPreference
 import com.machiav3lli.backup.ui.compose.component.PasswordPreference
 import com.machiav3lli.backup.ui.compose.component.StringEditPreference
 import com.machiav3lli.backup.ui.compose.component.StringPreference
+import com.machiav3lli.backup.ui.compose.component.SuCommandPreference
 import com.machiav3lli.backup.ui.pages.publicPreferences
 import com.machiav3lli.backup.utils.getDefaultSharedPreferences
 import com.machiav3lli.backup.utils.getPrivateSharedPrefs
@@ -29,6 +30,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 
 // hg42:
 
@@ -109,7 +111,7 @@ open class Pref(
                 pref.onChanged?.let { onChanged ->
                     CoroutineScope(Dispatchers.Main).launch {
                         while (prefTransactionRunning > 0)
-                            delay(500)
+                            delay(500.milliseconds)
                         tracePrefs { "pref changed: ${pref.dirty} ${pref.key} -> ${pref}" }
                         onChanged(pref)
                         //delay(200)
@@ -545,6 +547,34 @@ class ListPref(
     onChanged = onChanged
 )
 
+class SuCommandPref(
+    key: String,
+    private: Boolean = true,
+    defaultValue: String,
+    @StringRes titleId: Int = -1,
+    @StringRes summaryId: Int = -1,
+    summary: String? = null,
+    UI: PrefUI? = null,
+    icon: ImageVector? = null,
+    iconTint: ((Pref) -> Color)? = null,
+    enableIf: (() -> Boolean)? = null,
+    onChanged: ((Pref) -> Unit)? = null,
+) : StringPref(
+    key = key,
+    private = private,
+    defaultValue = defaultValue,
+    titleId = titleId,
+    summaryId = summaryId,
+    summary = summary,
+    UI = UI ?: { pref, onDialogUI, index, groupSize ->
+        SuCommandPreference(pref = pref as SuCommandPref, index = index, groupSize = groupSize)
+    },
+    icon = icon,
+    iconTint = iconTint,
+    enableIf = enableIf,
+    onChanged = onChanged
+)
+
 class EnumPref(
     key: String,
     private: Boolean = false,
@@ -593,7 +623,6 @@ class EnumPref(
     override fun toString(): String = value.toString()
 }
 
-
 class LinkPref(
     key: String,
     private: Boolean = false,
@@ -618,7 +647,6 @@ class LinkPref(
     enableIf = enableIf,
     onChanged = onChanged
 )
-
 
 class LaunchPref(
     key: String,

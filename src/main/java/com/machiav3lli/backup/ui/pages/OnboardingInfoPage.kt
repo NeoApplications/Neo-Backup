@@ -17,8 +17,6 @@
  */
 package com.machiav3lli.backup.ui.pages
 
-import android.annotation.SuppressLint
-import android.graphics.Bitmap
 import android.graphics.Canvas
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
@@ -41,9 +39,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.createBitmap
 import com.machiav3lli.backup.BuildConfig
 import com.machiav3lli.backup.R
 import com.machiav3lli.backup.data.entity.ColoringState
@@ -56,7 +56,6 @@ import com.machiav3lli.backup.ui.compose.icons.Phosphor
 import com.machiav3lli.backup.ui.compose.icons.phosphor.ArrowRight
 import com.machiav3lli.backup.utils.SystemUtils.applicationIssuer
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun OnboardingInfoPage(
     onNext: () -> Unit,
@@ -77,16 +76,16 @@ fun OnboardingInfoPage(
                     colors = ListItemDefaults.colors(
                         containerColor = Color.Transparent,
                     ),
+                    shapes = ListItemDefaults.shapes(),
                     leadingContent = {
                         ResourcesCompat.getDrawable(
-                            LocalContext.current.resources,
+                            LocalResources.current,
                             R.mipmap.ic_launcher,
                             LocalContext.current.theme
                         )?.let { drawable ->
-                            val bitmap = Bitmap.createBitmap(
+                            val bitmap = createBitmap(
                                 drawable.intrinsicWidth,
                                 drawable.intrinsicHeight,
-                                Bitmap.Config.ARGB_8888
                             )
                             val canvas = Canvas(bitmap)
                             drawable.setBounds(0, 0, canvas.width, canvas.height)
@@ -110,7 +109,7 @@ fun OnboardingInfoPage(
                             style = MaterialTheme.typography.labelSmall,
                         )
                     },
-                    headlineContent = {
+                    content = {
                         Text(
                             text = stringResource(id = R.string.app_name),
                             style = MaterialTheme.typography.headlineSmall,
@@ -123,12 +122,10 @@ fun OnboardingInfoPage(
                                 text = BuildConfig.APPLICATION_ID,
                                 style = MaterialTheme.typography.labelSmall,
                             )
-                            main.applicationIssuer?.let {
-                                Text(
-                                    text = "signed by $it",
-                                    style = MaterialTheme.typography.labelSmall,
-                                )
-                            }
+                            Text(
+                                text = "signed by ${main.applicationIssuer}",
+                                style = MaterialTheme.typography.labelSmall,
+                            )
                         }
                     }
                 )

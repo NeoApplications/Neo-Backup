@@ -1,39 +1,42 @@
 package com.machiav3lli.backup.ui.compose.component
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.ChipColors
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.SelectableChipColors
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
+import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TooltipAnchorPosition
+import androidx.compose.material3.TooltipBox
+import androidx.compose.material3.TooltipDefaults
+import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.machiav3lli.backup.data.entity.ChipItem
 import com.machiav3lli.backup.data.entity.InfoChipItem
@@ -42,31 +45,6 @@ import com.machiav3lli.backup.ui.compose.icons.phosphor.CheckCircle
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Circle
 import com.machiav3lli.backup.ui.compose.ifThen
 import com.machiav3lli.backup.utils.launchView
-
-private enum class SelectionState { Unselected, Selected }
-
-class SelectableChipTransition constructor(
-    cornerRadius: State<Dp>,
-) {
-    val cornerRadius by cornerRadius
-}
-
-@Composable
-fun selectableChipTransition(selected: Boolean): SelectableChipTransition {
-    val transition = updateTransition(
-        targetState = if (selected) SelectionState.Selected else SelectionState.Unselected,
-        label = "chip_transition"
-    )
-    val corerRadius = transition.animateDp(label = "chip_corner") { state ->
-        when (state) {
-            SelectionState.Unselected -> 8.dp
-            SelectionState.Selected   -> 16.dp
-        }
-    }
-    return remember(transition) {
-        SelectableChipTransition(corerRadius)
-    }
-}
 
 @Composable
 fun SelectionChip(
@@ -82,16 +60,12 @@ fun SelectionChip(
     ),
     onClick: () -> Unit,
 ) {
-    val selectionCornerRadius by animateDpAsState(
-        when {
-            isSelected -> 4.dp
-            else       -> 16.dp
-        }
-    )
-
     FilterChip(
         colors = colors,
-        shape = RoundedCornerShape(selectionCornerRadius),
+        shapes = FilterChipDefaults.shapes(
+            shape = MaterialTheme.shapes.extraLarge,
+            selectedShape = MaterialTheme.shapes.extraSmall,
+        ),
         border = null,
         selected = isSelected,
         leadingIcon = {
@@ -118,16 +92,12 @@ fun SelectionChip(
     ),
     onClick: () -> Unit,
 ) {
-    val selectionCornerRadius by animateDpAsState(
-        when {
-            isSelected -> 4.dp
-            else       -> 16.dp
-        }
-    )
-
     FilterChip(
         colors = colors,
-        shape = RoundedCornerShape(selectionCornerRadius),
+        shapes = FilterChipDefaults.shapes(
+            shape = MaterialTheme.shapes.extraLarge,
+            selectedShape = MaterialTheme.shapes.extraSmall,
+        ),
         border = null,
         selected = isSelected,
         onClick = onClick,
@@ -140,32 +110,36 @@ fun SelectionChip(
 @Composable
 fun InfoChip(
     item: InfoChipItem,
-    colors: SelectableChipColors = FilterChipDefaults.filterChipColors(
+    colors: ChipColors = AssistChipDefaults.assistChipColors(
         containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
         labelColor = MaterialTheme.colorScheme.onSurface,
-        iconColor = MaterialTheme.colorScheme.onSurface,
-        selectedContainerColor = item.color ?: MaterialTheme.colorScheme.onPrimaryContainer,
-        selectedLabelColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-        selectedLeadingIconColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+        leadingIconContentColor = MaterialTheme.colorScheme.onSurface,
+    ),
+    highLightColors: ChipColors = AssistChipDefaults.assistChipColors(
+        containerColor = item.color ?: MaterialTheme.colorScheme.onPrimaryContainer,
+        labelColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+        leadingIconContentColor = MaterialTheme.colorScheme.surfaceContainerHigh,
     ),
 ) {
-    FilterChip(
-        leadingIcon = {
+    SuggestionChip(
+        icon = {
             if (item.icon != null) Icon(
                 imageVector = item.icon,
                 contentDescription = item.text,
             )
         },
+        shape = MaterialTheme.shapes.small,
         border = null,
-        selected = item.color != null,
         label = {
             Text(text = item.text)
         },
-        colors = colors,
+        colors = if (item.color != null) highLightColors
+        else colors,
         onClick = {}
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StateChip(
     modifier: Modifier = Modifier,
@@ -173,9 +147,8 @@ fun StateChip(
     text: String,
     color: Color,
     checked: Boolean,
-    onClick: () -> Unit,
+    onClick: (Boolean) -> Unit,
 ) {
-    val openPopup = remember { mutableStateOf(false) }
     val cornerRadius by animateDpAsState(
         when {
             checked -> 4.dp
@@ -191,27 +164,27 @@ fun StateChip(
         label = "backgroundColor"
     )
 
-    Surface(
+    TooltipBox(
         modifier = modifier
-            .defaultMinSize(minWidth = 40.dp, minHeight = 1.dp)
-            .clip(RoundedCornerShape(cornerRadius))
-            .combinedClickable(
-                onClick = onClick,
-                onLongClick = { openPopup.value = true }
-            ),
-        contentColor = contentColor,
-        color = backgroundColor,
-        shape = RoundedCornerShape(cornerRadius),
-        border = BorderStroke(1.dp, color),
+            .defaultMinSize(minWidth = 24.dp, minHeight = 1.dp),
+        positionProvider =
+            TooltipDefaults.rememberTooltipPositionProvider(TooltipAnchorPosition.Above),
+        tooltip = { PlainTooltip { Text(text) } },
+        state = rememberTooltipState(),
     ) {
-        Icon(
-            modifier = Modifier.padding(8.dp),
-            imageVector = icon,
-            contentDescription = text,
-        )
-
-        if (openPopup.value) {
-            Tooltip(text, openPopup)
+        Surface(
+            contentColor = contentColor,
+            color = backgroundColor,
+            checked = checked,
+            onCheckedChange = onClick,
+            shape = RoundedCornerShape(cornerRadius),
+            border = BorderStroke(1.dp, color),
+        ) {
+            Icon(
+                modifier = Modifier.padding(8.dp),
+                imageVector = icon,
+                contentDescription = text,
+            )
         }
     }
 }
@@ -232,19 +205,16 @@ fun CheckChip(
     ),
     onCheckedChange: (Boolean) -> Unit,
 ) {
-    val (checked, check) = remember(checked) { mutableStateOf(checked) }   //TODO hg42 should probably be removed like for MultiChips
-    val selectionCornerRadius by animateDpAsState(
-        when {
-            checked -> 4.dp
-            else    -> 28.dp
-        }
-    )
+    val (checked, check) = remember(checked) { mutableStateOf(checked) }
 
     FilterChip(
         modifier = modifier,
         selected = checked,
         colors = colors,
-        shape = RoundedCornerShape(selectionCornerRadius),
+        shapes = FilterChipDefaults.shapes(
+            shape = MaterialTheme.shapes.extraExtraLarge,
+            selectedShape = MaterialTheme.shapes.extraSmall,
+        ),
         leadingIcon = {
             Icon(
                 imageVector = when {
@@ -361,15 +331,17 @@ fun ChipsSwitch(
 
     SingleChoiceSegmentedButtonRow(
         modifier = Modifier
+            .background(
+                color = MaterialTheme.colorScheme.surfaceContainerHighest,
+                shape = MaterialTheme.shapes.extraLarge,
+            )
+            .padding(horizontal = 4.dp)
             .fillMaxWidth(),
-        space = 24.dp,
     ) {
         SegmentedTabButton(
             text = stringResource(id = firstTextId),
             icon = firstIcon,
             selected = { firstSelected },
-            index = 0,
-            count = 2,
             onClick = {
                 onCheckedChange(true)
                 selectFirst(true)
@@ -379,8 +351,6 @@ fun ChipsSwitch(
             text = stringResource(id = secondTextId),
             icon = secondIcon,
             selected = { !firstSelected },
-            index = 1,
-            count = 2,
             onClick = {
                 onCheckedChange(false)
                 selectFirst(false)

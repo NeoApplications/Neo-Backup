@@ -19,12 +19,10 @@ package com.machiav3lli.backup.ui.sheets
 
 import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.Canvas
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -55,10 +53,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.createBitmap
 import androidx.core.text.HtmlCompat
 import com.machiav3lli.backup.BuildConfig
 import com.machiav3lli.backup.R
@@ -82,6 +82,7 @@ import java.util.Scanner
 @Composable
 fun HelpSheet(navigateUp: () -> Unit) {
     val context = LocalContext.current
+    val res = LocalResources.current
     val nestedScrollConnection = rememberNestedScrollInteropConnection()
 
     Scaffold(
@@ -99,16 +100,16 @@ fun HelpSheet(navigateUp: () -> Unit) {
                     colors = ListItemDefaults.colors(
                         containerColor = Color.Transparent,
                     ),
+                    shapes = ListItemDefaults.shapes(),
                     leadingContent = {
                         ResourcesCompat.getDrawable(
-                            LocalContext.current.resources,
+                            res,
                             R.mipmap.ic_launcher,
-                            LocalContext.current.theme
+                            context.theme
                         )?.let { drawable ->
-                            val bitmap = Bitmap.createBitmap(
+                            val bitmap = createBitmap(
                                 drawable.intrinsicWidth,
                                 drawable.intrinsicHeight,
-                                Bitmap.Config.ARGB_8888
                             )
                             val canvas = Canvas(bitmap)
                             drawable.setBounds(0, 0, canvas.width, canvas.height)
@@ -132,7 +133,7 @@ fun HelpSheet(navigateUp: () -> Unit) {
                             style = MaterialTheme.typography.labelSmall,
                         )
                     },
-                    headlineContent = {
+                    content = {
                         Text(
                             text = stringResource(id = R.string.app_name),
                             style = MaterialTheme.typography.headlineSmall,
@@ -145,12 +146,10 @@ fun HelpSheet(navigateUp: () -> Unit) {
                                 text = BuildConfig.APPLICATION_ID,
                                 style = MaterialTheme.typography.labelSmall,
                             )
-                            context.applicationIssuer?.let {
-                                Text(
-                                    text = "signed by $it",
-                                    style = MaterialTheme.typography.labelSmall,
-                                )
-                            }
+                            Text(
+                                text = "signed by ${context.applicationIssuer}",
+                                style = MaterialTheme.typography.labelSmall,
+                            )
                         }
                     },
                     trailingContent = {
@@ -213,14 +212,15 @@ fun HelpSheet(navigateUp: () -> Unit) {
                 ) {
                     ListItem(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable { extendNotes(!showNotes) },
-                        headlineContent = {
-                            TitleText(R.string.usage_notes_title)
-                        },
+                            .fillMaxWidth(),
+                        onClick = { extendNotes(!showNotes) },
+                        shapes = ListItemDefaults.shapes(),
                         colors = ListItemDefaults.colors(
                             containerColor = Color.Transparent
                         ),
+                        content = {
+                            TitleText(R.string.usage_notes_title)
+                        },
                         trailingContent = {
                             Icon(
                                 imageVector = if (showNotes) Phosphor.CaretUp

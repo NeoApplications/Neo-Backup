@@ -1,6 +1,5 @@
 package com.machiav3lli.backup.ui.compose.component
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Checkbox
@@ -11,12 +10,10 @@ import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -40,21 +37,24 @@ fun ScheduleItem(
 
     ListItem(
         modifier = modifier
-            .fillMaxWidth()
-            .clip(MaterialTheme.shapes.large)
-            .clickable { onClick(schedule) },
+            .fillMaxWidth(),
+        onClick = {
+            onClick(schedule)
+        },
+        shapes = ListItemDefaults.shapes(MaterialTheme.shapes.large),
         colors = ListItemDefaults.colors(
             containerColor = Color.Transparent,
         ),
         leadingContent = {
-            Checkbox(checked = checked,
+            Checkbox(
+                checked = checked,
                 onCheckedChange = {
                     check(it)
                     onCheckChanged(schedule, it)
                 }
             )
         },
-        headlineContent = {
+        content = {
             Row {
                 Text(
                     text = schedule.name,

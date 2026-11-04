@@ -212,13 +212,13 @@ fun ScheduleRecycler(
 @Composable
 fun ExportedScheduleRecycler(
     modifier: Modifier = Modifier,
-    productsList: PersistentList<Pair<Schedule, StorageFile>>?,
+    schedsList: PersistentList<Pair<Schedule, StorageFile>>,
     onImport: (Schedule) -> Unit = {},
     onDelete: (StorageFile) -> Unit = {},
 ) {
     VerticalItemList(
         modifier = modifier,
-        list = productsList
+        list = schedsList
     ) {
         ExportedScheduleItem(it.first, onImport) { onDelete(it.second) }
     }
@@ -227,13 +227,13 @@ fun ExportedScheduleRecycler(
 @Composable
 fun LogRecycler(
     modifier: Modifier = Modifier,
-    productsList: PersistentList<Log>,
+    logsList: PersistentList<Log>,
     onShare: (Log) -> Unit = {},
     onDelete: (Log) -> Unit = {},
 ) {
     VerticalItemList(
         modifier = modifier,
-        list = productsList
+        list = logsList
     ) {
         LogItem(it, onShare, onDelete)
     }
@@ -241,10 +241,11 @@ fun LogRecycler(
 
 @Composable
 fun InfoChipsBlock(
+    list: PersistentList<InfoChipItem>,
     modifier: Modifier = Modifier,
-    list: List<InfoChipItem>,
+    multiLine: Boolean = pref_multilineInfoChips.value,
 ) {
-    if (pref_multilineInfoChips.value)
+    if (multiLine)
         FlowRow(
             modifier = modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),

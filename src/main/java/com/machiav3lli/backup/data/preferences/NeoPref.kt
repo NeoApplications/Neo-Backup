@@ -297,10 +297,10 @@ abstract class PrefDelegate<T : Any>(
     val defaultValue: T,
     @StringRes val titleId: Int,
     @StringRes val summaryId: Int,
-    var summary: String? = null,
+    val summary: String? = null,
     val private: Boolean = false,
     val icon: ImageVector? = null,
-    var iconTint: ((PrefDelegate<out Any>) -> Color)? = null,
+    val iconTint: ((PrefDelegate<out Any>) -> Color)? = null,
     val UI: PrefUI? = null,
     val onChange: (suspend (PrefDelegate<out Any>) -> Unit)? = null,
 ) {

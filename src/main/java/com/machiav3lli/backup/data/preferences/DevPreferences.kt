@@ -75,7 +75,7 @@ val pref_autoLogUnInstallBroadcast = BooleanPref(
 val pref_trace = BooleanPref(
     key = "dev-trace.trace",
     summary = "global switch for all traceXXX options",
-    defaultValue = NeoApp.isDebug || NeoApp.isHg42
+    defaultValue = !NeoApp.isRelease,
 )
 
 val traceSection = TraceUtils.TracePrefBold(

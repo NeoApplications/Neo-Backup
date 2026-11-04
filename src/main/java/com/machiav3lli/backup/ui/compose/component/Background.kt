@@ -206,10 +206,10 @@ fun BusyBackground(
         modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
-        if (false)
-            BusyBackgroundAnimated(busy = isBusy, content = content)
-        else
-            BusyBackgroundColor(busy = isBusy, content = content)
+//        if (false)
+//            BusyBackgroundAnimated(busy = isBusy, content = content)
+//        else
+        BusyBackgroundColor(busy = isBusy, content = content)
     }
 }
 
@@ -223,10 +223,10 @@ fun FullScreenBackground(
         modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
-        if (false)
-            BusyBackground(modifier = modifier, content = content)
-        else
-            content()
+//        if (false)
+//            BusyBackground(modifier = modifier, content = content)
+//        else
+        content()
 
         if (pref_versionOpacity.value > 0)
             Text(
@@ -254,7 +254,6 @@ fun BusyBackgroundPreview() {
     val busy by remember { NeoApp.busy }
     val count by remember { NeoApp.busyCountDown }
     val level by remember { NeoApp.busyLevel }
-    //var progress by remember { mutableStateOf(true) }
 
     Column {
         Row {
