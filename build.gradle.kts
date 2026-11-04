@@ -23,6 +23,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.koin)
     alias(libs.plugins.stability.analyzer)
     alias(libs.plugins.gradle.toolchains) apply false
     //alias(libs.plugins.kotlin.scripting)
@@ -150,10 +151,10 @@ dependencies {
     api(platform(libs.koin.bom))
     implementation(libs.koin.core)
     implementation(libs.koin.android)
+    implementation(libs.koin.workmanager)
     implementation(libs.koin.compose)
     implementation(libs.koin.startup)
     implementation(libs.koin.annotations)
-    ksp(libs.koin.compiler)
 
     // Libs
     implementation(libs.activity.compose)

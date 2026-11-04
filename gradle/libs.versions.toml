@@ -18,8 +18,8 @@ gradle-toolchains = "1.0.0"
 immutables = "0.5.2"
 junit-jupiter = "6.0.1"
 kaml = "0.104.0"
-koin = "4.1.1"
-koin-ksp = "2.3.1"
+koin = "4.2.2"
+koin-plugin = "1.2.1"
 kotlin = "2.4.21"
 ksp = "2.3.11"
 libsu = "6.0.0"
@@ -59,10 +59,10 @@ material = { module = "com.google.android.material:material", version.ref = "mat
 koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koin" }
 koin-core = { group = "io.insert-koin", name = "koin-core" }
 koin-android = { group = "io.insert-koin", name = "koin-android" }
+koin-workmanager = { group = "io.insert-koin", name = "koin-androidx-workmanager" }
 koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose" }
 koin-startup = { group = "io.insert-koin", name = "koin-androidx-startup" }
-koin-annotations = { group = "io.insert-koin", name = "koin-annotations", version.ref = "koin-ksp" }
-koin-compiler = { group = "io.insert-koin", name = "koin-ksp-compiler", version.ref = "koin-ksp" }
+koin-annotations = { group = "io.insert-koin", name = "koin-annotations", version.ref = "koin" }
 
 libsu-core = { module = "com.github.topjohnwu.libsu:core", version.ref = "libsu" }
 libsu-io = { module = "com.github.topjohnwu.libsu:io", version.ref = "libsu" }
@@ -116,6 +116,7 @@ test-ext = { module = "androidx.test.ext:junit-ktx", version.ref = "test-ext" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+koin = { id = "io.insert-koin.compiler.plugin", version.ref = "koin-plugin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
