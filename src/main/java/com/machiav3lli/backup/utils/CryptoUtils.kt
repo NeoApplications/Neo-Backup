@@ -52,7 +52,7 @@ private const val ENCRYPTION_SETUP_FAILED = "Could not setup encryption"
 
 /**
  * https://developer.android.com/guide/topics/security/cryptography#Cipher
- * Starting SDK28 ChaCha20 is supported, which is far more faster than standard AES
+ * TODO Starting SDK28 ChaCha20 is supported, which is far more faster than standard AES
  * Maybe will implement it in the future as an option AES/ChaCha20
  *
  * The original choice was inspired by this blog post:

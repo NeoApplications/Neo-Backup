@@ -7,48 +7,59 @@ import com.machiav3lli.backup.ui.pages.pref_pgpPasscode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.withContext
-import org.bouncycastle.jcajce.BCFKSLoadStoreParameter
-import org.bouncycastle.openpgp.PGPPublicKeyRing
-import org.bouncycastle.openpgp.PGPSecretKeyRing
+import org.bouncycastle.bcpg.SymmetricKeyAlgorithmTags
+import org.bouncycastle.openpgp.api.MessageEncryptionMechanism
+import org.bouncycastle.openpgp.api.OpenPGPCertificate
+import org.bouncycastle.openpgp.api.OpenPGPKey
 import org.pgpainless.PGPainless
-import org.pgpainless.algorithm.SymmetricKeyAlgorithm
 import org.pgpainless.decryption_verification.ConsumerOptions
 import org.pgpainless.decryption_verification.DecryptionStream
 import org.pgpainless.encryption_signing.EncryptionOptions
-import org.pgpainless.encryption_signing.EncryptionResult
 import org.pgpainless.encryption_signing.EncryptionStream
 import org.pgpainless.encryption_signing.ProducerOptions
-import org.pgpainless.key.protection.SecretKeyRingProtector.Companion.unlockAnyKeyWith
-import org.pgpainless.key.protection.SecretKeyRingProtector.Companion.unprotectedKeys
+import org.pgpainless.key.protection.SecretKeyRingProtector
 import org.pgpainless.util.Passphrase
 import java.io.InputStream
 import java.io.OutputStream
 
 // https://pgpainless.readthedocs.io
-// TODO migrate to 2.0.X when ready https://pgpainless.readthedocs.io/en/latest/pgpainless-core/migration_2.0.html
 class PGPHandler(private val context: Context) {
+    private val pgp = PGPainless.getInstance()
     val cc = Dispatchers.IO + SupervisorJob()
 
-    private var secretKeyRing: PGPSecretKeyRing = runCatching {
-        PGPainless.readKeyRing().secretKeyRing(pref_pgpKey.value)
-            ?: PGPSecretKeyRing(emptyList())
-    }.getOrDefault(PGPSecretKeyRing(emptyList()))
-    private var publicKeyRing: PGPPublicKeyRing = PGPainless.extractCertificate(secretKeyRing)
+    private var secretKey: OpenPGPKey? = readSecretKey()
+    private var certificate: OpenPGPCertificate? = secretKey?.toCertificate()
 
-    fun isKeyLoaded() = runCatching { secretKeyRing.size() > 0 }
-        .getOrElse { false }
+    private fun readSecretKey(): OpenPGPKey? = runCatching {
+        pref_pgpKey.value
+            .takeIf { it.isNotBlank() }
+            ?.let { pgp.readKey().parseKey(it) }
+    }.getOrNull()
+
+    fun isKeyLoaded() = secretKey != null
 
     private fun reloadPublicKey() {
-        publicKeyRing = PGPainless.extractCertificate(secretKeyRing)
+        certificate = secretKey?.toCertificate()
     }
 
     fun reloadKeys() = runCatching {
-        secretKeyRing = PGPainless.readKeyRing().secretKeyRing(pref_pgpKey.value)
-            ?: PGPSecretKeyRing(emptyList())
+        secretKey = readSecretKey()
         reloadPublicKey()
-        BCFKSLoadStoreParameter.EncryptionAlgorithm.AES256_KWP
-        secretKeyRing.secretKey?.keyEncryptionAlgorithm
     }
+
+    private fun keyProtector(): SecretKeyRingProtector =
+        pref_pgpPasscode.value.takeIf { it.isNotBlank() }
+            ?.let { SecretKeyRingProtector.unlockAnyKeyWith(Passphrase(it.toCharArray())) }
+            ?: SecretKeyRingProtector.unprotectedKeys()
+
+    private fun encryptionOptions(certificate: OpenPGPCertificate): ProducerOptions =
+        ProducerOptions.encrypt(
+            EncryptionOptions.encryptDataAtRest(pgp)
+                .addHiddenRecipient(certificate)
+                .overrideEncryptionMechanism(
+                    MessageEncryptionMechanism.integrityProtected(SymmetricKeyAlgorithmTags.AES_256)
+                )
+        )
 
     suspend fun loadKeyFromUri(uri: Uri): Result<Boolean> = runCatching {
         withContext(cc) {
@@ -68,14 +79,14 @@ class PGPHandler(private val context: Context) {
     ): Boolean {
         return withContext(cc) {
             runCatching {
-                val keyRing = PGPainless.generateKeyRing()
+                val key = pgp.generateKey()
                     .modernKeyRing(userId, passcode)
-                val asciiKey = PGPainless.asciiArmor(keyRing)
+                val asciiKey = key.toAsciiArmoredString()
 
                 context.contentResolver.openOutputStream(saveLocation)?.use { output ->
                     output.write(asciiKey.toByteArray())
                 }
-                secretKeyRing = keyRing
+                secretKey = key
                 reloadPublicKey()
                 pref_pgpKey.value = asciiKey
                 pref_pgpPasscode.value = passcode
@@ -84,73 +95,23 @@ class PGPHandler(private val context: Context) {
         }
     }
 
-    suspend fun encryptFile(inputUri: Uri, outputUri: Uri): Result<EncryptionResult?> =
-        runCatching {
-            withContext(cc) {
-                context.contentResolver.openInputStream(inputUri)?.use { inputStream ->
-                    context.contentResolver.openOutputStream(outputUri)?.use { outputStream ->
-                        val encryptedOut = PGPainless.encryptAndOrSign()
-                            .onOutputStream(outputStream)
-                            .withOptions(
-                                ProducerOptions.encrypt(
-                                    EncryptionOptions.encryptDataAtRest()
-                                        .addHiddenRecipient(publicKeyRing)
-                                        .overrideEncryptionAlgorithm(SymmetricKeyAlgorithm.AES_256)
-                                )
-                            )
-                        inputStream.copyTo(encryptedOut)
-                        encryptedOut.close()
-                        encryptedOut.result
-                    }
-                }
-            }
-        }
-
     fun encryptStream(outputStream: OutputStream): Result<EncryptionStream?> =
         runCatching {
-            PGPainless.encryptAndOrSign()
+            val cert = certificate ?: throw IllegalStateException("No PGP key loaded")
+            pgp.generateMessage()
                 .onOutputStream(outputStream)
-                .withOptions(
-                    ProducerOptions.encrypt(
-                        EncryptionOptions.encryptDataAtRest()
-                            .addHiddenRecipient(publicKeyRing)
-                            .overrideEncryptionAlgorithm(SymmetricKeyAlgorithm.AES_256)
-                    )
-                )
+                .withOptions(encryptionOptions(cert))
         }
-
-    suspend fun decryptFile(inputUri: Uri, outputUri: Uri): Result<Unit> = runCatching {
-        withContext(cc) {
-            val keyProtector = pref_pgpPasscode.value.takeIf { it.isNotBlank() }
-                ?.let { unlockAnyKeyWith(Passphrase(it.toCharArray())) }
-                ?: unprotectedKeys()
-
-            context.contentResolver.openInputStream(inputUri)?.use { inputStream ->
-                context.contentResolver.openOutputStream(outputUri)?.use { outputStream ->
-                    PGPainless.decryptAndOrVerify()
-                        .onInputStream(inputStream)
-                        .withOptions(
-                            ConsumerOptions()
-                                .addDecryptionKey(secretKeyRing, keyProtector)
-                        ).use {
-                            it.copyTo(outputStream)
-                        }
-                }
-            }
-        }
-    }
 
     fun decryptStream(inputStream: InputStream): Result<DecryptionStream> =
         runCatching {
-            val keyProtector = pref_pgpPasscode.value.takeIf { it.isNotBlank() }
-                ?.let { unlockAnyKeyWith(Passphrase(it.toCharArray())) }
-                ?: unprotectedKeys()
+            val key = secretKey ?: throw IllegalStateException("No PGP key loaded")
 
-            PGPainless.decryptAndOrVerify()
+            pgp.processMessage()
                 .onInputStream(inputStream)
                 .withOptions(
-                    ConsumerOptions()
-                        .addDecryptionKey(secretKeyRing, keyProtector)
+                    ConsumerOptions.get(pgp)
+                        .addDecryptionKey(key, keyProtector())
                 )
         }
 }
