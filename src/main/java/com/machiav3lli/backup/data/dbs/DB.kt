@@ -33,7 +33,6 @@ import com.machiav3lli.backup.data.dbs.dao.BlocklistDao
 import com.machiav3lli.backup.data.dbs.dao.ScheduleDao
 import com.machiav3lli.backup.data.dbs.entity.AppExtras
 import com.machiav3lli.backup.data.dbs.entity.AppInfo
-import com.machiav3lli.backup.data.dbs.entity.Backup
 import com.machiav3lli.backup.data.dbs.entity.Blocklist
 import com.machiav3lli.backup.data.dbs.entity.ExtrasTags
 import com.machiav3lli.backup.data.dbs.entity.Schedule
@@ -46,9 +45,8 @@ import org.koin.dsl.module
         Blocklist::class,
         AppExtras::class,
         AppInfo::class,
-        Backup::class,
     ],
-    version = 8332,
+    version = 8333,
     exportSchema = true,
     views = [
         ExtrasTags::class,
@@ -65,6 +63,7 @@ import org.koin.dsl.module
         AutoMigration(from = 11, to = 8328),
         AutoMigration(from = 8328, to = 8330),
         AutoMigration(from = 8330, to = 8332, spec = DB.Companion.AutoMigration8330to8332::class),
+        AutoMigration(from = 8332, to = 8333, spec = DB.Companion.AutoMigration8332to8333::class),
     ]
 )
 @TypeConverters(Converters::class)
@@ -107,6 +106,9 @@ abstract class DB : RoomDatabase() {
 
         @DeleteTable(tableName = "SpecialInfo")
         class AutoMigration8330to8332 : AutoMigrationSpec
+
+        @DeleteTable(tableName = "Backup")
+        class AutoMigration8332to8333 : AutoMigrationSpec
     }
 }
 
