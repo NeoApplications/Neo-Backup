@@ -89,7 +89,7 @@ import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.suInfo
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.sysInfo
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.utilBox
 import com.machiav3lli.backup.manager.handler.ShellHandler.FileInfo.Companion.utilBoxInfo
-import com.machiav3lli.backup.manager.handler.findBackups
+import com.machiav3lli.backup.manager.handler.findBackupsAll
 import com.machiav3lli.backup.manager.handler.maxThreads
 import com.machiav3lli.backup.manager.handler.usedThreadsByName
 import com.machiav3lli.backup.ui.compose.blockBorderBottom
@@ -742,7 +742,12 @@ fun Terminal(
                     else
                         "no error command"
             }
-            SimpleButton("findBackups") { scope.launch { context.findBackups(forceTrace = true) } }
+            SimpleButton("findBackups") {
+                scope.launch {
+                    StorageFile.invalidateCache()
+                    findBackupsAll(forceTrace = true)
+                }
+            }
         }
         Box(
             modifier = Modifier

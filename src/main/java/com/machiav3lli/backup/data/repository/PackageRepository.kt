@@ -38,6 +38,9 @@ class PackageRepository(
     fun getBackupsMap(): Map<String, Set<Backup>> =
         backupsCache.getBackupsMap()
 
+    val isInitialized: Boolean
+        get() = backupsCache.isInitialized
+
     fun getBackupsList(): List<Backup> =
         backupsCache.getBackupsList()
 
@@ -73,7 +76,7 @@ class PackageRepository(
         backupsCache.updateBackups(packageName, backups)
     }
 
-    fun replaceAllBackups(backups: List<Backup>) = runBlocking(cc) {
+    fun replaceAllBackups(backups: Map<String, Set<Backup>>) = runBlocking(cc) {
         backupsCache.replaceAll(backups)
     }
 

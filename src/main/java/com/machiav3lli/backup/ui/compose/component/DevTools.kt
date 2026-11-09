@@ -90,7 +90,7 @@ import com.machiav3lli.backup.data.preferences.pref_maxLogLines
 import com.machiav3lli.backup.data.preferences.pref_trace
 import com.machiav3lli.backup.data.preferences.traceDebug
 import com.machiav3lli.backup.manager.handler.LogsHandler.Companion.logException
-import com.machiav3lli.backup.manager.handler.findBackups
+import com.machiav3lli.backup.manager.handler.findBackupsAndClean
 import com.machiav3lli.backup.ui.activities.NeoActivity
 import com.machiav3lli.backup.ui.compose.icons.Phosphor
 import com.machiav3lli.backup.ui.compose.icons.phosphor.ArrowUUpLeft
@@ -772,7 +772,7 @@ val pref_renameDamagedToERROR = LaunchPref(
 ) {
     MainScope().launch(Dispatchers.IO) {
         NeoApp.beginBusy("renameDamagedToERROR")
-        NeoApp.context.findBackups(damagedOp = DamagedOp.RENAME)
+        NeoApp.context.findBackupsAndClean(DamagedOp.RENAME)
         devToolsTab.value = "infolog"
         NeoApp.endBusy("renameDamagedToERROR")
     }
@@ -784,7 +784,7 @@ val pref_undoDamagedToERROR = LaunchPref(
 ) {
     MainScope().launch(Dispatchers.IO) {
         NeoApp.beginBusy("undoDamagedToERROR")
-        NeoApp.context.findBackups(damagedOp = DamagedOp.UNDO)
+        NeoApp.context.findBackupsAndClean(DamagedOp.UNDO)
         devToolsTab.value = "infolog"
         NeoApp.endBusy("undoDamagedToERROR")
     }
@@ -796,7 +796,7 @@ val pref_deleteERROR = LaunchPref(
 ) {
     MainScope().launch(Dispatchers.IO) {
         NeoApp.beginBusy("deleteERROR")
-        NeoApp.context.findBackups(damagedOp = DamagedOp.DELETE)
+        NeoApp.context.findBackupsAndClean(DamagedOp.DELETE)
         devToolsTab.value = "infolog"
         NeoApp.endBusy("deleteERROR")
     }

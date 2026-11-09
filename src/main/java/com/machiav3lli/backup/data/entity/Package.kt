@@ -28,7 +28,7 @@ import com.machiav3lli.backup.data.dbs.entity.SpecialInfo
 import com.machiav3lli.backup.data.preferences.traceBackups
 import com.machiav3lli.backup.manager.handler.LogsHandler
 import com.machiav3lli.backup.manager.handler.ShellCommands
-import com.machiav3lli.backup.manager.handler.findBackups
+import com.machiav3lli.backup.manager.handler.findBackupsPackage
 import com.machiav3lli.backup.ui.pages.pref_flatStructure
 import com.machiav3lli.backup.ui.pages.pref_ignoreLockedInHousekeeping
 import com.machiav3lli.backup.ui.pages.pref_paranoidBackupLists
@@ -153,8 +153,12 @@ data class Package private constructor(val packageName: String) {
     }
 
     fun getBackupsFromBackupDir(): Set<Backup> {
-        // TODO hg42 may also find glob *packageName* for now so we need to take the correct package
-        return NeoApp.context.findBackups(packageName)[packageName] ?: emptySet()
+        return runCatching {
+            invalidateCacheForPackage(packageName)
+            NeoApp.context.findBackupsPackage(packageName)[packageName] ?: emptySet()
+        }.onFailure {
+            LogsHandler.logException(it, backTrace = true)
+        }.getOrDefault(emptySet())
     }
 
     fun refreshBackupList() {

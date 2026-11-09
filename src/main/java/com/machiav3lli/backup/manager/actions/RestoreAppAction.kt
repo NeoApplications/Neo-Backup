@@ -46,7 +46,7 @@ import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.runAsRootPi
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.utilBoxQ
 import com.machiav3lli.backup.manager.handler.ShellHandler.ShellCommandFailedException
 import com.machiav3lli.backup.manager.handler.ShellHandler.UnexpectedCommandResult
-import com.machiav3lli.backup.manager.handler.findBackups
+import com.machiav3lli.backup.manager.handler.findBackupsPackage
 import com.machiav3lli.backup.manager.tasks.AppActionWork
 import com.machiav3lli.backup.ui.pages.pref_delayBeforeRefreshAppInfo
 import com.machiav3lli.backup.ui.pages.pref_enableSessionInstaller
@@ -107,8 +107,9 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
             try {
                 val backupDir = backup.dir
                     ?: run {
-                        val backups =
-                            context.findBackups(backup.packageName)[backup.packageName]
+                        val backups = runCatching {
+                            context.findBackupsPackage(backup.packageName)[backup.packageName]
+                        }.getOrNull()
                         val found = backups?.find { it.backupDate == backup.backupDate }
                         found?.dir
                     }

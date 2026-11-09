@@ -60,6 +60,7 @@ import com.machiav3lli.backup.data.repository.ExportsRepository
 import com.machiav3lli.backup.data.repository.PackageRepository
 import com.machiav3lli.backup.data.repository.ScheduleRepository
 import com.machiav3lli.backup.data.repository.SelectionsRepository
+import com.machiav3lli.backup.manager.handler.BackupsHandler
 import com.machiav3lli.backup.manager.handler.LogsHandler
 import com.machiav3lli.backup.manager.handler.LogsHandler.Companion.unexpectedException
 import com.machiav3lli.backup.manager.handler.ShellHandler
@@ -660,6 +661,7 @@ class NeoActivity : BaseActivity() {
 val viewModelsModule = module {
     singleOf(::BackupsCache)
     singleOf(::PackageRepository)
+    singleOf(::BackupsHandler)
     singleOf(::BlocklistRepository)
     singleOf(::ScheduleRepository)
     singleOf(::AppExtrasRepository)

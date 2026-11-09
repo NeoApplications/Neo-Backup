@@ -24,16 +24,14 @@ import com.machiav3lli.backup.MODE_DATA_DE
 import com.machiav3lli.backup.MODE_DATA_EXT
 import com.machiav3lli.backup.MODE_DATA_MEDIA
 import com.machiav3lli.backup.MODE_DATA_OBB
-import com.machiav3lli.backup.NeoApp
 import com.machiav3lli.backup.data.dbs.entity.SpecialInfo
 import com.machiav3lli.backup.data.entity.Package
 import com.machiav3lli.backup.data.entity.RootFile
 import com.machiav3lli.backup.manager.actions.BackupAppAction
-import com.machiav3lli.backup.manager.handler.LogsHandler
+import com.machiav3lli.backup.manager.handler.BackupsHandler
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.quote
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.runAsRoot
-import com.machiav3lli.backup.manager.handler.findBackups
-import com.machiav3lli.backup.manager.handler.updateAppTables
+import org.koin.java.KoinJavaComponent.get
 import timber.log.Timber
 import java.io.File
 import java.nio.file.attribute.PosixFilePermission
@@ -69,34 +67,14 @@ object FileUtils {
         return mode
     }
 
-    // hg42 move the following to somewhere else, maybe a class that handles (multiple) BackupLocations
-    // hg42 this may work (after invalidateBackups or on startup)
-    // hg42 but should probably check an empty backups map instead or additionally?
-    // hg42 the name does not reflect all cases
-    // TODO revamp & cleanup reads of backups
-    suspend fun ensureBackups() {
-        runCatching {
-            if (NeoApp.backupRoot == null) // never null because of its getter
-                NeoApp.context.findBackups()
-        }
-    }
-
     // TODO revamp & cleanup reads of backups
     /**
      * Invalidates the cached value for the backup location URI so that the next call to
      * `getBackupDir` will set it again.
      */
     suspend fun invalidateBackupLocation() {
-        Package.invalidateBackupCacheForPackage()
         SpecialInfo.clearCache()
-        NeoApp.backupRoot = null // after clearing caches, because they probably need the location
-        try {
-            // updateAppTables does ensureBackups, but make intention clear here
-            NeoApp.context.findBackups()
-            NeoApp.context.updateAppTables()
-        } catch (e: Throwable) {
-            LogsHandler.logException(e, backTrace = true)
-        }
+        get<BackupsHandler>(BackupsHandler::class.java).refreshAll()
     }
 
     class BackupLocationInAccessibleException : Exception {

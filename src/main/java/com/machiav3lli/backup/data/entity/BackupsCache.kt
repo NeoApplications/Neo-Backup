@@ -14,6 +14,10 @@ class BackupsCache {
     private val mutex = Mutex()
     private val _updateTrigger = MutableStateFlow(0L)
 
+    @Volatile
+    var isInitialized: Boolean = false
+        private set
+
     fun observeBackupsMap(): Flow<Map<String, Set<Backup>>> =
         _updateTrigger.asStateFlow().map { backupsMap.toMap() }
 
@@ -38,14 +42,11 @@ class BackupsCache {
         }
     }
 
-    suspend fun replaceAll(backups: List<Backup>) {
+    suspend fun replaceAll(backups: Map<String, Set<Backup>>) {
         mutex.withLock {
             backupsMap.clear()
-            backupsMap.putAll(
-                backups
-                    .groupBy { it.packageName }
-                    .mapValues { it.value.toSet() }
-            )
+            backupsMap.putAll(backups)
+            isInitialized = true
             triggerUpdate()
         }
     }

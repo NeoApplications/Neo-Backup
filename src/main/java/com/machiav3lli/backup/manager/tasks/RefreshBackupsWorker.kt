@@ -16,14 +16,11 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import com.machiav3lli.backup.NOTIFICATION_CHANNEL_REFRESH
-import com.machiav3lli.backup.NeoApp
 import com.machiav3lli.backup.R
-import com.machiav3lli.backup.data.entity.Package.Companion.invalidateBackupCacheForPackage
+import com.machiav3lli.backup.manager.handler.BackupsHandler
+import com.machiav3lli.backup.manager.handler.BackupIndexResult
 import com.machiav3lli.backup.manager.handler.LogsHandler
-import com.machiav3lli.backup.manager.handler.findBackups
-import com.machiav3lli.backup.manager.handler.updateAppTables
 import com.machiav3lli.backup.ui.activities.NeoActivity
-import com.machiav3lli.backup.utils.FileUtils
 import com.machiav3lli.backup.utils.extensions.Android
 import com.machiav3lli.backup.utils.reportRefreshFail
 import kotlinx.coroutines.flow.Flow
@@ -37,50 +34,19 @@ class RefreshBackupsWorker(
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
-        return try {
-            val packageName = inputData.getString(KEY_PACKAGE_NAME) ?: ""
-            val isFullRefresh = packageName.isEmpty()
+        val packageName = inputData.getString(KEY_PACKAGE_NAME) ?: ""
+        val isFullRefresh = packageName.isEmpty()
+        val indexHandler = get<BackupsHandler>(BackupsHandler::class.java)
 
+        return try {
             Timber.i("Starting refresh: ${if (isFullRefresh) "FULL" else "package: $packageName"}")
 
-            // invalidate caches
-            if (isFullRefresh) {
-                setProgress(
-                    createProgressData(
-                        RefreshState.INVALIDATING,
-                        context.getString(R.string.invalidating_all)
-                    )
-                )
-                setForeground(
-                    createForegroundInfo(
-                        RefreshState.INVALIDATING,
-                        context.getString(R.string.invalidating_all)
-                    )
-                )
-                invalidateBackupCacheForPackage()
-                NeoApp.backupRoot = null
-            } else {
-                setProgress(
-                    createProgressData(
-                        RefreshState.INVALIDATING, context.getString(
-                            R.string.invalidating_package,
-                            packageName
-                        )
-                    )
-                )
-                setForeground(
-                    createForegroundInfo(
-                        RefreshState.INVALIDATING,
-                        context.getString(
-                            R.string.invalidating_package,
-                            packageName
-                        )
-                    )
-                )
-                invalidateBackupCacheForPackage(packageName)
-            }
+            val invalidatingMessage =
+                if (isFullRefresh) context.getString(R.string.invalidating_all)
+                else context.getString(R.string.invalidating_package, packageName)
+            setProgress(createProgressData(RefreshState.INVALIDATING, invalidatingMessage))
+            setForeground(createForegroundInfo(RefreshState.INVALIDATING, invalidatingMessage))
 
-            // find backups
             setProgress(
                 createProgressData(
                     RefreshState.SCANNING,
@@ -93,79 +59,59 @@ class RefreshBackupsWorker(
                     context.getString(R.string.scanning_dirs)
                 )
             )
-            applicationContext.findBackups(packageName)
 
             // update app tables on full refreshes
-            if (isFullRefresh) {
-                setProgress(
-                    createProgressData(
-                        RefreshState.UPDATING,
-                        context.getString(R.string.updating_db)
+            val result =
+                if (isFullRefresh) indexHandler.refreshAll()
+                else indexHandler.refreshPackage(packageName)
+
+            when (result) {
+                is BackupIndexResult.Success -> {
+                    setProgress(
+                        createProgressData(
+                            RefreshState.COMPLETED,
+                            context.getString(R.string.refresh_completed)
+                        )
                     )
-                )
-                setForeground(
-                    createForegroundInfo(
-                        RefreshState.UPDATING,
-                        context.getString(R.string.updating_db)
+                    setForeground(
+                        createForegroundInfo(
+                            RefreshState.COMPLETED,
+                            context.getString(R.string.refresh_completed)
+                        )
                     )
-                )
-                applicationContext.updateAppTables()
+
+                    Timber.i("Refresh completed successfully: ${if (isFullRefresh) "FULL" else packageName}")
+
+                    Result.success(
+                        workDataOf(
+                            KEY_SUCCESS to true,
+                            KEY_PACKAGE_NAME to packageName
+                        )
+                    )
+                }
+
+                is BackupIndexResult.LocationInaccessible ->
+                    failWith(result.message ?: context.getString(R.string.backupdir_inaccessible))
+
+                is BackupIndexResult.Failure ->
+                    failWith(result.throwable.message ?: context.getString(R.string.unknown_error))
             }
-
-            setProgress(
-                createProgressData(
-                    RefreshState.COMPLETED,
-                    context.getString(R.string.refresh_completed)
-                )
-            )
-            setForeground(
-                createForegroundInfo(
-                    RefreshState.COMPLETED,
-                    context.getString(R.string.refresh_completed)
-                )
-            )
-
-            Timber.i("Refresh completed successfully: ${if (isFullRefresh) "FULL" else packageName}")
-
-            Result.success(
-                workDataOf(
-                    KEY_SUCCESS to true,
-                    KEY_PACKAGE_NAME to packageName
-                )
-            )
-        } catch (e: FileUtils.BackupLocationInAccessibleException) {
-            LogsHandler.logException(e, backTrace = true)
-            setProgress(
-                createProgressData(
-                    RefreshState.FAILED,
-                    context.getString(R.string.backupdir_inaccessible)
-                )
-            )
-            setForeground(
-                createForegroundInfo(
-                    RefreshState.FAILED,
-                    context.getString(R.string.backupdir_inaccessible)
-                )
-            )
-            context.reportRefreshFail(context.getString(R.string.backupdir_inaccessible))
-            Result.failure(
-                workDataOf(
-                    KEY_SUCCESS to false,
-                    KEY_ERROR_MESSAGE to context.getString(R.string.backupdir_inaccessible)
-                )
-            )
         } catch (e: Exception) {
             LogsHandler.logException(e, backTrace = true)
-            setProgress(createProgressData(RefreshState.FAILED, e.message ?: "Unknown error"))
-            setForeground(createForegroundInfo(RefreshState.FAILED, e.message ?: "Unknown error"))
-            context.reportRefreshFail(e.message ?: context.getString(R.string.unknown_error))
-            Result.failure(
-                workDataOf(
-                    KEY_SUCCESS to false,
-                    KEY_ERROR_MESSAGE to (e.message ?: "Unknown error occurred")
-                )
-            )
+            failWith(e.message ?: context.getString(R.string.unknown_error))
         }
+    }
+
+    private suspend fun failWith(message: String): Result {
+        setProgress(createProgressData(RefreshState.FAILED, message))
+        setForeground(createForegroundInfo(RefreshState.FAILED, message))
+        context.reportRefreshFail(message)
+        return Result.failure(
+            workDataOf(
+                KEY_SUCCESS to false,
+                KEY_ERROR_MESSAGE to message
+            )
+        )
     }
 
     override suspend fun getForegroundInfo(): ForegroundInfo {

@@ -35,7 +35,7 @@ import com.machiav3lli.backup.data.entity.Package
 import com.machiav3lli.backup.data.entity.Pref
 import com.machiav3lli.backup.data.entity.SortFilterModel
 import com.machiav3lli.backup.manager.handler.BackupRestoreHelper
-import com.machiav3lli.backup.manager.handler.findBackups
+import com.machiav3lli.backup.manager.handler.findBackupsAndClean
 import com.machiav3lli.backup.manager.handler.showNotification
 import com.machiav3lli.backup.ui.activities.NeoActivity
 import com.machiav3lli.backup.ui.compose.component.LaunchPreference
@@ -126,14 +126,14 @@ fun ToolsPrefsPage(
                                         {
                                             coroutineScope.launch(Dispatchers.IO) {
                                                 NeoApp.beginBusy("cleanupBackupDir")
-                                                NeoApp.context.findBackups(damagedOp = DamagedOp.CLEANUP)
+                                                NeoApp.context.findBackupsAndClean(DamagedOp.CLEANUP)
                                                 NeoApp.endBusy("cleanupBackupDir")
                                             }
                                         },
                                         {
                                             coroutineScope.launch(Dispatchers.IO) {
                                                 NeoApp.beginBusy("renameDamagedToERROR")
-                                                NeoApp.context.findBackups(damagedOp = DamagedOp.RENAME)
+                                                NeoApp.context.findBackupsAndClean(DamagedOp.RENAME)
                                                 NeoApp.endBusy("renameDamagedToERROR")
                                             }
                                         }
