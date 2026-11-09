@@ -489,18 +489,6 @@ data class Package private constructor(val packageName: String) {
                 }
         }
 
-        fun invalidateBackupCacheForPackage(packageName: String = "") {
-            if (packageName.isEmpty())
-                StorageFile.invalidateCache {
-                    true //it.startsWith(backupDirConfigured)
-                }
-            else
-                StorageFile.invalidateCache {
-                    //it.startsWith(backupDirConfigured) &&
-                    it.contains(packageName)
-                }
-        }
-
         fun invalidateSystemCacheForPackage(packageName: String = "") {
             if (packageName.isEmpty())
                 StorageFile.invalidateCache {

@@ -68,6 +68,7 @@ android {
                 "proguard-rules.pro",
             )
             isMinifyEnabled = true
+            isShrinkResources = true
         }
         named("debug") {
             applicationIdSuffix = ".debug"

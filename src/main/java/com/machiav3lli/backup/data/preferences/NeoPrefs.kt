@@ -63,6 +63,7 @@ import org.koin.core.component.inject
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import timber.log.Timber
+import androidx.core.net.toUri
 
 class NeoPrefs private constructor(val context: Context) : KoinComponent {
     private val dataStore: DataStore<Preferences> by inject()
@@ -277,7 +278,7 @@ class NeoPrefs private constructor(val context: Context) : KoinComponent {
         icon = Phosphor.Translate,
         entries = context.getLanguageList(),
         defaultValue = com.machiav3lli.backup.PREFS_LANGUAGES_SYSTEM,
-        onChanged = { pref ->
+        onChanged = { _ ->
             if (pref_restartAppOnLanguageChange.value)
                 context.restartApp()
             else
@@ -314,10 +315,10 @@ class NeoPrefs private constructor(val context: Context) : KoinComponent {
         onChanged = { pref ->
             val p = pref as PrefEditString
             if (p.value.isNotEmpty()) {
-                setBackupDir(Uri.parse(p.value))
+                setBackupDir(p.value.toUri())
             }
         },
-        UI = { pref, onDialogUI, index, groupSize ->
+        UI = { pref, _, index, groupSize ->
             val context = LocalContext.current
             val launcher =
                 rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
