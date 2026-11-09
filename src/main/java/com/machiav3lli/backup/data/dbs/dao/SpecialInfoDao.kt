@@ -21,7 +21,6 @@ import androidx.room.Dao
 import androidx.room.Query
 import com.machiav3lli.backup.data.dbs.entity.SpecialInfo
 
-// TODO re-evaluate its usage as not used
 @Dao
 interface SpecialInfoDao : BaseDao<SpecialInfo> {
     @Query("SELECT COUNT(*) FROM specialinfo")

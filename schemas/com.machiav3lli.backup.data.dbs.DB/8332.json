@@ -1,0 +1,580 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 8332,
+    "identityHash": "eda5c33ac1648d45c5628e068efb2b1c",
+    "entities": [
+      {
+        "tableName": "Schedule",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `enabled` INTEGER NOT NULL, `name` TEXT NOT NULL, `timeHour` INTEGER NOT NULL, `timeMinute` INTEGER NOT NULL, `interval` INTEGER NOT NULL, `timePlaced` INTEGER NOT NULL, `filter` INTEGER NOT NULL, `mode` INTEGER NOT NULL, `launchableFilter` INTEGER NOT NULL DEFAULT 0, `updatedFilter` INTEGER NOT NULL DEFAULT 0, `latestFilter` INTEGER NOT NULL DEFAULT 0, `enabledFilter` INTEGER NOT NULL DEFAULT 0, `timeToRun` INTEGER NOT NULL, `customList` TEXT NOT NULL, `blockList` TEXT NOT NULL, `tagsList` TEXT NOT NULL DEFAULT '')",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "enabled",
+            "columnName": "enabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timeHour",
+            "columnName": "timeHour",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timeMinute",
+            "columnName": "timeMinute",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "interval",
+            "columnName": "interval",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timePlaced",
+            "columnName": "timePlaced",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "filter",
+            "columnName": "filter",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mode",
+            "columnName": "mode",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "launchableFilter",
+            "columnName": "launchableFilter",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
+          },
+          {
+            "fieldPath": "updatedFilter",
+            "columnName": "updatedFilter",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
+          },
+          {
+            "fieldPath": "latestFilter",
+            "columnName": "latestFilter",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
+          },
+          {
+            "fieldPath": "enabledFilter",
+            "columnName": "enabledFilter",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
+          },
+          {
+            "fieldPath": "timeToRun",
+            "columnName": "timeToRun",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "customList",
+            "columnName": "customList",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "blockList",
+            "columnName": "blockList",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tagsList",
+            "columnName": "tagsList",
+            "affinity": "TEXT",
+            "notNull": true,
+            "defaultValue": "''"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Schedule_id",
+            "unique": true,
+            "columnNames": [
+              "id"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Schedule_id` ON `${TABLE_NAME}` (`id`)"
+          },
+          {
+            "name": "index_Schedule_id_blockList",
+            "unique": false,
+            "columnNames": [
+              "id",
+              "blockList"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Schedule_id_blockList` ON `${TABLE_NAME}` (`id`, `blockList`)"
+          },
+          {
+            "name": "index_Schedule_id_customList",
+            "unique": false,
+            "columnNames": [
+              "id",
+              "customList"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Schedule_id_customList` ON `${TABLE_NAME}` (`id`, `customList`)"
+          },
+          {
+            "name": "index_Schedule_name",
+            "unique": false,
+            "columnNames": [
+              "name"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Schedule_name` ON `${TABLE_NAME}` (`name`)"
+          }
+        ]
+      },
+      {
+        "tableName": "Blocklist",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `packageName` TEXT NOT NULL, `blocklistId` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "packageName",
+            "columnName": "packageName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "blocklistId",
+            "columnName": "blocklistId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Blocklist_id",
+            "unique": true,
+            "columnNames": [
+              "id"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Blocklist_id` ON `${TABLE_NAME}` (`id`)"
+          },
+          {
+            "name": "index_Blocklist_blocklistId_packageName",
+            "unique": false,
+            "columnNames": [
+              "blocklistId",
+              "packageName"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Blocklist_blocklistId_packageName` ON `${TABLE_NAME}` (`blocklistId`, `packageName`)"
+          },
+          {
+            "name": "index_Blocklist_blocklistId",
+            "unique": false,
+            "columnNames": [
+              "blocklistId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Blocklist_blocklistId` ON `${TABLE_NAME}` (`blocklistId`)"
+          },
+          {
+            "name": "index_Blocklist_packageName",
+            "unique": false,
+            "columnNames": [
+              "packageName"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Blocklist_packageName` ON `${TABLE_NAME}` (`packageName`)"
+          }
+        ]
+      },
+      {
+        "tableName": "AppExtras",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`packageName` TEXT NOT NULL, `customTags` TEXT NOT NULL, `note` TEXT NOT NULL, PRIMARY KEY(`packageName`))",
+        "fields": [
+          {
+            "fieldPath": "packageName",
+            "columnName": "packageName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "customTags",
+            "columnName": "customTags",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "note",
+            "columnName": "note",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "packageName"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_AppExtras_packageName",
+            "unique": true,
+            "columnNames": [
+              "packageName"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_AppExtras_packageName` ON `${TABLE_NAME}` (`packageName`)"
+          }
+        ]
+      },
+      {
+        "tableName": "AppInfo",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`enabled` INTEGER NOT NULL, `installed` INTEGER NOT NULL, `apkDir` TEXT, `dataDir` TEXT, `deDataDir` TEXT, `permissions` TEXT NOT NULL, `packageName` TEXT NOT NULL, `packageLabel` TEXT NOT NULL, `versionName` TEXT DEFAULT '-', `versionCode` INTEGER NOT NULL, `profileId` INTEGER NOT NULL, `sourceDir` TEXT, `splitSourceDirs` TEXT NOT NULL, `isSystem` INTEGER NOT NULL, `icon` INTEGER NOT NULL, PRIMARY KEY(`packageName`))",
+        "fields": [
+          {
+            "fieldPath": "enabled",
+            "columnName": "enabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "installed",
+            "columnName": "installed",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "apkDir",
+            "columnName": "apkDir",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "dataDir",
+            "columnName": "dataDir",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "deDataDir",
+            "columnName": "deDataDir",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "permissions",
+            "columnName": "permissions",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "packageName",
+            "columnName": "packageName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "packageLabel",
+            "columnName": "packageLabel",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "versionName",
+            "columnName": "versionName",
+            "affinity": "TEXT",
+            "defaultValue": "'-'"
+          },
+          {
+            "fieldPath": "versionCode",
+            "columnName": "versionCode",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "profileId",
+            "columnName": "profileId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceDir",
+            "columnName": "sourceDir",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "splitSourceDirs",
+            "columnName": "splitSourceDirs",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSystem",
+            "columnName": "isSystem",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "icon",
+            "columnName": "icon",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "packageName"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_AppInfo_packageName",
+            "unique": true,
+            "columnNames": [
+              "packageName"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_AppInfo_packageName` ON `${TABLE_NAME}` (`packageName`)"
+          },
+          {
+            "name": "index_AppInfo_isSystem",
+            "unique": false,
+            "columnNames": [
+              "isSystem"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_AppInfo_isSystem` ON `${TABLE_NAME}` (`isSystem`)"
+          }
+        ]
+      },
+      {
+        "tableName": "Backup",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`backupVersionCode` INTEGER NOT NULL, `packageName` TEXT NOT NULL, `packageLabel` TEXT NOT NULL, `versionName` TEXT DEFAULT '-', `versionCode` INTEGER NOT NULL, `profileId` INTEGER NOT NULL, `sourceDir` TEXT, `splitSourceDirs` TEXT NOT NULL, `isSystem` INTEGER NOT NULL, `backupDate` TEXT NOT NULL, `hasApk` INTEGER NOT NULL, `hasAppData` INTEGER NOT NULL, `hasDevicesProtectedData` INTEGER NOT NULL, `hasExternalData` INTEGER NOT NULL, `hasObbData` INTEGER NOT NULL, `hasMediaData` INTEGER NOT NULL, `compressionType` TEXT, `cipherType` TEXT, `iv` BLOB, `cpuArch` TEXT, `permissions` TEXT NOT NULL, `size` INTEGER NOT NULL, `note` TEXT NOT NULL, `persistent` INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(`packageName`, `backupDate`))",
+        "fields": [
+          {
+            "fieldPath": "backupVersionCode",
+            "columnName": "backupVersionCode",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "packageName",
+            "columnName": "packageName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "packageLabel",
+            "columnName": "packageLabel",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "versionName",
+            "columnName": "versionName",
+            "affinity": "TEXT",
+            "defaultValue": "'-'"
+          },
+          {
+            "fieldPath": "versionCode",
+            "columnName": "versionCode",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "profileId",
+            "columnName": "profileId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceDir",
+            "columnName": "sourceDir",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "splitSourceDirs",
+            "columnName": "splitSourceDirs",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSystem",
+            "columnName": "isSystem",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "backupDate",
+            "columnName": "backupDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hasApk",
+            "columnName": "hasApk",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hasAppData",
+            "columnName": "hasAppData",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hasDevicesProtectedData",
+            "columnName": "hasDevicesProtectedData",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hasExternalData",
+            "columnName": "hasExternalData",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hasObbData",
+            "columnName": "hasObbData",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hasMediaData",
+            "columnName": "hasMediaData",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "compressionType",
+            "columnName": "compressionType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "cipherType",
+            "columnName": "cipherType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "iv",
+            "columnName": "iv",
+            "affinity": "BLOB"
+          },
+          {
+            "fieldPath": "cpuArch",
+            "columnName": "cpuArch",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "permissions",
+            "columnName": "permissions",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "size",
+            "columnName": "size",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "note",
+            "columnName": "note",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "persistent",
+            "columnName": "persistent",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "packageName",
+            "backupDate"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Backup_packageName_backupDate",
+            "unique": true,
+            "columnNames": [
+              "packageName",
+              "backupDate"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Backup_packageName_backupDate` ON `${TABLE_NAME}` (`packageName`, `backupDate`)"
+          },
+          {
+            "name": "index_Backup_packageName",
+            "unique": false,
+            "columnNames": [
+              "packageName"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Backup_packageName` ON `${TABLE_NAME}` (`packageName`)"
+          }
+        ]
+      }
+    ],
+    "views": [
+      {
+        "viewName": "ExtrasTags",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT packageName, customTags FROM appextras"
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'eda5c33ac1648d45c5628e068efb2b1c')"
+    ]
+  }
+}

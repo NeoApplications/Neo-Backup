@@ -21,6 +21,7 @@ import android.content.Context
 import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.DeleteColumn
+import androidx.room.DeleteTable
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
@@ -30,14 +31,12 @@ import com.machiav3lli.backup.data.dbs.dao.AppExtrasDao
 import com.machiav3lli.backup.data.dbs.dao.AppInfoDao
 import com.machiav3lli.backup.data.dbs.dao.BlocklistDao
 import com.machiav3lli.backup.data.dbs.dao.ScheduleDao
-import com.machiav3lli.backup.data.dbs.dao.SpecialInfoDao
 import com.machiav3lli.backup.data.dbs.entity.AppExtras
 import com.machiav3lli.backup.data.dbs.entity.AppInfo
 import com.machiav3lli.backup.data.dbs.entity.Backup
 import com.machiav3lli.backup.data.dbs.entity.Blocklist
 import com.machiav3lli.backup.data.dbs.entity.ExtrasTags
 import com.machiav3lli.backup.data.dbs.entity.Schedule
-import com.machiav3lli.backup.data.dbs.entity.SpecialInfo
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
@@ -47,10 +46,9 @@ import org.koin.dsl.module
         Blocklist::class,
         AppExtras::class,
         AppInfo::class,
-        SpecialInfo::class,
         Backup::class,
     ],
-    version = 8330,
+    version = 8332,
     exportSchema = true,
     views = [
         ExtrasTags::class,
@@ -66,6 +64,7 @@ import org.koin.dsl.module
         AutoMigration(from = 10, to = 11),
         AutoMigration(from = 11, to = 8328),
         AutoMigration(from = 8328, to = 8330),
+        AutoMigration(from = 8330, to = 8332, spec = DB.Companion.AutoMigration8330to8332::class),
     ]
 )
 @TypeConverters(Converters::class)
@@ -74,7 +73,6 @@ abstract class DB : RoomDatabase() {
     abstract fun getBlocklistDao(): BlocklistDao
     abstract fun getAppExtrasDao(): AppExtrasDao
     abstract fun getAppInfoDao(): AppInfoDao
-    abstract fun getSpecialInfoDao(): SpecialInfoDao
 
     companion object {
         @Volatile
@@ -88,7 +86,7 @@ abstract class DB : RoomDatabase() {
                             context.applicationContext, DB::class.java,
                             MAIN_DB_NAME
                         )
-                        .fallbackToDestructiveMigration()
+                        .fallbackToDestructiveMigration(false)
                         .build()
                 }
                 return INSTANCE!!
@@ -106,6 +104,9 @@ abstract class DB : RoomDatabase() {
             columnName = "specialFilter"
         )
         class AutoMigration6to7 : AutoMigrationSpec
+
+        @DeleteTable(tableName = "SpecialInfo")
+        class AutoMigration8330to8332 : AutoMigrationSpec
     }
 }
 
@@ -115,5 +116,4 @@ val databaseModule = module {
     single { get<DB>().getBlocklistDao() }
     single { get<DB>().getAppExtrasDao() }
     single { get<DB>().getAppInfoDao() }
-    single { get<DB>().getSpecialInfoDao() }
 }
