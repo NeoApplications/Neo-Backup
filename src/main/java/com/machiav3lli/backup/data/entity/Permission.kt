@@ -22,7 +22,8 @@ data class Permission(
         val UsageStats = Permission(
             R.string.grant_usage_access_title,
             Phosphor.ShieldStar,
-            R.string.intro_permission_usageaccess
+            R.string.intro_permission_usageaccess,
+            R.string.intro_permission_usageaccess_warning,
         )
         val BatteryOptimization = Permission(
             R.string.ignore_battery_optimization_title,

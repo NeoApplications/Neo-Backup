@@ -534,4 +534,5 @@
     <string name="color_orange">Orange</string>
     <string name="color_pink">Pink</string>
     <string name="color_red">Red</string>
+    <string name="intro_permission_usageaccess_warning">On Android 13 and later, apps installed from sources other than Play Store have restricted access to certain permissions. If you see a warning of restricted permission, follow these steps:\n1. From Settings → Apps open Neo Backup.\n2. Tap the three-dot menu in the top-right corner.\n3. Select Allow restricted settings and confirm with your PIN/fingerprint.\n4. Go back to this page and grant the usage access permission.</string>
 </resources>
