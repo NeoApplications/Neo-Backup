@@ -481,4 +481,26 @@
     <string name="schedule_not_found_or_disabled">Razpored ni najden ali je onemogočen</string>
     <string name="setup_FORMAT">Nastavitve: %s</string>
     <string name="permissions">Dovoljenja</string>
+    <string name="night_mode">Nočni način</string>
+    <string name="system">Sistem</string>
+    <string name="dynamic_colors">Dinamične barve</string>
+    <string name="dynamic_theme">Dinamična</string>
+    <string name="black_theme">Črna tema</string>
+    <string name="seed_color">Barva semena</string>
+    <string name="contrast_level">Kontrast</string>
+    <string name="palette_style">Barvna paleta</string>
+    <string name="contrast_default">Privzeto</string>
+    <string name="contrast_medium">srednji</string>
+    <string name="contrast_high">visok</string>
+    <string name="palette_neutral">Nevtralna</string>
+    <string name="palette_tonal">Tonalna</string>
+    <string name="palette_expressive">Izrazna</string>
+    <string name="color_green">Zelena</string>
+    <string name="color_blue">Modra</string>
+    <string name="color_purple">Vijolična</string>
+    <string name="color_teal">Modrozelena</string>
+    <string name="color_orange">Oranžna</string>
+    <string name="color_pink">Roza</string>
+    <string name="color_red">Rdeča</string>
+    <string name="intro_permission_usageaccess_warning">V sistemu Android 13 in novejših različicah imajo aplikacije, nameščene iz virov, ki niso Play Store, omejen dostop do nekaterih dovoljenj. Če se prikaže opozorilo o omejenem dovoljenju, sledi tem korakom:\n1. V meniju Nastavitve → Aplikacije odpri aplikacijo Neo Backup.\n2. Tapni meni s tremi pikami v zgornjem desnem kotu.\n3. Izberi možnost »Dovoli omejene nastavitve« in potrdi z PIN-kodo ali prstnim odtisom.\n4. Vrni se na to stran in dodeli dovoljenje za dostop do uporabe.</string>
 </resources>
