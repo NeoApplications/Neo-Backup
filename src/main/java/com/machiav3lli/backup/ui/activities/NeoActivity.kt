@@ -158,6 +158,8 @@ class NeoActivity : BaseActivity() {
 
         //TODO here or in MainPage? MainPage seems to be weird at least for each recomposition
         NeoApp.appsSuspendedChecked = false
+        val startRoute = if (shouldShowLock()) NavRoute.Lock
+        else NavRoute.Onboarding
 
         //if (pref_catchUncaughtException.value) {               //TODO wech ???
         //    Thread.setDefaultUncaughtExceptionHandler { _, e ->
@@ -207,7 +209,7 @@ class NeoActivity : BaseActivity() {
 
         setContent {
 
-            navStack = rememberNavBackStack(NavRoute.Onboarding) as NavBackStack<NavRoute>
+            navStack = rememberNavBackStack(startRoute) as NavBackStack<NavRoute>
             val neoTheme by pref_neoTheme.state
 
             DisposableEffect(neoTheme) {
@@ -601,8 +603,10 @@ class NeoActivity : BaseActivity() {
     private fun launchMain() {
         when {
             shouldShowLock()   -> {
-                val currentDestination = navStack.lastOrNull() ?: NavRoute.Main
-                if (!isOnLockScreen()) lockNavigationState.intendedDestination = currentDestination
+                if (lockNavigationState.intendedDestination == null) {
+                    lockNavigationState.intendedDestination =
+                        navStack.lastOrNull()?.takeUnless { it == NavRoute.Lock } ?: NavRoute.Main
+                }
                 navStack.navigateUnique(NavRoute.Lock)
                 launchBiometricPrompt()
             }
@@ -650,11 +654,10 @@ class NeoActivity : BaseActivity() {
         navStack.lastOrNull() == NavRoute.Lock
 
     private fun navigateToStoredDestination() {
-        lockNavigationState.intendedDestination?.let { destination ->
-            navStack.navigateUnique(destination)
-            navStack.remove(NavRoute.Lock)
-            lockNavigationState.intendedDestination = null
-        }
+        val destination = lockNavigationState.intendedDestination ?: NavRoute.Main
+        navStack.navigateUnique(destination)
+        navStack.remove(NavRoute.Lock)
+        lockNavigationState.intendedDestination = null
     }
 }
 
