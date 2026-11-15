@@ -1,5 +1,5 @@
 /*
- * OAndBackupX: open-source apps backup and restore app.
+ * Neo Backup: open-source apps backup and restore app.
  * Copyright (C) 2020  Antonios Hazim
  *
  * This program is free software: you can redistribute it and/or modify
@@ -163,7 +163,6 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
-    // TODO use the new WorkInfo.stopReason (report stopReason), WorkManager.getWorkInfosFlow (Flow instead of LiveData), setNextScheduleTimeOverride (Precise scheduling), Configuration.Builder.setContentUriTriggerWorkersLimit (limit for content uri workers)
     implementation(libs.work.runtime)
     implementation(libs.serialization.json)
     implementation(libs.datastore.preferences)
@@ -218,7 +217,7 @@ dependencies {
     debugImplementation(libs.compose.ui.test.manifest)
     //---------------------------------------- hg42
     // can only be enabled on demand, otherwise it conflicts with compilation
-    // TODO hg42 without the library the .main.kts script still works, but syntax checking is not working
+    // without the library the .main.kts script still works, but syntax checking is not working
     //implementation(libs.kotlin.main.kts)
     implementation(kotlin("script-runtime"))    // for intellisense in kts scripts
 }

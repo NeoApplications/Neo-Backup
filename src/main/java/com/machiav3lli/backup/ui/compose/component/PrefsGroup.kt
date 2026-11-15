@@ -27,7 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.machiav3lli.backup.BUTTON_SIZE_MEDIUM
+import com.machiav3lli.backup.ICON_SIZE_LARGE
 import com.machiav3lli.backup.ICON_SIZE_MEDIUM
 import com.machiav3lli.backup.data.entity.Pref
 import com.machiav3lli.backup.data.preferences.PrefDelegate
@@ -46,8 +46,8 @@ fun PrefsGroupCollapsed(prefs: ImmutableList<Pref>, heading: String) {
 
 @Composable
 fun PrefsGroup(
+    heading: String?,
     modifier: Modifier = Modifier,
-    heading: String? = null,
     content: @Composable () -> Unit,
 ) {
     PrefsGroupHeading(heading)
@@ -64,16 +64,14 @@ fun PrefsGroup(
 
 @Composable
 fun PrefsGroup(
+    prefs: ImmutableList<Pref>,
     modifier: Modifier = Modifier,
     heading: String? = null,
-    prefs: ImmutableList<Pref>,
     onPrefDialog: (Pref) -> Unit = {},
 ) {
-    val size = prefs.size
-
     PrefsGroup(
+        heading = heading,
         modifier = modifier,
-        heading = heading
     ) {
         if (prefs.isNotEmpty()) {
             prefs.forEachIndexed { index, pref ->
@@ -82,9 +80,9 @@ fun PrefsGroup(
                     pref,
                     onPrefDialog,
                     index,
-                    size,
+                    prefs.size,
                 )
-                if (index < size - 1)
+                if (index < prefs.lastIndex)
                     Spacer(modifier = Modifier.height(4.dp))
             }
         }
@@ -101,8 +99,8 @@ fun NeoPrefsGroup(
     val size = prefs.size
 
     PrefsGroup(
+        heading = heading,
         modifier = modifier,
-        heading = heading
     ) {
         if (prefs.isNotEmpty()) {
             prefs.forEachIndexed { index, pref ->
@@ -122,14 +120,14 @@ fun NeoPrefsGroup(
 
 @Composable
 fun PrefsGroupHeading(
-    heading: String? = null,
+    heading: String?,
     modifier: Modifier = Modifier,
 ) =
     if (heading != null) {
         Column(
             verticalArrangement = Arrangement.Center,
             modifier = modifier
-                .height(BUTTON_SIZE_MEDIUM)
+                .height(ICON_SIZE_LARGE)
                 .padding(horizontal = 32.dp)
                 .fillMaxWidth(),
         ) {

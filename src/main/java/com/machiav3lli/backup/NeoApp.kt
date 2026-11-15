@@ -152,9 +152,7 @@ class NeoApp : Application(), KoinStartup {
             Thread.setDefaultUncaughtExceptionHandler { _, e ->
                 try {
                     try {
-                        //Timber.i("\n\n" + "=".repeat(60))
                         LogsHandler.unexpectedException(e)
-                        //LogsHandler.logErrors("uncaught: ${e.message}")
                     } catch (_: Throwable) {
                         // ignore
                     }
@@ -284,8 +282,8 @@ class NeoApp : Application(), KoinStartup {
                 }
         }
 
-        private var logSections = mutableMapOf<String, Int>()
-            .withDefault { 0 }     //TODO hg42 use AtomicInteger? but map is synchronized anyways
+        //TODO hg42 use AtomicInteger? but map is synchronized anyways
+        private var logSections = mutableMapOf<String, Int>().withDefault { 0 }
 
         init {
 
@@ -434,11 +432,13 @@ class NeoApp : Application(), KoinStartup {
         var shellHandler: ShellHandler? = null
             private set
 
+        val runningSchedules = mutableMapOf<Long, Boolean>()
+
         fun initShellHandler(): ShellHandler? {
             return try {
                 shellHandler = ShellHandler()
                 shellHandler
-            } catch (e: Throwable) {
+            } catch (_: Throwable) {
                 null
             }
         }
@@ -456,7 +456,7 @@ class NeoApp : Application(), KoinStartup {
                         throw StorageLocationNotConfiguredException()
                     }
                     val storageDir = StorageFile.fromUri(storagePath)
-                    if (!storageDir.exists()) { //TODO hg42 for now only existing directories allowed
+                    if (!storageDir.exists()) {
                         Timber.e("backup storage location not accessible: $storagePath")
                         throw BackupLocationInAccessibleException("Cannot access the root location '$storagePath'")
                     }
@@ -544,13 +544,12 @@ class NeoApp : Application(), KoinStartup {
             synchronized(logSections) {
                 count = logSections.getValue(section)
                 logSections[section] = count + 1
-                //if (count == 0 && xxx)  logMessages.clear()           //TODO hg42
             }
             traceSection { """*** ${"|---".repeat(count)}\ $section""" }
             beginNanoTimer("section.$section")
         }
 
-        fun endLogSection(section: String) {    //TODO hg42 timer!
+        fun endLogSection(section: String) {
             val time = endNanoTimer("section.$section")
             var count: Int
             synchronized(logSections) {
@@ -558,7 +557,6 @@ class NeoApp : Application(), KoinStartup {
                 logSections[section] = count - 1
             }
             traceSection { "*** ${"|---".repeat(count - 1)}/ $section ${"%.3f".format(time / 1E9)} sec" }
-            //if (count == 0 && xxx)  ->Log                             //TODO hg42
         }
 
         //------------------------------------------------------------------------------------------ busy
@@ -590,7 +588,6 @@ class NeoApp : Application(), KoinStartup {
                 }
             }
 
-            //TODO hg42 beginBusy(startupMsg)
             hitBusy(120000) // startup
         }
 
@@ -622,11 +619,6 @@ class NeoApp : Application(), KoinStartup {
             }
             return time
         }
-
-        //------------------------------------------------------------------------------------------ runningSchedules
-
-        // TODO remove after checking (unique workers shouldn't have duplicates anyway)
-        val runningSchedules = mutableMapOf<Long, Boolean>()
 
         //------------------------------------------------------------------------------------------ backups
 

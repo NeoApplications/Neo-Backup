@@ -42,7 +42,7 @@ fun ComposeContentTestRule.onNodeWait(
     try {
         this.waitUntil(timeoutMillis) {
             val nodes = this.onAllNodes(matcher)
-            if(nodes.fetchSemanticsNodes().size > 0) {
+            if(nodes.fetchSemanticsNodes().isNotEmpty()) {
                 node = nodes.onFirst()
                 true
             } else

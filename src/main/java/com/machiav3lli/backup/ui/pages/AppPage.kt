@@ -49,7 +49,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -65,6 +64,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.machiav3lli.backup.DialogMode
 import com.machiav3lli.backup.NeoApp
 import com.machiav3lli.backup.R
@@ -131,8 +131,8 @@ fun AppPage(
         mutableStateOf(Pair(DialogMode.NONE, Schedule()))
     }
 
-    val state by viewModel.appState.collectAsState()
-    val snackbarText by viewModel.snackbarText.collectAsState("")
+    val state by viewModel.appState.collectAsStateWithLifecycle()
+    val snackbarText by viewModel.snackbarText.collectAsStateWithLifecycle("")
     val dismissNow by viewModel.dismissNow
     val snackbarHostState = remember { SnackbarHostState() }
     val snackbarVisible = snackbarText.isNotEmpty()
@@ -207,7 +207,7 @@ fun AppPage(
                             onDismiss()
                         }
                     }
-                    AnimatedVisibility(visible = snackbarVisible) { // TODO move to MainPage
+                    AnimatedVisibility(visible = snackbarVisible) { // TODO move to MainActivity
                         Text(
                             text = snackbarText,
                             color = MaterialTheme.colorScheme.primary,
@@ -242,7 +242,7 @@ fun AppPage(
                 contentPadding = PaddingValues(8.dp)
             ) {
                 if (launchIntent != null) item {
-                    AnimatedVisibility(visible = launchIntent != null) {
+                    AnimatedVisibility(visible = true) {
                         IconTextButton(
                             icon = Phosphor.ArrowSquareOut,
                             description = stringResource(id = R.string.launch_app),
@@ -528,8 +528,8 @@ fun AppPage(
                         onShare = { item ->
                             BackupShareUtils.shareBackup(item, context)
                         },
-                        rewriteBackup = { backup, changedBackup ->
-                            viewModel.rewriteBackup(backup, changedBackup)
+                        rewriteBackup = { backup, transform ->
+                            viewModel.rewriteBackup(backup, transform)
                         }
                     )
                 }
@@ -615,6 +615,7 @@ fun AppPage(
                                         Timber.w("UI Issue! Tried to delete backups for app without backups.")
                                         openDialog.value = false
                                     }
+                                    // TODO fix reactive removing of deleted backups of installed apps
                                     viewModel.deleteBackup(dialogProps.value.second as Backup)
                                 }
                             )
@@ -677,9 +678,9 @@ fun AppPage(
                                 onDismiss = { openDialog.value = false },
                                 primaryText = stringResource(id = R.string.dialogYes),
                                 primaryAction = {
-                                    //TODO hg42 force-stop, force-close, ... ? I think these are different ones, and I don't know which.
-                                    //TODO hg42 killBackgroundProcesses seems to be am kill
-                                    //TODO in api33 A13 there is am stop-app which doesn't kill alarms and
+                                    // force-stop, force-close, ... ? I think these are different ones, and I don't know which.
+                                    // killBackgroundProcesses seems to be am kill
+                                    // in api33 A13 there is am stop-app which doesn't kill alarms and
                                     runAsRoot("am stop-app --user $profileId ${pkg.packageName} || am force-stop --user $profileId ${pkg.packageName}")
                                 }
                             )
@@ -746,7 +747,7 @@ fun AppPage(
                                 initValue = backup.note,
                                 openDialogCustom = openDialog,
                             ) {
-                                viewModel.rewriteBackup(backup, backup.copy(note = it))
+                                viewModel.rewriteBackup(backup) { copy(note = it) }
                             }
                         }
 

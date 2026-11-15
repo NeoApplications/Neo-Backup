@@ -24,7 +24,7 @@ import com.machiav3lli.backup.data.entity.EnumPref
 import com.machiav3lli.backup.data.entity.PasswordPref
 import com.machiav3lli.backup.data.entity.Pref
 import com.machiav3lli.backup.manager.handler.PGPHandler
-import com.machiav3lli.backup.ui.compose.blockBorderBottom
+import com.machiav3lli.backup.ui.compose.blockBorder
 import com.machiav3lli.backup.ui.compose.component.ActionButton
 import com.machiav3lli.backup.ui.compose.component.ExpandableBlock
 import com.machiav3lli.backup.ui.compose.component.PrefsGroup
@@ -81,7 +81,7 @@ fun EncryptionPage(pgpManager: PGPHandler = koinInject(), navigateUp: () -> Unit
         LazyColumn(
             modifier = Modifier
                 .padding(paddingValues)
-                .blockBorderBottom()
+                .blockBorder()
                 .fillMaxSize(),
             contentPadding = PaddingValues(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)

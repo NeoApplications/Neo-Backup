@@ -2,10 +2,6 @@ package com.machiav3lli.backup.data.dbs.entity
 
 import android.content.Context
 import android.content.pm.PackageManager
-import androidx.room.Entity
-import androidx.room.Index
-import com.machiav3lli.backup.FIELD_IS_SYSTEM
-import com.machiav3lli.backup.FIELD_PACKAGE_NAME
 import com.machiav3lli.backup.R
 import com.machiav3lli.backup.data.plugins.SpecialFilesPlugin
 import com.machiav3lli.backup.manager.handler.ShellCommands
@@ -14,15 +10,6 @@ import com.machiav3lli.backup.utils.StorageLocationNotConfiguredException
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicInteger
 
-/**
- * This class is used to describe special backup files that use a hardcoded list of file paths
- */
-@Entity(
-    indices = [
-        Index(FIELD_PACKAGE_NAME, unique = true),
-        Index(FIELD_IS_SYSTEM),
-    ]
-)
 open class SpecialInfo : PackageInfo {
 
     var specialFiles: Array<String> = arrayOf()

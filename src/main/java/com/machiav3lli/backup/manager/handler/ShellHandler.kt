@@ -56,9 +56,9 @@ import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 
-const val verKnown = "0.8.0 - 0.8.7"
+const val verKnown = "0.8.0 - 0.8.13" // TODO update on newer Android versions
 const val verBugDotDotDirHang = "0.8.3 - 0.8.6"
-const val verBugDotDotDirExtract = "0.8.0 - 0.8.0"  //TODO hg42 more versions?
+const val verBugDotDotDirExtract = "0.8.0 - 0.8.0"
 
 class FakeShellResult(
     var aCode: Int,
@@ -79,7 +79,7 @@ class FakeShellResult(
 }
 
 class ShellHandler {
-
+    // TODO clean up logic
     class UtilBox(
         var name: String = "",
         var version: String = "0.0.0",
@@ -100,10 +100,10 @@ class ShellHandler {
             fun UtilBox.haveWorkaround(reason: String) {
             }
 
+            //TODO hg42 should use a real "feature" test instead of version (but it hangs)
             val bugDetectors = mapOf<String, (String, UtilBox) -> Unit>(
                 "DotDotDirExtract" to { name, box ->
                     box.apply {
-                        //TODO hg42 should use a real "feature" test instead of version (but it hangs)
                         if (semver.satisfies(verBugDotDotDirExtract)) {
                             bugs[name] = true
                             haveWorkaround("tar only ignores ..dir on extraction")
@@ -112,7 +112,6 @@ class ShellHandler {
                 },
                 "DotDotDirHang" to { name, box ->
                     box.apply {
-                        //TODO hg42 should use a real "feature" test instead of version (but it hangs)
                         if (semver.satisfies(verBugDotDotDirHang)) {
                             bugs[name] = true
                             haveWorkaround("we ignore directories of this kind")
@@ -130,7 +129,7 @@ class ShellHandler {
                             }
                         } catch (e: Throwable) {
                             bugs["unSpec"] = true
-                            fatalBug("failed 'ls -ld /'") //TODO hg42 fatal? when can this happen?
+                            fatalBug("failed 'ls -ld /'") // hg42 fatal? when can this happen?
                             LogsHandler.unexpectedException(e)
                         }
                     }
@@ -192,7 +191,7 @@ class ShellHandler {
             baseInfo().forEach { Timber.i(it) }
         }
 
-        utilBoxes = mutableListOf<UtilBox>()
+        utilBoxes = mutableListOf()
         try {
             UTILBOX_NAMES.forEach { box ->
                 var boxVersion = ""
@@ -484,10 +483,8 @@ class ShellHandler {
             */
 
             fun unescapeLsOutput(str: String): String {
-                val is_escaped = Regex("""\\([\\abefnrtv ]|\d\d\d)""")
-                return str.replace(
-                    is_escaped
-                ) { match: MatchResult ->
+                val isEscapedRegex = Regex("""\\([\\abefnrtv ]|\d\d\d)""")
+                return str.replace(isEscapedRegex) { match: MatchResult ->
                     val matched =
                         match.groups[1]?.value ?: "?" // "?" cannot happen because it matched
                     when (matched) {
@@ -517,56 +514,8 @@ class ShellHandler {
                 lsLine: String,
                 parentPath: String?,
                 absoluteParent: String,
-            ): FileInfo? {
+            ): FileInfo {
                 var parent = absoluteParent
-                // Expecting something like this (with whitespace) from
-                // ls -bAll /data/data/com.shazam.android/
-                // field   0     1    2       3            4       5            6             7     8
-                //   "drwxrwx--x 5 u0_a441 u0_a441       4096 2021-10-19 01:54:32.029625295 +0200 files"
-                // links have 2 additional fields:
-                //   "lrwxrwxrwx 1 root    root            61 2021-08-25 16:44:49.757000571 +0200 lib -> /data/app/com.shazam.android-I4tzgPt3Ay6mFgz4Jnb4dg==/lib/arm"
-                // [0] Filemode, [1] number of directories/links inside, [2] owner [3] group [4] size
-                // [5] mdate, [6] mtime, [7] mtimezone, [8] filename
-                //var absoluteParent = absoluteParent
-                //val tokens = lsLine.split(Regex("""\s+"""), 9).toTypedArray()
-                //  val regex = Pattern.compile(
-                //      """(?x)
-                //          |^
-                //          |(?<mode>\S+)
-                //          |\s+
-                //          |(?<links>\d+)
-                //          |\s+
-                //          |(?<owner>\S+)
-                //          |\s+
-                //          |(?<group>\S+)
-                //          |\s+
-                //          |(?<size>\d+)
-                //          |\s+
-                //          |(?<mdatetime>
-                //          |  (?<mdate>\S+)
-                //          |  \s+
-                //          |  (?<mtime>\S+)(?:\.\S+)       # ignore nanoseconds part
-                //          |  (\s+                         # optional
-                //          |     (?<mzone>[+-]\d\d\d\d)    # old toybox on api 26 doesn't have this
-                //          |  )?                           # (no -ll option or --full-time)
-                //          |)
-                //          |\s+
-                //          |(?<name>.*)
-                //          |$
-                //          |""".trimMargin()
-                //  )
-                //  val match = regex.matcher(lsLine)
-                //  match.find()
-                //  var filePath: String?
-                //  val modeFlags = match.group("mode") ?: return null
-                //  val owner = match.group("owner") ?: return null
-                //  val group = match.group("group") ?: return null
-                //  val size = match.group("size") ?: return null
-                //  val mdatetime = match.group("mdatetime") ?: return null
-                //  val mdate = match.group("mdate") ?: return null
-                //  val mtime = match.group("mtime") ?: return null
-                //  val mzone = match.group("mzone")
-                //  var name = match.group("name") ?: return null
                 val regex = Regex(
                     """(?x)
                         |^
@@ -633,7 +582,7 @@ class ShellHandler {
                 var fileMode = FALLBACK_MODE_FOR_FILE
                 try {
                     fileMode = translatePosixPermissionToMode(modeFlags.substring(1))
-                } catch (e: IllegalArgumentException) {
+                } catch (_: IllegalArgumentException) {
                     // Happens on cache and code_cache dir because of sticky bits
                     // drwxrws--x 2 u0_a108 u0_a108_cache 4096 2020-09-22 17:36 cache
                     // drwxrws--x 2 u0_a108 u0_a108_cache 4096 2020-09-22 17:36 code_cache
@@ -670,7 +619,7 @@ class ShellHandler {
                         type = FileType.SYMBOLIC_LINK
                         val nameAndLink = PATTERN_LINKSPLIT.split(filePath as CharSequence)
                         //TODO hg42 what if PATTERN_LINK_SPLIT is part of a file or link path? (should be pretty rare)
-                        //TODO hg42 in this case we get more parts and we could check which part combinations exist
+                        //      in this case we get more parts and we could check which part combinations exist
                         if (nameAndLink.size > 2)
                             Timber.e("we got more than one 'link arrow' in '$filePath'")
                         filePath = nameAndLink[0]
@@ -694,7 +643,7 @@ class ShellHandler {
                     group,
                     fileMode,
                     fileSize,
-                    fileModTime!!
+                    fileModTime!!,
                 )
                 result.linkName = linkName
                 return result
@@ -707,8 +656,6 @@ class ShellHandler {
     }
 
     companion object {
-
-        //private val UTILBOX_NAMES = listOf("busybox", "/sbin/.magisk/busybox/busybox", "toybox")
         private val UTILBOX_NAMES = listOf(
             // only toybox will work currently
             //"busybox",
@@ -723,8 +670,6 @@ class ShellHandler {
         var utilBoxes = mutableListOf<UtilBox>()
         var utilBox: UtilBox = UtilBox()
         val utilBoxQ get() = utilBox.quote()
-
-        val libsuUsesRootShell get() = Shell.getShell().status >= Shell.ROOT_SHELL
 
         val hasPmBypassLowTargetSDKBlock: Boolean by lazy {
             runCatching {
@@ -744,7 +689,6 @@ class ShellHandler {
         fun sysInfo() =
             listOf(
                 "system       = Android ${Android.name} - ${ShellUtils.fastCmd("uname -r -m -o")}",
-                //"has nsenter  = $hasNsEnter", //TODO wech
                 "has bypass-low-target-sdk-block = $hasPmBypassLowTargetSDKBlock",
             )
 
@@ -756,11 +700,9 @@ class ShellHandler {
                         Shell.UNKNOWN        -> "UNKNOWN"
                         Shell.NON_ROOT_SHELL -> "NON_ROOT_SHELL"
                         Shell.ROOT_SHELL     -> "ROOT_SHELL"
-                        //Shell.ROOT_MOUNT_MASTER -> "ROOT_MOUNT_MASTER"     //TODO wech
                         else                 -> "unknown code ${Shell.getShell().status}"
                     }
                 }",
-                "libsu uses root shell          = $libsuUsesRootShell",               //TODO wech (never becasue initialized as non-root)
                 "su command run to gain root    = $suCommand",
             )
 
@@ -845,9 +787,13 @@ class ShellHandler {
             val result = runAsRoot("sh '$checkRootScript'", throwFail = false)
             if (!result.isSuccess) {
                 Timber.w(
-                    "checkroot failed with code ${result.code}:\n" +
-                            "stdout: ${result.out.joinToString("\n")}\n" +
-                            "stderr: ${result.err.joinToString("\n")}"
+                    "checkroot failed with code ${
+                        result.code
+                    }:\nstdout: ${
+                        result.out.joinToString("\n")
+                    }\nstderr: ${
+                        result.err.joinToString("\n")
+                    }"
                 )
             }
             return result.isSuccess
@@ -924,7 +870,7 @@ class ShellHandler {
             } catch (e: Throwable) {
                 logException(e, what = "suCommand: $suCommand")
             }
-            releaseShell(trace = false)
+            releaseShell()
             return false
         }
 
@@ -973,12 +919,10 @@ class ShellHandler {
             findSuCommand(pref_suCommand.value)
         }
 
-        private fun releaseShell(trace: Boolean = true): Shell? {
+        private fun releaseShell(): Shell? {
             return try {
                 val shell = Shell.getCachedShell()
-                if (shell != null
-                //&& shell.isAlive
-                ) {
+                if (shell != null) {
                     traceDebug { "previous cached shell found, trying to terminate it ($shell)" }
                     shell.waitAndClose(0L, TimeUnit.SECONDS)
                 }
@@ -1006,7 +950,6 @@ class ShellHandler {
 
         @Throws(ShellCommandFailedException::class)
         private fun runShellCommand(
-            shell: Shell,
             command: String,
             throwFail: Boolean = true,
         ): Shell.Result {
@@ -1037,7 +980,7 @@ class ShellHandler {
 
         @Throws(ShellCommandFailedException::class)
         fun runAsRoot(command: String, throwFail: Boolean = true): Shell.Result {
-            return runShellCommand(Shell.getShell(), command, throwFail)
+            return runShellCommand(command, throwFail)
         }
 
         fun runAsRootPipeInCollectErr(
@@ -1134,7 +1077,7 @@ class ShellHandler {
         //          except '$' , '`' and '\' ,
         //          up to the next unquoted double quote
         private val charactersToBeEscaped =
-            Regex("""[\\${'$'}"`]""")   // blacklist, only escape those that are necessary
+            Regex($$"""[\\$"`]""")   // blacklist, only escape those that are necessary
 
         fun quote(parameter: String): String {
             return "\"${parameter.replace(charactersToBeEscaped) { "\\${it.value}" }}\""

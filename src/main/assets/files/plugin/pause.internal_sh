@@ -33,9 +33,6 @@ if [[ $command == "pre-backup" ]]; then
   appuid=$1
   shift
 
-  # am force-stop --user $profileid $package
-  # am kill --user $profileid $package
-
   if $suspend; then
     pm suspend --user $profileid $package >/dev/null
     $utilbox sleep 3
@@ -98,13 +95,6 @@ if [[ $command == "post-backup" ]]; then
 
   appuid=$1
   shift
-
-  #if $kill; then
-    #TODO hg42: why was it here, after the backup? I don't remember, seems to be non-sense,
-    #TODO hg42: may be a leftover when apps were killed before backup?
-    # kill background processes, which should be restarted by the system when necessary
-    #am kill --user $profileid $package
-  #fi
 
   if [[ -n $* ]]; then $utilbox kill -CONT "$@"; fi
 

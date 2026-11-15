@@ -28,9 +28,9 @@ import android.provider.Telephony
 import android.telephony.SmsMessage
 import androidx.core.content.PermissionChecker
 import com.machiav3lli.backup.NeoApp
-import com.machiav3lli.backup.manager.handler.showNotification
 import com.machiav3lli.backup.ui.activities.NeoActivity
 import com.machiav3lli.backup.utils.SystemUtils
+import com.machiav3lli.backup.utils.showNotification
 import kotlinx.coroutines.launch
 
 class SmsReceiver : BroadcastReceiver() {
@@ -115,8 +115,8 @@ class SmsReceiver : BroadcastReceiver() {
         values.put(Telephony.Sms.BODY, message)
         values.put(Telephony.Sms.SUBJECT, sms.pseudoSubject)
         contentResolver.insert(Telephony.Sms.CONTENT_URI, values)
-        showNotification(
-            context, NeoActivity::class.java, notificationId.toInt(),
+        context.showNotification(
+            NeoActivity::class.java, notificationId.toInt(),
             sender, message, true
         )
     }

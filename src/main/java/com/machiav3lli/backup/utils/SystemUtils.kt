@@ -53,14 +53,14 @@ object SystemUtils {
             val cf = CertificateFactory.getInstance("X509")
             val x509Certificate: X509Certificate =
                 cf.generateCertificate(ByteArrayInputStream(signatureBytes)) as X509Certificate
-            val DN_name = x509Certificate.issuerDN.name
-            val names = DN_name.split(",").map {
+            val dnName = x509Certificate.issuerDN.name
+            val names = dnName.split(",").associate {
                 val (field, value) = it.split("=", limit = 2)
                 field to value
-            }.toMap()
+            }
             var issuer = names["CN"]
             names["O"]?.let { if (issuer != it) issuer = "$issuer / $it" }
-            return issuer ?: DN_name
+            return issuer ?: dnName
         }
         return null
     }
@@ -85,7 +85,7 @@ object SystemUtils {
         when (1) {
 
             // best,  8 threads, may hang with recursion
-            //0 -> list.stream().parallel().forEach { todo(it) }
+            //0 -> list.stream().parallel().forEach { to-do }
 
             // slow,  7 threads with IO, most used once, one used 900 times
             0 -> runBlocking { list.asFlow().onEach { todo(it) }.flowOn(pool).collect {} }
@@ -97,7 +97,9 @@ object SystemUtils {
             0 -> list.asFlow().map { scope.launch(pool) { todo(it) } }.collect { it.join() }
 
             // best, 63 threads with IO
-            0 -> runBlocking { list.asFlow().collect { launch(pool) { todo(it) } } }
+            0 -> runBlocking {
+                list.asFlow().collect { this@runBlocking.launch(pool) { todo(it) } }
+            }
 
             // best, 66 threads with IO
             0 -> list.map { scope.launch(pool) { todo(it) } }.joinAll()
@@ -110,9 +112,9 @@ object SystemUtils {
     fun Context.share(text: String, subject: String? = null, asFile: Boolean = true) {
         if (asFile) {
             getExternalFilesDir(DIRECTORY_DOWNLOADS)
-                ?.resolve("NeoBackup-share.txt")    // TODO hg42 use subject.replace(illegal, "_").truncate(n)
+                ?.resolve("NeoBackup-share.txt")
                 ?.also { it.writeText(text) }
-                ?.let { SystemUtils.share(StorageFile(it)) }
+                ?.let { share(StorageFile(it)) }
             return
         }
         MainScope().launch(Dispatchers.IO) {
@@ -204,9 +206,9 @@ object SystemUtils {
             )
             possiblePaths.forEach { path ->
                 val file = RootFile(path)
-                if (isUseablePath(file)) {   //TODO hg42 check with timeout in case of lockups
+                if (isUseablePath(file)) {
                     Timber.i("found $key at $file")
-                    storagePath.put(path, file)
+                    storagePath[path] = file
                     return file
                 }
             }
@@ -231,18 +233,18 @@ object SystemUtils {
                 )
                 possiblePaths.forEach { path ->
                     val file = RootFile(path)
-                    if (isUseablePath(file)) {   //TODO hg42 check with timeout in case of lockups
+                    if (isUseablePath(file)) {
                         Timber.i("found $key at$file")
-                        storagePath.put(baseKey, file)
+                        storagePath[baseKey] = file
                         val targetFile = RootFile(file, subPath)
-                        storagePath.put(key, targetFile)
+                        storagePath[key] = targetFile
                         return targetFile
                     }
                 }
                 return null
             }?.let {
                 val targetFile = RootFile(it, subPath)
-                storagePath.put(key, targetFile)
+                storagePath[key] = targetFile
                 return targetFile
             }
             return null

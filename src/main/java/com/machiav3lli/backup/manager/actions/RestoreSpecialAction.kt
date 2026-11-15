@@ -108,7 +108,7 @@ class RestoreSpecialAction(context: Context, work: AppActionWork?, shell: ShellH
                 for (restoreFile in expectedFiles) {
                     val (uid, gid, con) = try {
                         shell.suGetOwnerGroupContext(restoreFile.absolutePath)
-                    } catch (e: Throwable) {
+                    } catch (_: Throwable) {
                         // fallback to permissions of parent directory
                         shell.suGetOwnerGroupContext(
                             restoreFile.parentFile?.absolutePath

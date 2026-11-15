@@ -15,7 +15,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,6 +25,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.machiav3lli.backup.DamagedOp
 import com.machiav3lli.backup.DialogMode
 import com.machiav3lli.backup.NeoApp
@@ -36,7 +36,6 @@ import com.machiav3lli.backup.data.entity.Pref
 import com.machiav3lli.backup.data.entity.SortFilterModel
 import com.machiav3lli.backup.manager.handler.BackupRestoreHelper
 import com.machiav3lli.backup.manager.handler.findBackupsAndClean
-import com.machiav3lli.backup.manager.handler.showNotification
 import com.machiav3lli.backup.ui.activities.NeoActivity
 import com.machiav3lli.backup.ui.compose.component.LaunchPreference
 import com.machiav3lli.backup.ui.compose.component.PrefsGroup
@@ -56,6 +55,7 @@ import com.machiav3lli.backup.utils.BACKUP_DATE_TIME_FORMATTER
 import com.machiav3lli.backup.utils.SystemUtils
 import com.machiav3lli.backup.utils.applyFilter
 import com.machiav3lli.backup.utils.extensions.koinNeoViewModel
+import com.machiav3lli.backup.utils.showNotification
 import com.machiav3lli.backup.viewmodels.HomeVM
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -80,8 +80,9 @@ fun ToolsPrefsPage(
     val dialogProps: MutableState<Triple<DialogMode, Any?, () -> Unit>> = remember {
         mutableStateOf(Triple(DialogMode.NONE, null, {}))
     }
-    val mainState by viewModel.state.collectAsState()
-    val tagsMap by viewModel.tagsMap.collectAsState()
+    val mainState by viewModel.state.collectAsStateWithLifecycle()
+    val sortFilterModel by viewModel.sortFilterModel.collectAsStateWithLifecycle(null)
+    val tagsMap by viewModel.tagsMap.collectAsStateWithLifecycle()
 
     val prefs = Pref.prefGroups["tool"] ?: listOf()
 
@@ -98,7 +99,7 @@ fun ToolsPrefsPage(
             item {
                 val size = prefs.size
 
-                PrefsGroup {
+                PrefsGroup(heading = null) {
                     prefs.forEachIndexed { index, pref ->
                         LaunchPreference(
                             pref = pref,
@@ -165,7 +166,7 @@ fun ToolsPrefsPage(
                                 pref_saveAppsList          -> context.onClickSaveAppsList(
                                     mainState.packages,
                                     tagsMap,
-                                    mainState.sortFilter,
+                                    sortFilterModel ?: SortFilterModel(),
                                     snackbarHostState,
                                     coroutineScope
                                 ) { primaryAction, secondaryAction ->
@@ -284,11 +285,10 @@ private fun Context.onClickUninstalledBackupsDelete(
     return true
 }
 
-private suspend fun Context.deleteBackups(deleteList: List<Package>) {
+private fun Context.deleteBackups(deleteList: List<Package>) {
     val notificationId = SystemUtils.now.toInt()
     deleteList.forEachIndexed { i, ai ->
         showNotification(
-            this,
             NeoActivity::class.java,
             notificationId,
             "${getString(R.string.batchDeleteMessage)} ($i/${deleteList.size})",
@@ -299,7 +299,6 @@ private suspend fun Context.deleteBackups(deleteList: List<Package>) {
         ai.deleteAllBackups()
     }
     showNotification(
-        this,
         NeoActivity::class.java,
         notificationId,
         getString(R.string.batchDeleteNotificationTitle),
@@ -376,46 +375,42 @@ val pref_copySelfApk = LinkPref(
 private fun Context.onClickCopySelf(
     snackbarHostState: SnackbarHostState,
     coroutineScope: CoroutineScope,
-): Boolean {
-    try {
-        CoroutineScope(Dispatchers.Default).launch {
-            if (BackupRestoreHelper.copySelfApk(
-                    this@onClickCopySelf,
-                    NeoApp.shellHandler!!
-                )
-            ) {
-                showNotification(
-                    this@onClickCopySelf,
-                    NeoActivity::class.java,
-                    SystemUtils.now.toInt(),
-                    getString(R.string.copyOwnApkSuccess),
-                    "",
-                    false
-                )
-                snackbarHostState.show(
-                    coroutineScope,
-                    getString(R.string.copyOwnApkSuccess)
-                )
-            } else {
-                showNotification(
-                    this@onClickCopySelf,
-                    NeoActivity::class.java,
-                    SystemUtils.now.toInt(),
-                    getString(R.string.copyOwnApkFailed),
-                    "",
-                    false
-                )
-                snackbarHostState.show(
-                    coroutineScope,
-                    getString(R.string.copyOwnApkFailed)
-                )
-            }
+): Boolean = try {
+    CoroutineScope(Dispatchers.Default).launch {
+        if (BackupRestoreHelper.copySelfApk(
+                this@onClickCopySelf,
+                NeoApp.shellHandler!!
+            )
+        ) {
+            showNotification(
+                NeoActivity::class.java,
+                SystemUtils.now.toInt(),
+                getString(R.string.copyOwnApkSuccess),
+                "",
+                false
+            )
+            snackbarHostState.show(
+                coroutineScope,
+                getString(R.string.copyOwnApkSuccess)
+            )
+        } else {
+            showNotification(
+                NeoActivity::class.java,
+                SystemUtils.now.toInt(),
+                getString(R.string.copyOwnApkFailed),
+                "",
+                false
+            )
+            snackbarHostState.show(
+                coroutineScope,
+                getString(R.string.copyOwnApkFailed)
+            )
         }
-    } catch (e: IOException) {
-        Timber.e("${getString(R.string.copyOwnApkFailed)}: $e")
-    } finally {
-        return true
     }
+    true
+} catch (e: IOException) {
+    Timber.e("${getString(R.string.copyOwnApkFailed)}: $e")
+    false
 }
 
 val pref_schedulesExportImport = LinkPref(
@@ -445,17 +440,18 @@ private fun Context.onClickSaveAppsList(
         showDialog(
             {
                 writeAppsListFile(
-                    packageList
+                    appsList = packageList
                         .filter { it.isSystem }
                         .map { "${it.packageLabel}: ${it.packageName} @ ${it.versionName}" },
-                    false  //TODO hg42 name first because of ":", better for scripts
+                    filteredBoolean = false,
                 )
             },
             {
-                writeAppsListFile( // TODO communicate that the filter from home page is used
-                    packageList.applyFilter(sortFilterModel, tagsMap)
+                writeAppsListFile(
+                    // TODO communicate that the filter from home page is used
+                    appsList = packageList.applyFilter(sortFilterModel, tagsMap)
                         .map { "${it.packageLabel}: ${it.packageName} @ ${it.versionName}" },
-                    true
+                    filteredBoolean = true,
                 )
             }
         )
@@ -477,7 +473,7 @@ fun Context.writeAppsListFile(appsList: List<String>, filteredBoolean: Boolean) 
         BufferedOutputStream(listFile.outputStream())
             .use { it.write(filesText.toByteArray(StandardCharsets.UTF_8)) }
         showNotification(
-            this, NeoActivity::class.java, SystemUtils.now.toInt(),
+            NeoActivity::class.java, SystemUtils.now.toInt(),
             getString(
                 if (filteredBoolean) R.string.write_apps_list_filtered
                 else R.string.write_apps_list_all

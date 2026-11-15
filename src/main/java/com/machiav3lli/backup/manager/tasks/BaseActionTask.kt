@@ -28,9 +28,9 @@ import com.machiav3lli.backup.manager.handler.BackupRestoreHelper.ActionType
 import com.machiav3lli.backup.manager.handler.LogsHandler
 import com.machiav3lli.backup.manager.handler.LogsHandler.Companion.logErrors
 import com.machiav3lli.backup.manager.handler.ShellHandler
-import com.machiav3lli.backup.manager.handler.showNotification
 import com.machiav3lli.backup.ui.activities.NeoActivity
 import com.machiav3lli.backup.utils.showActionResult
+import com.machiav3lli.backup.utils.showNotification
 import java.lang.ref.WeakReference
 
 abstract class BaseActionTask(
@@ -53,8 +53,8 @@ abstract class BaseActionTask(
             activity.showSnackBar(fullMessage)
             setInfoBar(fullMessage)
 
-            showNotification(
-                activity, NeoActivity::class.java,
+            activity.showNotification(
+                NeoActivity::class.java,
                 notificationId, app.packageLabel, progressMessage, true
             )
         }
@@ -63,8 +63,8 @@ abstract class BaseActionTask(
     override fun onPostExecute(result: ActionResult?) {
         withActivity { activity ->
             val message = getPostExecuteMessage(activity, actionType, result)
-            showNotification(
-                activity, NeoActivity::class.java,
+            activity.showNotification(
+                NeoActivity::class.java,
                 notificationId, app.packageLabel, message, true
             )
             activity.showActionResult(this.result!!) { _: DialogInterface?, _: Int ->

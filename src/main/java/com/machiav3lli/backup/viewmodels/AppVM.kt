@@ -31,11 +31,11 @@ import com.machiav3lli.backup.data.repository.BlocklistRepository
 import com.machiav3lli.backup.data.repository.PackageRepository
 import com.machiav3lli.backup.manager.handler.BackupRestoreHelper
 import com.machiav3lli.backup.manager.handler.ShellCommands.Companion.currentProfile
-import com.machiav3lli.backup.manager.handler.showNotification
 import com.machiav3lli.backup.ui.activities.NeoActivity
 import com.machiav3lli.backup.utils.SystemUtils
 import com.machiav3lli.backup.utils.TraceUtils.trace
 import com.machiav3lli.backup.utils.extensions.NeoViewModel
+import com.machiav3lli.backup.utils.showNotification
 import kotlinx.collections.immutable.minus
 import kotlinx.collections.immutable.toPersistentSet
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -61,7 +61,7 @@ class AppVM(
     }
 
     private val allTags = appExtrasRepository.getTagsMapFlow()
-        .mapLatest { it.map(ExtrasTags::customTags).flatten().toPersistentSet() }
+        .mapLatest { it.flatMap(ExtrasTags::customTags).toPersistentSet() }
         .trace { "*** allTags <<- ${it.size}" }
 
     val appState = combine(
@@ -114,8 +114,7 @@ class AppVM(
                     users = users,
                     onDismiss = { dismissNow.value = true }
                 ) { message ->
-                    showNotification(
-                        NeoApp.NB,
+                    NeoApp.NB.showNotification(
                         NeoActivity::class.java,
                         notificationId++,
                         pkg.packageLabel,
@@ -136,7 +135,7 @@ class AppVM(
         }
     }
 
-    fun deleteBackup(backup: Backup) {              //TODO hg42 launchDeleteBackup ?
+    fun deleteBackup(backup: Backup) {
         viewModelScope.launch {
             packageRepository.deleteBackup(appState.value.pkg, backup) {
                 dismissNow.value = true
@@ -168,9 +167,9 @@ class AppVM(
         }
     }
 
-    fun rewriteBackup(backup: Backup, changedBackup: Backup) {
+    fun rewriteBackup(backup: Backup, transform: Backup.() -> Backup) {
         viewModelScope.launch {
-            packageRepository.rewriteBackup(appState.value.pkg, backup, changedBackup)
+            packageRepository.rewriteBackup(appState.value.pkg, backup, transform)
         }
     }
 

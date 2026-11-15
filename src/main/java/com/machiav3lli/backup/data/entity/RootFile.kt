@@ -37,7 +37,7 @@ import java.util.Locale
 */
 
 /**
- * A [SuFile] implementation using OAndBackupX standards (utilBox, quoting, etc.)
+ * A [SuFile] implementation using Neo Backup standards (utilBox, quoting, etc.)
  */
 class RootFile internal constructor(file: File) : SuFile(file.absolutePath) {
     constructor(pathname: String) : this(File(pathname))
@@ -117,7 +117,7 @@ class RootFile internal constructor(file: File) : SuFile(file.absolutePath) {
         val res = cmd("$utilBoxQ stat -fc '%S $fmt' $escapedPath").split(" ").toTypedArray()
         return if (res.size != 2) Long.MAX_VALUE else try {
             res[0].toLong() * res[1].toLong()
-        } catch (e: NumberFormatException) {
+        } catch (_: NumberFormatException) {
             Long.MAX_VALUE
         }
     }
@@ -160,7 +160,7 @@ class RootFile internal constructor(file: File) : SuFile(file.absolutePath) {
     override fun lastModified(): Long {
         return try {
             cmd("$utilBoxQ stat -c '%Y' $escapedPath").toLong() * 1000
-        } catch (e: NumberFormatException) {
+        } catch (_: NumberFormatException) {
             0L
         }
     }
@@ -175,7 +175,7 @@ class RootFile internal constructor(file: File) : SuFile(file.absolutePath) {
     override fun length(): Long {
         try {
             return cmd("$utilBoxQ stat -c '%s' $escapedPath").toLong()
-        } catch (ignored: NumberFormatException) {
+        } catch (_: NumberFormatException) {
         }
         return 0L
     }
@@ -218,16 +218,14 @@ class RootFile internal constructor(file: File) : SuFile(file.absolutePath) {
         var perms = cmd("$utilBoxQ stat -c '%a' $escapedPath")
         if (perms.length > 4) return false  //TODO what about special permissions (suid, ...) ???
         while (perms.length < 3)
-            perms = "0" + perms
+            perms = "0$perms"
         val chars = perms.toCharArray()
         for (i in 0..2) {
             val ri = chars.size - i - 1
             var perm = chars[ri] - '0'
             if (!ownerOnly || i == 2) {
-                if (set)
-                    perm = perm or b
-                else
-                    perm = perm and b.inv()
+                perm = if (set) perm or b
+                else perm and b.inv()
                 chars[ri] = (perm + '0'.code).toChar()
             }
         }
@@ -279,7 +277,7 @@ class RootFile internal constructor(file: File) : SuFile(file.absolutePath) {
      * @see File.setReadOnly
      */
     override fun setReadOnly(): Boolean {
-        return setWritable(false, false)
+        return setWritable(writable = false, ownerOnly = false)
         //return setPerms(false, false, 0b011)
         //return setWritable(false, false) && setExecutable(false, false)
     }
@@ -312,7 +310,7 @@ class RootFile internal constructor(file: File) : SuFile(file.absolutePath) {
                 it.write(text)
                 true
             }
-        } catch (e: Throwable) {
+        } catch (_: Throwable) {
             false
         }
     }
@@ -325,7 +323,7 @@ class RootFile internal constructor(file: File) : SuFile(file.absolutePath) {
      * Requires command `ls`.
      * @see File.list
      */
-    override fun list(filenameFilter: FilenameFilter?): Array<String>? {
+    override fun list(filenameFilter: FilenameFilter?): Array<String> {
         //if (!isDirectory) return null
         val files = runAsRoot("$utilBoxQ ls -bA1 $escapedPath/").out.map {
             ShellHandler.FileInfo.unescapeLsOutput(it)
@@ -337,18 +335,14 @@ class RootFile internal constructor(file: File) : SuFile(file.absolutePath) {
 
     /**
      * Returns an array of abstract pathnames denoting the files in the
-     * directory denoted by this abstract pathname.
-     *
+     * directory denoted by this abstract pathname OR null when not-directory
      *
      * Requires command `ls`.
      * @see File.listFiles
      */
-    override fun listFiles(): Array<RootFile>? {    //TODO hg42 use suGetDetailedDirectoryContents and ShellHandler.FileInfo
-        //if (!isDirectory) return null
-        return list()?.map {
-            RootFile(this, it)
-        }?.toTypedArray()
-    }
+    override fun listFiles(): Array<RootFile>? = list()?.map {
+        RootFile(this, it)
+    }?.toTypedArray()
 
     /**
      * Returns an array of abstract pathnames denoting the files in the
@@ -358,11 +352,11 @@ class RootFile internal constructor(file: File) : SuFile(file.absolutePath) {
      * Requires command `ls`.
      * @see File.listFiles
      */
-    override fun listFiles(filenameFilter: FilenameFilter?): Array<RootFile>? {
+    override fun listFiles(filenameFilter: FilenameFilter?): Array<RootFile> {
         //if (!isDirectory) return null
-        return list(filenameFilter)?.map {
+        return list(filenameFilter).map {
             RootFile(this, it)
-        }?.toTypedArray()
+        }.toTypedArray()
     }
 
     /**
@@ -391,28 +385,20 @@ class RootFile internal constructor(file: File) : SuFile(file.absolutePath) {
     fun outputStream(): OutputStream = SuFileOutputStream.open(SuFile(this.absolutePath))
 
     companion object {
-        fun open(pathname: String): File {
-            return if (ShellHandler.isLikeRoot ?: false) RootFile(pathname) else File(pathname)
-        }
+        fun open(pathname: String): File =
+            if (ShellHandler.isLikeRoot ?: false) RootFile(pathname)
+            else File(pathname)
 
-        fun open(parent: String?, child: String): File {
-            return if (ShellHandler.isLikeRoot ?: false) RootFile(parent, child) else File(
-                parent,
-                child
-            )
-        }
+        fun open(parent: String?, child: String): File =
+            if (ShellHandler.isLikeRoot ?: false) RootFile(parent, child)
+            else File(parent, child)
 
-        fun open(parent: File?, child: String): File {
-            return if (ShellHandler.isLikeRoot ?: false) RootFile(parent, child) else File(
-                parent,
-                child
-            )
-        }
+        fun open(parent: File?, child: String): File =
+            if (ShellHandler.isLikeRoot ?: false) RootFile(parent, child)
+            else File(parent, child)
 
-        fun open(uri: URI): File {
-            return if (ShellHandler.isLikeRoot
-                    ?: false
-            ) RootFile(uri) else File(uri)   //TODO hg42 ???
-        }
+        fun open(uri: URI): File =
+            if (ShellHandler.isLikeRoot ?: false) RootFile(uri)
+            else File(uri)
     }
 }

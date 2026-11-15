@@ -2,6 +2,7 @@ package com.machiav3lli.backup.data.entity
 
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
@@ -76,7 +77,7 @@ open class Pref(
     val onChanged: (suspend (Pref) -> Unit)? = null,
     var group: String = "",
 ) {
-    var dirty = mutableStateOf(false)
+    val dirty = mutableStateOf(false)
 
     init {
         try {
@@ -174,12 +175,12 @@ open class Pref(
             Regex("""\\(.)""")      // blacklist, only escape those that are necessary
 
         fun escape(value: String): String {
-            return value.replace(toBeEscaped) {
-                when (it.value) {
+            return value.replace(toBeEscaped) { match ->
+                when (match.value) {
                     "\n" -> "\\n"
                     "\r" -> "\\r"
                     "\t" -> "\\t"
-                    else -> "\\${it.value}"
+                    else -> "\\${match.value}"
                 }
             }
         }
@@ -320,15 +321,15 @@ class BooleanPref(
     enableIf = enableIf,
     onChanged = onChanged
 ) {
-    var state: Boolean? by mutableStateOf(null)
+    val state: MutableState<Boolean?> = mutableStateOf(null)
     var value: Boolean
         get() {
-            if (state == null)
-                state = prefFlag(key, defaultValue as Boolean, private)
-            return state!!
+            if (state.value == null)
+                state.value = prefFlag(key, defaultValue as Boolean, private)
+            return state.value!!
         }
         set(value) {
-            state = value
+            state.value = value
             setPrefFlag(key, value, private)
         }
 

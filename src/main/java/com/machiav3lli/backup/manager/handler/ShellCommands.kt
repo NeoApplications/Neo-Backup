@@ -19,11 +19,11 @@ package com.machiav3lli.backup.manager.handler
 
 import android.content.Context
 import android.os.Binder
+import com.machiav3lli.backup.data.entity.Package
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.quote
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.runAsRoot
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.utilBoxQ
 import com.machiav3lli.backup.manager.handler.ShellHandler.ShellCommandFailedException
-import com.machiav3lli.backup.data.entity.Package
 import com.machiav3lli.backup.utils.FileUtils
 import timber.log.Timber
 import java.io.File
@@ -47,15 +47,21 @@ class ShellCommands {
                     val muEnabled = userHandle.getField("MU_ENABLED").getBoolean(null)
                     val range = userHandle.getField("PER_USER_RANGE").getInt(null)
                     if (muEnabled) return Binder.getCallingUid() / range
-                } catch (ignored: ClassNotFoundException) {
-                } catch (ignored: NoSuchFieldException) {
-                } catch (ignored: IllegalAccessException) {
+                } catch (_: ClassNotFoundException) {
+                } catch (_: NoSuchFieldException) {
+                } catch (_: IllegalAccessException) {
                 }
                 return 0
             }
 
         @Throws(ShellActionFailedException::class)
-        fun uninstall(users: List<String?>?, packageName: String?, sourceDir: String?, dataDir: String?, isSystem: Boolean) {
+        fun uninstall(
+            users: List<String?>?,
+            packageName: String?,
+            sourceDir: String?,
+            dataDir: String?,
+            isSystem: Boolean
+        ) {
             if (!isSystem) {
                 // Uninstalling if user app
                 if (!users.isNullOrEmpty()) {
@@ -99,23 +105,25 @@ class ShellCommands {
                     Timber.wtf(error)
                     throw IllegalArgumentException(error)
                 }
-                // TODO: add logging/throw to each variable.isNullOrEmpty() test below?
                 // TODO what about dedata etc.?
-                var command: String
-                command = "mount -o remount,rw /system && ("
-                if (!sourceDir.isNullOrEmpty())    // IMPORTANT!!! otherwise removing all in parent(!) directory   //TODO hg42 check plausible path
+                var command = "mount -o remount,rw /system && ("
+                if (sourceDir.isNotEmpty())    // IMPORTANT!!! otherwise removing all in parent(!) directory
                     command += " ; $utilBoxQ rm -rf ${quote(sourceDir)}"
-                if (!apkSubDir.isEmpty())          // IMPORTANT!!! otherwise removing all in parent(!) directory   //TODO hg42 check plausible path
+                if (apkSubDir.isNotEmpty())        // IMPORTANT!!! otherwise removing all in parent(!) directory
                     command += " ; $utilBoxQ rm -rf ${quote("/system/app/$apkSubDir")}"
                 command += ") ; mount -o remount,ro /system"
-                if (!dataDir.isNullOrEmpty())      // IMPORTANT!!! otherwise removing all in parent(!) directory   //TODO hg42 check plausible path
+                if (!dataDir.isNullOrEmpty())      // IMPORTANT!!! otherwise removing all in parent(!) directory
                     command += " ; $utilBoxQ rm -rf ${quote(dataDir)}"
-                if (!packageName.isNullOrEmpty())  // IMPORTANT!!! otherwise removing all in parent(!) directory   //TODO hg42 check plausible path
+                if (!packageName.isNullOrEmpty())  // IMPORTANT!!! otherwise removing all in parent(!) directory
                     command += " ; $utilBoxQ rm -rf ${quote("/data/app-lib/${packageName}")}/*"
                 try {
                     runAsRoot(command)
                 } catch (e: ShellCommandFailedException) {
-                    throw ShellActionFailedException(command, e.shellResult.err.joinToString("\n"), e)
+                    throw ShellActionFailedException(
+                        command,
+                        e.shellResult.err.joinToString("\n"),
+                        e
+                    )
                 } catch (e: Throwable) {
                     LogsHandler.unexpectedException(e, command)
                     throw ShellActionFailedException(command, "unhandled exception", e)
@@ -250,9 +258,5 @@ class ShellCommands {
                 throw ShellActionFailedException(command, "unhandled exception", e)
             }
         }
-    }
-
-    interface Command {
-        fun execute()
     }
 }

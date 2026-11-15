@@ -37,7 +37,7 @@ fun Context.setCustomTheme() {
     AppCompatDelegate.setDefaultNightMode(appTheme.nightMode)
     if (!(appTheme.dynamicColor && DynamicColors.isDynamicColorAvailable())) {
         setTheme(R.style.AppTheme)
-    } // TODO allow fine control on using custom accent/secondary colors?
+    }
     if (appTheme.blackOnDark && isNightMode()) theme.applyStyle(R.style.Black, true)
 }
 
@@ -53,9 +53,9 @@ fun Context.setLanguage(lang: String = ""): Configuration {
 
     val config = resources.configuration
 
-    // TODO hg42 for now, cache the initial value, but this doesn't change with system settings
-    // TODO hg42 look for another method to retrieve the system setting
-    // TODO hg42 maybe asking the unwrapped app or activity context, but how to get this?
+    // hg42 for now, cache the initial value, but this doesn't change with system settings
+    //      look for another method to retrieve the system setting
+    //      maybe asking the unwrapped app or activity context, but how to get this?
     if (sysLocale == null) {
         sysLocale = config.locales
         sysLocaleJVM = Locale.getDefault()
@@ -73,7 +73,7 @@ fun Context.setLanguage(lang: String = ""): Configuration {
         sysLocaleJVM?.let { Locale.setDefault(it) }
     } else {
         val newLocale = getLocaleOfCode(setLocaleCode)
-        traceDebug { "Locale.new: ${newLocale}" }
+        traceDebug { "Locale.new: $newLocale" }
         config.setLocale(newLocale)
         Locale.setDefault(newLocale)
     }
@@ -82,12 +82,11 @@ fun Context.setLanguage(lang: String = ""): Configuration {
     return config
 }
 
-// TODO hg42 at least one of the following Save buttons was reported as not doing anything
 fun Activity.showActionResult(result: ActionResult, saveMethod: DialogInterface.OnClickListener) =
     runOnUiThread {
         val builder = MaterialAlertDialogBuilder(this).setPositiveButton(R.string.dialogOK, null)
         if (!result.succeeded) {
-            builder.setNegativeButton(R.string.dialogSave, saveMethod) // TODO hg42 either this
+            builder.setNegativeButton(R.string.dialogSave, saveMethod)
             builder
                 .setTitle(R.string.errorDialogTitle)
                 .setMessage(LogsHandler.handleErrorMessages(this, result.message))

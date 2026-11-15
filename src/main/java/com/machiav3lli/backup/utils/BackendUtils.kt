@@ -31,8 +31,8 @@ fun Context.getPackageInfoList(filter: Int): List<PackageInfo> =
             val isIgnored = packageInfo.packageName.matches(ignoredPackages)
             if (isIgnored)
                 Timber.i("ignored package: ${packageInfo.packageName}")
-            (if (filter and MAIN_FILTER_SYSTEM == MAIN_FILTER_SYSTEM) isSystem && !isIgnored else false)
-                    || (if (filter and MAIN_FILTER_USER == MAIN_FILTER_USER) !isSystem && !isIgnored else false)
+            (filter and MAIN_FILTER_SYSTEM == MAIN_FILTER_SYSTEM && isSystem && !isIgnored)
+                    || (filter and MAIN_FILTER_USER == MAIN_FILTER_USER && !isSystem && !isIgnored)
         }
         .toList()
 
@@ -59,24 +59,6 @@ fun Context.getInstalledPackageList(): MutableList<Package> { // only used in Sc
                 }
                 .toMutableList()
 
-            //if (!OABX.appsSuspendedChecked) { //TODO hg42 move somewhere else
-            //    packageList.filter { appPackage ->
-            //        0 != (OABX.activity?.packageManager
-            //            ?.getPackageInfo(appPackage.packageName, 0)
-            //            ?.applicationInfo
-            //            ?.flags
-            //            ?: 0) and ApplicationInfo.FLAG_SUSPENDED
-            //    }.apply {
-            //        OABX.main?.whileShowingSnackBar(getString(R.string.supended_apps_cleanup)) {
-            //            // cleanup suspended package if lock file found
-            //            this.forEach { appPackage ->
-            //                runAsRoot("pm unsuspend ${appPackage.packageName}")
-            //            }
-            //            OABX.appsSuspendedChecked = true
-            //        }
-            //    }
-            //}
-
             // Special Backups must added before the uninstalled packages, because otherwise it would
             // discover the backup directory and run in a special case where the directory is empty.
             // This would mean, that no package info is available – neither from backup.properties
@@ -86,13 +68,6 @@ fun Context.getInstalledPackageList(): MutableList<Package> { // only used in Sc
                     packageList.add(Package(it))
                 }
             }
-
-            // don't get backups here, get them lazily if they are used,
-            // e.g. to filter old backups
-            //val backupsMap = getAllBackups()                              //TODO WECH
-            //packageList = packageList.map {
-            //    it.apply { updateBackupListAndDatabase(backupsMap[it.packageName].orEmpty()) }
-            //}.toMutableList()
         }
 
         NeoApp.addInfoLogText(
@@ -146,10 +121,8 @@ fun List<AppInfo>.toPackageList(
         if (includeSpecial) {
             SpecialInfo.getSpecialInfos(context).forEach {
                 if (!blockList.contains(it.packageName)) {
-                    //it.updateBackupList(backupsMap[it.packageName].orEmpty())
                     packageList.add(Package(it))
                 }
-                //specialList.add(it.packageName)
             }
         }
 

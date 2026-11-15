@@ -21,7 +21,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateMap
 import com.machiav3lli.backup.data.repository.AppExtrasRepository
 import com.machiav3lli.backup.data.repository.BlocklistRepository
 
-open class BatchVM(
+abstract class BatchVM(
     blocklistRepository: BlocklistRepository,
     appExtrasRepository: AppExtrasRepository
 ) : MainVM(blocklistRepository, appExtrasRepository) {

@@ -12,8 +12,9 @@ import java.io.File
 import java.io.FileOutputStream
 
 class AssetHandler(context: Context) {
-
-    val UPDATE_ID_FILE = "__update_id__"
+    companion object {
+        const val UPDATE_ID_FILE = "__update_id__"
+    }
 
     var directory: File
         private set
@@ -29,7 +30,7 @@ class AssetHandler(context: Context) {
         val updateId = context.updateId   //versionName
         val lastId = try {
             File(directory, UPDATE_ID_FILE).readText()
-        } catch (e: Throwable) {
+        } catch (_: Throwable) {
             ""
         }
         if (lastId != updateId) {
@@ -40,7 +41,7 @@ class AssetHandler(context: Context) {
                 updateExcludeFiles()
                 // finish transaction by writing the version file
                 File(directory, UPDATE_ID_FILE).writeText(updateId)
-            } catch (e: Throwable) {
+            } catch (_: Throwable) {
                 Timber.w("cannot copy asset files to ${directory}")
             }
         }
@@ -58,33 +59,31 @@ class AssetHandler(context: Context) {
 
     // libs are generally created while installing the app. Backing them up
     // would result in a compatibility problem between devices with different cpu_arch
-
     val LIB_DIRS
-        get() = listOf(
-            "lib",      //TODO hg42 what about architecture dependent names? or may be application specific? lib* ???
-        )
+        //TODO hg42 what about architecture dependent names? or may be application specific? lib* ???
+        get() = listOf("lib")
 
     // these need to be dynamic, becasue the preferences can change at runtime
-
     val DATA_BACKUP_EXCLUDED_BASENAMES
         get() = (
                 LIB_DIRS
-                        + if (pref_backupNoBackupData.value) listOf() else listOf("no_backup") //TODO hg42 use Context.getNoBackupFilesDir() ??? tricky, because it's an absolute path (remove common part...)
+                        //TODO hg42 use Context.getNoBackupFilesDir() ??? tricky, because it's an absolute path (remove common part...)
+                        + if (pref_backupNoBackupData.value) listOf() else listOf("no_backup")
                         + if (pref_backupCache.value) listOf() else DATA_EXCLUDED_CACHE_DIRS
                 )
 
     val DATA_RESTORE_EXCLUDED_BASENAMES
         get() = (
                 LIB_DIRS
-                        + if (pref_restoreNoBackupData.value) listOf() else listOf("no_backup") //TODO hg42 use Context.getNoBackupFilesDir() ??? tricky, because it's an absolute path (remove common part...)
+                        //TODO hg42 use Context.getNoBackupFilesDir() ??? tricky, because it's an absolute path (remove common part...)
+                        + if (pref_restoreNoBackupData.value) listOf() else listOf("no_backup")
                         + if (pref_restoreCache.value) listOf() else DATA_EXCLUDED_CACHE_DIRS
                 )
 
     val DATA_EXCLUDED_NAMES
         get() = listOfNotNull(
             "com.google.android.gms.appid.xml", // appid needs to be recreated
-            "com.machiav3lli.backup.xml", // encrypted prefs file
-            //"cache",  // don't, this also excludes the cache
+            "com.machiav3lli.backup.xml", // NB's encrypted prefs file
             "trash",
             ".thumbnails",
             if (ShellHandler.utilBox.hasBug("DotDotDirHang")) "..*" else null

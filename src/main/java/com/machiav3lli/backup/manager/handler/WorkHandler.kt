@@ -33,6 +33,7 @@ import org.koin.java.KoinJavaComponent.get
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.Locale
+import java.util.UUID
 
 class WorkHandler(
     private val context: Context,
@@ -111,7 +112,7 @@ class WorkHandler(
 
         // delete all batches started a long time ago (e.g. a day)
         val longAgo = 24 * 60 * 60 * 1000
-        batchesKnown.keys.toList().forEach { // copy the keys, because collection changes now
+        batchesKnown.keys.toList().forEach {
             batchesKnown[it]?.let { batch ->
                 if (batch.nFinished > 1 || batch.isCanceled) {
                     val now = SystemUtils.now
@@ -124,8 +125,6 @@ class WorkHandler(
             }
         }
         batchPackageVars = mutableMapOf()
-
-        //OABX.setProgress()
 
         Thread.sleep(endDelay)
 
@@ -142,7 +141,7 @@ class WorkHandler(
         if (batchesStarted == 1)     // first batch in a series
             beginBatches()
         Timber.d("%%%%% $batchName begin, $batchesStarted batches, thread ${Thread.currentThread().id}")
-        batchesKnown.put(batchName, BatchState())
+        batchesKnown[batchName] = BatchState()
     }
 
     fun endBatch(batchName: String) {
@@ -153,8 +152,8 @@ class WorkHandler(
     }
 
     fun justFinishedAll(): Boolean {
-        if (batchesStarted == 0) {  // do this exactly once
-            batchesStarted--        // now lock this (counter < 0)
+        if (batchesStarted == 0) {
+            batchesStarted--
             return true
         }
         return false
@@ -200,7 +199,7 @@ class WorkHandler(
         fun getTagVars(tags: MutableSet<String>): MutableMap<String, String> {
             val vars = mutableMapOf<String, String>()
             tags.forEach { tag ->
-                val parts = tag.toString().split(':', limit = 2)
+                val parts = tag.split(':', limit = 2)
                 if (parts.size > 1) {
                     val (key, value) = parts
                     vars[key] = value
@@ -224,7 +223,7 @@ class WorkHandler(
         fun setTagVar(tags: MutableSet<String>, name: String, value: String) {
             run tags@{
                 tags.forEach { tag ->
-                    val parts = tag.toString().split(':', limit = 2)
+                    val parts = tag.split(':', limit = 2)
                     if (parts.size > 1) {
                         val (key, oldValue) = parts
                         if (key == name) {
@@ -276,6 +275,8 @@ class WorkHandler(
             var endTime: Long = 0L,
             var nFinished: Int = 0,
             var isCanceled: Boolean = false,
+            var errors: String = "",
+            val errorCollected: MutableSet<UUID> = mutableSetOf(),
         )
 
         val batchesKnown = mutableMapOf<String, BatchState>()
@@ -349,40 +350,51 @@ class WorkHandler(
                             this.maxRetries++
                     }
 
+                    // Collect error messages centrally (once per finished work) so callers
+                    // like NeoActivity/ScheduleWork no longer have to aggregate them.
+                    if (info.state.isFinished && batch.errorCollected.add(info.id)) {
+                        val error = info.outputData.getString("error").orEmpty()
+                        if (error.isNotEmpty()) {
+                            val message =
+                                LogsHandler.handleErrorMessages(appContext, error) ?: error
+                            batch.errors += "$packageLabel: $message\n"
+                        }
+                    }
+
                     when (info.state) {
                         WorkInfo.State.SUCCEEDED -> {
                             succeeded++
                             workFinished++
-                            packageName?.let { packagesState.put(it, "OK ") }
+                            packageName?.let { packagesState[it] = "OK " }
                         }
 
                         WorkInfo.State.FAILED    -> {
                             failed++
                             workFinished++
-                            packageName?.let { packagesState.put(it, "BAD") }
+                            packageName?.let { packagesState[it] = "BAD" }
                         }
 
                         WorkInfo.State.CANCELLED -> {
                             canceled++
                             workFinished++
-                            packageName?.let { packagesState.put(it, "STP") }
+                            packageName?.let { packagesState[it] = "STP" }
                         }
 
                         WorkInfo.State.ENQUEUED  -> {
                             queued++
                             workEnqueued++
-                            packageName?.let { packagesState.put(it, "") }
+                            packageName?.let { packagesState[it] = "" }
                         }
 
                         WorkInfo.State.BLOCKED   -> {
                             queued++
                             workBlocked++
-                            packageName?.let { packagesState.put(it, "") }
+                            packageName?.let { packagesState[it] = "" }
                         }
 
                         WorkInfo.State.RUNNING   -> {
                             workRunning++
-                            packageName?.let { packagesState.put(it, operation ?: "") }
+                            packageName?.let { packagesState[it] = operation ?: "" }
                             when (operation) {
                                 ""   -> queued++
                                 else -> {
@@ -413,7 +425,6 @@ class WorkHandler(
             var allCount = 0
 
             batchesRunning.forEach batch@{ (batchName, workState) ->
-
                 val batch: BatchState = batchesKnown[batchName]!!
 
                 if (batch.nFinished <= 0) {
@@ -449,6 +460,8 @@ class WorkHandler(
                                 bigText += ", $canceled cancelled"
                             if (retries > 0)
                                 bigText += ", $retries retried"
+                            if (batch.errors.isNotEmpty())
+                                LogsHandler.logErrors(batch.errors)
                         }
 
                         if (retries > 0)

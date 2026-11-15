@@ -9,6 +9,7 @@ import android.provider.DocumentsContract
 import androidx.core.content.FileProvider
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
+import androidx.core.net.toUri
 import com.machiav3lli.backup.MIME_TYPE_DIR
 import com.machiav3lli.backup.MIME_TYPE_FILE
 import com.machiav3lli.backup.NeoApp
@@ -126,7 +127,7 @@ fun Uri.exists(context: Context): Boolean {
             ), null, null, null
         )
         (cursor?.count ?: 0) > 0
-    } catch (e: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
         false
     } catch (e: Throwable) {
         unexpectedException(e, this)
@@ -156,28 +157,29 @@ fun Context.uriFromFile(file: File): Uri =
     )
 
 
-// TODO MAYBE migrate at some point to FuckSAF
-// TODO hg42 or one of those https://github.com/topics/storage-access-framework?l=kotlin
-// TODO hg42 e.g. DocumentFileX seems to be attractive, being compatible to File
-// TODO hg42 this should be switchable until a final decision, so we can compare easily
-// TODO hg42 so instead of the current dirty code
-// TODO hg42   file.doSomeThing() ?: DocumentContract.doSomething(_uri)
-// TODO hg42 there should be an implementation member
-// TODO hg42 but it is not implemented like this, because we sometimes need the uri even if
-// TODO hg42 implementation is via file (mainly for Android UI interactions, backupDir and share)
-// TODO hg42 so we probably need a conversion function
-// TODO hg42   or caching the relation
-// TODO hg42   or having a second implementation for some objects (that may be added later)
+/*
+ TODO migrate at some point to
+   FuckSAF https://github.com/K1rakishou/Fuck-Storage-Access-Framework
+   OR SimpleStorage https://github.com/anggrayudi/SimpleStorage
+
+    so instead of the current dirty code
+        file.doSomeThing() ?: DocumentContract.doSomething(_uri)
+    there should be an implementation member
+    but it is not implemented like this, because we sometimes need the uri even if
+    implementation is via file (mainly for Android UI interactions, backupDir and share)
+    so we probably need a conversion function
+        or caching the relation
+        or having a second implementation for some objects (that may be added later)
+ */
 
 class FileDuplicationException(message: String) : IOException(message)
 class FileDuplicationHandlingException(message: String, cause: Throwable) :
     IOException(message, cause)
 
 open class StorageFile {
-
     var parent: StorageFile? = null
     val context: Context
-        get() = NeoApp.context            // ensure, the context is always the same for all objects and lives all the time
+        get() = NeoApp.context
 
     private var file: RootFile? = null
     private var _uri: Uri? = null
@@ -238,15 +240,6 @@ open class StorageFile {
         this.file = RootFile(parentFile, subPath)
     }
 
-    //constructor(parent: StorageFile, subPath: String) {
-    //    this.parent = parent
-    //    parent.file?.let {
-    //        file = RootFile(parent.file, subPath)
-    //    } ?: run {
-    //        initializeFromUri(parent, Uri.withAppendedPath(parent.uri, subPath))
-    //    }
-    //}
-
     private fun retrieveDocumentInfo(cursor: Cursor): DocumentInfo {
         val id = getCursorString(
             cursor,
@@ -260,13 +253,10 @@ open class StorageFile {
             cursor,
             DocumentsContract.Document.COLUMN_MIME_TYPE
         ) ?: ""
-        var size = getCursorLong(
+        val size = getCursorLong(
             cursor,
             DocumentsContract.Document.COLUMN_SIZE
-        ) ?: 0
-        if (size < 0)
-            size = 0
-        //Timber.d("size: $size file: $id")
+        )?.coerceAtLeast(0) ?: 0
         var lastModified = getCursorLong(
             cursor,
             DocumentsContract.Document.COLUMN_LAST_MODIFIED
@@ -298,7 +288,7 @@ open class StorageFile {
                     return retrieveDocumentInfo(it)
                 }
             }
-        } catch (e: Throwable) {
+        } catch (_: Throwable) {
             //logException(e, "$this")
             // ignore, file is not there
         } finally {
@@ -322,7 +312,7 @@ open class StorageFile {
                 try {
                     if (uri.scheme == "file" || uri.scheme == null) {
                         val checkFile = RootFile(
-                            uri.path // should normally be there, even for file paths
+                            uri.path
                                 ?: Uri.decode(uri.toString())  // paranoid fallback in case it is not
                         )
                         if (isWritablePath(checkFile)) {
@@ -338,10 +328,10 @@ open class StorageFile {
                         Timber.i("StorageFile: last=$last uri=$uri")
                         var (storage, subPath) = last.split(":", limit = 2)
                         //val user = ShellCommands.currentProfile
-                        val user_provider = (uri.authority ?: "").split("@", limit = 2)
+                        val userProvider = (uri.authority ?: "").split("@", limit = 2)
                         val user =
-                            if (user_provider.size > 1)
-                                user_provider[0]
+                            if (userProvider.size > 1)
+                                userProvider[0]
                             else
                                 ShellCommands.currentProfile.toString()
                         if (storage == "primary")
@@ -355,7 +345,7 @@ open class StorageFile {
                         if (file == null)
                             throw Exception("cannot find RootFile shadow at $last")
                     }
-                } catch (e: Throwable) {
+                } catch (_: Throwable) {
                     file = null
                     Timber.i("using access via SAF")
                 }
@@ -368,14 +358,12 @@ open class StorageFile {
         get() {
             if (field == null) {
                 field = file?.name ?: run {
-                    uri?.lastPathSegment?.substringAfterLast("/")   //TODO hg42 ??? / vs %2F
+                    uri?.lastPathSegment?.substringAfterLast("/")
                 }
             }
             return field
         }
-        private set(name) {
-            field = name
-        }
+        private set
 
     val path: String?
         get() = file?.path ?: uri?.path
@@ -571,9 +559,9 @@ open class StorageFile {
                         DocumentsContract.deleteDocument(context.contentResolver, _uri!!)
                     }
                 }
-        } catch (e: FileNotFoundException) {
+        } catch (_: FileNotFoundException) {
             false
-        } catch (e: IllegalArgumentException) { // can also happen with file not found
+        } catch (_: IllegalArgumentException) { // can also happen with file not found
             false
         } catch (e: Throwable) {
             logException(e, path, backTrace = false)
@@ -701,7 +689,7 @@ open class StorageFile {
 
         try {
             exists()
-        } catch (e: Throwable) {
+        } catch (_: Throwable) {
             throw FileNotFoundException("File $_uri does not exist")
         }
 
@@ -720,7 +708,7 @@ open class StorageFile {
                                 this.uri,
                                 DocumentsContract.getDocumentId(this.uri)
                             )
-                        } catch (e: IllegalArgumentException) {
+                        } catch (_: IllegalArgumentException) {
                             this.uri
                             //return listOf()
                         } ?: run {
@@ -790,11 +778,8 @@ open class StorageFile {
                     contents.forEach { subFile ->
                         result = result && subFile.deleteRecursive()
                     }
-                    if (result)
-                        delete()
-                    else
-                        result
-                } catch (e: FileNotFoundException) {
+                    result && delete()
+                } catch (_: FileNotFoundException) {
                     false
                 } catch (e: Throwable) {
                     logException(e, path, backTrace = false)
@@ -807,9 +792,10 @@ open class StorageFile {
     }
 
     companion object {
+        // TODO revamp whole caching logic
         //TODO hg42 manage file trees instead of single files and let StorageFile and caches use them
-        private var fileListCache =
-            mutableMapOf<String, MutableList<StorageFile>>() //TODO hg42 access should automatically checkCache
+        //TODO hg42 access should automatically checkCache
+        private var fileListCache = mutableMapOf<String, MutableList<StorageFile>>()
         private var uriStorageFileCache = mutableMapOf<String, StorageFile>()
         private var invalidateFilters = mutableListOf<(String) -> Boolean>()
 
@@ -824,25 +810,17 @@ open class StorageFile {
         */
 
         fun fromUri(uri: Uri): StorageFile {
-            // Todo: Figure out what's wrong with the Uris coming from the intent and why they need to be processed
-            //  with DocumentsContract.buildDocumentUriUsingTree(value, DocumentsContract.getTreeDocumentId(value)) first
             if (pref_cacheUris.value) {
                 cacheCheck()
                 return cacheGetUri(uri.toString())
-                    ?: StorageFile(
-                        null,
-                        uri
-                    )
+                    ?: StorageFile(null, uri)
             } else {
-                return StorageFile(
-                    null,
-                    uri
-                )
+                return StorageFile(null, uri)
             }
         }
 
         fun fromUri(uri: String): StorageFile {
-            return fromUri(Uri.parse(uri))
+            return fromUri(uri.toUri())
         }
 
         fun createDocument(
@@ -858,7 +836,7 @@ open class StorageFile {
                     mimeType,
                     displayName
                 )
-            } catch (e: FileNotFoundException) {
+            } catch (_: FileNotFoundException) {
                 null
             } catch (e: Throwable) {
                 logException(e, "$uri / $displayName", backTrace = false)
@@ -891,9 +869,8 @@ open class StorageFile {
         private fun cacheCheck() {
             try {
                 synchronized(invalidateFilters) {
-                    while (invalidateFilters.size > 0) {
+                    while (invalidateFilters.isNotEmpty()) {
                         invalidateFilters.removeFirstOrNull()?.let { isInvalid ->
-                            //beginNanoTimer("checkCache")
                             synchronized(fileListCache) {
                                 fileListCache = fileListCache
                                     .toMap()
@@ -906,7 +883,6 @@ open class StorageFile {
                                     .filterNot { isInvalid(it.key) }
                                     .toMutableMap()
                             }
-                            //endNanoTimer("checkCache")
                         }
                     }
                 }
@@ -990,7 +966,7 @@ class UndeterminedStorageFile(val parent: StorageFile, val subPath: String) {
         val components = subPath.split('/').toMutableList()
         while (dir != null && components.size > 1) {
             components.removeFirstOrNull()?.let { component ->
-                dir = dir?.findFile(component)
+                dir = dir.findFile(component)
             }
         }
         return dir?.findFile(components.first())

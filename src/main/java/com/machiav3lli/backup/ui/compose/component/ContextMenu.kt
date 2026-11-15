@@ -337,8 +337,6 @@ fun Selections(
                                         onAction(selection)
                                     }
                                 }
-
-                                else           -> {}
                             }
                         }
                     )
@@ -356,8 +354,7 @@ fun Selections(
             onClick = {
                 when (action) {
                     MenuAction.GET -> {
-                        val newSelection = blocklist
-                        onAction(newSelection)
+                        onAction(blocklist)
                     }
 
                     MenuAction.PUT -> {
@@ -490,8 +487,7 @@ fun launchPackagesAction(
     }
 }
 
-suspend fun forEachPackage(
-    packages: List<Package>,
+suspend fun List<Package>.forEachPackage(
     action: String,
     selection: Set<String>,
     toggleSelection: (String) -> Unit,
@@ -507,7 +503,7 @@ suspend fun forEachPackage(
     }
 
     if (parallel) {
-        runParallel(packages, scope = menuScope, pool = menuPool) {
+        runParallel(this, scope = menuScope, pool = menuPool) {
             job(it)
             select?.let { selected ->
                 if (selected != selection.contains(it.packageName))
@@ -515,7 +511,7 @@ suspend fun forEachPackage(
             }
         }
     } else {
-        packages.forEach {
+        this.forEach {
             job(it)
             yield()
             select?.let { selected ->
@@ -526,9 +522,7 @@ suspend fun forEachPackage(
     }
 }
 
-fun launchEachPackage(
-    // TODO revamp
-    packages: List<Package>,
+fun List<Package>.launchEachPackage(
     action: String,
     selection: Set<String>,
     toggleSelection: (String) -> Unit,
@@ -537,8 +531,7 @@ fun launchEachPackage(
     todo: suspend (p: Package) -> Unit = {},
 ) {
     launchPackagesAction(action) {
-        forEachPackage(
-            packages = packages,
+        this.forEachPackage(
             action = action,
             selection = selection,
             toggleSelection = toggleSelection,
@@ -572,7 +565,7 @@ fun launchEnable(
     selection: Set<String>,
     toggleSelection: (String) -> Unit,
 ) {
-    launchEachPackage(packages, "enable", selection, toggleSelection, parallel = false) {
+    packages.launchEachPackage("enable", selection, toggleSelection, parallel = false) {
         val users = listOf(currentProfile.toString())
         //runAsRoot("pm enable ${it.packageName}")
         ShellCommands.enableDisable(users, it.packageName, true)
@@ -585,7 +578,7 @@ fun launchDisable(
     selection: Set<String>,
     toggleSelection: (String) -> Unit,
 ) {
-    launchEachPackage(packages, "disable", selection, toggleSelection, parallel = false) {
+    packages.launchEachPackage("disable", selection, toggleSelection, parallel = false) {
         val users = listOf(currentProfile.toString())
         //runAsRoot("pm disable ${it.packageName}")
         ShellCommands.enableDisable(users, it.packageName, false)
@@ -598,7 +591,7 @@ fun launchUninstall(
     selection: Set<String>,
     toggleSelection: (String) -> Unit,
 ) {
-    launchEachPackage(packages, "uninstall", selection, toggleSelection, parallel = false) {
+    packages.launchEachPackage("uninstall", selection, toggleSelection, parallel = false) {
         val users = listOf(currentProfile.toString())
         //runAsRoot("pm uninstall ${it.packageName}")
         ShellCommands.uninstall(users, it.packageName, it.apkPath, it.dataPath, it.isSystem)
@@ -611,7 +604,7 @@ fun launchDeleteBackups(
     selection: Set<String>,
     toggleSelection: (String) -> Unit,
 ) {
-    launchEachPackage(packages.withBackups(), "delete backups", selection, toggleSelection) {
+    packages.withBackups().launchEachPackage("delete backups", selection, toggleSelection) {
         it.deleteAllBackups()
         Package.invalidateCacheForPackage(it.packageName)
     }
@@ -622,7 +615,7 @@ fun launchLimitBackups(
     selection: Set<String>,
     toggleSelection: (String) -> Unit,
 ) {
-    launchEachPackage(packages.withBackups(), "limit backups", selection, toggleSelection) {
+    packages.withBackups().launchEachPackage("limit backups", selection, toggleSelection) {
         BackupRestoreHelper.housekeepingPackageBackups(it)
         Package.invalidateCacheForPackage(it.packageName)
     }
@@ -641,14 +634,13 @@ fun MainPackageContextMenu(
     onUpdateSchedule: (Schedule) -> Unit,
     openSheet: (Package) -> Unit = {},
 ) {
-    val visible = productsList
     val activity = LocalActivity.current as NeoActivity
 
     fun List<Package>.selected() = filter { selection.contains(it.packageName) }
 
-    val selectedVisible by remember { mutableStateOf(visible.selected()) }   // freeze selection
+    val selectedVisible by remember { mutableStateOf(productsList.selected()) }   // freeze selection
 
-    val subMenu = remember {                                    //TODO hg42 var/by ???
+    val subMenu = remember {
         mutableStateOf<(@Composable () -> Unit)?>(null)
     }
     subMenu.value?.let { it() }
@@ -726,7 +718,7 @@ fun MainPackageContextMenu(
             text = { Text("Select Visible") },
             onClick = {
                 expanded.value = false
-                (visible.map { it.packageName }.toSet() - selection).forEach {
+                (productsList.map { it.packageName }.toSet() - selection).forEach {
                     toggleSelection(it)
                 }
             }
@@ -736,7 +728,7 @@ fun MainPackageContextMenu(
             text = { Text("Deselect Visible") },
             onClick = {
                 expanded.value = false
-                visible.map { it.packageName }.toSet()
+                productsList.map { it.packageName }.toSet()
                     .intersect(selection)
                     .forEach {
                         toggleSelection(it)
@@ -748,7 +740,7 @@ fun MainPackageContextMenu(
             text = { Text("Deselect Not Visible") },
             onClick = {
                 expanded.value = false
-                (selection - visible.map { it.packageName }.toSet()).forEach {
+                (selection - productsList.map { it.packageName }.toSet()).forEach {
                     toggleSelection(it)
                 }
             }

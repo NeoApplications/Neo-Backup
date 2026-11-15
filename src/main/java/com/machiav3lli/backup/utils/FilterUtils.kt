@@ -47,9 +47,6 @@ import java.text.Collator
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
-//TODO hg42 filters for activity and schedule should be as equal as possible
-// on first glance, some things are done differently
-
 //---------------------------------------- filters for schedule
 
 fun filterPackages(
@@ -74,9 +71,9 @@ fun filterPackages(
         }
 
     val predicate: (Package) -> Boolean = {
-        (if (filter and MAIN_FILTER_SYSTEM == MAIN_FILTER_SYSTEM) it.isSystem and !it.isSpecial else false)
-                || (if (filter and MAIN_FILTER_USER == MAIN_FILTER_USER) !it.isSystem else false)
-                || (if (filter and MAIN_FILTER_SPECIAL == MAIN_FILTER_SPECIAL) it.isSpecial else false)
+        (filter and MAIN_FILTER_SYSTEM == MAIN_FILTER_SYSTEM && it.isSystem and !it.isSpecial)
+                || (filter and MAIN_FILTER_USER == MAIN_FILTER_USER && !it.isSystem)
+                || (filter and MAIN_FILTER_SPECIAL == MAIN_FILTER_SPECIAL && it.isSpecial)
     }
 
     return startPackages
@@ -114,9 +111,9 @@ fun Collection<Package>.applyFilter(
     tagsMap: Map<String, Set<String>>,
 ): List<Package> {
     val predicate: (Package) -> Boolean = {
-        (if (filter.mainFilter and MAIN_FILTER_SYSTEM == MAIN_FILTER_SYSTEM) it.isSystem && !it.isSpecial else false)
-                || (if (filter.mainFilter and MAIN_FILTER_USER == MAIN_FILTER_USER) !it.isSystem else false)
-                || (if (filter.mainFilter and MAIN_FILTER_SPECIAL == MAIN_FILTER_SPECIAL) it.isSpecial else false)
+        (filter.mainFilter and MAIN_FILTER_SYSTEM == MAIN_FILTER_SYSTEM && it.isSystem && !it.isSpecial)
+                || (filter.mainFilter and MAIN_FILTER_USER == MAIN_FILTER_USER && !it.isSystem)
+                || (filter.mainFilter and MAIN_FILTER_SPECIAL == MAIN_FILTER_SPECIAL && it.isSpecial)
     }
     return filter(predicate)
         .applyBackupFilter(filter.backupFilter)
@@ -127,14 +124,13 @@ fun Collection<Package>.applyFilter(
 
 private fun Collection<Package>.applyBackupFilter(backupFilter: Int): List<Package> {
     val predicate: (Package) -> Boolean = {
-        (if (backupFilter and MODE_NONE == MODE_NONE) !it.hasBackups or !(it.hasApk or it.hasData)
-        else false)
-                || (if (backupFilter and MODE_APK == MODE_APK) it.hasApk else false)
-                || (if (backupFilter and MODE_DATA == MODE_DATA) it.hasAppData else false)
-                || (if (backupFilter and MODE_DATA_DE == MODE_DATA_DE) it.hasDevicesProtectedData else false)
-                || (if (backupFilter and MODE_DATA_EXT == MODE_DATA_EXT) it.hasExternalData else false)
-                || (if (backupFilter and MODE_DATA_OBB == MODE_DATA_OBB) it.hasObbData else false)
-                || (if (backupFilter and MODE_DATA_MEDIA == MODE_DATA_MEDIA) it.hasMediaData else false)
+        (backupFilter and MODE_NONE == MODE_NONE && !it.hasBackups or !(it.hasApk or it.hasData))
+                || (backupFilter and MODE_APK == MODE_APK && it.hasApk)
+                || (backupFilter and MODE_DATA == MODE_DATA && it.hasAppData)
+                || (backupFilter and MODE_DATA_DE == MODE_DATA_DE && it.hasDevicesProtectedData)
+                || (backupFilter and MODE_DATA_EXT == MODE_DATA_EXT && it.hasExternalData)
+                || (backupFilter and MODE_DATA_OBB == MODE_DATA_OBB && it.hasObbData)
+                || (backupFilter and MODE_DATA_MEDIA == MODE_DATA_MEDIA && it.hasMediaData)
     }
     return filter(predicate)
 }

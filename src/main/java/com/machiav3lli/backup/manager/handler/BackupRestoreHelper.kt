@@ -52,7 +52,7 @@ object BackupRestoreHelper {
         work: AppActionWork?,
         shell: ShellHandler,
         packageItem: Package,
-        backupMode: Int
+        backupMode: Int,
     ): ActionResult {
         var reBackupMode = backupMode
 
@@ -78,15 +78,15 @@ object BackupRestoreHelper {
 
         if (result.succeeded)
             Timber.i("<${packageItem.packageName}> Backup succeeded: ${result.succeeded}")
-        else {
+        else
             Timber.i("<${packageItem.packageName}> Backup FAILED: ${result.succeeded} ${result.message}")
-        }
 
         housekeepingPackageBackups(packageItem)
 
         return result
     }
 
+    // TODO add catcher&report for when failing on unfitting password/decryption
     suspend fun restore(
         context: Context, work: AppActionWork?, shellHandler: ShellHandler, appInfo: Package,
         mode: Int, backup: Backup
@@ -120,7 +120,6 @@ object BackupRestoreHelper {
                 if (apkDir == null || fileInfos.size != 1) {
                     throw FileNotFoundException("Could not find Neo Backup's own apk file")
                 }
-                //TODO wech suCopyFileToDocument(fileInfos[0], backupRoot)
                 copyRootFileToDocument(
                     fileInfos[0].absolutePath,
                     backupRoot,
@@ -128,7 +127,7 @@ object BackupRestoreHelper {
                 )
                 // Invalidating cache, otherwise the next call will fail
                 // Can cost a lot time, but this function won't be run that often
-                invalidateCache() //TODO hg42 how to filter only the apk? or eliminate the need to invalidate
+                invalidateCache()
                 val baseApkFile = backupRoot.findFile(fileInfos[0].filename)
                 if (baseApkFile != null) {
                     baseApkFile.renameTo(filename)

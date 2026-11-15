@@ -31,6 +31,7 @@ import com.machiav3lli.backup.manager.handler.LogsHandler.Companion.logErrors
 import com.machiav3lli.backup.manager.handler.LogsHandler.Companion.unexpectedException
 import com.machiav3lli.backup.ui.activities.NeoActivity
 import com.machiav3lli.backup.utils.SystemUtils
+import com.machiav3lli.backup.utils.showNotification
 import org.koin.java.KoinJavaComponent.get
 import timber.log.Timber
 import java.io.BufferedOutputStream
@@ -58,7 +59,6 @@ class ExportsHandler(
 
     @Throws(IOException::class)
     suspend fun exportSchedules() {
-        // TODO improve on folder structure
         scheduleRepository.getAll().forEach {
             val fileName = String.format(EXPORTS_INSTANCE, it.name)
             exportsDirectory?.createFile(fileName)?.let { exportFile ->
@@ -71,8 +71,8 @@ class ExportsHandler(
                     }
             }
         }
-        showNotification(
-            context, NeoActivity::class.java, SystemUtils.now.toInt(),
+        context.showNotification(
+            NeoActivity::class.java, SystemUtils.now.toInt(),
             context.getString(R.string.sched_exported), null, false
         )
     }
@@ -85,7 +85,7 @@ class ExportsHandler(
             if (it.isFile) try {
                 val schedule = Schedule.Builder(it).build()
                 exports.add(Pair(schedule, it))
-            } catch (e: NullPointerException) {
+            } catch (_: NullPointerException) {
                 val message = "(Null) Incomplete schedule or wrong structure found in ${it}."
                 Timber.w(message)
                 logErrors(message)

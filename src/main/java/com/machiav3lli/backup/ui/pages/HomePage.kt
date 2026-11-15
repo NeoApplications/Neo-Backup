@@ -40,7 +40,6 @@ import androidx.compose.material3.adaptive.navigation.NavigableListDetailPaneSca
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -53,6 +52,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.machiav3lli.backup.ALT_MODE_APK
 import com.machiav3lli.backup.ALT_MODE_BOTH
 import com.machiav3lli.backup.ALT_MODE_DATA
@@ -98,8 +98,8 @@ fun HomePage(
     val scope = rememberCoroutineScope()
     val paneNavigator = rememberListDetailPaneScaffoldNavigator<Any>()
 
-    val mainState by viewModel.state.collectAsState()
-    val schedules by viewModel.schedules.collectAsState()
+    val mainState by viewModel.state.collectAsStateWithLifecycle()
+    val schedules by viewModel.schedules.collectAsStateWithLifecycle()
     val updaterVisible = mainState.updatedPackages.isNotEmpty()
     var updaterExpanded by remember { mutableStateOf(false) }
     var menuPackage by remember { mutableStateOf<Package?>(null) }

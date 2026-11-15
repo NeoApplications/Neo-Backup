@@ -11,14 +11,12 @@ import com.machiav3lli.backup.manager.handler.LogsHandler
 import com.machiav3lli.backup.manager.handler.ShellCommands
 import com.machiav3lli.backup.utils.toPackageList
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 
-@OptIn(FlowPreview::class)
 class PackageRepository(
     private val dao: AppInfoDao,
     private val appContext: Application,
@@ -50,14 +48,14 @@ class PackageRepository(
     fun getPackagesFlow(): Flow<List<Package>> = combine(
         dao.getAllFlow(),
         backupsCache.observeBackupsList(),
-    ) { appInfos, bkps -> appInfos.toPackageList(appContext) }
+    ) { appInfos, _ -> appInfos.toPackageList(appContext) }
         .flowOn(cc)
 
     suspend fun updatePackage(packageName: String) {
         Package.invalidateCacheForPackage(packageName)
         val new = try {
             Package(appContext, packageName)
-        } catch (e: AssertionError) {
+        } catch (_: AssertionError) {
             null
         }
         if (new != null && !new.isSpecial) {
@@ -88,15 +86,15 @@ class PackageRepository(
         backupsCache.removeAll(packageNames)
     }
 
-    suspend fun rewriteBackup(pkg: Package?, backup: Backup, changedBackup: Backup) {
-        pkg?.rewriteBackup(backup, changedBackup)
+    suspend fun rewriteBackup(pkg: Package?, backup: Backup, transform: Backup.() -> Backup) {
+        pkg?.rewriteBackup(backup, transform)
     }
 
     suspend fun deleteAppInfoOf(packageName: String) = dao.deleteAllOf(packageName)
 
     suspend fun deleteBackup(pkg: Package?, backup: Backup, onDismiss: () -> Unit) =
         pkg?.let { pkg ->
-            pkg.deleteBackup(backup)
+            pkg.removeBackup(backup)
             if (!pkg.isInstalled && pkg.backupList.isEmpty() && backup.packageLabel != "? INVALID") {
                 dao.deleteAllOf(pkg.packageName)
                 onDismiss()

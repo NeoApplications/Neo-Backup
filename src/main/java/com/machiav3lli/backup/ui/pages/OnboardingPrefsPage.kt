@@ -26,7 +26,7 @@ import com.machiav3lli.backup.data.entity.StringPref
 import com.machiav3lli.backup.data.preferences.PrefEnum
 import com.machiav3lli.backup.data.preferences.PrefList
 import com.machiav3lli.backup.data.preferences.PrefTheme
-import com.machiav3lli.backup.ui.compose.blockBorderBottom
+import com.machiav3lli.backup.ui.compose.blockBorder
 import com.machiav3lli.backup.ui.compose.component.ActionButton
 import com.machiav3lli.backup.ui.compose.component.PrefsGroup
 import com.machiav3lli.backup.ui.compose.icons.Phosphor
@@ -50,7 +50,7 @@ fun OnboardingPrefsPage(
     Column {
         LazyColumn(
             modifier = Modifier
-                .blockBorderBottom()
+                .blockBorder()
                 .weight(1f),
             contentPadding = PaddingValues(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)

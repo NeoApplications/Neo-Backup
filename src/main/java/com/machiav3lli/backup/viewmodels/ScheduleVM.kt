@@ -58,7 +58,7 @@ class ScheduleVM(
     private val globalBlockList = blocklistRepository.getGlobalBlocklist()
 
     private val tagsMap = appExtrasRepository.getTagsMapFlow()
-        .mapLatest { it.associate { Pair(it.packageName, it.customTags) } }
+        .mapLatest { it.associate { tags -> Pair(tags.packageName, tags.customTags) } }
         .trace { "*** tagsMap <<- ${it.size}" }
 
     val state: StateFlow<ScheduleState> = combine(

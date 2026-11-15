@@ -17,6 +17,7 @@
  */
 package com.machiav3lli.backup.data.entity
 
+import androidx.compose.runtime.Stable
 import com.machiav3lli.backup.NeoApp
 import com.machiav3lli.backup.data.dbs.entity.Backup
 import com.machiav3lli.backup.manager.handler.LogsHandler
@@ -31,6 +32,7 @@ import java.io.IOException
 import java.time.LocalDateTime
 
 @Serializable
+@Stable
 data class Log(
     @OptIn(ExperimentalSerializationApi::class)
     @Serializable(with = LocalDateTimeSerializer::class)

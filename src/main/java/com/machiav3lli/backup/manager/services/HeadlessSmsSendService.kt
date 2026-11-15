@@ -20,9 +20,11 @@ package com.machiav3lli.backup.manager.services
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import timber.log.Timber
 
 class HeadlessSmsSendService : Service() {
     override fun onBind(intent: Intent): IBinder {
-        TODO("Stub file to get OAndBackupX into Default SMS in Settings.")
+        Timber.tag("HeadlessSmsSendService").v("onReceive")
+        TODO("Stub file to get NB into Default SMS options in Settings.")
     }
 }

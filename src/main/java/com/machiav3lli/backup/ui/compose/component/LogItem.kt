@@ -55,7 +55,7 @@ fun LogItem(
                     Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
                         Column(modifier = Modifier.weight(1f, true)) {
                             Text(
-                                text = item.logDate.getFormattedDate(true) ?: "",
+                                text = item.logDate.getFormattedDate(true),
                                 overflow = TextOverflow.Ellipsis,
                                 maxLines = 1,
                                 style = MaterialTheme.typography.titleMedium
@@ -91,7 +91,7 @@ fun LogItem(
                             onTint = MaterialTheme.colorScheme.onTertiaryContainer,
                             onClick = { onDelete(item) }
                         )
-                        FilledRoundButton(       // TODO: remove?, share button already in TerminalText
+                        FilledRoundButton(
                             description = stringResource(id = R.string.shareTitle),
                             icon = Phosphor.ShareNetwork,
                             tint = MaterialTheme.colorScheme.primaryContainer,

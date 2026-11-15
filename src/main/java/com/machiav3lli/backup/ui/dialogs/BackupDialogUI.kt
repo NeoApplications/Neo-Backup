@@ -19,7 +19,6 @@ package com.machiav3lli.backup.ui.dialogs
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.machiav3lli.backup.MODE_APK
 import com.machiav3lli.backup.MODE_DATA
@@ -42,8 +41,6 @@ fun BackupDialogUI(
     openDialogCustom: MutableState<Boolean>,
     onAction: (mode: Int) -> Unit,
 ) {
-    val context = LocalContext.current
-
     val modePairs = mutableMapOf<Int, String>()
     val possibleModes = batchModesSequence.toMutableList()
 
@@ -69,7 +66,7 @@ fun BackupDialogUI(
         modePairs[MODE_DATA_MEDIA] = stringResource(R.string.radio_mediadata)
     }
 
-    possibleModes.forEach { mode -> // TODO reusing mode of last backup?
+    possibleModes.forEach { mode ->
         val activeMode = backupModeIfActive(mode)
         selectedMode.add(
             if (appPackage.latestBackup?.hasMode(mode) != false)
@@ -84,6 +81,6 @@ fun BackupDialogUI(
         selectedItems = selectedMode.toPersistentList(),
         openDialogCustom = openDialogCustom,
     ) {
-        onAction(it.fold(MODE_UNSET) { acc, s -> acc xor s }) // TODO Add action type?
+        onAction(it.fold(MODE_UNSET) { acc, s -> acc xor s })
     }
 }

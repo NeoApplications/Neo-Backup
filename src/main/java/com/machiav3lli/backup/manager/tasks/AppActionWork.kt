@@ -42,7 +42,6 @@ import com.machiav3lli.backup.manager.handler.BackupRestoreHelper
 import com.machiav3lli.backup.manager.handler.LogsHandler
 import com.machiav3lli.backup.manager.handler.WorkHandler.Companion.getVar
 import com.machiav3lli.backup.manager.handler.WorkHandler.Companion.setVar
-import com.machiav3lli.backup.manager.handler.showNotification
 import com.machiav3lli.backup.manager.services.CommandReceiver
 import com.machiav3lli.backup.ui.activities.NeoActivity
 import com.machiav3lli.backup.ui.pages.pref_maxJobs
@@ -52,8 +51,8 @@ import com.machiav3lli.backup.ui.pages.pref_useForegroundInJob
 import com.machiav3lli.backup.utils.SystemUtils.numCores
 import com.machiav3lli.backup.utils.extensions.Android
 import com.machiav3lli.backup.utils.getSpecial
+import com.machiav3lli.backup.utils.showNotification
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
@@ -81,10 +80,8 @@ class AppActionWork(val context: Context, workerParams: WorkerParameters) :
 
             NeoApp.wakelock(true)
 
-            if (pref_useForegroundInJob.value)               //TODO hg42 the service already does this?
-            //if (inputData.getBoolean("immediate", false))
+            if (pref_useForegroundInJob.value)
                 setForeground(getForegroundInfo())
-            //setForegroundAsync(getForegroundInfo())  //TODO hg42 what's the difference?
 
             var actionResult: ActionResult? = null
 
@@ -112,44 +109,39 @@ class AppActionWork(val context: Context, workerParams: WorkerParameters) :
                                 )
                             Package(context, foundItem)
                         }
-            } catch (e: PackageManager.NameNotFoundException) {
+            } catch (_: PackageManager.NameNotFoundException) {
                 if (packageLabel.isEmpty())
                     packageLabel = packageItem?.packageLabel ?: "$packageName (no label)"
                 packageItem = Package(context, packageName)
             }
 
             try {
-                if (!isStopped) {
+                if (!isStopped) try {
+                    NeoApp.shellHandler?.let { shellHandler ->
+                        actionResult = when {
+                            backupBoolean -> {
+                                BackupRestoreHelper.backup(
+                                    context, work, shellHandler, packageItem, selectedMode
+                                )
+                            }
 
-                    packageItem?.let { pi ->
-                        try {
-                            NeoApp.shellHandler?.let { shellHandler ->
-                                actionResult = when {
-                                    backupBoolean -> {
-                                        BackupRestoreHelper.backup(
-                                            context, work, shellHandler, pi, selectedMode
-                                        )
-                                    }
-
-                                    else          -> {
-                                        pi.backupsNewestFirst[backupIndex].let {
-                                            BackupRestoreHelper.restore(
-                                                context, work,
-                                                shellHandler, pi,
-                                                selectedMode, it
-                                            )
-                                        }
-                                    }
+                            else          -> {
+                                packageItem.backupsNewestFirst[backupIndex].let {
+                                    BackupRestoreHelper.restore(
+                                        context, work,
+                                        shellHandler, packageItem,
+                                        selectedMode, it
+                                    )
                                 }
                             }
-                        } catch (e: Throwable) {
-                            val message = "package not processed: $packageName $packageLabel: $e\n${
-                                LogsHandler.message(e, true)
-                            }"
-                            actionResult = ActionResult(pi, null, message, false)
-                            Timber.w(message)
                         }
                     }
+                } catch (e: Throwable) {
+                    val message = "package not processed: $packageName $packageLabel: $e\n${
+                        LogsHandler.message(e, true)
+                    }"
+                    actionResult = ActionResult(packageItem, null, message, false)
+                    Timber.w(message)
                 }
             } catch (e: Throwable) {
                 LogsHandler.unexpectedException(e, packageLabel)
@@ -169,8 +161,8 @@ class AppActionWork(val context: Context, workerParams: WorkerParameters) :
                     Result.retry()
                 } else {
                     val message = "$packageName\n${actionResult?.message}"
-                    showNotification(
-                        context, NeoActivity::class.java,
+                    context.showNotification(
+                        NeoActivity::class.java,
                         actionResult.hashCode(), packageLabel, actionResult?.message, message, false
                     )
                     setOperation("======>FAIL")
@@ -262,14 +254,6 @@ class AppActionWork(val context: Context, workerParams: WorkerParameters) :
     }
 
     companion object {
-        //val jobPool1 = Executors.newFixedThreadPool(
-        //    if (pref_maxJobs.value > 0)
-        //        pref_maxJobs.value
-        //    else
-        //        numCores
-        //).asCoroutineDispatcher()
-
-        @OptIn(ExperimentalCoroutinesApi::class)
         val jobPool = Dispatchers.IO.limitedParallelism(
             if (pref_maxJobs.value > 0)
                 pref_maxJobs.value

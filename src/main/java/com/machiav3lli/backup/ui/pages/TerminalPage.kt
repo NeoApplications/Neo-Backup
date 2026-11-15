@@ -92,7 +92,7 @@ import com.machiav3lli.backup.manager.handler.ShellHandler.FileInfo.Companion.ut
 import com.machiav3lli.backup.manager.handler.findBackupsAll
 import com.machiav3lli.backup.manager.handler.maxThreads
 import com.machiav3lli.backup.manager.handler.usedThreadsByName
-import com.machiav3lli.backup.ui.compose.blockBorderBottom
+import com.machiav3lli.backup.ui.compose.blockBorder
 import com.machiav3lli.backup.ui.compose.component.RoundButton
 import com.machiav3lli.backup.ui.compose.component.SimpleButton
 import com.machiav3lli.backup.ui.compose.component.SmallButton
@@ -250,38 +250,38 @@ fun accessTest() =
             ) +
             accessTest1(
                 "system app",
-                "\$ANDROID_ASSETS", "packages (system app)"
+                $$"$ANDROID_ASSETS", "packages (system app)"
             ) +
             accessTest1(
                 "user app",
-                "\$ANDROID_DATA/app", "packages (user app)"
+                $$"$ANDROID_DATA/app", "packages (user app)"
             ) +
             accessTest1(
                 "data",
-                "\$ANDROID_DATA/user/${ShellCommands.currentProfile}", "packages (data)"
+                $$"$ANDROID_DATA/user/$${ShellCommands.currentProfile}", "packages (data)"
             ) +
             accessTest1(
                 "dedata",
-                "\$ANDROID_DATA/user_de/${ShellCommands.currentProfile}", "packages (dedata)"
+                $$"$ANDROID_DATA/user_de/$${ShellCommands.currentProfile}", "packages (dedata)"
             ) +
             accessTest1(
                 "external",
-                getAndroidFolder("data")?.path ?: "\$EXTERNAL_STORAGE/Android/data",
+                getAndroidFolder("data")?.path ?: $$"$EXTERNAL_STORAGE/Android/data",
                 "packages (external)"
             ) +
             accessTest1(
                 "obb",
-                getAndroidFolder("obb")?.path ?: "\$EXTERNAL_STORAGE/Android/obb",
+                getAndroidFolder("obb")?.path ?: $$"$EXTERNAL_STORAGE/Android/obb",
                 "packages (obb)"
             ) +
             accessTest1(
                 "media",
-                getAndroidFolder("media")?.path ?: "\$EXTERNAL_STORAGE/Android/media",
+                getAndroidFolder("media")?.path ?: $$"$EXTERNAL_STORAGE/Android/media",
                 "packages (media)"
             ) +
             accessTest1(
                 "misc",
-                "\$ANDROID_DATA/misc", "misc data"
+                $$"$ANDROID_DATA/misc", "misc data"
             )
 
 
@@ -299,9 +299,9 @@ fun lastErrorPkg(): List<String> {
     val pkg = NeoApp.lastErrorPackage
     return if (pkg.isNotEmpty()) {
         listOf("------ last error package: $pkg") +
-                shell("ls -l \$ANDROID_DATA/user/0/$pkg") +
-                shell("ls -l \$ANDROID_DATA/user_de/0/$pkg") +
-                shell("ls -l \$EXTERNAL_STORAGE/Android/*/$pkg")
+                shell($$"ls -l $ANDROID_DATA/user/0/$$pkg") +
+                shell($$"ls -l $ANDROID_DATA/user_de/0/$$pkg") +
+                shell($$"ls -l $EXTERNAL_STORAGE/Android/*/$$pkg")
     } else {
         listOf("------ ? no last error package")
     }
@@ -363,7 +363,6 @@ fun textLogShare(lines: List<String>, temporary: Boolean = false) {
                     }
                 }
         }.onFailure {
-            //TODO hg42 we could try even more here
             logException(it)
         }
     }
@@ -402,14 +401,14 @@ fun TerminalText(
     limitLines: Int = 0,
     scrollOnAdd: Boolean = true,
 ) {
-
+    //TODO Clean up text sizes
     val hscroll = rememberScrollState()
     val listState = rememberLazyListState()
     var wrap by retain { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     var autoScroll by remember { mutableStateOf(scrollOnAdd) }
 
-    val fontLineFactor = 1.4     //TODO hg42 factor 1.4 is empiric, how is it correctly?
+    val fontLineFactor = 1.4
     val searchFontFactor = 1.4
     val fontSize = 10.sp
     val lineHeightSp = fontSize * fontLineFactor
@@ -484,7 +483,7 @@ fun TerminalText(
                                 else -> Color.White
                             }
                         Text(
-                            if (it == "") " " else it,     //TODO workaround for solved Bug_UI_SelectableContainerCrashOnEmptyText, remove if material3+compose versions will definitely not decreased anymore
+                            text = it.ifEmpty { " " },
                             fontFamily = FontFamily.Monospace,
                             fontSize = fontSize,
                             lineHeight = lineHeightSp,
@@ -505,8 +504,6 @@ fun TerminalText(
             horizontalArrangement = Arrangement.End,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            //val focusManager = LocalFocusManager.current
-
             TextField(
                 modifier = Modifier
                     .weight(1f),
@@ -534,8 +531,6 @@ fun TerminalText(
                             imageVector = Phosphor.MagnifyingGlass,
                             contentDescription = "search",
                             modifier = Modifier.size(ICON_SIZE_SMALL)
-                            //tint = tint,
-                            //contentDescription = description
                         )
                     else
                         Icon(
@@ -544,20 +539,11 @@ fun TerminalText(
                             modifier = Modifier
                                 .size(ICON_SIZE_SMALL)
                                 .clickable { search = "" }
-                            //tint = tint,
-                            //contentDescription = description,
                         )
                 },
                 keyboardOptions = KeyboardOptions(
                     autoCorrectEnabled = false
-                    //imeAction = ImeAction.Done
                 ),
-                //keyboardActions = KeyboardActions(
-                //    onDone = {
-                //        todo
-                //        search = ""
-                //    }
-                //),
                 onValueChange = {
                     search = it
                 }
@@ -753,7 +739,7 @@ fun Terminal(
             modifier = Modifier
                 .background(color = Color.Transparent)
                 .padding(4.dp)
-                .blockBorderBottom()
+                .blockBorder()
                 .weight(1f)
         ) {
             TerminalText(

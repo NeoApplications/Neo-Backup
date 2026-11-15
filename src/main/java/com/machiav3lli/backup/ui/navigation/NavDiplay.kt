@@ -45,7 +45,6 @@ fun AppNavDisplay(
         onBack = { backStack.removeLastOrNull() },
         sceneStrategies = persistentListOf(sceneStrategy),
         entryProvider = entryProvider {
-            // TODO add conditional to avoid Welcome/PermissionsPage when not needed
             fadeInEntry<NavRoute.Lock> {
                 LockPage()
             }

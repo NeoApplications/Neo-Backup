@@ -72,7 +72,7 @@ fun ScheduleItem(
             Row {
                 Text(
                     text = if (schedule.enabled)
-                        "🕒 ${times.first}\n⏳ ${times.second}"    // TODO replace by resource icons
+                        "🕒 ${times.first}\n⏳ ${times.second}"
                     else
                         "🕒 ${times.first}",
                     modifier = Modifier

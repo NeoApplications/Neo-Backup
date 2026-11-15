@@ -29,21 +29,22 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.machiav3lli.backup.ACTION_RUN_SCHEDULE_SHORTCUT
 import com.machiav3lli.backup.ALT_MODE_APK
@@ -100,7 +101,9 @@ import com.machiav3lli.backup.viewmodels.RestoreBatchVM
 import com.machiav3lli.backup.viewmodels.ScheduleVM
 import com.machiav3lli.backup.viewmodels.SchedulesVM
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.module.dsl.singleOf
@@ -128,6 +131,11 @@ class NeoActivity : BaseActivity() {
 
     private val viewModel: ActivityVM by viewModel()
 
+    // Activity-scoped snackbar host, wired into the top-level Scaffold so non-composable
+    // callers (action tasks, BackendController) can surface messages.
+    private val snackbarHostState = SnackbarHostState()
+    private var snackbarJob: Job? = null
+
     object LockNavigationState {
         var intendedDestination: NavRoute? = null
     }
@@ -140,7 +148,9 @@ class NeoActivity : BaseActivity() {
         val mainChanged = (this != NeoApp.mainSaved.get())
         NeoApp.main = this
 
-        freshStart = (savedInstanceState == null)   //TODO use some lifecycle method?
+        // savedInstanceState == null is the canonical "created fresh" signal; there is no
+        // dedicated lifecycle callback for it, so keep using it here.
+        freshStart = (savedInstanceState == null)
 
         Timber.w(
             listOfNotNull(
@@ -154,39 +164,12 @@ class NeoActivity : BaseActivity() {
 
         super.onCreate(savedInstanceState)
 
-        //TODO wech begin ??? or is this necessary with resume or similar?
-
-        //TODO here or in MainPage? MainPage seems to be weird at least for each recomposition
+        // Re-arm the one-time "unsuspend apps" cleanup (see BackendController) once per
+        // Activity creation. This must stay in onCreate: a composable body would run on
+        // every recomposition, and onResume would re-arm it on every foreground.
         NeoApp.appsSuspendedChecked = false
         val startRoute = if (shouldShowLock()) NavRoute.Lock
         else NavRoute.Onboarding
-
-        //if (pref_catchUncaughtException.value) {               //TODO wech ???
-        //    Thread.setDefaultUncaughtExceptionHandler { _, e ->
-        //        try {
-        //            Timber.i("\n\n" + "=".repeat(60))
-        //            LogsHandler.unexpectedException(e)
-        //            LogsHandler.logErrors("uncaught: ${e.message}")
-        //            if (pref_uncaughtExceptionsJumpToPreferences.value) {
-        //                context.restartApp(RESCUE_NAV)
-        //            }
-        //            object : Thread() {
-        //                override fun run() {
-        //                    Looper.prepare()
-        //                    Looper.loop()
-        //                }
-        //            }.start()
-        //        } catch (_: Throwable) {
-        //            // ignore
-        //        } finally {
-        //            exitProcess(2)
-        //        }
-        //    }
-        //}
-
-        //TODO wech Shell.getShell() // should be handled in ShellHandler
-
-        //TODO wech end ???
 
         setContent {
             AppTheme {
@@ -230,11 +213,12 @@ class NeoActivity : BaseActivity() {
                 openDialog = remember { mutableStateOf(false) }
                 dialogKey = remember { mutableStateOf(null) }
                 val openBlocklist = remember { mutableStateOf(false) }
-                val blocklist by viewModel.blockList.collectAsState()
+                val blocklist by viewModel.blockList.collectAsStateWithLifecycle()
 
                 Scaffold(
                     containerColor = MaterialTheme.colorScheme.background,
                     contentColor = MaterialTheme.colorScheme.onBackground,
+                    snackbarHost = { SnackbarHost(snackbarHostState) },
                 ) {
                     ObservedEffect {
                         resumeMain()
@@ -345,7 +329,6 @@ class NeoActivity : BaseActivity() {
                     Intent.ACTION_MAIN -> {
                         if (data == null)
                             return false
-                        //moveTo(data.toString())
                         Timber.w("Received a newIntent with command:$command and didn't handle it!")
                     }
 
@@ -391,10 +374,22 @@ class NeoActivity : BaseActivity() {
         viewModel.refreshBackups()
     }
 
-    fun showSnackBar(message: String) { // TODO reimplement this?
+    // TODO merge with extension's SnackbarHostState.show()
+    fun showSnackBar(message: String) {
+        snackbarJob?.cancel()
+        snackbarJob = mScope.launch {
+            snackbarHostState.showSnackbar(
+                message = message,
+                withDismissAction = true,
+                duration = SnackbarDuration.Short,
+            )
+        }
     }
 
     fun dismissSnackBar() {
+        snackbarJob?.cancel()
+        snackbarJob = null
+        snackbarHostState.currentSnackbarData?.dismiss()
     }
 
     fun showDialog(key: DialogKey) {
@@ -447,9 +442,6 @@ class NeoActivity : BaseActivity() {
             }
             .filterNotNull()
 
-        var errors = ""
-        var resultsSuccess = true
-        var counter = 0
         val worksList: MutableList<OneTimeWorkRequest> = mutableListOf()
         get<WorkHandler>(WorkHandler::class.java).beginBatch(batchName)
         selectedItems.forEach { (packageName, mode) ->
@@ -465,33 +457,13 @@ class NeoActivity : BaseActivity() {
                 )
             worksList.add(oneTimeWorkRequest)
 
-            val oneTimeWorkLiveData = workManager.getWorkInfoByIdLiveData(oneTimeWorkRequest.id)
-            oneTimeWorkLiveData.observeForever(
-                object : Observer<WorkInfo?> {    //TODO WECH hg42
-                    override fun onChanged(value: WorkInfo?) {
-                        when (value?.state) {
-                            WorkInfo.State.SUCCEEDED -> {
-                                counter += 1
-
-                                val (succeeded, packageLabel, error) = AppActionWork.getOutput(value)
-                                if (error.isNotEmpty()) errors =
-                                    "$errors$packageLabel: ${      //TODO hg42 add to WorkHandler
-                                        LogsHandler.handleErrorMessages(
-                                            this@NeoActivity,
-                                            error
-                                        )
-                                    }\n"
-
-                                resultsSuccess = resultsSuccess and succeeded
-                                updatePackage(packageName)
-                                oneTimeWorkLiveData.removeObserver(this)
-                            }
-
-                            else                     -> {}
-                        }
-                    }
-                }
-            )
+            // Error aggregation is handled centrally by WorkHandler; here we only refresh
+            // the package once its work reaches a terminal state.
+            mScope.launch {
+                workManager.getWorkInfoByIdFlow(oneTimeWorkRequest.id)
+                    .first { it?.state?.isFinished == true }
+                updatePackage(packageName)
+            }
         }
 
         if (worksList.isNotEmpty()) {
@@ -531,9 +503,6 @@ class NeoActivity : BaseActivity() {
             }
         }
 
-        var errors = ""
-        var resultsSuccess = true
-        var counter = 0
         val worksList: MutableList<OneTimeWorkRequest> = mutableListOf()
         get<WorkHandler>(WorkHandler::class.java).beginBatch(batchName)
         selectedItems.forEach { (packageName, bi, mode) ->
@@ -548,32 +517,13 @@ class NeoActivity : BaseActivity() {
             )
             worksList.add(oneTimeWorkRequest)
 
-            val oneTimeWorkLiveData = workManager.getWorkInfoByIdLiveData(oneTimeWorkRequest.id)
-            oneTimeWorkLiveData.observeForever(
-                object : Observer<WorkInfo?> {
-                    override fun onChanged(value: WorkInfo?) {
-                        when (value?.state) {
-                            WorkInfo.State.SUCCEEDED -> {
-                                counter += 1
-
-                                val (succeeded, packageLabel, error) = AppActionWork.getOutput(value)
-                                if (error.isNotEmpty()) errors =
-                                    "$errors$packageLabel: ${
-                                        LogsHandler.handleErrorMessages(
-                                            this@NeoActivity,
-                                            error
-                                        )
-                                    }\n"
-
-                                resultsSuccess = resultsSuccess and succeeded
-                                oneTimeWorkLiveData.removeObserver(this)
-                            }
-
-                            else                     -> {}
-                        }
-                    }
-                }
-            )
+            // Error aggregation is handled centrally by WorkHandler; here we only refresh
+            // the package once its work reaches a terminal state.
+            mScope.launch {
+                workManager.getWorkInfoByIdFlow(oneTimeWorkRequest.id)
+                    .first { it?.state?.isFinished == true }
+                updatePackage(packageName)
+            }
         }
 
         if (worksList.isNotEmpty()) {

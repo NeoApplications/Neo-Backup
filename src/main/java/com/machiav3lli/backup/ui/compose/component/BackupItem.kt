@@ -209,14 +209,14 @@ fun BackupItem(
     onDelete: (Backup) -> Unit = { },
     onNote: (Backup) -> Unit = { },
     onShare: (Backup) -> Unit = { },
-    rewriteBackup: (Backup, Backup) -> Unit = { _, _ -> },
+    rewriteBackup: (Backup, Backup.() -> Backup) -> Unit = { _, _ -> },
 ) {
     var persistent by remember(item.persistent) {
         mutableStateOf(item.persistent)
     }
     val togglePersistent = {
         persistent = !persistent
-        rewriteBackup(item, item.copy(persistent = persistent))
+        rewriteBackup(item) { copy(persistent = persistent) }
     }
     val lockColor by animateColorAsState(
         if (persistent) Color.Red else LocalContentColor.current,

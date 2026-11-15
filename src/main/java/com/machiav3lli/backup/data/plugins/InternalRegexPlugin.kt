@@ -6,7 +6,7 @@ import java.io.File
 class InternalRegexPlugin(file: File) : TextPlugin(file) {
 
     init {
-        tracePlugin { "${this.javaClass.simpleName} $name <- ${file.name}" } //TODO hg42
+        tracePlugin { "${this.javaClass.simpleName} $name <- ${file.name}" }
     }
 
     fun getExtendedLineRegex(replacements: Map<String, String> = mapOf()) = Regex(

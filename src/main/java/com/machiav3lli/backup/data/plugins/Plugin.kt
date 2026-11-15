@@ -2,8 +2,8 @@ package com.machiav3lli.backup.data.plugins
 
 import androidx.compose.runtime.Composable
 import com.machiav3lli.backup.NeoApp
-import com.machiav3lli.backup.manager.handler.LogsHandler.Companion.logException
 import com.machiav3lli.backup.data.preferences.tracePlugin
+import com.machiav3lli.backup.manager.handler.LogsHandler.Companion.logException
 import timber.log.Timber
 import java.io.File
 import kotlin.reflect.KClass
@@ -65,16 +65,13 @@ abstract class Plugin(val name: String, var file: File) {
     }
 
     companion object {
-
         // add new plugin classes here, necessary to have all classes initialized
-
         val pluginCompanions
-            get() = mutableListOf<PluginCompanion>(
+            get() = mutableListOf(
                 SpecialFilesPlugin.Companion,
                 InternalRegexPlugin.Companion,
                 InternalShellScriptPlugin.Companion,
             )
-
         var pluginTypes = mutableMapOf<String, PluginCompanion>()
         var pluginExtensions = mutableMapOf<String, String>()
         var pluginExtension = mutableMapOf<String, String>()
@@ -120,9 +117,7 @@ abstract class Plugin(val name: String, var file: File) {
             setPlugins(*args)
         }
 
-        fun get(name: String) = plugins.get(name)
-
-        fun getEnabled(name: String) = get(name)?.takeIf { it.enabled }
+        fun getEnabled(name: String) = plugins[name]?.takeIf { it.enabled }
 
         fun getAll(predicate: (Map.Entry<String, Plugin>) -> Boolean) =
             plugins.filter(predicate = predicate)
@@ -135,13 +130,13 @@ abstract class Plugin(val name: String, var file: File) {
         val userDir get() = NeoApp.context.getExternalFilesDir(null)?.resolve("plugin")
 
         fun loadPluginFromDir(dir: File): Plugin? {
-            Timber.w("not implemented: loadPluginFromDir ${dir.name}") //TODO hg42
+            Timber.w("not implemented: loadPluginFromDir ${dir.name}")
             return null
         }
 
         fun loadPlugin(file: File): Plugin? {
             return try {
-                if (file.isDirectory()) {
+                if (file.isDirectory) {
                     loadPluginFromDir(file)
                 } else {
                     createFrom(file)
@@ -169,7 +164,7 @@ abstract class Plugin(val name: String, var file: File) {
             synchronized(Plugin) {
                 scanned = false
                 plugins.clear()
-                builtinDir?.let { loadPluginsFromDir(it) }
+                loadPluginsFromDir(builtinDir)
                 userDir?.let { loadPluginsFromDir(it) }
                 scanned = true
             }
@@ -184,7 +179,7 @@ abstract class Plugin(val name: String, var file: File) {
         }
 
         fun fileFor(dir: File, name: String, type: String) =
-            pluginExtension.get(type)?.let {
+            pluginExtension[type]?.let {
                 dir.resolve("$name.$it")
             }
 
@@ -195,7 +190,7 @@ abstract class Plugin(val name: String, var file: File) {
 
         fun displayPath(path: String): String {
             var result = path
-            builtinDir?.path?.let { builtinDir ->
+            builtinDir.path.let { builtinDir ->
                 result = result.replace(builtinDir, BUILTIN)
             }
             userDir?.path?.let { userDir ->

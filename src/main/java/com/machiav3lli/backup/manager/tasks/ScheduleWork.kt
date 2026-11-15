@@ -25,7 +25,6 @@ import com.machiav3lli.backup.ACTION_CANCEL_SCHEDULE
 import com.machiav3lli.backup.EXTRA_NAME
 import com.machiav3lli.backup.EXTRA_PERIODIC
 import com.machiav3lli.backup.EXTRA_SCHEDULE_ID
-import com.machiav3lli.backup.MODE_UNSET
 import com.machiav3lli.backup.NOTIFICATION_CHANNEL_SCHEDULE
 import com.machiav3lli.backup.NeoApp
 import com.machiav3lli.backup.R
@@ -39,7 +38,6 @@ import com.machiav3lli.backup.data.repository.PackageRepository
 import com.machiav3lli.backup.data.repository.ScheduleRepository
 import com.machiav3lli.backup.manager.handler.LogsHandler
 import com.machiav3lli.backup.manager.handler.WorkHandler
-import com.machiav3lli.backup.manager.handler.showNotification
 import com.machiav3lli.backup.manager.services.CommandReceiver
 import com.machiav3lli.backup.ui.activities.NeoActivity
 import com.machiav3lli.backup.ui.pages.pref_fakeScheduleDups
@@ -53,6 +51,7 @@ import com.machiav3lli.backup.utils.extensions.Android
 import com.machiav3lli.backup.utils.extensions.takeUntilSignal
 import com.machiav3lli.backup.utils.filterPackages
 import com.machiav3lli.backup.utils.getInstalledPackageList
+import com.machiav3lli.backup.utils.showNotification
 import kotlinx.collections.immutable.toPersistentSet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -183,7 +182,7 @@ class ScheduleWork(
             val workJobs = selectedItems.map { packageName ->
                 val oneTimeWorkRequest = AppActionWork.Request(
                     packageName = packageName,
-                    mode = schedule.mode ?: MODE_UNSET,
+                    mode = schedule.mode,
                     backupBoolean = true,
                     notificationId = notificationId,
                     batchName = batchName,
@@ -191,7 +190,7 @@ class ScheduleWork(
                 )
                 worksList.add(oneTimeWorkRequest)
 
-                if (inputData.getBoolean(EXTRA_PERIODIC, false) && schedule != null)
+                if (inputData.getBoolean(EXTRA_PERIODIC, false))
                     scheduleRepo.update(schedule.copy(timePlaced = now))
 
                 async {
@@ -263,8 +262,6 @@ class ScheduleWork(
     private suspend fun getFilteredPackages(schedule: Schedule): List<String> {
         return withContext(Dispatchers.IO) {
             try {
-                //FileUtils.ensureBackups()
-                // TODO follow this down the rabbit hole to clean up the logic
                 FileUtils.invalidateBackupLocation()
                 NeoApp.startup = false
 
@@ -300,8 +297,7 @@ class ScheduleWork(
     private fun handleEmptySelectedItems(name: String) {
         beginSchedule(name, "no work")
         endSchedule(name, "no work")
-        showNotification(
-            context,
+        context.showNotification(
             NeoActivity::class.java,
             notificationId,
             context.getString(R.string.schedule_failed),
@@ -397,8 +393,9 @@ class ScheduleWork(
 
             val (timeToRun, initialDelay) = calcRuntimeDiff(schedule)
 
+            // TODO implement pref for charging, battery, network
             val constraints = Constraints.Builder()
-                .setRequiresCharging(false) // TODO implement pref for charging, battery, network
+                .setRequiresCharging(false)
                 .build()
 
             val scheduleWorkRequest = PeriodicWorkRequestBuilder<ScheduleWork>(

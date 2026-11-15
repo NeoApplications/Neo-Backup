@@ -94,7 +94,7 @@ class BackupsHandler(
     private fun refreshPackageLocked(packageName: String): BackupIndexResult {
         return try {
             invalidate(packageName)
-            val backupsMap = appContext.findBackupsPackage(packageName)
+            val backupsMap = findBackupsPackage(packageName)
             packagesRepo.updatePackageBackups(packageName, backupsMap[packageName] ?: emptySet())
             BackupIndexResult.Success(backupsMap.values.sumOf { it.size })
         } catch (e: BackupLocationInAccessibleException) {

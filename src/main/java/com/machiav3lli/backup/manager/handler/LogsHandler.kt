@@ -44,7 +44,6 @@ import java.time.LocalDateTime
 class LogsHandler {
 
     companion object {
-
         fun share(log: Log, asFile: Boolean = true) {
             MainScope().launch(Dispatchers.IO) {
                 try {
@@ -93,24 +92,21 @@ class LogsHandler {
                         if (it.isFile) try {
                             logs.add(Log.fromFile(it))
                         } catch (e: Throwable) {
-                            // avoid recursion! never use: logErrors(message) or throw
-                            val message =
-                                "incomplete log or wrong structure found in $it."
                             logException(e, it)
                             // create dummy log entry, that is deletable and shareable
                             runCatching {
                                 val logDate =
                                     LocalDateTime.parse(
                                         it.name!!
-                                            .replace(Regex(""".*?(\d+-\d+-\d+)-(\d+-\d+-\d+)-(\d+).*""")) {
+                                            .replace(Regex(""".*?(\d+-\d+-\d+)-(\d+-\d+-\d+)-(\d+).*""")) { match ->
                                                 "${
-                                                    it.groups[1]?.value ?: ""
+                                                    match.groups[1]?.value ?: ""
                                                 }T${
-                                                    it.groups[2]?.value
+                                                    match.groups[2]?.value
                                                         ?.replace("-", ":")
                                                         ?: ""
                                                 }.${
-                                                    it.groups[3]?.value ?: ""
+                                                    match.groups[3]?.value ?: ""
                                                 }"
                                             }
                                     )
@@ -158,11 +154,6 @@ class LogsHandler {
                 NeoApp.logsDirectory?.let { logsDir ->
                     invalidateCache(logsDir)
                     val timeStr = BACKUP_DATE_TIME_FORMATTER.format(date)
-                    //val logFileName = String.format(  //TODO WECH
-                    //    LOG_INSTANCE,
-                    //    BACKUP_DATE_TIME_FORMATTER.format(date)
-                    //)
-                    //val file = logsDir.findFile(logFileName)
                     val files = logsDir.listFiles().filter { it.name!!.contains(timeStr) }
                     if (files.isNotEmpty()) {
                         val file = files.first()
@@ -295,7 +286,7 @@ class LogsHandler {
         fun <T> runOr(todo: () -> T): T? {
             return try {
                 todo()
-            } catch (e: Throwable) {
+            } catch (_: Throwable) {
                 null
             }
         }
@@ -303,7 +294,7 @@ class LogsHandler {
         fun <T> runOr(default: T, todo: () -> T): T {
             return try {
                 todo()
-            } catch (e: Throwable) {
+            } catch (_: Throwable) {
                 default
             }
         }
@@ -311,7 +302,7 @@ class LogsHandler {
         suspend fun <T> runsOr(todo: suspend () -> T): T? {
             return try {
                 todo()
-            } catch (e: Throwable) {
+            } catch (_: Throwable) {
                 null
             }
         }
@@ -319,7 +310,7 @@ class LogsHandler {
         suspend fun <T> runsOr(default: T, todo: suspend () -> T): T {
             return try {
                 todo()
-            } catch (e: Throwable) {
+            } catch (_: Throwable) {
                 default
             }
         }

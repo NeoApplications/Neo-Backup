@@ -49,7 +49,7 @@ import com.machiav3lli.backup.R
 import com.machiav3lli.backup.data.entity.ColoringState
 import com.machiav3lli.backup.linksList
 import com.machiav3lli.backup.ui.activities.NeoActivity
-import com.machiav3lli.backup.ui.compose.blockBorderBottom
+import com.machiav3lli.backup.ui.compose.blockBorder
 import com.machiav3lli.backup.ui.compose.component.ActionButton
 import com.machiav3lli.backup.ui.compose.component.LinkChip
 import com.machiav3lli.backup.ui.compose.icons.Phosphor
@@ -65,7 +65,7 @@ fun OnboardingInfoPage(
     Column {
         LazyColumn(
             modifier = Modifier
-                .blockBorderBottom()
+                .blockBorder()
                 .weight(1f),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(8.dp)

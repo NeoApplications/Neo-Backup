@@ -19,13 +19,9 @@ package com.machiav3lli.backup.data.dbs.entity
 
 import androidx.compose.runtime.Stable
 import androidx.room.ColumnInfo
-import androidx.room.Entity
 import androidx.room.Ignore
-import androidx.room.Index
 import com.machiav3lli.backup.BACKUP_INSTANCE_PROPERTIES_INDIR
 import com.machiav3lli.backup.BACKUP_INSTANCE_REGEX_PATTERN
-import com.machiav3lli.backup.FIELD_BACKUP_DATE
-import com.machiav3lli.backup.FIELD_PACKAGE_NAME
 import com.machiav3lli.backup.MODE_APK
 import com.machiav3lli.backup.MODE_DATA
 import com.machiav3lli.backup.MODE_DATA_DE
@@ -47,13 +43,6 @@ import java.io.FileNotFoundException
 import java.io.IOException
 import java.time.LocalDateTime
 
-@Entity(
-    primaryKeys = [FIELD_PACKAGE_NAME, FIELD_BACKUP_DATE],
-    indices = [
-        Index(FIELD_PACKAGE_NAME, FIELD_BACKUP_DATE, unique = true),
-        Index(FIELD_PACKAGE_NAME),
-    ]
-)
 @Serializable
 @Stable
 data class Backup(
@@ -176,7 +165,7 @@ data class Backup(
             ", cpuArch='" + cpuArch + '\'' +
             ", compressionType='" + compressionType + '\'' +
             ", cipherType='" + cipherType + '\'' +
-            ", iv='" + iv + '\'' +
+            ", iv='" + iv + '\'' + // TODO replace with its String
             ", permissions='" + permissions + '\'' +
             ", persistent=" + persistent +
             ", note='" + note + '\'' +
@@ -310,10 +299,10 @@ data class Backup(
                     fromSerialized(serialized)
                 }
 
-                //TODO bug: list serialization (jsonPretty, yaml) adds a space in front of each value
+                // bug: list serialization (jsonPretty, yaml) adds a space in front of each value
                 // found older multiline json and yaml without the bug, so it was introduced lately (by lib versions)
                 return backup?.copy(
-                    permissions = backup.permissions.map { it.trim() }, //TODO workaround
+                    permissions = backup.permissions.map { it.trim() },
                 )?.apply {
                     file = propertiesFile
                 }

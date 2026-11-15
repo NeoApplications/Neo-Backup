@@ -54,7 +54,6 @@ import com.machiav3lli.backup.utils.TraceUtils.logNanoTiming
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.koin.java.KoinJavaComponent.get
@@ -92,7 +91,6 @@ fun checkThreadStats() {
 }
 
 val scanPool = when (1) {
-
     // force hang for recursive scanning
     0    -> Executors.newFixedThreadPool(1).asCoroutineDispatcher()
 
@@ -104,8 +102,6 @@ val scanPool = when (1) {
 
     // creates many threads (~65)
     else -> Dispatchers.IO
-
-    // TODO hg42 it's still not 100% clear, if queue based scanning prevents hanging
 }
 
 suspend fun scanBackups(
@@ -278,10 +274,7 @@ suspend fun scanBackups(
         }
     }
 
-    suspend fun handleDirectory(
-        file: StorageFile,
-        collector: FlowCollector<StorageFile>? = null,
-    ): Boolean {
+    suspend fun handleDirectory(file: StorageFile): Boolean {
         NeoApp.hitBusy()
 
         var list = getDirectoryListing(file)
@@ -319,7 +312,7 @@ suspend fun scanBackups(
 
     fun indent(level: Int, mark: String) = ":::${"|:::".repeat(level)}i"
     fun traceLine(mark: String, level: Int, file: StorageFile, text: String) =
-        "${indent(level, mark)}${formatBackupFile(file)} ${text}"
+        "${indent(level, mark)}${formatBackupFile(file)} $text"
 
     suspend fun scanBackupInstance(
         file: StorageFile,
@@ -330,35 +323,29 @@ suspend fun scanBackups(
     ) {
         traceBackupsScanPackage { traceLine("i", level, file, "instance") }
 
-        if (file.isPropertyFile &&                                  // instance props
+        if (file.isPropertyFile &&
             !name.contains(regexSpecialFile)
         ) {
-            val props = file
             traceBackupsScanPackage {
                 traceLine(
                     ">",
                     level,
-                    props,
+                    file,
                     "++++++++++++++++++++ props ok"
                 )
             }
 
-            handleProps(props, path, name, onValidBackup)
+            handleProps(file, path, name, onValidBackup)
 
         } else {
 
-            if (!name.contains(regexSpecialFolder) &&
-                file.isDirectory                                    // instance dir
-            ) {
-
-                val dir = file
+            if (!name.contains(regexSpecialFolder) && file.isDirectory) {
                 // directories are filtered out for existing properties,
                 // so if it's an instance directory it's solo -> error
                 if (name.contains(regexPackageFolder)) {
                     // in case of flatStructure there could be a backup.properties inside
-                    // TODO hg42 change so that this can be seen by the directory name
                     try {
-                        dir.findFile(BACKUP_INSTANCE_PROPERTIES_INDIR)  // indir props
+                        file.findFile(BACKUP_INSTANCE_PROPERTIES_INDIR)
                             ?.let { props ->
 
                                 traceBackupsScanPackage {
@@ -372,14 +359,14 @@ suspend fun scanBackups(
 
                                 handleProps(props, props.path, props.name, onValidBackup) {
                                     runCatching {
-                                        dir.name?.let { name ->
+                                        file.name?.let { name ->
                                             if (!name.contains(
                                                     regexSpecialFolder
                                                 )
                                             ) {
                                                 handleInvalidProps(
-                                                    dir = dir, file = props,
-                                                    packageName = if (packageName.isEmpty()) null else packageName
+                                                    dir = file, file = props,
+                                                    packageName = packageName.ifEmpty { null }
                                                 )
                                             }
                                         }
@@ -387,15 +374,15 @@ suspend fun scanBackups(
                                 }
                             } ?: run {
 
-                            handleInvalidProps(dir = dir)
+                            handleInvalidProps(dir = file)
                         }
                     } catch (_: Throwable) {
-                        handleInvalidProps(dir = dir)
+                        handleInvalidProps(dir = file)
                     }
 
                 } else {
 
-                    handleInvalidProps(dir = dir)
+                    handleInvalidProps(dir = file)
 
                 }
             }
@@ -435,17 +422,12 @@ suspend fun scanBackups(
                     )
                 }
 
-            if (path.contains(packageName)) {                           // package matches, empty matches all
-
+            if (path.contains(packageName)) {
                 if (name.contains(regexBackupInstance)) {                   // instance ...
-
                     scanBackupInstance(file, path, name, level, onValidBackup)
-
-                } else {                                                    // no instance
-
-                    if (file.isPropertyFile &&
-                        !name.contains(regexSpecialFile)                        // non-instance props (wtf is that? probably a saved file)
-                    ) {
+                } else {
+                    // non-instance props (wtf is that? probably a saved file)
+                    if (file.isPropertyFile && !name.contains(regexSpecialFile)) {
                         traceBackupsScanPackage {
                             traceLine(
                                 ">",
@@ -456,10 +438,9 @@ suspend fun scanBackups(
                         }
 
                         handleProps(file, path, name, onValidBackup)
-
                     } else {
-                        if (file.isDirectory) {                                 // non-instance-directory
-                            val dir = file
+                        // non-instance-directory
+                        if (file.isDirectory) {
                             traceBackupsScanPackage {
                                 traceLine(
                                     "/",
@@ -469,22 +450,15 @@ suspend fun scanBackups(
                                 )
                             }
 
-                            if (handleDirectory(dir).not()) {
+                            if (!handleDirectory(file)) {
                                 // renameDamagedToERROR(dir, "empty-folder")
                             }
                         }
                     }
                 }
             }
-
-            // else
-            //                                                          // single scan and non matching package -> ignored
-
         } else {                                                    // no package and no instance
-
-            if (!name.contains(regexSpecialFolder) &&
-                file.isDirectory                                        // no package or instance folder
-            ) {
+            if (!name.contains(regexSpecialFolder) && file.isDirectory) {       // no package or instance folder
                 val dir = file
                 if (forceTrace)
                     traceBackupsScanPackage {
@@ -496,10 +470,9 @@ suspend fun scanBackups(
                         )
                     }
 
-                if (handleDirectory(dir).not()) {
+                if (!handleDirectory(dir)) {
                     // renameDamagedToERROR(dir, "empty-folder")
                 }
-
             }
         }
 
@@ -587,7 +560,7 @@ fun findBackupsAll(forceTrace: Boolean = false): Map<String, Set<Backup>> {
     }
 }
 
-fun Context.findBackupsPackage(
+fun findBackupsPackage(
     packageName: String,
     forceTrace: Boolean = false,
 ): Map<String, Set<Backup>> {
@@ -710,7 +683,7 @@ suspend fun Context.updateAppTables(
 
                 (backupsMap.keys - installedNames - specialNames)
                     .mapNotNull {
-                        backupsMap[it]?.maxByOrNull { it.backupDate }?.toAppInfo()
+                        backupsMap[it]?.maxByOrNull { bkp -> bkp.backupDate }?.toAppInfo()
                     }
             } catch (e: Throwable) {
                 logException(e, backTrace = true)

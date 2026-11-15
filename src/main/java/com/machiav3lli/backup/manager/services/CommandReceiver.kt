@@ -25,10 +25,11 @@ import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class CommandReceiver : //TODO hg42 how to maintain security?
-//TODO machiav3lli by making the receiver only internally accessible (not exported)
-//TODO hg42 but it's one of the purposes to be remotely controllable from other apps like Tasker
-//TODO hg42 no big prob for now: cancel, starting or changing schedule isn't very critical
+class CommandReceiver :
+//TODO hg42 how to maintain security?
+//      machiav3lli by making the receiver only internally accessible (not exported)
+//      hg42 but it's one of the purposes to be remotely controllable from other apps like Tasker
+//      hg42 no big prob for now: cancel, starting or changing schedule isn't very critical
     BroadcastReceiver(), KoinComponent {
     private val scheduleRepo: ScheduleRepository by inject()
 
@@ -70,7 +71,8 @@ class CommandReceiver : //TODO hg42 how to maintain security?
                             }
                     }
 
-                    ACTION_RE_SCHEDULE     -> { // TODO reconsider when ScheduleWork is fully implemented
+                    // TODO reconsider when ScheduleWork is fully implemented
+                    ACTION_RE_SCHEDULE     -> {
                         intent.getStringExtra("name")?.let { name ->
                             val now = SystemUtils.now
                             val time = intent.getStringExtra("time")

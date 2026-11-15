@@ -207,11 +207,7 @@ suspend fun scheduleNextAlarm(context: Context, scheduleId: Long, rescheduleBool
                 }
 
                 val hasPermission: Boolean =
-                    if (Android.minSDK(Build.VERSION_CODES.S)) {
-                        alarmManager.canScheduleExactAlarms()
-                    } else {
-                        true
-                    }
+                    !Android.minSDK(Build.VERSION_CODES.S) || alarmManager.canScheduleExactAlarms()
 
                 val pendingIntent = context.createPendingIntent(scheduleId, schedule.name)
 
@@ -357,7 +353,7 @@ fun Context.getStartScheduleMessage(
             )
         }"
     )
-    // TODO list the CL packages
+    // TODO enlist the CL packages
     .append(
         "\n" + getString(
             R.string.sched_customlist_dialog_message,
@@ -367,7 +363,7 @@ fun Context.getStartScheduleMessage(
             ) else getString(R.string.dialogNo)
         )
     )
-    // TODO list the BL packages
+    // TODO enlist the BL packages
     .append(
         "\n" + getString(
             R.string.sched_blocklist_dialog_message,

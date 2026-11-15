@@ -18,7 +18,6 @@ data class MainState(
     val updatedPackages: PersistentList<Package> = persistentListOf(),
     val blocklist: PersistentSet<String> = persistentSetOf(),
     val searchQuery: String = "",
-    val sortFilter: SortFilterModel = SortFilterModel(),
     val selection: PersistentSet<String> = persistentSetOf(),
 )
 

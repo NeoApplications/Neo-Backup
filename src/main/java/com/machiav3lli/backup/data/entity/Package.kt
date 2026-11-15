@@ -31,7 +31,6 @@ import com.machiav3lli.backup.manager.handler.ShellCommands
 import com.machiav3lli.backup.manager.handler.findBackupsPackage
 import com.machiav3lli.backup.ui.pages.pref_flatStructure
 import com.machiav3lli.backup.ui.pages.pref_ignoreLockedInHousekeeping
-import com.machiav3lli.backup.ui.pages.pref_paranoidBackupLists
 import com.machiav3lli.backup.utils.FileUtils
 import com.machiav3lli.backup.utils.StorageLocationNotConfiguredException
 import com.machiav3lli.backup.utils.SystemUtils
@@ -90,15 +89,14 @@ data class Package private constructor(val packageName: String) {
             )
             this.packageInfo = AppInfo(context, pi)
             refreshStorageStats(context)
-        } catch (e: PackageManager.NameNotFoundException) {
+        } catch (_: PackageManager.NameNotFoundException) {
             try {
                 this.packageInfo = SpecialInfo.getSpecialInfos(context)
                     .find { it.packageName == this.packageName }!!
             } catch (e: Throwable) {
-                //TODO hg42 Timber.i("$packageName is not installed")
                 this.packageInfo = latestBackup?.toAppInfo() ?: run {
                     throw AssertionError(
-                        "Backup History is empty and package is not installed. The package is completely unknown?",     //TODO hg42 remove package from database???
+                        "Backup History is empty and package is not installed. The package is completely unknown?",
                         e
                     )
                 }
@@ -107,14 +105,6 @@ data class Package private constructor(val packageName: String) {
     }
 
     fun runOrLog(todo: () -> Unit) {
-        try {
-            todo()
-        } catch (e: Throwable) {
-            LogsHandler.unexpectedException(e, packageName)
-        }
-    }
-
-    suspend fun runSuspendOrLog(todo: suspend () -> Unit) {
         try {
             todo()
         } catch (e: Throwable) {
@@ -155,7 +145,7 @@ data class Package private constructor(val packageName: String) {
     fun getBackupsFromBackupDir(): Set<Backup> {
         return runCatching {
             invalidateCacheForPackage(packageName)
-            NeoApp.context.findBackupsPackage(packageName)[packageName] ?: emptySet()
+            findBackupsPackage(packageName)[packageName] ?: emptySet()
         }.onFailure {
             LogsHandler.logException(it, backTrace = true)
         }.getOrDefault(emptySet())
@@ -220,6 +210,7 @@ data class Package private constructor(val packageName: String) {
         }.toSet().plus(newBackup))
     }
 
+    // TODO consider it as replacement for $_deleteBackup
     private fun removeBackupFromList(backup: Backup) {
         traceBackups {
             "<$packageName> removeBackupFromList: ${
@@ -236,16 +227,12 @@ data class Package private constructor(val packageName: String) {
 
     fun addNewBackup(backup: Backup) {
         traceBackups { "<${backup.packageName}> add backup ${backup.backupDate}" }
-        if (pref_paranoidBackupLists.value)
-            refreshBackupList()  // no more necessary, because members file/dir/tag are set by createBackup
-        else {
-            addBackupToList(backup)
-        }
+        addBackupToList(backup)
     }
 
-    private fun _deleteBackup(backup: Backup) {
+    private fun deleteBackup(backup: Backup) {
         traceBackups { "<${backup.packageName}> delete backup ${backup.backupDate}" }
-        if (backup.packageName != packageName) {    //TODO hg42 probably paranoid
+        if (backup.packageName != packageName) {
             throw RuntimeException("Asked to delete a backup of ${backup.packageName} but this object is for $packageName")
         }
         val parent = backup.file?.parent
@@ -255,31 +242,28 @@ data class Package private constructor(val packageName: String) {
             if (isPlausiblePath(parent.path))
                 runCatching { it.delete() }   // delete the directory (but never the contents)
         }
-        if (!pref_paranoidBackupLists.value)
-            runOrLog {
-                removeBackupFromList(backup)
-            }
     }
 
-    fun deleteBackup(backup: Backup) {
-        _deleteBackup(backup)
-        if (pref_paranoidBackupLists.value)
-            runOrLog { refreshBackupList() }                // get real state of file system
+    fun removeBackup(backup: Backup) {
+        deleteBackup(backup)
+        removeBackupFromList(backup)
     }
 
     fun rewriteBackup(
         backup: Backup,
-        changedBackup: Backup,
-    ) {      //TODO hg42 change to rewriteBackup(backup: Backup, applyParameters)
+        transform: Backup.() -> Backup,
+    ) {
+        val changedBackup = backup.transform()
         traceBackups { "<${changedBackup.packageName}> rewrite backup ${changedBackup.backupDate}" }
         if (changedBackup.dir == null) changedBackup.dir = backup.dir
         if (changedBackup.file == null) changedBackup.file = backup.file
-        if (changedBackup.packageName != packageName) {             //TODO hg42 probably paranoid
-            throw RuntimeException("Asked to rewrite a backup of ${changedBackup.packageName} but this object is for $packageName")
-        }
-        if (changedBackup.backupDate != backup.backupDate) {        //TODO hg42 probably paranoid
-            throw RuntimeException("Asked to rewrite a backup from ${changedBackup.backupDate} but the original backup is from ${backup.backupDate}")
-        }
+        if (changedBackup.packageName != packageName) throw RuntimeException(
+            "Asked to rewrite a backup of ${changedBackup.packageName} but this object is for $packageName"
+        )
+        if (changedBackup.backupDate != backup.backupDate) throw RuntimeException(
+            "Asked to rewrite a backup from ${changedBackup.backupDate} but the original backup is from ${backup.backupDate}"
+        )
+
         runOrLog {
             synchronized(this) {
                 backup.file?.apply {
@@ -287,31 +271,24 @@ data class Package private constructor(val packageName: String) {
                 }
             }
         }
-        if (pref_paranoidBackupLists.value)
-            runOrLog { refreshBackupList() }                // get real state of file system
-        else {
-            replaceBackupFromList(backup, changedBackup)
-        }
+        replaceBackupFromList(backup, changedBackup)
     }
 
     fun deleteAllBackups() {
         val backups = backupsNewestFirst.toMutableList()
         while (backups.isNotEmpty()) {
             backups.removeLastOrNull()?.let { backup ->
-                _deleteBackup(backup)
+                deleteBackup(backup)
             }
         }
-        if (pref_paranoidBackupLists.value)
-            runOrLog { refreshBackupList() }                // get real state of file system only once
     }
 
     fun deleteOldestBackups(keep: Int) {
-        // the algorithm could eventually be more elegant, without managing two lists,
-        // but it's on the safe side for now
+        // TODO revamp/simplify
         val backups = backupsNewestFirst.toMutableList()
         val deletableBackups = backups.let {
             if (pref_ignoreLockedInHousekeeping.value) it
-            else it.filterNot { it.persistent }
+            else it.filterNot { bkp -> bkp.persistent }
         }.drop(keep).toMutableList()
         traceBackups {
             "<$packageName> deleteOldestBackups keep=$keep ${
@@ -322,7 +299,7 @@ data class Package private constructor(val packageName: String) {
         }
         while (deletableBackups.isNotEmpty()) {
             deletableBackups.removeLastOrNull()?.let { backup ->
-                _deleteBackup(backup)
+                deleteBackup(backup)
             }
         }
     }
@@ -349,6 +326,9 @@ data class Package private constructor(val packageName: String) {
 
     val isSpecial: Boolean
         get() = packageInfo.isSpecial
+
+    val cannotHandle: Boolean
+        get() = isSpecial && packageInfo !is SpecialInfo
 
     val packageLabel: String
         get() = packageInfo.packageLabel.ifEmpty { packageName }
@@ -412,7 +392,7 @@ data class Package private constructor(val packageName: String) {
         get() = latestBackup?.let { it.versionCode < versionCode } ?: false
 
     val isNew: Boolean
-        get() = !hasBackups && !isSystem    //TODO hg42 && versionCode > lastSeenVersionCode
+        get() = !hasBackups && !isSystem
 
     val isNewOrUpdated: Boolean
         get() = isUpdated || isNew

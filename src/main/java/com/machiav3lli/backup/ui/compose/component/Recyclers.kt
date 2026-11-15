@@ -270,7 +270,6 @@ fun InfoChipsBlock(
 
 @Composable
 fun SelectableChipGroup(
-    //TODO hg42 move to item/Icons.kt ?
     modifier: Modifier = Modifier,
     list: PersistentList<ChipItem>,
     selectedFlag: Int,
@@ -293,7 +292,6 @@ fun SelectableChipGroup(
 
 @Composable
 fun MultiSelectableChipGroup(
-    //TODO hg42 move to item/Icons.kt ?
     modifier: Modifier = Modifier,
     list: PersistentList<ChipItem>,
     selectedFlags: Int,
@@ -361,7 +359,6 @@ fun <T : Any> VerticalItemList(
             )
 
             else           -> {
-                // TODO add scrollbars
                 val state = rememberLazyListState()
 
                 LazyColumn(

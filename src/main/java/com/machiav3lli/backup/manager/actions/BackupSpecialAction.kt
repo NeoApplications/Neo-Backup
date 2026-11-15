@@ -56,10 +56,9 @@ class BackupSpecialAction(context: Context, work: AppActionWork?, shell: ShellHa
         Timber.i("$app: Backup special data")
         require(app.packageInfo is SpecialInfo) { "Provided app is not an instance of SpecialAppMetaInfo" }
         val appInfo = app.packageInfo as SpecialInfo
-        // Get file list
-        // This can be optimized, because it's known, that special backups won't meet any symlinks
-        // since the list of files is fixed
-        // It would make sense to implement something like TarUtils.addFilepath with SuFileInputStream and
+        // TODO This can be optimized, because it's known, that special backups won't meet any symlinks
+        //  since the list of files is fixed
+        //  It would make sense to implement something like TarUtils.addFilepath with SuFileInputStream and
         val filesToBackup = mutableListOf<ShellHandler.FileInfo>()
         try {
             work?.setOperation("s")
@@ -87,10 +86,10 @@ class BackupSpecialAction(context: Context, work: AppActionWork?, shell: ShellHa
                     } catch (e: ShellCommandFailedException) {
                         LogsHandler.unexpectedException(e)
                         continue  //TODO hg42: avoid checking the error message text for now
-                        //TODO hg42: alternative implementation, better replaced this by API, when root permissions available, e.g. via Shizuku
-                        //    if(e.shellResult.err.toString().contains("No such file or directory", ignoreCase = true))
-                        //        continue
-                        //    throw(e)
+                        //          alternative implementation, better replaced this by API, when root permissions available, e.g. via Shizuku
+                        //              if(e.shellResult.err.toString().contains("No such file or directory", ignoreCase = true))
+                        //                  continue
+                        //              throw(e)
                     }
                     // add directory itself
                     filesToBackup.add(

@@ -17,7 +17,9 @@
  */
 package com.machiav3lli.backup.utils
 
+import android.app.usage.StorageStatsManager
 import android.content.Context
+import android.os.storage.StorageManager
 import com.machiav3lli.backup.MODE_APK
 import com.machiav3lli.backup.MODE_DATA
 import com.machiav3lli.backup.MODE_DATA_DE
@@ -60,14 +62,13 @@ object FileUtils {
 
     fun translatePosixPermissionToMode(permissions: Set<PosixFilePermission?>): Int {
         var mode = 0
-        PosixFilePermission.values().forEach {
+        PosixFilePermission.entries.forEach {
             mode = mode shl 1
             mode += if (permissions.contains(it)) 1 else 0
         }
         return mode
     }
 
-    // TODO revamp & cleanup reads of backups
     /**
      * Invalidates the cached value for the backup location URI so that the next call to
      * `getBackupDir` will set it again.
@@ -78,22 +79,20 @@ object FileUtils {
     }
 
     class BackupLocationInAccessibleException : Exception {
-        constructor() : super()
-        constructor(message: String?) : super(message)
-        constructor(message: String?, cause: Throwable?) : super(message, cause)
+        constructor(message: String?, cause: Throwable? = null) : super(message, cause)
     }
 
     @Throws(BackupAppAction.BackupFailedException::class)
     fun checkAvailableStorage(context: Context, app: Package, backupMode: Int) {
         val storageStatsCheck =
-            context.getSystemService(Context.STORAGE_STATS_SERVICE) as? android.app.usage.StorageStatsManager
+            context.getSystemService(Context.STORAGE_STATS_SERVICE) as? StorageStatsManager
                 ?: throw BackupAppAction.BackupFailedException(
                     "Cannot access storage stats service",
                     null
                 )
 
         val storageManagerCheck =
-            context.getSystemService(Context.STORAGE_SERVICE) as? android.os.storage.StorageManager
+            context.getSystemService(Context.STORAGE_SERVICE) as? StorageManager
                 ?: throw BackupAppAction.BackupFailedException(
                     "Cannot access storage manager",
                     null

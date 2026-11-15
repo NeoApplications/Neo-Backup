@@ -27,16 +27,15 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.machiav3lli.backup.R
-import com.machiav3lli.backup.manager.handler.showNotification
 import com.machiav3lli.backup.ui.activities.NeoActivity
-import com.machiav3lli.backup.ui.compose.blockBorderBottom
+import com.machiav3lli.backup.ui.compose.blockBorder
 import com.machiav3lli.backup.ui.compose.component.ExportedScheduleRecycler
 import com.machiav3lli.backup.ui.compose.component.RoundButton
 import com.machiav3lli.backup.ui.compose.component.TopBar
@@ -45,6 +44,7 @@ import com.machiav3lli.backup.ui.compose.icons.phosphor.CalendarPlus
 import com.machiav3lli.backup.ui.compose.icons.phosphor.GearSix
 import com.machiav3lli.backup.ui.navigation.NavItem
 import com.machiav3lli.backup.utils.extensions.koinNeoViewModel
+import com.machiav3lli.backup.utils.showNotification
 import com.machiav3lli.backup.viewmodels.ExportsVM
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -52,7 +52,7 @@ import com.machiav3lli.backup.viewmodels.ExportsVM
 fun SchedulesExportsPage(viewModel: ExportsVM = koinNeoViewModel(), navigateUp: () -> Unit) {
     val context = LocalContext.current
     val res = LocalResources.current
-    val exports by viewModel.exportsList.collectAsState()
+    val exports by viewModel.exportsList.collectAsStateWithLifecycle()
 
     SideEffect {
         viewModel.refreshList()
@@ -86,13 +86,13 @@ fun SchedulesExportsPage(viewModel: ExportsVM = koinNeoViewModel(), navigateUp: 
         ExportedScheduleRecycler(
             modifier = Modifier
                 .padding(paddingValues)
-                .blockBorderBottom()
+                .blockBorder()
                 .fillMaxSize(),
             schedsList = exports,
             onImport = {
                 viewModel.importSchedule(it) { name, id ->
-                    showNotification(
-                        context, NeoActivity::class.java, id,
+                    context.showNotification(
+                        NeoActivity::class.java, id,
                         res.getString(R.string.sched_imported), name, false
                     )
                 }

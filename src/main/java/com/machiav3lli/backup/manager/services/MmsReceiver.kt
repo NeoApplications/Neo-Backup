@@ -25,6 +25,6 @@ import timber.log.Timber
 class MmsReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         Timber.tag("MmsReceiver").v("onReceive")
-        // TODO: Stub file to get OAndBackupX into Default SMS in Settings.
+        // TODO: Stub file to get NB into Default SMS options in Settings.
     }
 }

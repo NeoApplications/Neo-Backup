@@ -19,17 +19,17 @@ package com.machiav3lli.backup.manager.actions
 
 import android.content.Context
 import android.content.pm.PackageManager
+import com.machiav3lli.backup.data.plugins.InternalRegexPlugin.Companion.findRegex
+import com.machiav3lli.backup.data.plugins.InternalShellScriptPlugin
 import com.machiav3lli.backup.manager.handler.LogsHandler
 import com.machiav3lli.backup.manager.handler.ShellCommands.Companion.currentProfile
 import com.machiav3lli.backup.manager.handler.ShellHandler
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.runAsRoot
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.utilBoxQ
 import com.machiav3lli.backup.manager.handler.ShellHandler.ShellCommandFailedException
-import com.machiav3lli.backup.data.plugins.InternalRegexPlugin.Companion.findRegex
-import com.machiav3lli.backup.data.plugins.InternalShellScriptPlugin
+import com.machiav3lli.backup.manager.tasks.AppActionWork
 import com.machiav3lli.backup.ui.pages.pref_backupSuspendApps
 import com.machiav3lli.backup.ui.pages.pref_restoreKillApps
-import com.machiav3lli.backup.manager.tasks.AppActionWork
 import com.machiav3lli.backup.utils.SystemUtils
 import com.machiav3lli.backup.utils.TraceUtils.traceBold
 import com.topjohnwu.superuser.Shell
@@ -76,24 +76,26 @@ abstract class BaseAppAction protected constructor(
 
     private fun pauseOptions(wh: String) =
         when (wh) {
-            "pre-backup"  -> listOfNotNull(
+            "pre-backup"   -> listOfNotNull(
                 if (pref_backupSuspendApps.value) "--suspend" else null,
             )
+
             "post-backup"  -> listOfNotNull(
                 if (pref_backupSuspendApps.value) "--suspend" else null,
             )
 
-            "pre-restore" -> listOfNotNull(
+            "pre-restore"  -> listOfNotNull(
                 if (pref_restoreKillApps.value) "--kill" else null
             )
+
             "post-restore" -> listOfNotNull(
             )
 
-            else      -> listOf()
+            else           -> listOf()
 
         }.joinToString(" ")
 
-    enum class When { pre, post }
+    enum class When { PRE, POST }
 
     open fun pauseApp(type: String, wh: When, packageName: String) {
         if (packageName.matches(doNotStop)) return // will stop most activity, needs a good blacklist
@@ -111,18 +113,19 @@ abstract class BaseAppAction protected constructor(
             val options = pauseOptions("$wh-$type")
 
             var stoppedPids: List<String>? = null     // pids
-            if (wh == When.post) {
+            if (wh == When.POST) {
                 stoppedPids = preprocessResults["$type:$packageName:$profileId"]
                 Timber.w("pids: ${stoppedPids?.joinToString(" ")}")
             }
             val params = stoppedPids?.joinToString("", " ") ?: ""
 
-            val cmd = "sh $script $wh-$type $profileId $utilBoxQ $options $packageName $appuid$params"
+            val cmd =
+                "sh $script $wh-$type $profileId $utilBoxQ $options $packageName $appuid$params"
             traceBold { "$type $packageName: $cmd" }
 
             val shellResult = runAsRoot(cmd)
 
-            if (wh == When.pre) {
+            if (wh == When.PRE) {
                 // save the stopped pids
                 preprocessResults["$type:$packageName:$profileId"] =
                     shellResult.out.asSequence()
@@ -136,11 +139,11 @@ abstract class BaseAppAction protected constructor(
                     }"
                 )
             }
-            if (wh == When.post) {
+            if (wh == When.POST) {
                 preprocessResults.remove("$type:$packageName:$profileId")
             }
 
-        } catch (e: PackageManager.NameNotFoundException) {
+        } catch (_: PackageManager.NameNotFoundException) {
             Timber.i("$type $packageName: cannot ${wh}-process: package does not exist")
         } catch (e: ShellCommandFailedException) {
             Timber.i("$type $packageName: cannot ${wh}-process: ${e.shellResult.err.joinToString(" ")}")
@@ -181,7 +184,7 @@ abstract class BaseAppAction protected constructor(
             val err = if (shellResult.err.isEmpty()) shellResult.out else shellResult.err
             return if (err.isEmpty()) {
                 "Unknown Error"
-            } else err[err.size - 1]
+            } else err[err.lastIndex]
         }
 
         fun isSuspended(packageName: String): Boolean {

@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
-import com.machiav3lli.backup.data.dbs.entity.SpecialInfo
 import com.machiav3lli.backup.data.entity.Package
 import com.machiav3lli.backup.data.preferences.traceTiming
 import com.machiav3lli.backup.utils.TraceUtils.beginNanoTimer
@@ -43,7 +42,7 @@ fun MainPackageItem(
         ),
         leadingContent = {
             PackageIcon(
-                modifier = Modifier.alpha(if (pkg.isSpecial && pkg.packageInfo !is SpecialInfo) 0.5f else 1f),  //TODO hg42 pkg.cannotHandle or similar
+                modifier = Modifier.alpha(if (pkg.cannotHandle) 0.5f else 1f),
                 imageData = pkg.iconData,
                 isSpecial = pkg.isSpecial,
                 isSystem = pkg.isSystem,

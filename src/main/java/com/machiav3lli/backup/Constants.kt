@@ -43,10 +43,11 @@ const val NOTIFICATION_CHANNEL_REFRESH = "RefreshBackups"
 
 const val ADMIN_PREFIX = "!-"
 
+// TODO translations?
 val COMPRESSION_TYPES = mapOf(
-    "gz" to "Gzip Compression",    // TODO translation?
-    "zst" to "Zstd Compression",    // TODO translation?
-    "no" to "No Compression"      // TODO translation?
+    "gz" to "Gzip Compression",
+    "zst" to "Zstd Compression",
+    "no" to "No Compression",
 )
 
 const val SELECTIONS_FOLDER_NAME_BASE = "SELECTIONS"
@@ -56,8 +57,8 @@ const val EXPORTS_FOLDER_NAME_BASE = "EXPORTS"
 const val EXPORTS_FOLDER_NAME = "$ADMIN_PREFIX$EXPORTS_FOLDER_NAME_BASE"
 const val EXPORTS_FOLDER_NAME_ALT = EXPORTS_FOLDER_NAME_BASE
 
-const val LOGS_FOLDER_NAME_BASE =
-    "LOGS"  // TODO deprecated, only for excluding from backup scanning
+@Deprecated("only for excluding from backup scanning. Check LOG_INSTANCE")
+const val LOGS_FOLDER_NAME_BASE = "LOGS"
 
 const val ERROR_PREFIX = "${ADMIN_PREFIX}ERROR."
 
@@ -163,34 +164,9 @@ val encryptionModes = mutableMapOf(
     ENCRYPTION.PGP.ordinal to R.string.prefs_encryption_pgp,
 )
 
-val BUTTON_SIZE_MEDIUM = 48.dp
 val ICON_SIZE_SMALL = 24.dp // Default
 val ICON_SIZE_MEDIUM = 32.dp
 val ICON_SIZE_LARGE = 48.dp
-
-val accentColorItems = mapOf(
-    0 to R.string.prefs_accent_0,
-    1 to R.string.prefs_accent_1,
-    2 to R.string.prefs_accent_2,
-    3 to R.string.prefs_accent_3,
-    4 to R.string.prefs_accent_4,
-    5 to R.string.prefs_accent_5,
-    6 to R.string.prefs_accent_6,
-    7 to R.string.prefs_accent_7,
-    8 to R.string.prefs_accent_8
-)
-
-val secondaryColorItems = mapOf(
-    0 to R.string.prefs_secondary_0,
-    1 to R.string.prefs_secondary_1,
-    2 to R.string.prefs_secondary_2,
-    3 to R.string.prefs_secondary_3,
-    4 to R.string.prefs_secondary_4,
-    5 to R.string.prefs_secondary_5,
-    6 to R.string.prefs_secondary_6,
-    7 to R.string.prefs_secondary_7,
-    8 to R.string.prefs_secondary_8
-)
 
 const val ALT_MODE_UNSET = 0
 const val ALT_MODE_APK = 1
@@ -206,7 +182,7 @@ const val MODE_DATA_EXT = 0b0000010
 const val MODE_DATA_OBB = 0b0000001
 const val MODE_DATA_MEDIA = 0b1000000
 
-const val MODE_NONE = 0b0100000     //TODO name? it's not a mode! BACKUP_FILTER_NONE?
+const val MODE_NONE = 0b0100000
 
 val batchModes =
     mapOf(

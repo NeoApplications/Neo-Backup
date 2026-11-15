@@ -81,10 +81,10 @@ import timber.log.Timber
 import java.io.IOException
 import java.io.OutputStream
 
-// var COMPRESSION_TYPE = getCompressionType()
 open class BackupAppAction(context: Context, work: AppActionWork?, shell: ShellHandler) :
     BaseAppAction(context, work, shell) {
 
+    // TODO migrate to Arrow
     open fun run(app: Package, backupMode: Int): ActionResult {
         var backup: Backup? = null
         var ok = false
@@ -99,7 +99,6 @@ open class BackupAppAction(context: Context, work: AppActionWork?, shell: ShellH
 
         try {
             Timber.i("Backing up: ${app.packageName} (${app.packageLabel})")
-            //invalidateCacheForPackage(app.packageName)    //TODO hg42 ???
             work?.setOperation("B")
 
             if (fakeSeconds > 0) {
@@ -154,7 +153,7 @@ open class BackupAppAction(context: Context, work: AppActionWork?, shell: ShellH
             val backupInstanceDir = backupBuilder.backupDir
             val pauseApp = pref_backupPauseApps.value
             if (pauseApp)
-                pauseApp(type = "backup", wh = When.pre, packageName = app.packageName)
+                pauseApp(type = "backup", wh = When.PRE, packageName = app.packageName)
 
             try {
                 fun doBackup(mode: Int, todo: () -> Unit) {
@@ -221,22 +220,21 @@ open class BackupAppAction(context: Context, work: AppActionWork?, shell: ShellH
             } finally {
                 work?.setOperation("======")
                 if (pauseApp)
-                    pauseApp(type = "backup", wh = When.post, packageName = app.packageName)
+                    pauseApp(type = "backup", wh = When.POST, packageName = app.packageName)
                 if (backup == null)
                     backup = backupBuilder.createBackup()
-                // TODO maybe need to handle some emergent props
                 if (ok)
                     app.addNewBackup(backup)
                 else {
                     Timber.d("Backup failed -> deleting it")
-                    app.deleteBackup(backup)
+                    app.removeBackup(backup)
                 }
             }
         } catch (e: Throwable) {
             return handleException(e)
         } finally {
             work?.setOperation("======>")
-            Timber.i("${app.packageName}: Backup done: ${backup}")
+            Timber.i("${app.packageName}: Backup done: $backup")
         }
         return ActionResult(app, backup, "", true)
     }
@@ -327,14 +325,15 @@ open class BackupAppAction(context: Context, work: AppActionWork?, shell: ShellH
 
     @Throws(BackupFailedException::class)
     private fun assembleFileList(sourcePath: String): List<ShellHandler.FileInfo> {
-        // get and filter the whole tree at once //TODO use iterator instead of list
         return try {
             val excludeCache = !pref_backupCache.value
             val allFilesToBackup =
                 shell.suGetDetailedDirectoryContents(sourcePath, true, sourcePath)
-                    .filterNot { f: ShellHandler.FileInfo -> f.filename in NeoApp.assets.DATA_BACKUP_EXCLUDED_BASENAMES } //TODO basenames! not all levels
-                    .filterNot { f: ShellHandler.FileInfo -> f.filename in NeoApp.assets.DATA_EXCLUDED_NAMES }
-                    .filterNot { f: ShellHandler.FileInfo -> excludeCache && f.filename in NeoApp.assets.DATA_EXCLUDED_CACHE_DIRS }
+                    .filterNot { f: ShellHandler.FileInfo ->
+                        f.filename in NeoApp.assets.DATA_BACKUP_EXCLUDED_BASENAMES
+                                || f.filename in NeoApp.assets.DATA_EXCLUDED_NAMES
+                                || (excludeCache && f.filename in NeoApp.assets.DATA_EXCLUDED_CACHE_DIRS)
+                    }
             allFilesToBackup
         } catch (e: ShellCommandFailedException) {
             throw BackupFailedException("Could not list contents of $sourcePath", e)
@@ -403,7 +402,6 @@ open class BackupAppAction(context: Context, work: AppActionWork?, shell: ShellH
 
         val outStream = createArchiveFile(dataType, backupInstanceDir, compress, iv)
 
-        var result = false
         try {
             val tarScript = InternalShellScriptPlugin.findScript("tar").toString()
 
@@ -438,7 +436,6 @@ open class BackupAppAction(context: Context, work: AppActionWork?, shell: ShellH
                 }
 
             // Ignoring the error code looks problematic, but it was checked.
-            // It's not like it should, but the world isn't perfect.
             // 1. The unknown file type is a known thing and is about sockets or in general files that
             //    cannot be added to an archive or unsupported by tar.
             //    You know, tar is able to pack the most of all archivers.
@@ -454,8 +451,6 @@ open class BackupAppAction(context: Context, work: AppActionWork?, shell: ShellH
                 if (code != 0)
                     throw ScriptException(errFiltered)
             }
-
-            result = true
         } catch (e: IOException) {
             val message = "${e::class.canonicalName} occurred on $dataType backup: $e"
             Timber.e(message)
@@ -468,7 +463,7 @@ open class BackupAppAction(context: Context, work: AppActionWork?, shell: ShellH
             Timber.d("Done compressing. Closing archive stream.")
             outStream.close()
         }
-        return result
+        return true
     }
 
     @Throws(BackupFailedException::class, CryptoSetupException::class)
@@ -530,7 +525,6 @@ open class BackupAppAction(context: Context, work: AppActionWork?, shell: ShellH
         for (apk in apksToBackup) {
             try {
                 Timber.i("${app.packageName}: $apk")
-                //TODO wech suCopyFileToDocument(apk, backupInstanceDir)
                 copyRootFileToDocument(apk, backupInstanceDir, RootFile(apk).name)
             } catch (e: IOException) {
                 Timber.e("$app: Could not backup apk $apk: $e")

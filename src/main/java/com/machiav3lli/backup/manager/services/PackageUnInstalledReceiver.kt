@@ -34,7 +34,6 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.time.Duration.Companion.seconds
 
-// TODO make main way of refresh & handle new installed and backup list
 class PackageUnInstalledReceiver : BroadcastReceiver(), KoinComponent {
     private val packageRepository: PackageRepository by inject()
 

@@ -24,7 +24,6 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,6 +39,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.machiav3lli.backup.ICON_SIZE_MEDIUM
 import com.machiav3lli.backup.ICON_SIZE_SMALL
 import com.machiav3lli.backup.R
@@ -70,6 +70,7 @@ import com.machiav3lli.backup.ui.compose.icons.phosphor.Hash
 import com.machiav3lli.backup.ui.compose.ifThen
 import com.machiav3lli.backup.utils.backupFolderExists
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import org.koin.compose.koinInject
 import kotlin.math.roundToInt
 import kotlin.time.Duration.Companion.milliseconds
@@ -88,7 +89,7 @@ fun PrefIcon(
         Icon(
             imageVector = icon,
             contentDescription = title,
-            modifier = Modifier.size(ICON_SIZE_MEDIUM),   //TODO BUTTON_ICON_SIZE?
+            modifier = Modifier.size(ICON_SIZE_MEDIUM),
             tint = tint ?: MaterialTheme.colorScheme.onSurface
         )
     else
@@ -221,7 +222,7 @@ fun BasePreference(
     val context = LocalContext.current
     val prefs = koinInject<NeoPrefs>()
     val dependencyState by prefs.observeDependency(PrefsDependency[pref.key].orEmpty())
-        .collectAsState(initial = true)
+        .collectAsStateWithLifecycle(true)
     val isEnabled by remember(dependencyState) {
         mutableStateOf(PrefsIsEnabled[pref.key]?.invoke(context) ?: true)
     }
@@ -455,7 +456,7 @@ fun StringEditPreference(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = onClick,
             ) {
-                kotlinx.coroutines.runBlocking { pref.set(it) }
+                runBlocking { pref.set(it) }
             }
         },
         onClick = onClick,
@@ -639,7 +640,7 @@ fun SwitchPreference(
     groupSize: Int = 1,
     onCheckedChange: (Boolean) -> Unit = {},
 ) {
-    var checked by remember(pref.value) { mutableStateOf(pref.value) }  //TODO hg42 remove remember ???
+    var checked by remember(pref) { mutableStateOf(pref.value) }
     val interactionSource = remember { MutableInteractionSource() }
     val check = { value: Boolean ->
         pref.value = value
@@ -656,8 +657,8 @@ fun SwitchPreference(
         index = index,
         groupSize = groupSize,
         onClick = {
-            onCheckedChange(!checked)
             check(!checked)
+            onCheckedChange(!checked)
         },
         interactionSource = interactionSource,
         endWidget = { isEnabled ->
@@ -667,8 +668,8 @@ fun SwitchPreference(
                 checked = checked,
                 interactionSource = interactionSource,
                 onCheckedChange = {
-                    onCheckedChange(it)
                     check(it)
+                    onCheckedChange(it)
                 },
                 enabled = isEnabled,
             )
@@ -706,7 +707,7 @@ fun BooleanPreference(
 ) {
     val checked by pref.state
     val check = { value: Boolean ->
-        kotlinx.coroutines.runBlocking { pref.set(value) }
+        runBlocking { pref.set(value) }
         onCheckedChange(value)
     }
 
@@ -853,7 +854,7 @@ fun IntPreference(
                     },
                     onValueChangeFinished = {
                         val newValue = pref.entries[sliderState.value.roundToInt()]
-                        kotlinx.coroutines.runBlocking { pref.set(newValue) }
+                        runBlocking { pref.set(newValue) }
                         onValueChange(sliderState.value.roundToInt())
                     }
                 )

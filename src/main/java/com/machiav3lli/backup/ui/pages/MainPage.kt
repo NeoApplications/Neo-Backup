@@ -35,7 +35,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -48,12 +47,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.machiav3lli.backup.LINK_KEEP_ANDROID_OPEN
 import com.machiav3lli.backup.NeoApp
 import com.machiav3lli.backup.R
 import com.machiav3lli.backup.manager.tasks.RefreshBackupsWorker
 import com.machiav3lli.backup.ui.activities.NeoActivity
-import com.machiav3lli.backup.ui.compose.blockBorderBottom
+import com.machiav3lli.backup.ui.compose.blockBorder
 import com.machiav3lli.backup.ui.compose.component.MainTopBar
 import com.machiav3lli.backup.ui.compose.component.RefreshButton
 import com.machiav3lli.backup.ui.compose.component.RoundButton
@@ -84,6 +84,7 @@ import kotlinx.coroutines.withContext
 @Composable
 fun MainPage(
     navigator: (NavRoute) -> Unit,
+    // TODO omit the usage of Viewmodels only for search
     homeVM: HomeVM = koinNeoViewModel(),
     backupVM: BackupBatchVM = koinNeoViewModel(),
     restoreVM: RestoreBatchVM = koinNeoViewModel(),
@@ -99,7 +100,7 @@ fun MainPage(
     val pagerState = rememberPagerState(pageCount = { pages.size })
     val currentPageIndex = remember { derivedStateOf { pagerState.currentPage } }
     val currentPage by remember { derivedStateOf { pages[currentPageIndex.value] } }
-    val mainState by homeVM.state.collectAsState()
+    val mainState by homeVM.state.collectAsStateWithLifecycle()
     val showBanner by remember(pref_ignoreKeepAndroidOpenNotice.value) {
         mutableStateOf(!pref_ignoreKeepAndroidOpenNotice.value)
     }
@@ -117,8 +118,7 @@ fun MainPage(
                 NeoApp.startup = false // ensure backups no more reported as empty
 
                 withContext(Dispatchers.Main) {
-                    devToolsSearch.value =
-                        TextFieldValue("")   //TODO hg42 hide implementation details
+                    devToolsSearch.value = TextFieldValue("")
                 }
             }
         }
@@ -228,7 +228,7 @@ fun MainPage(
             SlidePager(
                 modifier = Modifier
                     .padding(paddingValues)
-                    .blockBorderBottom()
+                    .blockBorder()
                     .fillMaxSize(),
                 pagerState = pagerState,
                 pageItems = pages,

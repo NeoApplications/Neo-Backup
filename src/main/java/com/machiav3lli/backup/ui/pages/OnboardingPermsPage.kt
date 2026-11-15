@@ -55,7 +55,7 @@ import com.machiav3lli.backup.DialogMode
 import com.machiav3lli.backup.R
 import com.machiav3lli.backup.data.entity.Permission
 import com.machiav3lli.backup.ui.activities.NeoActivity
-import com.machiav3lli.backup.ui.compose.blockBorderBottom
+import com.machiav3lli.backup.ui.compose.blockBorder
 import com.machiav3lli.backup.ui.compose.component.PermissionItem
 import com.machiav3lli.backup.ui.dialogs.ActionsDialogUI
 import com.machiav3lli.backup.ui.dialogs.BaseDialog
@@ -228,7 +228,7 @@ fun OnboardingPermsPage(
 
     LazyColumn(
         modifier = Modifier
-            .blockBorderBottom()
+            .blockBorder()
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(8.dp)

@@ -18,26 +18,27 @@
 package com.machiav3lli.backup.utils
 
 import com.machiav3lli.backup.NeoApp
+import com.machiav3lli.backup.data.entity.RootFile
 import com.machiav3lli.backup.manager.handler.ShellHandler
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.quote
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.runAsRoot
 import com.machiav3lli.backup.manager.handler.ShellHandler.FileType
-import com.machiav3lli.backup.data.entity.RootFile
 import com.machiav3lli.backup.ui.pages.pref_strictHardLinks
 import com.topjohnwu.superuser.io.SuFileOutputStream
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream
 import org.apache.commons.compress.archivers.tar.TarConstants
-import org.apache.commons.compress.utils.IOUtils
 import org.apache.commons.io.FileUtils
+import org.apache.commons.io.IOUtils
 import timber.log.Timber
 import java.io.BufferedInputStream
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
+import java.util.Objects
 
 const val BUFFER_SIZE = 8 * 1024 * 1024
 
@@ -87,6 +88,7 @@ fun TarArchiveOutputStream.addFilepath(inputFilepath: File, parent: String) {
             val bis = BufferedInputStream(FileInputStream(inputFilepath))
             IOUtils.copy(bis, this)
         }
+
         inputFilepath.isDirectory                   -> {
             closeArchiveEntry()
             Objects
@@ -95,6 +97,7 @@ fun TarArchiveOutputStream.addFilepath(inputFilepath: File, parent: String) {
                     addFilepath(it, entryName + File.separator)
                 }
         }
+
         else /* symlink etc. */                     -> {
             closeArchiveEntry()
         }
@@ -121,6 +124,7 @@ fun TarArchiveOutputStream.suAddFiles(allFiles: List<ShellHandler.FileInfo>) {
                     closeArchiveEntry()
                 }
             }
+
             FileType.DIRECTORY     -> {
                 Timber.d("Adding directory ${file.filePath} to archive (filesize: ${file.fileSize})")
                 entry = TarArchiveEntry(file.filePath, TarConstants.LF_DIR)
@@ -129,6 +133,7 @@ fun TarArchiveOutputStream.suAddFiles(allFiles: List<ShellHandler.FileInfo>) {
                 putArchiveEntry(entry)
                 closeArchiveEntry()
             }
+
             FileType.SYMBOLIC_LINK -> {
                 Timber.d("Adding symbolic link ${file.filePath} to archive (filesize: ${file.fileSize})")
                 entry = TarArchiveEntry(file.filePath, TarConstants.LF_SYMLINK)
@@ -138,6 +143,7 @@ fun TarArchiveOutputStream.suAddFiles(allFiles: List<ShellHandler.FileInfo>) {
                 putArchiveEntry(entry)
                 closeArchiveEntry()
             }
+
             FileType.NAMED_PIPE    -> {
                 Timber.d("Adding named pipe ${file.filePath} to archive (filesize: ${file.fileSize})")
                 entry = TarArchiveEntry(file.filePath, TarConstants.LF_FIFO)
@@ -146,9 +152,10 @@ fun TarArchiveOutputStream.suAddFiles(allFiles: List<ShellHandler.FileInfo>) {
                 putArchiveEntry(entry)
                 closeArchiveEntry()
             }
-            FileType.BLOCK_DEVICE  -> Timber.w("Block devices should not occur: {$file.filePath}") //TODO hg42: add to errors? can we backup these?
-            FileType.CHAR_DEVICE   -> Timber.w("Char devices should not occur: {$file.filePath}") //TODO hg42: add to errors? can we backup these?
-            FileType.SOCKET        -> Timber.w("It does not make sense to backup sockets: {$file.filePath}") // not necessary //TODO hg42: add to errors?
+            //TODO else: add to errors? can we backup these?
+            FileType.BLOCK_DEVICE  -> Timber.w("Block devices should not occur: {$file.filePath}")
+            FileType.CHAR_DEVICE   -> Timber.w("Char devices should not occur: {$file.filePath}")
+            FileType.SOCKET        -> Timber.w("It does not make sense to backup sockets: {$file.filePath}") // not necessary
         }
     }
 }
@@ -195,7 +202,7 @@ fun TarArchiveInputStream.suUnpackTo(targetDir: RootFile, forceOldVersion: Boole
     val qUtilBox = ShellHandler.utilBoxQ
     val strictHardLinks = pref_strictHardLinks.value && !forceOldVersion
     val postponeInfo = mutableMapOf<String, TarArchiveEntry>()
-    generateSequence { nextTarEntry }.forEach { tarEntry ->
+    generateSequence { nextEntry }.forEach { tarEntry ->
         val targetFile = RootFile(targetDir, tarEntry.name)
         Timber.d("Extracting ${tarEntry.name} (filesize: ${tarEntry.realSize})")
         targetFile.parentFile?.let {
@@ -212,6 +219,7 @@ fun TarArchiveInputStream.suUnpackTo(targetDir: RootFile, forceOldVersion: Boole
                     relPath in NeoApp.assets.DATA_EXCLUDED_CACHE_DIRS -> {
                 return@forEach
             }
+
             tarEntry.isDirectory                                      -> {
                 if (!targetFile.mkdirs()) {
                     throw IOException("Unable to create folder ${targetFile.absolutePath}")
@@ -219,7 +227,8 @@ fun TarArchiveInputStream.suUnpackTo(targetDir: RootFile, forceOldVersion: Boole
                 // write protection would prevent creating files inside, so chmod at end
                 postponeAttribs = true
             }
-            tarEntry.isLink                             -> {
+
+            tarEntry.isLink                                           -> {
                 // OABX v7 tarapi implementation stores all links as hard links (bug)
                 // and extracts all links as symlinks (repair)
                 if (strictHardLinks)
@@ -241,7 +250,8 @@ fun TarArchiveInputStream.suUnpackTo(targetDir: RootFile, forceOldVersion: Boole
                     }
                 doAttribs = false
             }
-            tarEntry.isSymbolicLink                     -> {
+
+            tarEntry.isSymbolicLink                                   -> {
                 try {
                     runAsRoot(
                         "$qUtilBox ln -s ${quote(tarEntry.linkName)} ${quote(targetFile)}"
@@ -251,14 +261,16 @@ fun TarArchiveInputStream.suUnpackTo(targetDir: RootFile, forceOldVersion: Boole
                 }
                 doAttribs = false
             }
-            tarEntry.isFIFO                             -> {
+
+            tarEntry.isFIFO                                           -> {
                 try {
                     runAsRoot("$qUtilBox mkfifo ${quote(targetFile)}")
                 } catch (e: Throwable) {
                     throw IOException("Unable to create fifo ${targetFile.absolutePath}: $e")
                 }
             }
-            else                                        -> {
+
+            else                                                      -> {
                 try {
                     SuFileOutputStream.open(RootFile.open(targetDir, tarEntry.name))
                         .use { fos -> IOUtils.copy(this, fos, BUFFER_SIZE) }

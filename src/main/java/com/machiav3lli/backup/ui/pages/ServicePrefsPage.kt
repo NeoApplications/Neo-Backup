@@ -64,7 +64,7 @@ fun ServicePrefsPage() {
         contentPadding = PaddingValues(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        ServicePrefGroups { pref ->
+        servicePrefGroups { pref ->
             dialogsPref = pref
             openDialog.value = true
         }
@@ -99,7 +99,7 @@ fun ServicePrefsPage() {
     }
 }
 
-fun LazyListScope.ServicePrefGroups(onPrefDialog: (Pref) -> Unit) {
+fun LazyListScope.servicePrefGroups(onPrefDialog: (Pref) -> Unit) {
     val generalServicePrefs = Pref.prefGroups["srv"]?.toPersistentList() ?: persistentListOf()
     val backupServicePrefs = Pref.prefGroups["srv-bkp"]?.toPersistentList() ?: persistentListOf()
     val restoreServicePrefs = Pref.prefGroups["srv-rst"]?.toPersistentList() ?: persistentListOf()
@@ -221,7 +221,7 @@ val pref_numBackupRevisions = IntPref(
     titleId = R.string.prefs_numBackupRevisions,
     summaryId = R.string.prefs_numBackupRevisions_summary,
     icon = Phosphor.Hash,
-    entries = ((0..9) + (10..20 step 2) + (50..200 step 50)).toList(),
+    entries = (0..9) + (10..20 step 2) + (50..200 step 50),
     defaultValue = 2
 )
 

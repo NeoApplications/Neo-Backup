@@ -61,6 +61,6 @@ fun RestoreDialogUI(
         selectedItems = modePairs.keys.toPersistentList(),
         openDialogCustom = openDialogCustom,
     ) {
-        onAction(it.fold(MODE_UNSET) { acc, s -> acc xor s }) // TODO Add backup & action type?
+        onAction(it.fold(MODE_UNSET) { acc, s -> acc xor s })
     }
 }

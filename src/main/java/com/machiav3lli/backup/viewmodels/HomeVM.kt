@@ -33,7 +33,6 @@ import com.machiav3lli.backup.utils.applySearch
 import com.machiav3lli.backup.utils.extensions.combine
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.collections.immutable.toPersistentSet
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -41,7 +40,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class HomeVM(
     packageRepository: PackageRepository,
     blocklistRepository: BlocklistRepository,
@@ -60,10 +58,12 @@ class HomeVM(
             emptyList()
         )
 
+    override val sortFilterModel = prefs.homeSortFilterFlow()
+
     override val state: StateFlow<MainState> = combine(
         packageRepository.getPackagesFlow(),
         blocklistRepository.getBlocklist(),
-        prefs.homeSortFilterFlow(),
+        sortFilterModel,
         extras,
         searchQuery,
         selection,
@@ -73,7 +73,10 @@ class HomeVM(
             .let {
                 Pair(
                     it.applySearch(search, extras)
-                        .applyFilter(sortFilter, extras.mapValues { it.value.customTags }),
+                        .applyFilter(
+                            sortFilter,
+                            extras.mapValues { (_, value) -> value.customTags }
+                        ),
                     it.filter { item ->
                         item.isUpdated || (pref_newAndUpdatedNotification.value && item.isNew)
                     }
@@ -86,7 +89,6 @@ class HomeVM(
             updatedPackages = updatedPackages.toPersistentList(),
             blocklist = blocklist.toPersistentSet(),
             searchQuery = search,
-            sortFilter = sortFilter,
             selection = selection.toPersistentSet(),
         )
     }.stateIn(

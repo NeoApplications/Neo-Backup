@@ -27,7 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.machiav3lli.backup.data.entity.Log
-import com.machiav3lli.backup.ui.compose.blockBorderBottom
+import com.machiav3lli.backup.ui.compose.blockBorder
 import com.machiav3lli.backup.ui.compose.component.LogRecycler
 import com.machiav3lli.backup.ui.compose.component.RoundButton
 import com.machiav3lli.backup.ui.compose.component.TopBar
@@ -71,7 +71,7 @@ fun Logs(modifier: Modifier = Modifier, viewModel: LogsVM = koinNeoViewModel()) 
 
     LogRecycler(
         modifier = modifier
-            .blockBorderBottom()
+            .blockBorder()
             .fillMaxSize(),
         logsList = logs.sortedByDescending(Log::logDate).toPersistentList(),
         onShare = { viewModel.shareLog(it, pref_shareAsFile.value) },

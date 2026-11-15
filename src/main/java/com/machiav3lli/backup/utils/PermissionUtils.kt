@@ -19,6 +19,7 @@ import com.machiav3lli.backup.BACKUP_DIRECTORY_INTENT
 import com.machiav3lli.backup.ui.pages.persist_ignoreBatteryOptimization
 import com.machiav3lli.backup.utils.extensions.Android
 import org.koin.java.KoinJavaComponent.get
+import androidx.core.net.toUri
 
 // Getters
 
@@ -53,7 +54,7 @@ val Context.isStorageDirSetAndOk: Boolean
                 return false
             }
             backupFolderExists()
-        } catch (e: Throwable) {
+        } catch (_: Throwable) {
             false
         }
     }
@@ -158,7 +159,7 @@ val Context.checkUsageStatsPermission: Boolean
                 )
 
             else                                  ->
-                appOps.checkOpNoThrow(  //TODO 'checkOpNoThrow(String, Int, String): Int' is deprecated. Deprecated in Java. @machiav3lli not replaceable without increasing minSDK as the two functions have different minSDK
+                appOps.checkOpNoThrow(
                     AppOpsManager.OPSTR_GET_USAGE_STATS,
                     Process.myUid(),
                     packageName
@@ -173,11 +174,9 @@ val Context.checkUsageStatsPermission: Boolean
     }
 
 val Context.postNotificationsPermission: Boolean
-    get() = if (Android.minSDK(Build.VERSION_CODES.TIRAMISU)) {
-        checkCallingOrSelfPermission(
-            Manifest.permission.POST_NOTIFICATIONS
-        ) == PackageManager.PERMISSION_GRANTED
-    } else true
+    get() = !Android.minSDK(Build.VERSION_CODES.TIRAMISU) || checkCallingOrSelfPermission(
+        Manifest.permission.POST_NOTIFICATIONS
+    ) == PackageManager.PERMISSION_GRANTED
 
 fun Context.checkBatteryOptimization(powerManager: PowerManager)
         : Boolean = persist_ignoreBatteryOptimization.value
@@ -192,7 +191,7 @@ fun requireStorageLocation(
     val intent = BACKUP_DIRECTORY_INTENT
     try {
         activityResultLauncher.launch(intent)
-    } catch (e: ActivityNotFoundException) {
+    } catch (_: ActivityNotFoundException) {
         failCallback()
     }
 }
@@ -202,7 +201,7 @@ fun Activity.getStoragePermission() {
     when {
         Android.minSDK(Build.VERSION_CODES.R) -> {
             val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
-            intent.data = Uri.parse("package:$packageName")
+            intent.data = "package:$packageName".toUri()
             startActivity(intent)
         }
 

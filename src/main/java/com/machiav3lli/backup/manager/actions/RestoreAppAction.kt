@@ -89,7 +89,6 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
         backup: Backup,
         backupMode: Int,
     ): ActionResult {
-
         fun handleException(e: Throwable): ActionResult {
             val message =
                 "${e::class.simpleName}: ${e.message}${e.cause?.message?.let { " - $it" } ?: ""}"
@@ -102,13 +101,13 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
             work?.setOperation("R")
             val killApp = pref_restoreKillApps.value
             if (killApp)
-                pauseApp(type = "restore", wh = When.pre, packageName = app.packageName)
+                pauseApp(type = "restore", wh = When.PRE, packageName = app.packageName)
 
             try {
                 val backupDir = backup.dir
                     ?: run {
                         val backups = runCatching {
-                            context.findBackupsPackage(backup.packageName)[backup.packageName]
+                            findBackupsPackage(backup.packageName)[backup.packageName]
                         }.getOrNull()
                         val found = backups?.find { it.backupDate == backup.backupDate }
                         found?.dir
@@ -152,7 +151,7 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
             } finally {
                 work?.setOperation("======")
                 if (killApp)
-                    pauseApp(type = "restore", wh = When.post, packageName = app.packageName)
+                    pauseApp(type = "restore", wh = When.POST, packageName = app.packageName)
             }
         } catch (e: Throwable) {
             return handleException(e)
@@ -231,9 +230,11 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
         Timber.d("<$packageName> Found $baseApkName in backup archive")
         val splitApksInBackup: Array<StorageFile> = try {
             backupDir.listFiles()
-                .filter { it.name?.endsWith(".apk") == true } // Only apks are relevant (first because it's a cheap test)
-                .filter { !it.isDirectory } // Forget directories (in case it's called *.apk)
-                .filter { it.name != baseApkName } // Base apk is a special case
+                .filter {
+                    it.name?.endsWith(".apk") == true // Only apks are relevant
+                            && !it.isDirectory // Forget directories
+                            && it.name != baseApkName // Base apk is a special case
+                }
                 .toTypedArray()
         } catch (e: FileNotFoundException) {
             Timber.e("Restore APKs failed: %s", e.message)
@@ -245,12 +246,12 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
         if (splitApksInBackup.isEmpty()) {
             Timber.d("<$packageName> The backup does not contain split apks")
         } else {
-            apksToRestore += splitApksInBackup.drop(0) // drop(0) means clone
+            apksToRestore += splitApksInBackup.drop(0)
             Timber.i("[%s] Package is split into %d apks", packageName, apksToRestore.size)
         }
         /* in newer android versions selinux rules prevent system_server
          * from accessing many directories. in android 9 this prevents pm
-         * install from installing from other directories that the package
+         * install from installing from other directories than the package
          * staging directory (/data/local/tmp).
          * you can also pipe the apk data to the install command providing
          * it with a -S $apk_size value. but judging from this answer
@@ -265,21 +266,14 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
             /*
              * pm cannot install from a file on the data partition
              * Failure [INSTALL_FAILED_INVALID_URI] is reported
-             * therefore, if the backup directory is oab's own data
-             * directory a temporary directory on the external storage
+             * therefore a temporary directory on the external storage
              * is created where the apk is then copied to.
-             *
-             * @Tiefkuehlpizze 2020-06-28: When does this occur? Checked it with emulator image with SDK 24. This is
-             *                             a very old piece of code. Maybe it's obsolete.
-             * @machiav3lli 2020-08-09: In some oem ROMs the access to data/local/tmp is not allowed, I don't know how
-             *                              this has changed in the last couple of years.
              */
             stagingApkPath = RootFile(context.getExternalFilesDir(null), "apkTmp")
             Timber.w("Weird configuration. Expecting that the system does not allow installing from OABX's own data directory. Copying the apk to $stagingApkPath")
         }
         var success = false
         try {
-            // Try it with a staging path. This is usually the way to go.
             // copy apks to staging dir
             apksToRestore.forEach { apkFile ->
                 // The file must be touched before it can be written for some reason...
@@ -342,8 +336,7 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
                             profileId
                         )
                     )
-                    // If split apk resources exist, install them afterwards (order does not matter)
-                    //TODO hg42 gather results, eventually ignore grant errors, use script?
+                    // Install split apk resources
                     if (splitApksInBackup.isNotEmpty()) {
                         splitApksInBackup.forEach {
                             sb.append(" ; ").append(
@@ -380,8 +373,6 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
             // re-enable verify apps over usb
             if (disableVerification)
                 runAsRoot("settings put global verifier_verify_adb_installs 1")
-
-            // Todo: Reload package meta data; Package Manager knows everything now; Function missing
         } catch (e: ShellCommandFailedException) {
             val error = extractErrorMessage(e.shellResult)
             Timber.e("Restore APKs failed: $error")
@@ -415,33 +406,6 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
         }
     }
 
-//TODO wech
-//@Throws(RestoreFailedException::class)
-//private fun genericRestoreDataByCopying(
-//    targetPath: String,
-//    backupInstanceDir: StorageFile,
-//    what: String,
-//) {
-//    try {
-//        val backupDirToRestore = backupInstanceDir.findFile(what)
-//            ?: throw RestoreFailedException(
-//                String.format(
-//                    LOG_DIR_IS_MISSING_CANNOT_RESTORE,
-//                    what
-//                )
-//            )
-//        suRecursiveCopyFileFromDocument(backupDirToRestore, targetPath)
-//    } catch (e: IOException) {
-//        throw RestoreFailedException("Could not read the input file due to IOException", e)
-//    } catch (e: ShellCommandFailedException) {
-//        val error = extractErrorMessage(e.shellResult)
-//        throw RestoreFailedException(
-//            "Shell command failed: ${e.command}\n$error",
-//            e
-//        )
-//    }
-//}
-
     @Throws(RestoreFailedException::class, CryptoSetupException::class, IOException::class)
     protected fun openArchiveFile(
         archive: StorageFile,
@@ -474,7 +438,7 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
                 "no" -> {}
                 "gz" -> inputStream = GzipCompressorInputStream(inputStream)
                 "zst" -> inputStream = ZstdCompressorInputStream(inputStream)
-                else -> throw RestoreFailedException("Unsupported compression algorithm: ${compressionType}")
+                else -> throw RestoreFailedException("Unsupported compression algorithm: $compressionType")
             }
         }
         return inputStream
@@ -513,7 +477,7 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
                     //File(cachePath, "restore_${UUID.randomUUID()}").also { it.mkdirs() }.let {
                     Files.createTempDirectory(cachePath?.toPath(), "restore_")?.toFile()?.let {
                         tempDir = RootFile(it)
-                        archiveStream.suUnpackTo(tempDir!!, forceOldVersion)
+                        archiveStream.suUnpackTo(tempDir, forceOldVersion)
                         // clear the data from the final directory
                         wipeDirectory(
                             targetPath,
@@ -605,7 +569,7 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
                     // }
                     //---------- instead look at error output and ignore some of the messages
                     if (code != 0)
-                        Timber.i("tar returns: code $code: " + err) // at least log the full error
+                        Timber.i("tar returns: code $code: $err")
                     val errLines = err
                         .split("\n")
                         .filterNot { line ->
@@ -676,19 +640,18 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
     }
 
     fun getOwnerGroupContextWithWorkaround(
-        // TODO hg42 this is the best I could come up with for now
         app: Package,
         extractTo: String,
     ): Array<String> {
         val uidgidcon = try {
             shell.suGetOwnerGroupContext(extractTo)
-        } catch (e: Throwable) {
+        } catch (_: Throwable) {
             val fromParent = shell.suGetOwnerGroupContext(File(extractTo).parent!!)
             val fromData = shell.suGetOwnerGroupContext(app.dataPath)
             arrayOf(
                 fromData[0],    // user from app data
                 fromParent[1],  // group is independent of app
-                fromParent[2]   // context is independent of app //TODO hg42 really? some seem to be restricted to app? or may be they should...
+                fromParent[2]   // context is independent of app
                 // note: restorecon does not work, because it sets storage_file instead of media_rw_data_file
                 // (returning "?" here would choose restorecon)
             )
@@ -707,9 +670,9 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
             val gidCache = Dirty.appGidToCacheGid(gid)
             Timber.i("Getting user/group info and apply it recursively on $targetPath")
             // get the contents. lib for example must be owned by root
-            //TODO hg42 I think, lib is always a link
-            //TODO hg42 directories we exclude would keep their uidgidcon from before
-            //TODO hg42 this doesn't seem to be correct, unless the apk install would manage updating uidgidcon
+            //      hg42 I think, lib is always a link
+            //      directories we exclude would keep their uidgidcon from before
+            //      this doesn't seem to be correct, unless the apk install would manage updating uidgidcon
             val topLevelFiles: MutableList<String> =
                 mutableListOf(*shell.suGetDirectoryContents(RootFile(targetPath)))
             // Don't exclude any files from chown, as this may cause SELINUX issues (lost of data on restart)
@@ -726,22 +689,6 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
             Timber.d("Changing owner and group to $uid:$gid for $target and recursive for $chownTargets")
             Timber.d("Changing owner and group to $uid:$gidCache for cache $cacheTargets")
             Timber.d("Changing selinux context to $con for $target")
-            // we filter targets from existing files, so we don't need these currently:
-            //fun commandCheckedChown(uid: String, gid: String, target: String): String {
-            //    return "! $utilBoxQ test -d ${
-            //                quote(target)
-            //            } || $utilBoxQ chown $uid:$gid ${
-            //                quote(target)
-            //            }"
-            //}
-            //fun commandCheckedChownMultiRec(uid: String, gid: String, targets: List<String>): String? {
-            //    return if (targets.isNotEmpty())
-            //        "for t in ${
-            //            quoteMultiple(targets)
-            //        }; do ! $utilBoxQ test -e \$t || $utilBoxQ chown -R $uid:$gid \$t; done"
-            //    else
-            //        null
-            //}
             fun commandChown(uid: String, gid: String, target: String): String {
                 return "$utilBoxQ chown $uid:$gid ${
                     quote(target)
@@ -758,18 +705,18 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
             }
 
             fun commandChcon(con: String, target: String): String? {
-                return if (con == "?") //TODO hg42: when does it happen? maybe if selinux not supported on storage?
+                return if (con == "?") // when does it happen? maybe if selinux not supported on storage?
                     null // "" ; restorecon -RF -v ${quote(target)}"  //TODO hg42 doesn't seem to work, probably because selinux unsupported in this case
                 else
                     "chcon -R -h -v '$con' ${quote(target)}"
             }
 
-            val command = listOf(
+            val command = listOfNotNull(
                 commandChown(uid, gid, target),
                 commandChownMultiRec(uid, gid, chownTargets),
                 commandChownMultiRec(uid, gidCache, cacheTargets),
                 commandChcon(con, target),
-            ).filterNotNull().joinToString(" ; ")
+            ).joinToString(" ; ")
             runAsRoot(command)
         } catch (e: ShellCommandFailedException) {
             val errorMessage = "Could not update permissions for $dataType"
@@ -790,6 +737,7 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
         val isEncrypted: Boolean,
     )
 
+    // TODO throw error on failing to decrypt
     fun findBackupArchive(
         dataType: String,
         backup: Backup,
@@ -827,7 +775,7 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
                         tryEncrypted
                     )
 
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     continue
                 }
             }
@@ -954,17 +902,6 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
                 "path '$extractTo' does not contain ${app.packageName}"
             )
 
-        //TODO wech
-        //if (isOldVersion(backup)) {
-        //
-        //    genericRestoreDataByCopying(
-        //        extractTo,
-        //        backupDir,
-        //        BACKUP_DIR_OBB_FILES
-        //    )
-        //
-        //} else {
-
         val dataType = BACKUP_DIR_OBB_FILES
         val backupArchive = findBackupArchive(dataType, backup, backupDir)
 
@@ -984,7 +921,6 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
             extractTo,
             uidgidcon
         )
-        //}
     }
 
     @Throws(RestoreFailedException::class)
@@ -998,17 +934,6 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
             throw RestoreFailedException(
                 "path '$extractTo' does not contain ${app.packageName}"
             )
-
-        //TODO wech
-        //if (isOldVersion(backup)) {
-        //
-        //    genericRestoreDataByCopying(
-        //        extractTo,
-        //        backupDir,
-        //        BACKUP_DIR_MEDIA_FILES
-        //    )
-        //
-        //} else {
 
         val dataType = BACKUP_DIR_MEDIA_FILES
         val backupArchive = findBackupArchive(dataType, backup, backupDir)
@@ -1029,7 +954,6 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
             extractTo,
             uidgidcon
         )
-        //}
     }
 
     private fun getPackageInstallCommand(
@@ -1093,8 +1017,6 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
     @Throws(PackageManagerDataIncompleteException::class)
     open fun refreshAppInfo(context: Context, app: Package) {
         val sleepTimeMs = 1000L
-
-        // delay before first try
         val delayMs = pref_delayBeforeRefreshAppInfo.value * 1000L
         var timeWaitedMs = 0L
         do {

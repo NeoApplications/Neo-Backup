@@ -16,7 +16,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import com.machiav3lli.backup.NeoApp
@@ -80,7 +79,6 @@ fun DevPrefGroups() {
 
 @Composable
 fun AdvancedPrefsPage() {
-    val context = LocalContext.current
     val (expanded, expand) = remember { mutableStateOf(false) }
 
     val prefs = Pref.prefGroups["adv"]?.toPersistentList() ?: persistentListOf()
@@ -91,9 +89,7 @@ fun AdvancedPrefsPage() {
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         item {
-            PrefsGroup(prefs = prefs) { pref ->
-                // TODO do things
-            }
+            PrefsGroup(prefs = prefs)
         }
         item {
             PrefsExpandableGroupHeader(
@@ -142,7 +138,7 @@ val pref_suCommand = SuCommandPref(
             if (pref.value == suCommand)
                 Color.Green
             else
-                Color.Green.copy(alpha = 0.5f)      //TODO hg42 because here is not @Ccomposable
+                Color.Green.copy(alpha = 0.5f)
         } else {
             Color.Red
         }
@@ -177,7 +173,7 @@ val pref_libsuUseRootShell = BooleanPref(
 val pref_libsuTimeout = IntPref(
     key = "dev-adv.libsuTimeout",
     summary = "[seconds] timeout for libsu commands (does not affect the tar commands)",
-    entries = ((10..90 step 10) + (100..300 step 50)).toList(),
+    entries = (10..90 step 10) + (100..300 step 50),
     defaultValue = 60
 )
 
@@ -299,12 +295,6 @@ val pref_cacheFileLists = BooleanPref(
 
 //---------------------------------------- developer settings - implementation alternatives
 
-val pref_paranoidBackupLists = BooleanPref(
-    key = "dev-alt.paranoidBackupLists",
-    summary = "verify file system after adding or deleting backups (slower, especially remote)",
-    defaultValue = false
-)
-
 val pref_paranoidHousekeeping = BooleanPref(
     key = "dev-alt.paranoidHousekeeping",
     summary = "verify file system before housekeeping (slower, especially remote)",
@@ -370,7 +360,7 @@ val pref_flatStructure = BooleanPref(
 )
 
 val pref_propertiesInDir = BooleanPref(
-    key = "$debug-alt.propertiesInDir",         //TODO hg42 currently not working in scanner (hmm, I think it works now)
+    key = "$debug-alt.propertiesInDir",
     summary = "store the properties inside the backup directory",
     defaultValue = false
 )
@@ -385,12 +375,6 @@ val pref_useWorkManagerForSingleManualJob = BooleanPref(
     key = "dev-alt.useWorkManagerForSingleManualJob",
     summary = "also queue single manual jobs from app sheet (note they are added at the end of the queue for now)",
     defaultValue = false
-)
-
-val pref_useForegroundInService = BooleanPref(
-    key = "dev-alt.useForegroundInService",
-    summary = "use foreground notification in service",
-    defaultValue = true
 )
 
 val pref_useForegroundInJob = BooleanPref(
@@ -549,8 +533,7 @@ val pref_ignoreKeepAndroidOpenNotice = BooleanPref(
 //----------------------------------------
 
 fun publicPreferences(persist: Boolean = false) =
-    Pref.prefGroups.flatMap {
-        val (group, prefs) = it
+    Pref.prefGroups.values.flatMap { prefs ->
         prefs.mapNotNull { pref ->
             if (pref.private ||
                 pref is LaunchPref ||

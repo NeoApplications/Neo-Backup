@@ -64,7 +64,7 @@ import com.machiav3lli.backup.BuildConfig
 import com.machiav3lli.backup.R
 import com.machiav3lli.backup.legendList
 import com.machiav3lli.backup.linksList
-import com.machiav3lli.backup.ui.compose.blockBorderBottom
+import com.machiav3lli.backup.ui.compose.blockBorder
 import com.machiav3lli.backup.ui.compose.component.LegendItem
 import com.machiav3lli.backup.ui.compose.component.LinkChip
 import com.machiav3lli.backup.ui.compose.component.RoundButton
@@ -179,7 +179,7 @@ fun HelpSheet(navigateUp: () -> Unit) {
         LazyColumn(
             modifier = Modifier
                 .padding(paddingValues)
-                .blockBorderBottom()
+                .blockBorder()
                 .nestedScroll(nestedScrollConnection)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp),

@@ -10,13 +10,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -24,10 +22,8 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.ColorUtils
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.repeatOnLifecycle
@@ -71,7 +67,7 @@ inline fun Modifier.ifThenElse(
     }
 }
 
-fun Modifier.blockBorderBottom(altStyle: Boolean = !pref_altBlockLayout.value) =
+fun Modifier.blockBorder(altStyle: Boolean = !pref_altBlockLayout.value) =
     composed {
         this
             .padding(2.dp)
@@ -83,26 +79,6 @@ fun Modifier.blockBorderBottom(altStyle: Boolean = !pref_altBlockLayout.value) =
                         width = 0.5.dp,
                         color = MaterialTheme.colorScheme.outlineVariant,
                         shape = MaterialTheme.shapes.extraLarge,
-                    )
-                },
-                elseModifier = {
-                    background(color = MaterialTheme.colorScheme.surfaceContainerLow)
-                }
-            )
-    }
-
-fun Modifier.blockBorderTop(altStyle: Boolean = !pref_altBlockLayout.value) =
-    composed {
-        this
-            .padding(2.dp)
-            .clip(BlockTopShape)
-            .ifThenElse(
-                altStyle,
-                modifier = {
-                    border(
-                        width = 0.5.dp,
-                        color = MaterialTheme.colorScheme.outlineVariant,
-                        shape = BlockTopShape,
                     )
                 },
                 elseModifier = {
@@ -130,22 +106,6 @@ fun Modifier.blockShadow(altStyle: Boolean = !pref_altBlockLayout.value) =
                 }
             )
     }
-
-val BlockTopShape
-    @Composable @ReadOnlyComposable get() = RoundedCornerShape(
-        topStart = MaterialTheme.shapes.extraLarge.topStart,
-        topEnd = MaterialTheme.shapes.extraLarge.topEnd,
-        bottomEnd = MaterialTheme.shapes.extraSmall.bottomEnd,
-        bottomStart = MaterialTheme.shapes.extraSmall.bottomStart,
-    )
-
-val BlockBottomShape
-    @Composable @ReadOnlyComposable get() = RoundedCornerShape(
-        topStart = MaterialTheme.shapes.extraSmall.topStart,
-        topEnd = MaterialTheme.shapes.extraSmall.topEnd,
-        bottomEnd = MaterialTheme.shapes.extraLarge.bottomEnd,
-        bottomStart = MaterialTheme.shapes.extraLarge.bottomStart,
-    )
 
 @Composable
 fun <T> ObservedEffect(flow: Flow<T?>, onChange: (T?) -> Unit) {
@@ -192,26 +152,6 @@ fun Color.mix(with: Color, factor: Float = 0.5f) = Color(
     alpha = alpha
 )
 
-@Composable
-fun Color.flatten(factor: Float = 0.5f, surface: Color = MaterialTheme.colorScheme.surface) =
-    mix(surface, factor)
-
-fun Color.brighter(rate: Float): Color {
-    val hslVal = FloatArray(3)
-    ColorUtils.colorToHSL(this.toArgb(), hslVal)
-    hslVal[2] += rate * (1 - hslVal[2])
-    hslVal[2] = hslVal[2].coerceIn(0f..1f)
-    return Color(ColorUtils.HSLToColor(hslVal))
-}
-
-fun Color.darker(rate: Float): Color {
-    val hslVal = FloatArray(3)
-    ColorUtils.colorToHSL(this.toArgb(), hslVal)
-    hslVal[2] -= rate * hslVal[2]
-    hslVal[2] = hslVal[2].coerceIn(0f..1f)
-    return Color(ColorUtils.HSLToColor(hslVal))
-}
-
 fun <T> LazyListScope.gridItems(
     items: List<T>,
     columns: Int,
@@ -246,7 +186,6 @@ fun <T> LazyListScope.gridItems(
     }
 }
 
-// TODO make easy callable from different contexts
 fun SnackbarHostState.show(
     coroutineScope: CoroutineScope,
     message: String,

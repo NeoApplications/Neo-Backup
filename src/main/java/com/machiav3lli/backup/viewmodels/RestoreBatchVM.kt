@@ -13,7 +13,6 @@ import com.machiav3lli.backup.utils.applySearch
 import com.machiav3lli.backup.utils.extensions.combine
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.collections.immutable.toPersistentSet
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -21,7 +20,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class RestoreBatchVM(
     packageRepository: PackageRepository,
     blocklistRepository: BlocklistRepository,
@@ -31,10 +29,12 @@ class RestoreBatchVM(
     private val searchQuery = MutableStateFlow("")
     private val selection = MutableStateFlow(emptySet<String>())
 
+    override val sortFilterModel = prefs.restoreSortFilterFlow()
+
     override val state: StateFlow<MainState> = combine(
         packageRepository.getPackagesFlow(),
         blocklistRepository.getBlocklist(),
-        prefs.restoreSortFilterFlow(),
+        sortFilterModel,
         extras,
         searchQuery,
         selection,
@@ -49,7 +49,6 @@ class RestoreBatchVM(
             filteredPackages = filteredPackages.toPersistentList(),
             blocklist = blocklist.toPersistentSet(),
             searchQuery = search,
-            sortFilter = sortFilter,
             selection = selection.toPersistentSet(),
         )
     }.stateIn(

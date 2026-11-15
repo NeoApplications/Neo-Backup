@@ -6,7 +6,7 @@ import java.io.File
 class InternalShellScriptPlugin(file: File) : TextPlugin(file) {
 
     init {
-        tracePlugin { "${this::class.simpleName} $name <- ${file.name}" } //TODO hg42
+        tracePlugin { "${this::class.simpleName} $name <- ${file.name}" }
     }
 
     companion object : PluginCompanion {

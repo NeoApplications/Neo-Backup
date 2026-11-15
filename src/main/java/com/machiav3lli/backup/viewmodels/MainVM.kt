@@ -25,21 +25,27 @@ import com.machiav3lli.backup.data.entity.SortFilterModel
 import com.machiav3lli.backup.data.repository.AppExtrasRepository
 import com.machiav3lli.backup.data.repository.BlocklistRepository
 import com.machiav3lli.backup.utils.TraceUtils.trace
+import com.machiav3lli.backup.utils.applyFilter
 import com.machiav3lli.backup.utils.extensions.NeoViewModel
+import com.machiav3lli.backup.utils.getStats
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalCoroutinesApi::class)
-open class MainVM(
+abstract class MainVM(
     private val blocklistRepository: BlocklistRepository,
     appExtrasRepository: AppExtrasRepository,
 ) : NeoViewModel() {
-    open val state: StateFlow<MainState> = MutableStateFlow(MainState())
+    abstract val state: StateFlow<MainState>
+    abstract val sortFilterModel: Flow<SortFilterModel>
 
     protected val extras = appExtrasRepository.getAllFlow()
         .mapLatest { it.associateBy { extra -> extra.packageName } }
@@ -50,7 +56,7 @@ open class MainVM(
         )
 
     val tagsMap = appExtrasRepository.getTagsMapFlow()
-        .mapLatest { it.associate { Pair(it.packageName, it.customTags) } }
+        .mapLatest { it.associate { tag -> Pair(tag.packageName, tag.customTags) } }
         .stateIn(
             viewModelScope,
             started = SharingStarted.WhileSubscribed(STATEFLOW_SUBSCRIBE_BUFFER),
@@ -58,12 +64,28 @@ open class MainVM(
         )
 
     val allTags = appExtrasRepository.getTagsMapFlow()
-        .mapLatest { it.map(ExtrasTags::customTags).flatten().toSet() }
+        .mapLatest { it.flatMap(ExtrasTags::customTags).toSet() }
         .trace { "*** allTags <<- ${it.size}" }
         .stateIn(
             viewModelScope,
             started = SharingStarted.WhileSubscribed(STATEFLOW_SUBSCRIBE_BUFFER),
             emptySet()
+        )
+
+    val stats = flow {
+        emitAll(
+            combine(state, sortFilterModel, tagsMap) { state, sortFilterModel, tags ->
+                state.packages
+                    .filterNot { it.packageName in state.blocklist }
+                    .applyFilter(sortFilterModel, tags)
+                    .let { getStats(it) }
+            }
+        )
+    }
+        .stateIn(
+            viewModelScope,
+            started = SharingStarted.WhileSubscribed(STATEFLOW_SUBSCRIBE_BUFFER),
+            getStats(emptyList())
         )
 
     fun updateBlocklist(packages: Set<String>) {
@@ -72,7 +94,8 @@ open class MainVM(
         }
     }
 
-    open fun setSortFilter(value: SortFilterModel) {
-        // TODO implement in the respective VM
-    }
+    /**
+     * to-be-implemented in respective VM
+     */
+    open fun setSortFilter(value: SortFilterModel) {}
 }
