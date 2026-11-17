@@ -474,4 +474,26 @@
     <string name="keep_android_open_notice">Android的开放性受到Google的威胁，我们需要你的帮助：https://keepandroidopen.org/</string>
     <string name="setup_FORMAT">设置：%s</string>
     <string name="permissions">权限</string>
+    <string name="night_mode">夜间模式</string>
+    <string name="system">系统</string>
+    <string name="dynamic_colors">动态配色</string>
+    <string name="dynamic_theme">动态</string>
+    <string name="black_theme">黑色主题</string>
+    <string name="seed_color">种子颜色</string>
+    <string name="contrast_level">对比度</string>
+    <string name="palette_style">调色板</string>
+    <string name="contrast_default">默认</string>
+    <string name="contrast_medium">中</string>
+    <string name="contrast_high">高</string>
+    <string name="palette_neutral">中性</string>
+    <string name="palette_tonal">色调</string>
+    <string name="palette_expressive">富有表现力</string>
+    <string name="color_green">绿色</string>
+    <string name="color_blue">蓝色</string>
+    <string name="color_purple">紫色</string>
+    <string name="color_teal">青色</string>
+    <string name="color_orange">橙色</string>
+    <string name="color_pink">粉色</string>
+    <string name="color_red">红色</string>
+    <string name="intro_permission_usageaccess_warning">在 Android 13 及更高版本中，从 Play 商店以外的来源安装的应用对某些权限的访问会受到限制。如果您看到受限制的权限的警告，请按照以下步骤操作：\n1. 从设置 → 应用打开 Neo Backup。\n2. 点击右上角的三点菜单。\n3. 选择“允许受限制的设置”，并使用您的 PIN 码或指纹进行确认。\n4. 返回此页面并授予使用情况访问权限。</string>
 </resources>
