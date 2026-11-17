@@ -27,7 +27,8 @@ import com.machiav3lli.backup.utils.SystemUtils
 
 class RestoreActionTask(
     appInfo: Package, oAndBackupX: NeoActivity, shellHandler: ShellHandler, restoreMode: Int,
-    private val backup: Backup, setInfoBar: (String) -> Unit,
+    private val backup: Backup, private val password: String? = null,
+    setInfoBar: (String) -> Unit,
 ) : BaseActionTask(
     appInfo, oAndBackupX, shellHandler, restoreMode,
     BackupRestoreHelper.ActionType.RESTORE, setInfoBar
@@ -44,7 +45,7 @@ class RestoreActionTask(
         publishProgress()
         result = BackupRestoreHelper.restore(
             mainActivityX, null, shellHandler,
-            app, mode, backup
+            app, mode, backup, password,
         )
         return result
     }

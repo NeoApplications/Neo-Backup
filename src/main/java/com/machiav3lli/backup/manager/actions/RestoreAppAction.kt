@@ -68,6 +68,7 @@ import com.machiav3lli.backup.utils.getEncryptionPassword
 import com.machiav3lli.backup.utils.isAllowDowngrade
 import com.machiav3lli.backup.utils.isDisableVerification
 import com.machiav3lli.backup.utils.isPGPEncryptionEnabled
+import com.machiav3lli.backup.utils.isPGPModeEnabled
 import com.machiav3lli.backup.utils.isPasswordEncryptionEnabled
 import com.machiav3lli.backup.utils.isRestoreAllPermissions
 import com.machiav3lli.backup.utils.suUnpackTo
@@ -87,11 +88,17 @@ import java.util.regex.Pattern
 
 open class RestoreAppAction(context: Context, work: AppActionWork?, shell: ShellHandler) :
     BaseAppAction(context, work, shell) {
+    protected var passwordOverride: String? = null
+        private set
+
     fun run(
         app: Package,
         backup: Backup,
         backupMode: Int,
+        password: String? = null,
     ): ActionResult {
+        passwordOverride = password?.takeIf { it.isNotEmpty() }
+
         fun handleException(e: Throwable): ActionResult {
             val message =
                 "${e::class.simpleName}: ${e.message}${e.cause?.message?.let { " - $it" } ?: ""}"
@@ -417,8 +424,19 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
         isEncrypted: Boolean,
         iv: ByteArray?,
     ): InputStream {
+        val overridePassword = passwordOverride
+        if (isEncrypted && overridePassword != null && isPGPModeEnabled())
+            Timber.w("Ignoring the password given for this restore: PGP encryption is configured")
         var inputStream: InputStream = BufferedInputStream(archive.inputStream()!!)
         when {
+            isEncrypted && overridePassword != null && !isPGPModeEnabled()
+                -> {
+                if (iv == null)
+                    throw RestoreFailedException("IV vector could not be read from properties file, decryption impossible")
+                Timber.d("Decryption enabled (password overwritten for this restore)")
+                inputStream = inputStream.decryptStream(overridePassword, getCryptoSalt(), iv)
+            }
+
             isEncrypted && isPasswordEncryptionEnabled()
                 -> {
                 val password = getEncryptionPassword()

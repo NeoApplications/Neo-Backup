@@ -88,14 +88,14 @@ object BackupRestoreHelper {
 
     suspend fun restore(
         context: Context, work: AppActionWork?, shellHandler: ShellHandler, appInfo: Package,
-        mode: Int, backup: Backup
+        mode: Int, backup: Backup, password: String? = null,
     ): ActionResult {
         val action: RestoreAppAction = when {
             appInfo.isSpecial -> RestoreSpecialAction(context, work, shellHandler)
             appInfo.isSystem  -> RestoreSystemAppAction(context, work, shellHandler)
             else              -> RestoreAppAction(context, work, shellHandler)
         }
-        val result = action.run(appInfo, backup, mode)
+        val result = action.run(appInfo, backup, mode, password)
         Timber.i("<${appInfo.packageName}> Restore succeeded: ${result.succeeded}")
         return result
     }

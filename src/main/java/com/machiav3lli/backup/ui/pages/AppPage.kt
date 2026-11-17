@@ -564,8 +564,8 @@ fun AppPage(
                                 appPackage = pkg,
                                 backup = obj as Backup,
                                 openDialogCustom = openDialog,
-                            ) { mode ->
-                                if (pref_useWorkManagerForSingleManualJob.value) {
+                            ) { mode, password ->
+                                if (pref_useWorkManagerForSingleManualJob.value && password == null) {
                                     mActivity.startBatchAction(
                                         false,
                                         listOf(packageName),
@@ -575,7 +575,7 @@ fun AppPage(
                                     obj.let {
                                         RestoreActionTask(
                                             pkg, mActivity, NeoApp.shellHandler!!, mode,
-                                            it
+                                            it, password,
                                         ) { message ->
                                             viewModel.setSnackbarText(message)
                                         }.execute()

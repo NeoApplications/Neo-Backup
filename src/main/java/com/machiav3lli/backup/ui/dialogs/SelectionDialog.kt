@@ -2,6 +2,7 @@ package com.machiav3lli.backup.ui.dialogs
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -40,6 +41,7 @@ fun <T> MultiSelectionDialogUI(
     selectedItems: PersistentList<T>,
     openDialogCustom: MutableState<Boolean>,
     withSearchBar: Boolean = false,
+    extraContent: @Composable ColumnScope.() -> Unit = {},
     onSave: (List<T>) -> Unit,
 ) {
     val context = LocalContext.current
@@ -94,6 +96,8 @@ fun <T> MultiSelectionDialogUI(
                     }
                 }
             }
+
+            extraContent()
 
             Row(
                 Modifier

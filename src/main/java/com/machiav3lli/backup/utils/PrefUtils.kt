@@ -99,6 +99,9 @@ fun isPasswordEncryptionEnabled(): Boolean =
 fun isPGPEncryptionEnabled(): Boolean =
     pref_encryption_mode.value == ENCRYPTION.PGP.ordinal && getEncryptionPassword().isNotEmpty()
 
+fun isPGPModeEnabled(): Boolean =
+    pref_encryption_mode.value == ENCRYPTION.PGP.ordinal
+
 fun getEncryptionPassword(): String = when (pref_encryption_mode.value) {
     ENCRYPTION.PASSWORD.ordinal -> pref_password.value
     ENCRYPTION.PGP.ordinal      -> pref_pgpPasscode.value
