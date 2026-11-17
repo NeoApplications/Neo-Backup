@@ -19,6 +19,8 @@ package com.machiav3lli.backup.utils
 
 import com.machiav3lli.backup.NeoApp
 import com.machiav3lli.backup.data.entity.RootFile
+import com.machiav3lli.backup.manager.actions.RestoreAppAction.Companion.CANNOT_DECRYPT_MESSAGE
+import com.machiav3lli.backup.manager.actions.RestoreAppAction.RestoreFailedException
 import com.machiav3lli.backup.manager.handler.ShellHandler
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.quote
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.runAsRoot
@@ -33,9 +35,13 @@ import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
 import timber.log.Timber
 import java.io.BufferedInputStream
+import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
+import java.io.InputStream
+import java.io.SequenceInputStream
+import java.nio.charset.StandardCharsets
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.Objects
@@ -297,99 +303,70 @@ fun TarArchiveInputStream.suUnpackTo(targetDir: RootFile, forceOldVersion: Boole
     }
 }
 
-/*
-@Throws(IOException::class)
-fun TarArchiveInputStream.unpackTo(targetDir: File?, strictHardLinks: Boolean = false) {
-    targetDir?.let {
-        val postponeModes = mutableMapOf<String, Int>()
-        generateSequence { nextTarEntry }.forEach { tarEntry ->
-            val targetFile = File(it, tarEntry.name)
-            Timber.d("Extracting ${tarEntry.name} (filesize: ${tarEntry.realSize})")
-            targetFile.parentFile?.let {
-                if (!it.exists() and !it.mkdirs()) {
-                    throw IOException("Unable to create parent folder ${it.absolutePath}")
-                }
-            } ?: throw IOException("No parent folder for ${targetFile.absolutePath}")
-            var doChmod = true
-            var postponeChmod = false
-            var relPath = targetFile.relativeTo(it).toString()
-            val mode = tarEntry.mode and 0b111_111_111_111
-            when {
-                relPath.isEmpty() -> return@forEach
-                relPath in OABX.shellHandler!!.assets.DATA_EXCLUDED_BASENAMES -> return@forEach
-                relPath in OABX.shellHandler!!.assets.DATA_EXCLUDED_CACHE_DIRS -> return@forEach
-                tarEntry.isDirectory -> {
-                    if (!targetFile.mkdirs()) {
-                        throw IOException("Unable to create folder ${targetFile.absolutePath}")
-                    }
-                    // write protection would prevent creating files inside, so chmod at end
-                    postponeChmod = true
-                }
-                tarEntry.isLink -> {
-                    // OABX v7 implementation stores hard links and extracts all links as symlinks
-                    if(strictHardLinks)
-                        try {
-                            Os.link(tarEntry.linkName, targetFile.absolutePath)
-                        } catch (e: Throwable) {
-                            throw IOException("Unable to create hardlink: ${tarEntry.linkName} -> ${targetFile.absolutePath} : $e")
-                        }
-                    else
-                        try {
-                            Os.symlink(tarEntry.linkName, targetFile.absolutePath)
-                        } catch (e: Throwable) {
-                            throw IOException("Unable to create symlink: ${tarEntry.linkName} -> ${targetFile.absolutePath} : $e")
-                        }
-                    doChmod = false
-                }
-                tarEntry.isSymbolicLink -> {
-                    try {
-                        Os.symlink(tarEntry.linkName, targetFile.absolutePath)
-                    } catch (e: Throwable) {
-                        throw IOException("Unable to create symlink: ${tarEntry.linkName} -> ${targetFile.absolutePath} : $e")
-                    }
-                    doChmod = false
-                }
-                tarEntry.isFIFO -> {
-                    try {
-                        Os.mkfifo(targetFile.absolutePath, tarEntry.mode)
-                    } catch (e: Throwable) {
-                        throw IOException("Unable to create fifo ${targetFile.absolutePath}: $e")
-                    }
-                }
-                else -> {
-                    try {
-                        FileOutputStream(targetFile).use { fos -> IOUtils.copy(this, fos) }
-                    } catch (e: Throwable) {
-                        throw IOException("Unable to create file ${targetFile.absolutePath}: $e")
-                    }
-                }
-            }
-            if (doChmod) {
-                if (postponeChmod) {
-                    postponeModes[targetFile.absolutePath] = mode
-                } else {
-                    try {
-                        Os.chmod(targetFile.absolutePath, mode)
-                    } catch (e: Throwable) {
-                        throw IOException("Unable to chmod ${targetFile.absolutePath} to ${String.format("%03o", mode)}: $e")
-                    }
-                }
+private const val TAR_BLOCK_SIZE = 512
+private const val TAR_CHECKSUM_OFFSET = 148
+private const val TAR_CHECKSUM_LENGTH = 8
+private const val TAR_CHECKSUM_END = TAR_CHECKSUM_OFFSET + TAR_CHECKSUM_LENGTH
+private const val TAR_MAGIC_OFFSET = 257
+private const val TAR_MAGIC_LENGTH = 5
 
-            }
+// This is meant as a sanity check for data that has just been decrypted,
+// as till now, wrong passwords would go unnoticed and produce garbage and hang the action
+fun isPlausibleTarHeader(header: ByteArray, length: Int): Boolean {
+    // a tar archive consists of 512 byte blocks
+    if (length < TAR_BLOCK_SIZE) return false
+    if ((0..TAR_BLOCK_SIZE).all { header[it] == 0.toByte() }) return true
 
-            try {
-                targetFile.setLastModified(tarEntry.modTime.time)
-            } catch (e: Throwable) {
-                throw IOException("Unable to set modification time on $targetFile to ${tarEntry.modTime}: $e")
-            }
-        }
-        postponeModes.forEach { fileMode ->
-            try {
-                Os.chmod(fileMode.key, fileMode.value)
-            } catch (e: Throwable) {
-                throw IOException("Unable to chmod ${fileMode.key} to ${String.format("%03o", fileMode.value)}: $e")
-            }
+    val checksumRange = TAR_CHECKSUM_OFFSET..TAR_CHECKSUM_END
+    var unsignedSum = 0L
+    var signedSum = 0L
+    for (i in 0..TAR_BLOCK_SIZE) {
+        if (i in checksumRange) {
+            unsignedSum += 0x20
+            signedSum += 0x20
+        } else {
+            unsignedSum += header[i].toInt() and 0xFF
+            signedSum += header[i].toInt()
         }
     }
+    val declaredChecksum = String(
+        header,
+        TAR_CHECKSUM_OFFSET,
+        TAR_CHECKSUM_LENGTH,
+        StandardCharsets.US_ASCII,
+    ).trim('\u0000', ' ').toLongOrNull(8)
+
+    return declaredChecksum != null && declaredChecksum in setOf(unsignedSum, signedSum)
+            || String(
+        header,
+        TAR_MAGIC_OFFSET,
+        TAR_MAGIC_LENGTH,
+        StandardCharsets.US_ASCII
+    ) == "ustar"
 }
-*/
+
+@Throws(RestoreFailedException::class, IOException::class)
+fun InputStream.checkTarArchive(isEncrypted: Boolean): InputStream {
+    val header = ByteArray(TAR_BLOCK_SIZE)
+    var filled = 0
+    try {
+        while (filled < TAR_BLOCK_SIZE) {
+            val count = read(header, filled, TAR_BLOCK_SIZE - filled)
+            if (count < 0) break
+            filled += count
+        }
+    } catch (e: Throwable) {
+        throw if (isEncrypted) RestoreFailedException(CANNOT_DECRYPT_MESSAGE, e)
+        else e
+    }
+    if (filled == 0) throw RestoreFailedException(
+        if (isEncrypted) CANNOT_DECRYPT_MESSAGE
+        else "Backup archive is empty"
+    )
+    if (!isPlausibleTarHeader(header, filled)) throw RestoreFailedException(
+        if (isEncrypted) CANNOT_DECRYPT_MESSAGE
+        else "Backup archive is corrupt: it does not contain a valid tar archive"
+    )
+
+    return SequenceInputStream(ByteArrayInputStream(header, 0, filled), this)
+}

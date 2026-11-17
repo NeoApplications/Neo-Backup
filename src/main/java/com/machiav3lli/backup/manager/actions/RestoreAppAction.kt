@@ -45,6 +45,7 @@ import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.runAsRoot
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.runAsRootPipeInCollectErr
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.utilBoxQ
 import com.machiav3lli.backup.manager.handler.ShellHandler.ShellCommandFailedException
+import com.machiav3lli.backup.manager.handler.ShellHandler.ShellPipeInFailedException
 import com.machiav3lli.backup.manager.handler.ShellHandler.UnexpectedCommandResult
 import com.machiav3lli.backup.manager.handler.findBackupsPackage
 import com.machiav3lli.backup.manager.tasks.AppActionWork
@@ -58,6 +59,7 @@ import com.machiav3lli.backup.ui.pages.pref_restoreKillApps
 import com.machiav3lli.backup.ui.pages.pref_restorePermissions
 import com.machiav3lli.backup.ui.pages.pref_restoreTarCmd
 import com.machiav3lli.backup.utils.CryptoSetupException
+import com.machiav3lli.backup.utils.checkTarArchive
 import com.machiav3lli.backup.utils.copyDocumentToRootFile
 import com.machiav3lli.backup.utils.decryptStream
 import com.machiav3lli.backup.utils.extensions.Dirty
@@ -80,6 +82,7 @@ import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.InputStream
 import java.nio.file.Files
+import java.security.GeneralSecurityException
 import java.util.regex.Pattern
 
 open class RestoreAppAction(context: Context, work: AppActionWork?, shell: ShellHandler) :
@@ -416,7 +419,8 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
     ): InputStream {
         var inputStream: InputStream = BufferedInputStream(archive.inputStream()!!)
         when {
-            isEncrypted && isPasswordEncryptionEnabled() -> {
+            isEncrypted && isPasswordEncryptionEnabled()
+                -> {
                 val password = getEncryptionPassword()
                 if (password.isEmpty())
                     throw RestoreFailedException("Password is empty, set it in preferences!")
@@ -426,22 +430,32 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
                 inputStream = inputStream.decryptStream(password, getCryptoSalt(), iv)
             }
 
-            isEncrypted && isPGPEncryptionEnabled()      -> {
+            isEncrypted && isPGPEncryptionEnabled()
+                -> {
                 get<PGPHandler>(PGPHandler::class.java).decryptStream(inputStream).fold(
                     onSuccess = { inputStream = it },
                     onFailure = { throw RestoreFailedException(it.message) },
                 )
             }
+
+            isEncrypted
+                -> throw RestoreFailedException(CANNOT_DECRYPT_MESSAGE)
         }
         if (isCompressed) {
-            when (compressionType) {
-                "no" -> {}
-                "gz" -> inputStream = GzipCompressorInputStream(inputStream)
-                "zst" -> inputStream = ZstdCompressorInputStream(inputStream)
-                else -> throw RestoreFailedException("Unsupported compression algorithm: $compressionType")
+            try {
+                when (compressionType) {
+                    "no" -> {}
+                    "gz" -> inputStream = GzipCompressorInputStream(inputStream)
+                    "zst" -> inputStream = ZstdCompressorInputStream(inputStream)
+                    else -> throw RestoreFailedException("Unsupported compression algorithm: $compressionType")
+                }
+            } catch (e: IOException) {
+                if (isEncrypted)
+                    throw RestoreFailedException(CANNOT_DECRYPT_MESSAGE, e)
+                throw e
             }
         }
-        return inputStream
+        return inputStream.checkTarArchive(isEncrypted)
     }
 
     @Throws(RestoreFailedException::class, CryptoSetupException::class)
@@ -494,7 +508,8 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
             throw RestoreFailedException("Backup archive at $archive is missing", e)
         } catch (e: IOException) {
             throw RestoreFailedException(
-                "Could not read the input file or write an output file due to IOException: $e",
+                if (isEncrypted && e.isCryptoError()) CANNOT_DECRYPT_MESSAGE
+                else "Could not read the input file or write an output file due to IOException: $e",
                 e
             )
         } catch (e: ShellCommandFailedException) {
@@ -584,6 +599,16 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
                             throw ScriptException(errFiltered)
                     }
                 }
+            } catch (e: ShellPipeInFailedException) {
+                // the archive stream broke while it was piped into tar
+                Timber.e("$dataType: reading $archive failed: ${e.message}")
+                if (e.err.isNotBlank())
+                    Timber.e("$dataType: tar reported: ${e.err}")
+                throw RestoreFailedException(
+                    if (isEncrypted && e.feedError.isCryptoError()) CANNOT_DECRYPT_MESSAGE
+                    else "Could not read the backup archive $archive: ${e.feedError.message}",
+                    e
+                )
             } catch (e: ShellCommandFailedException) {
                 val error = extractErrorMessage(e.shellResult)
                 throw RestoreFailedException(
@@ -1064,11 +1089,18 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
     companion object {
         protected val PACKAGE_STAGING_DIRECTORY = RootFile("/data/local/tmp")
         const val BASE_APK_FILENAME = "base.apk"
+        const val CANNOT_DECRYPT_MESSAGE =
+            "Could not decrypt the backup archive: the password, the salt or the encryption mode " +
+                    "does not match the one the backup has been created with (or the archive is corrupt)"
         const val LOG_DIR_IS_MISSING_CANNOT_RESTORE =
             "Backup directory %s is missing. Cannot restore"
         const val LOG_EXTRACTING_S = "[%s] Extracting %s"
         const val LOG_BACKUP_ARCHIVE_MISSING = "Backup archive %s is missing. Cannot restore"
 
         fun isOldVersion(backup: Backup) = backup.backupVersionCode < 8000
+
+        private fun Throwable.isCryptoError(): Boolean = generateSequence(this) { it.cause }
+            .take(10)
+            .any { it is GeneralSecurityException }
     }
 }
