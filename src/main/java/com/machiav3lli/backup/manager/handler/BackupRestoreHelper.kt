@@ -86,7 +86,6 @@ object BackupRestoreHelper {
         return result
     }
 
-    // TODO add catcher&report for when failing on unfitting password/decryption
     suspend fun restore(
         context: Context, work: AppActionWork?, shellHandler: ShellHandler, appInfo: Package,
         mode: Int, backup: Backup

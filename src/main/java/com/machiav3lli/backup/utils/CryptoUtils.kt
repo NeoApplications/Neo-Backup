@@ -27,7 +27,12 @@ import java.security.InvalidKeyException
 import java.security.NoSuchAlgorithmException
 import java.security.spec.InvalidKeySpecException
 import java.security.spec.KeySpec
-import javax.crypto.*
+import javax.crypto.Cipher
+import javax.crypto.CipherInputStream
+import javax.crypto.CipherOutputStream
+import javax.crypto.NoSuchPaddingException
+import javax.crypto.SecretKey
+import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.PBEKeySpec
 import javax.crypto.spec.SecretKeySpec
@@ -53,6 +58,7 @@ private const val ENCRYPTION_SETUP_FAILED = "Could not setup encryption"
 /**
  * https://developer.android.com/guide/topics/security/cryptography#Cipher
  * TODO Starting SDK28 ChaCha20 is supported, which is far more faster than standard AES
+ *   also raise the iterations' count
  * Maybe will implement it in the future as an option AES/ChaCha20
  *
  * The original choice was inspired by this blog post:
@@ -157,12 +163,12 @@ fun initIv(cipherAlgorithm: String): ByteArray {
     val blockSize: Int = try {
         val cipher = Cipher.getInstance(cipherAlgorithm)
         cipher.blockSize
-    } catch (e: NoSuchAlgorithmException) {
+    } catch (_: NoSuchAlgorithmException) {
         // Fallback if the cipher has issues. Might lead to another exception later, but saves
         // the situation here. The use cipher might not match or will cause other exceptions
         // when used like this.
         DEFAULT_IV_BLOCK_SIZE
-    } catch (e: NoSuchPaddingException) {
+    } catch (_: NoSuchPaddingException) {
         DEFAULT_IV_BLOCK_SIZE
     }
     // IV is nothing secret. Could also be constant, but why not spend a few cpu cycles to have

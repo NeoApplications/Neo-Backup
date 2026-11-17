@@ -399,6 +399,11 @@ class ShellHandler {
         cause: Throwable? = null,
     ) : Exception(cause)
 
+    class ShellPipeInFailedException(
+        val feedError: Throwable,
+        val err: String = "",
+    ) : IOException("Could not read the piped input: ${feedError.message}", feedError)
+
     class UnexpectedCommandResult(message: String, val shellResult: Shell.Result?) :
         Exception(message)
 

@@ -762,7 +762,6 @@ open class RestoreAppAction(context: Context, work: AppActionWork?, shell: Shell
         val isEncrypted: Boolean,
     )
 
-    // TODO throw error on failing to decrypt
     fun findBackupArchive(
         dataType: String,
         backup: Backup,

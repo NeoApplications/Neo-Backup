@@ -17,13 +17,10 @@ import androidx.compose.foundation.text.input.placeCursorAtEnd
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SecureTextField
+import androidx.compose.material3.OutlinedSecureTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -36,7 +33,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
@@ -54,6 +50,7 @@ import com.machiav3lli.backup.data.preferences.PrefList
 import com.machiav3lli.backup.ui.compose.blockShadow
 import com.machiav3lli.backup.ui.compose.component.DialogNegativeButton
 import com.machiav3lli.backup.ui.compose.component.DialogPositiveButton
+import com.machiav3lli.backup.ui.compose.component.RoundButton
 import com.machiav3lli.backup.ui.compose.component.SelectableRow
 import com.machiav3lli.backup.ui.compose.icons.Phosphor
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Eye
@@ -278,19 +275,14 @@ fun StringPrefDialogUI(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(text = stringResource(pref.titleId), style = MaterialTheme.typography.titleLarge)
-            SecureTextField(
+            OutlinedSecureTextField(
                 modifier = Modifier
-                    .shadow(1.dp, MaterialTheme.shapes.medium)
                     .fillMaxWidth()
                     .focusRequester(mainFocusRequester),
                 state = savedValue,
-                colors = TextFieldDefaults.colors(
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
+                colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = textColor,
                     unfocusedTextColor = textColor,
-                    focusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
-                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
                 ),
                 shape = MaterialTheme.shapes.medium,
                 textObfuscationMode = if (isPasswordVisible) TextObfuscationMode.Visible
@@ -312,43 +304,31 @@ fun StringPrefDialogUI(
                 },
                 trailingIcon = {
                     Row {
-                        if (isPrivate) IconButton(
-                            shapes = IconButtonDefaults.shapes(),
-                            onClick = { isPasswordVisible = !isPasswordVisible },
+                        if (isPrivate) RoundButton(
+                            icon = if (isPasswordVisible) Phosphor.Eye
+                            else Phosphor.EyeSlash,
+                            description = stringResource(id = R.string.prefs_password)
                         ) {
-                            Icon(
-                                imageVector = if (isPasswordVisible) Phosphor.Eye else Phosphor.EyeSlash,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onSurface,
-                            )
+                            isPasswordVisible = !isPasswordVisible
                         }
-                        IconButton(
-                            shapes = IconButtonDefaults.shapes(),
-                            onClick = { savedValue.clearText() },
+                        RoundButton(
+                            icon = Phosphor.X,
+                            description = stringResource(id = R.string.dialogUndo)
                         ) {
-                            Icon(
-                                imageVector = Phosphor.X,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onSurface,
-                            )
+                            savedValue.clearText()
                         }
                     }
                 },
             )
             if (confirm) {
-                SecureTextField(
+                OutlinedSecureTextField(
                     modifier = Modifier
-                        .shadow(1.dp, MaterialTheme.shapes.medium)
                         .fillMaxWidth()
                         .focusRequester(confirmFocusRequester),
                     state = savedValueConfirm,
-                    colors = TextFieldDefaults.colors(
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
+                    colors = OutlinedTextFieldDefaults.colors(
                         focusedTextColor = textColor,
                         unfocusedTextColor = textColor,
-                        focusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
-                        unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
                     ),
                     shape = MaterialTheme.shapes.medium,
                     textObfuscationMode = if (isPasswordVisible) TextObfuscationMode.Visible
@@ -363,25 +343,18 @@ fun StringPrefDialogUI(
                     },
                     trailingIcon = {
                         Row {
-                            if (isPrivate) IconButton(
-                                shapes = IconButtonDefaults.shapes(),
-                                onClick = { isPasswordVisible = !isPasswordVisible },
+                            if (isPrivate) RoundButton(
+                                icon = if (isPasswordVisible) Phosphor.Eye
+                                else Phosphor.EyeSlash,
+                                description = stringResource(id = R.string.prefs_password)
                             ) {
-                                Icon(
-                                    imageVector = if (isPasswordVisible) Phosphor.Eye else Phosphor.EyeSlash,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.onSurface,
-                                )
+                                isPasswordVisible = !isPasswordVisible
                             }
-                            IconButton(
-                                shapes = IconButtonDefaults.shapes(),
-                                onClick = { savedValueConfirm.clearText() },
+                            RoundButton(
+                                icon = Phosphor.X,
+                                description = stringResource(id = R.string.dialogUndo)
                             ) {
-                                Icon(
-                                    imageVector = Phosphor.X,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.onSurface,
-                                )
+                                savedValueConfirm.clearText()
                             }
                         }
                     },
