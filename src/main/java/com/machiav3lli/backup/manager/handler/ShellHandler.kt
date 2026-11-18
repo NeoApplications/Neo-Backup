@@ -54,6 +54,8 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicLong
+import java.util.concurrent.atomic.AtomicReference
 
 
 const val verKnown = "0.8.0 - 0.8.13" // TODO update on newer Android versions
@@ -400,9 +402,15 @@ class ShellHandler {
     ) : Exception(cause)
 
     class ShellPipeInFailedException(
+        command: String,
         val feedError: Throwable,
+        stallMs: Long = 0L,
         val err: String = "",
-    ) : IOException("Could not read the piped input: ${feedError.message}", feedError)
+    ) : IOException(
+        if (stallMs > 0L)
+            "Could not read the piped input: shell made no progress for ${stallMs / 1000}s while running: $command"
+        else "Interrupted while waiting for the shell to run: $command", feedError
+    )
 
     class UnexpectedCommandResult(message: String, val shellResult: Shell.Result?) :
         Exception(message)
@@ -988,45 +996,132 @@ class ShellHandler {
             return runShellCommand(command, throwFail)
         }
 
+        private val DEV_NULL = File("/dev/null")
+        private const val PIPE_IO_BUFFER_SIZE = 64 * 1024
+        private const val PIPE_MAX_ERR_BYTES = 256 * 1024
+        private const val PIPE_POLL_INTERVAL_MS = 500L
+        private const val PIPE_JOIN_TIMEOUT_MS = 5_000L
+        private const val PIPE_STALL_TIMEOUT_MS = 2 * 60 * 1000L
+
+        @Throws(ShellPipeInFailedException::class)
         fun runAsRootPipeInCollectErr(
             inStream: InputStream,
             command: String,
         ): Pair<Int, String> {
             Timber.i("SHELL: $command")
+            var process: Process? = null
+            var feeder: Thread? = null
+            var errFile: File? = null
+            try {
+                val errPath = createErrFile()
+                errFile = errPath
+                val proc = ProcessBuilder(splitCommand(suCommand))
+                    .redirectOutput(DEV_NULL)
+                    .redirectError(errPath)
+                    .start()
+                process = proc
 
-            return runBlocking(Dispatchers.IO) {
-
-                runCatching {
-
-                    val process = Runtime.getRuntime().exec(splitCommand(suCommand).toTypedArray())
-
-                    val shellIn = process.outputStream
-                    //val shellOut = process.inputStream
-                    val shellErr = process.errorStream
-
-                    val errAsync = async(Dispatchers.IO) {
-                        shellErr.readBytes().decodeToString()
+                val lastProgress = AtomicLong(System.currentTimeMillis())
+                val feedError = AtomicReference<Throwable?>(null)
+                val feederThread = Thread {
+                    try {
+                        proc.outputStream.use { shellIn ->
+                            shellIn.write("$command\n".encodeToByteArray())
+                            val buffer = ByteArray(PIPE_IO_BUFFER_SIZE)
+                            while (true) {
+                                val read = inStream.read(buffer)
+                                if (read < 0) break
+                                shellIn.write(buffer, 0, read)
+                                lastProgress.set(System.currentTimeMillis())
+                            }
+                        }
+                    } catch (e: Throwable) {
+                        feedError.set(e)
                     }
-
-                    shellIn.write("$command\n".encodeToByteArray())
-
-                    inStream.copyTo(shellIn, 65536)
-                    shellIn.close()
-
-                    val err = errAsync.await()
-                    withContext(Dispatchers.IO) { process.waitFor(10, TimeUnit.SECONDS) }
-                    if (process.isAlive)
-                        process.destroyForcibly()
-                    val code = process.exitValue()
-
-                    if (code != 0)
-                        NeoApp.addErrorCommand(command)
-
-                    (code to err)
-                }.getOrElse {
-                    (-1 to (it.message ?: "unknown error"))
                 }
+                feeder = feederThread
+                feederThread.isDaemon = true
+                feederThread.name = "NB-pipe-in"
+                feederThread.start()
+
+                val exited = awaitExitOrStall(proc, lastProgress)
+                if (!exited) proc.destroyForcibly()
+                feederThread.joinQuietly()
+
+                val err = readCollectedErr(errPath)
+                val feedFailure = feedError.get()
+
+
+                if (feedFailure != null && !feedFailure.isBrokenPipe()) {
+                    NeoApp.addErrorCommand(command)
+                    throw ShellPipeInFailedException(command, feedFailure, 0L, err)
+                }
+                if (!exited && feedFailure != null) {
+                    NeoApp.addErrorCommand(command)
+                    throw ShellPipeInFailedException(
+                        command,
+                        feedFailure,
+                        PIPE_STALL_TIMEOUT_MS,
+                        err,
+                    )
+                }
+                if (feedFailure != null)
+                    traceDebug { "SHELL: $command did not consume all input: ${feedFailure.message}" }
+
+                val code = proc.exitValue()
+                if (code != 0)
+                    NeoApp.addErrorCommand(command)
+                return code to err
+            } catch (e: ShellPipeInFailedException) {
+                throw e
+            } catch (e: InterruptedException) {
+                NeoApp.addErrorCommand(command)
+                Thread.currentThread().interrupt()
+                throw ShellPipeInFailedException(command, e, 0L, "")
+            } catch (e: Throwable) {
+                NeoApp.addErrorCommand(command)
+                return -1 to (e.message ?: "unknown error")
+            } finally {
+                process?.takeIf { it.isAlive }?.let { runCatching { it.destroyForcibly() } }
+                feeder?.joinQuietly()
+                errFile?.let { runCatching { it.delete() } }
             }
+        }
+
+        private fun awaitExitOrStall(process: Process, lastProgress: AtomicLong): Boolean {
+            while (true) {
+                if (process.waitFor(PIPE_POLL_INTERVAL_MS, TimeUnit.MILLISECONDS))
+                    return true
+                if (System.currentTimeMillis() - lastProgress.get() > PIPE_STALL_TIMEOUT_MS)
+                    return false
+            }
+        }
+
+        private fun Thread.joinQuietly() {
+            try {
+                join(PIPE_JOIN_TIMEOUT_MS)
+            } catch (_: InterruptedException) {
+                Thread.currentThread().interrupt()
+            }
+        }
+
+        private fun createErrFile(): File =
+            File.createTempFile("nb-pipe-", ".err", NeoApp.context.cacheDir)
+
+        private fun readCollectedErr(errFile: File): String = runCatching {
+            val bytes = errFile.readBytes()
+            if (bytes.size <= PIPE_MAX_ERR_BYTES)
+                bytes.decodeToString()
+            else
+                bytes.decodeToString(0, PIPE_MAX_ERR_BYTES) +
+                        "\n… stderr truncated, ${bytes.size} bytes captured"
+        }.getOrDefault("")
+
+        private fun Throwable.isBrokenPipe(): Boolean {
+            val text = message?.lowercase() ?: return false
+            return text.contains("broken pipe")
+                    || text.contains("epipe")
+                    || text.contains("stream closed")
         }
 
         fun runAsRootPipeOutCollectErr(
