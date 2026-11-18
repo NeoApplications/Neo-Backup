@@ -315,12 +315,12 @@ private const val TAR_MAGIC_LENGTH = 5
 fun isPlausibleTarHeader(header: ByteArray, length: Int): Boolean {
     // a tar archive consists of 512 byte blocks
     if (length < TAR_BLOCK_SIZE) return false
-    if ((0..TAR_BLOCK_SIZE).all { header[it] == 0.toByte() }) return true
+    if ((0 until TAR_BLOCK_SIZE).all { header[it] == 0.toByte() }) return true
 
-    val checksumRange = TAR_CHECKSUM_OFFSET..TAR_CHECKSUM_END
+    val checksumRange = TAR_CHECKSUM_OFFSET until TAR_CHECKSUM_END
     var unsignedSum = 0L
     var signedSum = 0L
-    for (i in 0..TAR_BLOCK_SIZE) {
+    for (i in 0 until TAR_BLOCK_SIZE) {
         if (i in checksumRange) {
             unsignedSum += 0x20
             signedSum += 0x20
