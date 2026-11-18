@@ -8,7 +8,6 @@ commons-io = "2.22.0"
 compose-bom = "2026.09.00"
 compose-libs = "1.13.0-rc01"
 compose-material = "1.5.0-rc01"
-compose = "1.12.1"
 compose-accompanist = "0.37.3"
 compose-markdown = "0.5.7"
 coroutines = "1.11.0"
@@ -93,9 +92,9 @@ compose-foundation = { module = "androidx.compose.foundation:foundation", versio
 compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose-libs" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose-libs" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose-libs" }
-compose-ui-test = { module = "androidx.compose.ui:ui-test", version.ref = "compose" }
-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
+compose-ui-test = { module = "androidx.compose.ui:ui-test", version.ref = "compose-libs" }
+compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose-libs" }
+compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose-libs" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material" }
 compose-material3-navigationsuite = { module = "androidx.compose.material3:material3-adaptive-navigation-suite", version.ref = "compose-material" }
 compose-adaptive = { module = "androidx.compose.material3.adaptive:adaptive" }
