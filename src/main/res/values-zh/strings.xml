@@ -496,4 +496,6 @@
     <string name="color_pink">粉色</string>
     <string name="color_red">红色</string>
     <string name="intro_permission_usageaccess_warning">在 Android 13 及更高版本中，从 Play 商店以外的来源安装的应用对某些权限的访问会受到限制。如果您看到受限制的权限的警告，请按照以下步骤操作：\n1. 从设置 → 应用打开 Neo Backup。\n2. 点击右上角的三点菜单。\n3. 选择“允许受限制的设置”，并使用您的 PIN 码或指纹进行确认。\n4. 返回此页面并授予使用情况访问权限。</string>
+    <string name="restore_password_override">使用另一个密码</string>
+    <string name="restore_password_override_summary">仅限本次还原操作，而非设置中设定的密码</string>
 </resources>
