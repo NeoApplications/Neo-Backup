@@ -47,6 +47,7 @@ import com.machiav3lli.backup.data.entity.ListPref
 import com.machiav3lli.backup.data.entity.StringPref
 import com.machiav3lli.backup.data.preferences.PrefEnum
 import com.machiav3lli.backup.data.preferences.PrefList
+import com.machiav3lli.backup.data.preferences.PrefString
 import com.machiav3lli.backup.ui.compose.blockShadow
 import com.machiav3lli.backup.ui.compose.component.DialogNegativeButton
 import com.machiav3lli.backup.ui.compose.component.DialogPositiveButton
@@ -506,6 +507,201 @@ fun DSListPrefDialogUI(
                         }
                     }
                     openDialogCustom.value = false
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun DSStringPrefDialogUI(
+    pref: PrefString,
+    isPrivate: Boolean = false,
+    confirm: Boolean = false,
+    openDialogCustom: MutableState<Boolean>,
+    onChanged: (() -> Unit) = {},
+) {
+    val focusManager = LocalFocusManager.current
+    val mainFocusRequester = remember { FocusRequester() }
+    val confirmFocusRequester = remember { FocusRequester() }
+    var focusField by remember { mutableStateOf("main") }
+
+    val currentValue by pref.state
+    val savedValue = rememberTextFieldState(if (isPrivate) "" else currentValue)
+    val savedValueConfirm = rememberTextFieldState()
+    var notMatching by remember { mutableStateOf(false) }
+
+    val textColor by animateColorAsState(
+        targetValue = if (isPrivate) {
+            if (savedValue.text != savedValueConfirm.text)
+                Color.Red
+            else
+                Color.Green
+        } else
+            MaterialTheme.colorScheme.onSurface, label = "textColor"
+    )
+    val rejectControlChars = remember {
+        InputTransformation {
+            if (RE_finishChars.containsMatchIn(asCharSequence()) ||
+                RE_jumpChars.containsMatchIn(asCharSequence())
+            ) {
+                revertAllChanges()
+            }
+        }
+    }
+
+    fun submit() {
+        focusManager.clearFocus()
+        if (confirm && (savedValue.text != savedValueConfirm.text)) {
+            notMatching = true
+            focusField = "confirm"
+        } else {
+            val newValue = savedValue.text.toString()
+            runBlocking {
+                if (pref.value != newValue) {
+                    pref.set(newValue)
+                    onChanged()
+                }
+            }
+            openDialogCustom.value = false
+        }
+    }
+
+    LaunchedEffect(focusField) {
+        delay(100.milliseconds)
+        when (focusField) {
+            "main"    -> {
+                mainFocusRequester.requestFocus()
+                savedValue.edit { placeCursorAtEnd() }
+            }
+
+            "confirm" -> {
+                if (confirm) {
+                    confirmFocusRequester.requestFocus()
+                    savedValueConfirm.edit { placeCursorAtEnd() }
+                }
+            }
+        }
+    }
+
+    Card(
+        shape = MaterialTheme.shapes.large,
+        modifier = Modifier.padding(8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+            contentColor = MaterialTheme.colorScheme.onSurface,
+        ),
+    ) {
+        var isPasswordVisible by remember { mutableStateOf(!isPrivate) }
+
+        Column(
+            modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text(text = stringResource(pref.titleId), style = MaterialTheme.typography.titleLarge)
+            OutlinedSecureTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .focusRequester(mainFocusRequester),
+                state = savedValue,
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = textColor,
+                    unfocusedTextColor = textColor,
+                ),
+                shape = MaterialTheme.shapes.medium,
+                textObfuscationMode = if (isPasswordVisible) TextObfuscationMode.Visible
+                else TextObfuscationMode.Hidden,
+                inputTransformation = rejectControlChars,
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Done,
+                    keyboardType = when {
+                        !isPrivate        -> KeyboardType.Text
+                        isPasswordVisible -> KeyboardType.PasswordVisible
+                        else              -> KeyboardType.Password
+                    },
+                ),
+                onKeyboardAction = {
+                    if (confirm)
+                        focusField = "confirm"
+                    else
+                        submit()
+                },
+                trailingIcon = {
+                    Row {
+                        if (isPrivate) RoundButton(
+                            icon = if (isPasswordVisible) Phosphor.Eye
+                            else Phosphor.EyeSlash,
+                            description = stringResource(id = R.string.prefs_password)
+                        ) {
+                            isPasswordVisible = !isPasswordVisible
+                        }
+                        RoundButton(
+                            icon = Phosphor.X,
+                            description = stringResource(id = R.string.dialogUndo)
+                        ) {
+                            savedValue.clearText()
+                        }
+                    }
+                },
+            )
+            if (confirm) {
+                OutlinedSecureTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .focusRequester(confirmFocusRequester),
+                    state = savedValueConfirm,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedTextColor = textColor,
+                        unfocusedTextColor = textColor,
+                    ),
+                    shape = MaterialTheme.shapes.medium,
+                    textObfuscationMode = if (isPasswordVisible) TextObfuscationMode.Visible
+                    else TextObfuscationMode.Hidden,
+                    inputTransformation = rejectControlChars,
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Done,
+                        keyboardType = if (isPasswordVisible) KeyboardType.PasswordVisible else KeyboardType.Password,
+                    ),
+                    onKeyboardAction = {
+                        submit()
+                    },
+                    trailingIcon = {
+                        Row {
+                            if (isPrivate) RoundButton(
+                                icon = if (isPasswordVisible) Phosphor.Eye
+                                else Phosphor.EyeSlash,
+                                description = stringResource(id = R.string.prefs_password)
+                            ) {
+                                isPasswordVisible = !isPasswordVisible
+                            }
+                            RoundButton(
+                                icon = Phosphor.X,
+                                description = stringResource(id = R.string.dialogUndo)
+                            ) {
+                                savedValueConfirm.clearText()
+                            }
+                        }
+                    },
+                )
+            }
+            AnimatedVisibility(visible = notMatching) {
+                Text(
+                    text = stringResource(id = R.string.prefs_password_match_false),
+                    color = MaterialTheme.colorScheme.tertiary
+                )
+            }
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                DialogNegativeButton(text = stringResource(id = R.string.dialogCancel)) {
+                    openDialogCustom.value = false
+                }
+                DialogPositiveButton(text = stringResource(id = R.string.dialogSave)) {
+                    submit()
                 }
             }
         }
