@@ -223,8 +223,11 @@ fun BasePreference(
     val prefs = koinInject<NeoPrefs>()
     val dependencyState by prefs.observeDependency(PrefsDependency[pref.key].orEmpty())
         .collectAsStateWithLifecycle(true)
-    val isEnabled by remember(dependencyState) {
-        mutableStateOf(PrefsIsEnabled[pref.key]?.invoke(context) ?: true)
+    val isEnabled by remember {
+        derivedStateOf {
+            dependencyState
+            PrefsIsEnabled[pref.key]?.invoke(context) ?: true
+        }
     }
 
     val base = index.toFloat() / groupSize
