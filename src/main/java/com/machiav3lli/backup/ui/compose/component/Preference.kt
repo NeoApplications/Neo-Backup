@@ -848,7 +848,7 @@ fun IntPreference(
     onValueChange: (Int) -> Unit = {},
 ) {
     val value by pref.state
-    val sliderState = remember {
+    val sliderState = remember(value) {
         SliderState(
             value = pref.entries.indexOf(value).toFloat(),
             trackRange = 0f..pref.entries.lastIndex.toFloat(),
