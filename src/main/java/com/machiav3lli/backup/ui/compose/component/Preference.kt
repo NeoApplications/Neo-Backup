@@ -57,6 +57,7 @@ import com.machiav3lli.backup.data.preferences.PrefDelegate
 import com.machiav3lli.backup.data.preferences.PrefEditString
 import com.machiav3lli.backup.data.preferences.PrefEnum
 import com.machiav3lli.backup.data.preferences.PrefInt
+import com.machiav3lli.backup.data.preferences.PrefLaunch
 import com.machiav3lli.backup.data.preferences.PrefList
 import com.machiav3lli.backup.data.preferences.PrefString
 import com.machiav3lli.backup.data.preferences.PrefStringSet
@@ -321,6 +322,29 @@ fun BasePreference(
 fun LaunchPreference(
     modifier: Modifier = Modifier,
     pref: Pref,
+    dirty: Boolean = pref.dirty.value,
+    index: Int = 0,
+    groupSize: Int = 1,
+    summary: String? = null,
+    onClick: (() -> Unit)? = null,
+) {
+    BasePreference(
+        modifier = modifier,
+        pref = pref,
+        dirty = dirty,
+        titleId = pref.titleId,
+        summaryId = pref.summaryId,
+        summary = summary,
+        index = index,
+        groupSize = groupSize,
+        onClick = onClick,
+    )
+}
+
+@Composable
+fun LaunchPreference(
+    modifier: Modifier = Modifier,
+    pref: PrefLaunch,
     dirty: Boolean = pref.dirty.value,
     index: Int = 0,
     groupSize: Int = 1,

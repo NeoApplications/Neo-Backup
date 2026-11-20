@@ -17,6 +17,7 @@ import com.machiav3lli.backup.data.entity.NeoTheme
 import com.machiav3lli.backup.ui.compose.component.BooleanPreference
 import com.machiav3lli.backup.ui.compose.component.EnumPreference
 import com.machiav3lli.backup.ui.compose.component.IntPreference
+import com.machiav3lli.backup.ui.compose.component.LaunchPreference
 import com.machiav3lli.backup.ui.compose.component.ListPreference
 import com.machiav3lli.backup.ui.compose.component.StringEditPreference
 import com.machiav3lli.backup.ui.compose.component.StringPreference
@@ -51,7 +52,7 @@ class PrefBoolean(
     titleId = titleId,
     summaryId = summaryId,
     summary = summary,
-    UI = UI ?: { pref, onDialogUI, index, groupSize ->
+    UI = UI ?: { pref, _, index, groupSize ->
         BooleanPreference(pref = pref as PrefBoolean, index = index, groupSize = groupSize)
     },
     icon = icon,
@@ -80,7 +81,7 @@ class PrefInt(
     titleId = titleId,
     summaryId = summaryId,
     summary = summary,
-    UI = UI ?: { pref, onDialogUI, index, groupSize ->
+    UI = UI ?: { pref, _, index, groupSize ->
         IntPreference(pref = pref as PrefInt, index = index, groupSize = groupSize)
     },
     icon = icon,
@@ -205,7 +206,7 @@ class PrefStringSet(
     titleId = titleId,
     summaryId = summaryId,
     summary = summary,
-    UI = UI ?: { pref, onDialogUI, index, groupSize ->
+    UI = UI ?: { pref, _, index, groupSize ->
         StringSetPreference(pref = pref as PrefStringSet, index = index, groupSize = groupSize)
     },
     icon = icon,
@@ -289,6 +290,41 @@ class PrefTheme(
     override fun MutablePreferences.encode(value: NeoTheme) {
         set(dataStoreKey as Preferences.Key<String>, Json.encodeToString(value))
     }
+}
+
+class PrefLaunch(
+    dataStore: DataStore<Preferences>,
+    dataStoreKey: Preferences.Key<String>,
+    defaultValue: Unit = Unit,
+    @StringRes titleId: Int = -1,
+    @StringRes summaryId: Int = -1,
+    summary: String? = null,
+    private: Boolean = false,
+    UI: PrefUI? = null,
+    icon: ImageVector? = null,
+    iconTint: ((PrefDelegate<out Any>) -> Color)? = null,
+    val onClick: (() -> Unit)? = null,
+) : PrefDelegate<Unit>(
+    defaultValue = defaultValue,
+    titleId = titleId,
+    summaryId = summaryId,
+    summary = summary,
+    private = private,
+    UI = UI ?: { pref, _, index, groupSize ->
+        LaunchPreference(
+            pref = pref as PrefLaunch,
+            index = index,
+            groupSize = groupSize,
+            onClick = pref.onClick
+        )
+    },
+    icon = icon,
+    iconTint = iconTint,
+    dataStore = dataStore,
+    dataStoreKey = dataStoreKey,
+) {
+    override fun decode(preferences: Preferences): Unit = Unit
+    override fun MutablePreferences.encode(value: Unit) {}
 }
 
 abstract class PrefDelegate<T : Any>(
