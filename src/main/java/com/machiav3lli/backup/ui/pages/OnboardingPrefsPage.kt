@@ -131,11 +131,11 @@ private fun LazyListScope.OboardingPrefGroups(onPrefDialog: (Pref) -> Unit) {
         NeoPrefAdapter(pref_biometricLock),
     )
     val servicePrefs = persistentListOf(
-        pref_encryption,
-        pref_numBackupRevisions,
-        pref_restorePermissions,
-        pref_compressionType,
-        pref_compressionLevel,
+        NeoPrefAdapter(pref_encryption),
+        NeoPrefAdapter(pref_numBackupRevisions),
+        NeoPrefAdapter(pref_restorePermissions),
+        NeoPrefAdapter(pref_compressionType),
+        NeoPrefAdapter(pref_compressionLevel),
     )
     val advancedPrefs = persistentListOf(
         pref_enableSpecialBackups,

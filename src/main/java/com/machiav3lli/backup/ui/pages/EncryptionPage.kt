@@ -20,37 +20,42 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.machiav3lli.backup.R
 import com.machiav3lli.backup.data.entity.ColoringState
-import com.machiav3lli.backup.data.entity.EnumPref
-import com.machiav3lli.backup.data.entity.PasswordPref
-import com.machiav3lli.backup.data.entity.Pref
+import com.machiav3lli.backup.data.preferences.PrefDelegate
+import com.machiav3lli.backup.data.preferences.PrefEnum
+import com.machiav3lli.backup.data.preferences.PrefString
+import com.machiav3lli.backup.data.preferences.ServicePrefKey
 import com.machiav3lli.backup.manager.handler.PGPHandler
 import com.machiav3lli.backup.ui.compose.blockBorder
 import com.machiav3lli.backup.ui.compose.component.ActionButton
 import com.machiav3lli.backup.ui.compose.component.ExpandableBlock
-import com.machiav3lli.backup.ui.compose.component.PrefsGroup
+import com.machiav3lli.backup.ui.compose.component.NeoPrefsGroup
 import com.machiav3lli.backup.ui.compose.component.RoundButton
 import com.machiav3lli.backup.ui.compose.component.TopBar
 import com.machiav3lli.backup.ui.compose.icons.Phosphor
 import com.machiav3lli.backup.ui.compose.icons.phosphor.GearSix
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Key
 import com.machiav3lli.backup.ui.dialogs.BaseDialog
-import com.machiav3lli.backup.ui.dialogs.EnumPrefDialogUI
+import com.machiav3lli.backup.ui.dialogs.DSEnumPrefDialogUI
+import com.machiav3lli.backup.ui.dialogs.DSStringPrefDialogUI
 import com.machiav3lli.backup.ui.dialogs.KeyDialogUI
-import com.machiav3lli.backup.ui.dialogs.StringPrefDialogUI
 import com.machiav3lli.backup.ui.navigation.NavItem
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 
 @Composable
 fun EncryptionPage(pgpManager: PGPHandler = koinInject(), navigateUp: () -> Unit) {
     val scope = rememberCoroutineScope()
-    val prefs = Pref.prefGroups["encryption"]?.toPersistentList() ?: persistentListOf()
+    val prefs = persistentListOf(
+        pref_encryption_mode,
+        pref_password,
+        pref_pgpKey,
+        pref_pgpPasscode,
+    )
 
     val openDialog = remember { mutableStateOf(false) }
     val openCreateDialog = remember { mutableStateOf(false) }
-    var dialogsPref by remember { mutableStateOf<Pref?>(null) }
+    var dialogsPref by remember { mutableStateOf<PrefDelegate<out Any>?>(null) }
     var keyProtector by remember { mutableStateOf(Pair("", "")) }
 
     val createKeyLauncher = rememberLauncherForActivityResult(
@@ -87,10 +92,13 @@ fun EncryptionPage(pgpManager: PGPHandler = koinInject(), navigateUp: () -> Unit
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             item {
-                PrefsGroup(prefs = prefs) { pref ->
-                    dialogsPref = pref
-                    openDialog.value = true
-                }
+                NeoPrefsGroup(
+                    prefs = prefs,
+                    onPrefDialog = { pref ->
+                        dialogsPref = pref
+                        openDialog.value = true
+                    },
+                )
             }
             item {
                 ExpandableBlock(
@@ -111,7 +119,7 @@ fun EncryptionPage(pgpManager: PGPHandler = koinInject(), navigateUp: () -> Unit
 
         if (openDialog.value) BaseDialog(onDismiss = { openDialog.value = false }) {
             when {
-                openCreateDialog.value -> KeyDialogUI(
+                openCreateDialog.value    -> KeyDialogUI(
                     titleId = R.string.create_pgp_key,
                     onDismiss = {
                         openDialog.value = false
@@ -123,19 +131,24 @@ fun EncryptionPage(pgpManager: PGPHandler = koinInject(), navigateUp: () -> Unit
                     }
                 )
 
-                //pref_password
-                dialogsPref is PasswordPref -> StringPrefDialogUI(
-                    pref = dialogsPref as PasswordPref,
-                    isPrivate = true,
-                    confirm = true,
-                    openDialogCustom = openDialog
-                )
-
-                //pref_encryption_mode,
-                dialogsPref is EnumPref -> EnumPrefDialogUI(
-                    pref = dialogsPref as EnumPref,
+                dialogsPref is PrefEnum   -> DSEnumPrefDialogUI(
+                    pref = dialogsPref as PrefEnum,
                     openDialogCustom = openDialog,
                 )
+
+                dialogsPref is PrefString -> {
+                    val pref = dialogsPref as PrefString
+                    val isPrivate = pref.key == ServicePrefKey.ENCRYPTION_PASSWORD.name ||
+                            pref.key == ServicePrefKey.PGP_PASSCODE.name
+                    DSStringPrefDialogUI(
+                        pref = pref,
+                        isPrivate = isPrivate,
+                        confirm = isPrivate,
+                        openDialogCustom = openDialog
+                    )
+                }
+
+                else                      -> {}
             }
         }
     }

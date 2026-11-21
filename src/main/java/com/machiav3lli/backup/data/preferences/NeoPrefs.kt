@@ -3,9 +3,9 @@ package com.machiav3lli.backup.data.preferences
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.datastore.core.DataStore
@@ -20,14 +20,20 @@ import com.machiav3lli.backup.InstalledFilter
 import com.machiav3lli.backup.LatestFilter
 import com.machiav3lli.backup.LaunchableFilter
 import com.machiav3lli.backup.MAIN_FILTER_USER
+import com.machiav3lli.backup.NeoApp
 import com.machiav3lli.backup.R
 import com.machiav3lli.backup.Sort
 import com.machiav3lli.backup.UpdatedFilter
 import com.machiav3lli.backup.batchModesSequence
+import com.machiav3lli.backup.COMPRESSION_TYPES
+import com.machiav3lli.backup.ENCRYPTION
+import com.machiav3lli.backup.encryptionModes
+import com.machiav3lli.backup.manager.handler.PGPHandler
 import com.machiav3lli.backup.data.entity.NeoTheme
 import com.machiav3lli.backup.data.entity.SortFilterModel
 import com.machiav3lli.backup.possibleMainFilters
 import com.machiav3lli.backup.ui.compose.component.StringEditPreference
+import com.machiav3lli.backup.ui.compose.component.StringPreference
 import com.machiav3lli.backup.ui.compose.icons.Phosphor
 import com.machiav3lli.backup.ui.compose.icons.phosphor.ArrowsOutLineVertical
 import com.machiav3lli.backup.ui.compose.icons.phosphor.CalendarX
@@ -35,12 +41,25 @@ import com.machiav3lli.backup.ui.compose.icons.phosphor.CircleWavyWarning
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Clock
 import com.machiav3lli.backup.ui.compose.icons.phosphor.FingerprintSimple
 import com.machiav3lli.backup.ui.compose.icons.phosphor.FolderNotch
+import com.machiav3lli.backup.ui.compose.icons.phosphor.FileZip
+import com.machiav3lli.backup.ui.compose.icons.phosphor.FloppyDisk
+import com.machiav3lli.backup.ui.compose.icons.phosphor.Hash
+import com.machiav3lli.backup.ui.compose.icons.phosphor.Key
 import com.machiav3lli.backup.ui.compose.icons.phosphor.List
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Lock
+import com.machiav3lli.backup.ui.compose.icons.phosphor.Password
+import com.machiav3lli.backup.ui.compose.icons.phosphor.PlayCircle
+import com.machiav3lli.backup.ui.compose.icons.phosphor.Prohibit
+import com.machiav3lli.backup.ui.compose.icons.phosphor.ProhibitInset
+import com.machiav3lli.backup.ui.compose.icons.phosphor.GameController
+import com.machiav3lli.backup.ui.compose.icons.phosphor.ShieldCheckered
+import com.machiav3lli.backup.ui.compose.icons.phosphor.ShieldStar
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Swatches
 import com.machiav3lli.backup.ui.compose.icons.phosphor.TagSimple
 import com.machiav3lli.backup.ui.compose.icons.phosphor.TextAa
+import com.machiav3lli.backup.ui.compose.icons.phosphor.Textbox
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Translate
+import com.machiav3lli.backup.ui.navigation.NavRoute
 import com.machiav3lli.backup.ui.pages.pref_restartAppOnLanguageChange
 import com.machiav3lli.backup.utils.StorageLocationNotConfiguredException
 import com.machiav3lli.backup.utils.backupDirConfigured
@@ -52,12 +71,14 @@ import com.machiav3lli.backup.utils.recreateActivities
 import com.machiav3lli.backup.utils.restartApp
 import com.machiav3lli.backup.utils.setBackupDir
 import com.machiav3lli.backup.utils.setCustomTheme
+import com.machiav3lli.backup.utils.SystemUtils
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.module.dsl.singleOf
@@ -440,6 +461,260 @@ class NeoPrefs private constructor(val context: Context) : KoinComponent {
         defaultValue = 2,
         dataStore = dataStore,
         dataStoreKey = UserPrefKey.OLD_BACKUPS,
+    )
+
+    // ------------------- SERVICE PREFS ------------------------------
+
+    val encryptionMode = PrefEnum(
+        dataStore = dataStore,
+        dataStoreKey = ServicePrefKey.ENCRYPTION_MODE,
+        defaultValue = ENCRYPTION.NONE.ordinal,
+        titleId = R.string.prefs_encryption,
+        icon = Phosphor.Key,
+        entries = encryptionModes,
+    )
+
+    val encryption = PrefLaunch(
+        dataStore = dataStore,
+        dataStoreKey = ServicePrefKey.ENC,
+        titleId = R.string.prefs_encryption,
+        summaryId = R.string.prefs_encryption_summary,
+        icon = Phosphor.Key,
+        onClick = { NeoApp.main?.moveTo(NavRoute.Encryption) },
+    )
+
+    val password = PrefString(
+        dataStore = dataStore,
+        dataStoreKey = ServicePrefKey.ENCRYPTION_PASSWORD,
+        defaultValue = "",
+        titleId = R.string.prefs_password,
+        summaryId = R.string.prefs_password_summary,
+        icon = Phosphor.Password,
+        iconTint = { pref ->
+            val p = pref as PrefString
+            if (p.value.isNotEmpty()) Color.Green else Color.Gray
+        },
+    )
+
+    val pgpKey = PrefString(
+        dataStore = dataStore,
+        dataStoreKey = ServicePrefKey.PGP_KEY,
+        defaultValue = "",
+        titleId = R.string.prefs_pgp_key,
+        summaryId = R.string.prefs_pgp_key_summary,
+        icon = Phosphor.Key,
+        UI = { pref, _, index, groupSize ->
+            val scope = rememberCoroutineScope()
+            val pgpManager: PGPHandler = koinInject<PGPHandler>()
+
+            val p = pref as PrefString
+            val launcher =
+                rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+                    uri?.let {
+                        scope.launch {
+                            pgpManager.loadKeyFromUri(it).fold(
+                                onSuccess = {
+                                    pgpManager.isKeyLoaded()
+                                },
+                                onFailure = { _ -> }
+                            )
+                        }
+                    }
+                }
+
+            StringPreference(
+                pref = p,
+                index = index,
+                groupSize = groupSize,
+                onClick = {
+                    launcher.launch(arrayOf("*/*"))
+                },
+            )
+        },
+    )
+
+    val pgpPasscode = PrefString(
+        dataStore = dataStore,
+        dataStoreKey = ServicePrefKey.PGP_PASSCODE,
+        defaultValue = "",
+        titleId = R.string.prefs_pgp_passcode,
+        summaryId = R.string.prefs_pgp_passcode_summary,
+        icon = Phosphor.Password,
+    )
+
+    val restorePermissions = PrefBoolean(
+        dataStore = dataStore,
+        dataStoreKey = ServicePrefKey.RESTORE_PERMISSIONS,
+        defaultValue = true,
+        titleId = R.string.prefs_restorepermissions,
+        summaryId = R.string.prefs_restorepermissions_summary,
+        icon = Phosphor.ShieldStar,
+    )
+
+    val numBackupRevisions = PrefInt(
+        dataStore = dataStore,
+        dataStoreKey = ServicePrefKey.NUM_BACKUP_REVISIONS,
+        defaultValue = 2,
+        titleId = R.string.prefs_numBackupRevisions,
+        summaryId = R.string.prefs_numBackupRevisions_summary,
+        icon = Phosphor.Hash,
+        entries = (0..9) + (10..20 step 2) + (50..200 step 50),
+    )
+
+    val enableStorageCheck = PrefBoolean(
+        dataStore = dataStore,
+        dataStoreKey = ServicePrefKey.ENABLE_STORAGE_CHECK,
+        defaultValue = true,
+        titleId = R.string.prefs_enablestoragecheck,
+        summaryId = R.string.prefs_enablestoragecheck_summary,
+        icon = Phosphor.FloppyDisk,
+    )
+
+    val compressionType = PrefList(
+        dataStore = dataStore,
+        dataStoreKey = ServicePrefKey.COMPRESSION_TYPE,
+        defaultValue = "zst",
+        titleId = R.string.prefs_compression_type,
+        summaryId = R.string.prefs_compression_type_summary,
+        icon = Phosphor.FileZip,
+        entries = COMPRESSION_TYPES,
+    )
+
+    val compressionLevel = PrefInt(
+        dataStore = dataStore,
+        dataStoreKey = ServicePrefKey.COMPRESSION_LEVEL,
+        defaultValue = 2,
+        titleId = R.string.prefs_compression_level,
+        summaryId = R.string.prefs_compression_level_summary,
+        icon = Phosphor.FileZip,
+        entries = (0..9).toList(),
+    )
+
+    val enableSessionInstaller = PrefBoolean(
+        dataStore = dataStore,
+        dataStoreKey = ServicePrefKey.ENABLE_SESSION_INSTALLER,
+        defaultValue = true,
+        titleId = R.string.prefs_sessionIinstaller,
+        summaryId = R.string.prefs_sessionIinstaller_summary,
+        icon = Phosphor.TagSimple,
+    )
+
+    val installationPackage = PrefString(
+        dataStore = dataStore,
+        dataStoreKey = ServicePrefKey.INSTALLATION_PACKAGE,
+        defaultValue = SystemUtils.packageName,
+        titleId = R.string.prefs_installerpackagename,
+        icon = Phosphor.Textbox,
+    )
+
+    val backupDeviceProtectedData = PrefBoolean(
+        dataStore = dataStore,
+        dataStoreKey = ServicePrefKey.BACKUP_DEVICE_PROTECTED_DATA,
+        defaultValue = true,
+        titleId = R.string.prefs_deviceprotecteddata,
+        summaryId = R.string.prefs_deviceprotecteddata_summary,
+        icon = Phosphor.ShieldCheckered,
+    )
+
+    val backupExternalData = PrefBoolean(
+        dataStore = dataStore,
+        dataStoreKey = ServicePrefKey.BACKUP_EXTERNAL_DATA,
+        defaultValue = true,
+        titleId = R.string.prefs_externaldata,
+        summaryId = R.string.prefs_externaldata_summary,
+        icon = Phosphor.FloppyDisk,
+    )
+
+    val backupObbData = PrefBoolean(
+        dataStore = dataStore,
+        dataStoreKey = ServicePrefKey.BACKUP_OBB_DATA,
+        defaultValue = true,
+        titleId = R.string.prefs_obbdata,
+        summaryId = R.string.prefs_obbdata_summary,
+        icon = Phosphor.GameController,
+    )
+
+    val backupMediaData = PrefBoolean(
+        dataStore = dataStore,
+        dataStoreKey = ServicePrefKey.BACKUP_MEDIA_DATA,
+        defaultValue = true,
+        titleId = R.string.prefs_mediadata,
+        summaryId = R.string.prefs_mediadata_summary,
+        icon = Phosphor.PlayCircle,
+    )
+
+    val backupNoBackupData = PrefBoolean(
+        dataStore = dataStore,
+        dataStoreKey = ServicePrefKey.BACKUP_NO_BACKUP_DATA,
+        defaultValue = false,
+        titleId = R.string.prefs_nobackupdata,
+        summaryId = R.string.prefs_nobackupdata_summary,
+        icon = Phosphor.ProhibitInset,
+        onChanged = { NeoApp.assets.updateExcludeFiles() },
+    )
+
+    val backupCache = PrefBoolean(
+        dataStore = dataStore,
+        dataStoreKey = ServicePrefKey.BACKUP_CACHE,
+        defaultValue = false,
+        titleId = R.string.prefs_backupcache,
+        summaryId = R.string.prefs_backupcache_summary,
+        icon = Phosphor.Prohibit,
+    )
+
+    val restoreDeviceProtectedData = PrefBoolean(
+        dataStore = dataStore,
+        dataStoreKey = ServicePrefKey.RESTORE_DEVICE_PROTECTED_DATA,
+        defaultValue = true,
+        titleId = R.string.prefs_deviceprotecteddata_rst,
+        summaryId = R.string.prefs_deviceprotecteddata_rst_summary,
+        icon = Phosphor.ShieldCheckered,
+    )
+
+    val restoreExternalData = PrefBoolean(
+        dataStore = dataStore,
+        dataStoreKey = ServicePrefKey.RESTORE_EXTERNAL_DATA,
+        defaultValue = true,
+        titleId = R.string.prefs_externaldata_rst,
+        summaryId = R.string.prefs_externaldata_rst_summary,
+        icon = Phosphor.FloppyDisk,
+    )
+
+    val restoreObbData = PrefBoolean(
+        dataStore = dataStore,
+        dataStoreKey = ServicePrefKey.RESTORE_OBB_DATA,
+        defaultValue = true,
+        titleId = R.string.prefs_obbdata_rst,
+        summaryId = R.string.prefs_obbdata_rst_summary,
+        icon = Phosphor.GameController,
+    )
+
+    val restoreMediaData = PrefBoolean(
+        dataStore = dataStore,
+        dataStoreKey = ServicePrefKey.RESTORE_MEDIA_DATA,
+        defaultValue = true,
+        titleId = R.string.prefs_mediadata_rst,
+        summaryId = R.string.prefs_mediadata_rst_summary,
+        icon = Phosphor.PlayCircle,
+    )
+
+    val restoreNoBackupData = PrefBoolean(
+        dataStore = dataStore,
+        dataStoreKey = ServicePrefKey.RESTORE_NO_BACKUP_DATA,
+        defaultValue = false,
+        titleId = R.string.prefs_nobackupdata_rst,
+        summaryId = R.string.prefs_nobackupdata_rst_summary,
+        icon = Phosphor.ProhibitInset,
+        onChanged = { NeoApp.assets.updateExcludeFiles() },
+    )
+
+    val restoreCache = PrefBoolean(
+        dataStore = dataStore,
+        dataStoreKey = ServicePrefKey.RESTORE_CACHE,
+        defaultValue = false,
+        titleId = R.string.prefs_restorecache,
+        summaryId = R.string.prefs_restorecache_summary,
+        icon = Phosphor.Prohibit,
     )
 
     private fun onThemeChanged() {
