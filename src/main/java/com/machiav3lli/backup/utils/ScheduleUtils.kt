@@ -61,6 +61,7 @@ import kotlin.time.Duration.Companion.milliseconds
 fun calcRuntimeDiff(schedule: Schedule): Pair<Long, Long> {
     val now = Calendar.getInstance()
     val c = Calendar.getInstance()
+    c.timeInMillis = schedule.timePlaced
     var nIncrements = 0
 
     val fakeMin = pref_fakeScheduleMin.value
@@ -69,28 +70,30 @@ fun calcRuntimeDiff(schedule: Schedule): Pair<Long, Long> {
         c[Calendar.MINUTE] = (c[Calendar.MINUTE] / fakeMin + 1) * fakeMin % 60
         c[Calendar.SECOND] = 0
         c[Calendar.MILLISECOND] = 0
-        while (c.before(now)) {
+        do {
             c.add(Calendar.MINUTE, fakeMin)
             nIncrements++
-        }
+        } while (!c.after(now))
         traceSchedule { "[${schedule.id}] added $nIncrements * ${schedule.interval} min" }
     } else if (fakeMin == 1) {
         //c[Calendar.HOUR_OF_DAY] = schedule.timeHour
         c[Calendar.MINUTE] = schedule.timeHour
         c[Calendar.SECOND] = schedule.timeMinute
         c[Calendar.MILLISECOND] = 0
-        while (c.before(now)) {
+        do {
             c.add(Calendar.HOUR, schedule.interval)
             nIncrements++
-        }
+        } while (!c.after(now))
         traceSchedule { "[${schedule.id}] added $nIncrements * ${schedule.interval} hours" }
     } else {
         c[Calendar.HOUR_OF_DAY] = schedule.timeHour
         c[Calendar.MINUTE] = schedule.timeMinute
         c[Calendar.SECOND] = 0
         c[Calendar.MILLISECOND] = 0
-        while (c.before(now)) {
-            c.add(Calendar.DAY_OF_MONTH, schedule.interval)
+        c.add(Calendar.DAY_OF_MONTH, schedule.interval)
+        nIncrements++
+        while (!c.after(now)) {
+            c.add(Calendar.DAY_OF_MONTH, 1)
             nIncrements++
         }
         traceSchedule { "[${schedule.id}] added $nIncrements * ${schedule.interval} days" }
