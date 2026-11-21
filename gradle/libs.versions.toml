@@ -108,9 +108,12 @@ compose-markdown = { module = "com.github.jeziellago:compose-markdown", version.
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 material-kolor = { module = "com.materialkolor:material-kolor", version.ref = "material-kolor" }
 
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit-jupiter" }
 test-runner = { module = "androidx.test:runner", version.ref = "test" }
 test-rules = { module = "androidx.test:rules", version.ref = "test-rules" }
 test-ext = { module = "androidx.test.ext:junit-ktx", version.ref = "test-ext" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+junit-platform = { module = "org.junit.platform:junit-platform-launcher" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

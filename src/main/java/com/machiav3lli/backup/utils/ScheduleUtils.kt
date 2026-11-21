@@ -21,7 +21,6 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.icu.util.Calendar
 import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -54,17 +53,22 @@ import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.get
 import timber.log.Timber
 import java.time.LocalTime
+import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import kotlin.math.max
 import kotlin.time.Duration.Companion.milliseconds
 
-fun calcRuntimeDiff(schedule: Schedule): Pair<Long, Long> {
+fun calcRuntimeDiff(
+    schedule: Schedule,
+    nowMs: Long = SystemUtils.now,
+    fakeMin: Int = pref_fakeScheduleMin.value,
+): Pair<Long, Long> {
     val now = Calendar.getInstance()
+    now.timeInMillis = nowMs
     val c = Calendar.getInstance()
     c.timeInMillis = schedule.timePlaced
     var nIncrements = 0
 
-    val fakeMin = pref_fakeScheduleMin.value
     if (fakeMin > 1) {
         //c[Calendar.HOUR_OF_DAY] = schedule.timeHour
         c[Calendar.MINUTE] = (c[Calendar.MINUTE] / fakeMin + 1) * fakeMin % 60

@@ -117,6 +117,14 @@ android {
     lint {
         checkReleaseBuilds = false
     }
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+        unitTests {
+            isReturnDefaultValues = true
+        }
+    }
     dependenciesInfo {
         includeInApk = false
         includeInBundle = false
@@ -206,6 +214,9 @@ dependencies {
     implementation(libs.accompanist.permissions)
 
     // Testing
+    testImplementation(platform(libs.junit.bom))
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.junit.platform)
     androidTestImplementation(libs.test.runner)
     implementation(libs.test.rules)
     implementation(libs.test.ext)
