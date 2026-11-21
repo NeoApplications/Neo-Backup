@@ -503,4 +503,6 @@
     <string name="color_pink">Roza</string>
     <string name="color_red">Rdeča</string>
     <string name="intro_permission_usageaccess_warning">V sistemu Android 13 in novejših različicah imajo aplikacije, nameščene iz virov, ki niso Play Store, omejen dostop do nekaterih dovoljenj. Če se prikaže opozorilo o omejenem dovoljenju, sledi tem korakom:\n1. V meniju Nastavitve → Aplikacije odpri aplikacijo Neo Backup.\n2. Tapni meni s tremi pikami v zgornjem desnem kotu.\n3. Izberi možnost »Dovoli omejene nastavitve« in potrdi z PIN-kodo ali prstnim odtisom.\n4. Vrni se na to stran in dodeli dovoljenje za dostop do uporabe.</string>
+    <string name="restore_password_override">Uporabi drugo geslo</string>
+    <string name="restore_password_override_summary">Samo za to obnovitev, namesto tiste, ki je nastavljena v nastavitvah</string>
 </resources>
