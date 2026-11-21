@@ -298,11 +298,11 @@ class ScheduleWork(
         beginSchedule(name, "no work")
         endSchedule(name, "no work")
         context.showNotification(
-            NeoActivity::class.java,
-            notificationId,
-            context.getString(R.string.schedule_failed),
-            context.getString(R.string.empty_filtered_list),
-            false
+            parentActivity = NeoActivity::class.java,
+            title = context.getString(R.string.schedule_failed),
+            text = context.getString(R.string.empty_filtered_list),
+            autoCancel = false,
+            id = notificationId,
         )
         traceSchedule { "[$scheduleId] no packages matching" }
     }

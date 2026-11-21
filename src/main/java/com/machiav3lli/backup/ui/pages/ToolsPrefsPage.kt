@@ -289,21 +289,21 @@ private fun Context.deleteBackups(deleteList: List<Package>) {
     val notificationId = SystemUtils.now.toInt()
     deleteList.forEachIndexed { i, ai ->
         showNotification(
-            NeoActivity::class.java,
-            notificationId,
-            "${getString(R.string.batchDeleteMessage)} ($i/${deleteList.size})",
-            ai.packageLabel,
-            false
+            parentActivity = NeoActivity::class.java,
+            title = "${getString(R.string.batchDeleteMessage)} ($i/${deleteList.size})",
+            text = ai.packageLabel,
+            autoCancel = false,
+            id = notificationId,
         )
         Timber.i("deleting backups of ${ai.packageLabel}")
         ai.deleteAllBackups()
     }
     showNotification(
-        NeoActivity::class.java,
-        notificationId,
-        getString(R.string.batchDeleteNotificationTitle),
-        "${getString(R.string.batchDeleteBackupsDeleted)} ${deleteList.size}",
-        false
+        parentActivity = NeoActivity::class.java,
+        title = getString(R.string.batchDeleteNotificationTitle),
+        text = "${getString(R.string.batchDeleteBackupsDeleted)} ${deleteList.size}",
+        autoCancel = false,
+        id = notificationId,
     )
 }
 
@@ -383,11 +383,10 @@ private fun Context.onClickCopySelf(
             )
         ) {
             showNotification(
-                NeoActivity::class.java,
-                SystemUtils.now.toInt(),
-                getString(R.string.copyOwnApkSuccess),
-                "",
-                false
+                parentActivity = NeoActivity::class.java,
+                title = getString(R.string.copyOwnApkSuccess),
+                text = "",
+                autoCancel = false,
             )
             snackbarHostState.show(
                 coroutineScope,
@@ -395,11 +394,10 @@ private fun Context.onClickCopySelf(
             )
         } else {
             showNotification(
-                NeoActivity::class.java,
-                SystemUtils.now.toInt(),
-                getString(R.string.copyOwnApkFailed),
-                "",
-                false
+                parentActivity = NeoActivity::class.java,
+                title = getString(R.string.copyOwnApkFailed),
+                text = "",
+                autoCancel = false,
             )
             snackbarHostState.show(
                 coroutineScope,
@@ -473,11 +471,13 @@ fun Context.writeAppsListFile(appsList: List<String>, filteredBoolean: Boolean) 
         BufferedOutputStream(listFile.outputStream())
             .use { it.write(filesText.toByteArray(StandardCharsets.UTF_8)) }
         showNotification(
-            NeoActivity::class.java, SystemUtils.now.toInt(),
-            getString(
+            parentActivity = NeoActivity::class.java,
+            title = getString(
                 if (filteredBoolean) R.string.write_apps_list_filtered
                 else R.string.write_apps_list_all
-            ), null, false
+            ),
+            text = null,
+            autoCancel = false,
         )
         Timber.i("Wrote apps\' list file at $date")
     }

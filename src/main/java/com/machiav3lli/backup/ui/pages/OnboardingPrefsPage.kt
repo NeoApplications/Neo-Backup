@@ -55,7 +55,7 @@ fun OnboardingPrefsPage(
             contentPadding = PaddingValues(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            OboardingPrefGroups { pref ->
+            oboardingPrefGroups { pref ->
                 dialogsPref = pref
                 openDialog.value = true
             }
@@ -122,7 +122,7 @@ fun OnboardingPrefsPage(
     }
 }
 
-private fun LazyListScope.OboardingPrefGroups(onPrefDialog: (Pref) -> Unit) {
+private fun LazyListScope.oboardingPrefGroups(onPrefDialog: (Pref) -> Unit) {
     val userPrefs = persistentListOf(
         NeoPrefAdapter(pref_languages),
         NeoPrefAdapter(pref_neoTheme),

@@ -92,8 +92,11 @@ fun SchedulesExportsPage(viewModel: ExportsVM = koinNeoViewModel(), navigateUp: 
             onImport = {
                 viewModel.importSchedule(it) { name, id ->
                     context.showNotification(
-                        NeoActivity::class.java, id,
-                        res.getString(R.string.sched_imported), name, false
+                        parentActivity = NeoActivity::class.java,
+                        title = res.getString(R.string.sched_imported),
+                        text = name,
+                        autoCancel = false,
+                        id = id,
                     )
                 }
             },

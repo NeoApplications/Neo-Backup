@@ -116,8 +116,8 @@ class SmsReceiver : BroadcastReceiver() {
         values.put(Telephony.Sms.SUBJECT, sms.pseudoSubject)
         contentResolver.insert(Telephony.Sms.CONTENT_URI, values)
         context.showNotification(
-            NeoActivity::class.java, notificationId.toInt(),
-            sender, message, true
+            NeoActivity::class.java,
+            sender, message, true, notificationId.toInt()
         )
     }
 }

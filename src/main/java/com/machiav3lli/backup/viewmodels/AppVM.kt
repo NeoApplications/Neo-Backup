@@ -32,7 +32,6 @@ import com.machiav3lli.backup.data.repository.PackageRepository
 import com.machiav3lli.backup.manager.handler.BackupRestoreHelper
 import com.machiav3lli.backup.manager.handler.ShellCommands.Companion.currentProfile
 import com.machiav3lli.backup.ui.activities.NeoActivity
-import com.machiav3lli.backup.utils.SystemUtils
 import com.machiav3lli.backup.utils.TraceUtils.trace
 import com.machiav3lli.backup.utils.extensions.NeoViewModel
 import com.machiav3lli.backup.utils.showNotification
@@ -88,7 +87,6 @@ class AppVM(
     val snackbarText: StateFlow<String>
         field = MutableStateFlow("")
 
-    private var notificationId: Int = SystemUtils.now.toInt()
     val dismissNow = mutableStateOf(false)
 
     fun setApp(pn: String) {
@@ -115,11 +113,10 @@ class AppVM(
                     onDismiss = { dismissNow.value = true }
                 ) { message ->
                     NeoApp.NB.showNotification(
-                        NeoActivity::class.java,
-                        notificationId++,
-                        pkg.packageLabel,
-                        message,
-                        true
+                        parentActivity = NeoActivity::class.java,
+                        title = pkg.packageLabel,
+                        text = message,
+                        autoCancel = true,
                     )
                 }
                 updatePackage(pkg.packageName)

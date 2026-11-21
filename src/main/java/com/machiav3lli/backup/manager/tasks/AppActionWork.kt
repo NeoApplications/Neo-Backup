@@ -162,8 +162,12 @@ class AppActionWork(val context: Context, workerParams: WorkerParameters) :
                 } else {
                     val message = "$packageName\n${actionResult?.message}"
                     context.showNotification(
-                        NeoActivity::class.java,
-                        actionResult.hashCode(), packageLabel, actionResult?.message, message, false
+                        parentActivity = NeoActivity::class.java,
+                        title = packageLabel,
+                        text = actionResult?.message,
+                        bigText = message,
+                        autoCancel = false,
+                        id = actionResult.hashCode(),
                     )
                     setOperation("======>FAIL")
                     Timber.w("package: $packageName FAILED")

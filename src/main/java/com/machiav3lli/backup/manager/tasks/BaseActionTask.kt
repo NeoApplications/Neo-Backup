@@ -54,8 +54,11 @@ abstract class BaseActionTask(
             setInfoBar(fullMessage)
 
             activity.showNotification(
-                NeoActivity::class.java,
-                notificationId, app.packageLabel, progressMessage, true
+                parentActivity = NeoActivity::class.java,
+                title = app.packageLabel,
+                text = progressMessage,
+                autoCancel = true,
+                id = notificationId,
             )
         }
     }
@@ -64,8 +67,11 @@ abstract class BaseActionTask(
         withActivity { activity ->
             val message = getPostExecuteMessage(activity, actionType, result)
             activity.showNotification(
-                NeoActivity::class.java,
-                notificationId, app.packageLabel, message, true
+                parentActivity = NeoActivity::class.java,
+                title = app.packageLabel,
+                text = message,
+                autoCancel = true,
+                id = notificationId,
             )
             activity.showActionResult(this.result!!) { _: DialogInterface?, _: Int ->
                 logErrors(

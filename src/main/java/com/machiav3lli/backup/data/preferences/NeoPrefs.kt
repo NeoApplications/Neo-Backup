@@ -11,7 +11,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.machiav3lli.backup.BACKUP_DIRECTORY_INTENT
 import com.machiav3lli.backup.BACKUP_FILTER_DEFAULT
@@ -74,7 +74,6 @@ import com.machiav3lli.backup.utils.setCustomTheme
 import com.machiav3lli.backup.utils.SystemUtils
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -85,6 +84,7 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import timber.log.Timber
 import androidx.core.net.toUri
+import com.machiav3lli.backup.PREFS_LANGUAGES_SYSTEM
 
 class NeoPrefs private constructor(val context: Context) : KoinComponent {
     private val dataStore: DataStore<Preferences> by inject()
@@ -298,7 +298,7 @@ class NeoPrefs private constructor(val context: Context) : KoinComponent {
         titleId = R.string.prefs_languages,
         icon = Phosphor.Translate,
         entries = context.getLanguageList(),
-        defaultValue = com.machiav3lli.backup.PREFS_LANGUAGES_SYSTEM,
+        defaultValue = PREFS_LANGUAGES_SYSTEM,
         onChanged = { _ ->
             if (pref_restartAppOnLanguageChange.value)
                 context.restartApp()
@@ -724,9 +724,9 @@ class NeoPrefs private constructor(val context: Context) : KoinComponent {
 
     fun observeDependency(key: String) = key.takeIf { it.isNotBlank() }?.let {
         dataStore.data.map { preferences ->
-            preferences[booleanPreferencesKey(key)] ?: false
-        }.distinctUntilChanged()
-    } ?: flowOf(true)
+            preferences
+        }
+    } ?: flowOf(emptyPreferences())
 
     fun homeSortFilterFlow(): Flow<SortFilterModel> = combine(
         sortHome.flow(),

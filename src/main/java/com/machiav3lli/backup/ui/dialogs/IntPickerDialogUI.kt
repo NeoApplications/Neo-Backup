@@ -102,7 +102,7 @@ fun IntPickerDialogUI(
                 )
                 Spacer(modifier = Modifier.requiredWidth(8.dp))
                 Text(
-                    text = currentValue.toString(),
+                    text = entries[sliderState.value.roundToInt()].toString(),
                     modifier = Modifier.widthIn(min = 48.dp)
                 )
             }

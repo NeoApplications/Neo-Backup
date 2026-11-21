@@ -30,7 +30,6 @@ import com.machiav3lli.backup.data.repository.ScheduleRepository
 import com.machiav3lli.backup.manager.handler.LogsHandler.Companion.logErrors
 import com.machiav3lli.backup.manager.handler.LogsHandler.Companion.unexpectedException
 import com.machiav3lli.backup.ui.activities.NeoActivity
-import com.machiav3lli.backup.utils.SystemUtils
 import com.machiav3lli.backup.utils.showNotification
 import org.koin.java.KoinJavaComponent.get
 import timber.log.Timber
@@ -72,8 +71,10 @@ class ExportsHandler(
             }
         }
         context.showNotification(
-            NeoActivity::class.java, SystemUtils.now.toInt(),
-            context.getString(R.string.sched_exported), null, false
+            parentActivity = NeoActivity::class.java,
+            title = context.getString(R.string.sched_exported),
+            text = null,
+            autoCancel = false,
         )
     }
 

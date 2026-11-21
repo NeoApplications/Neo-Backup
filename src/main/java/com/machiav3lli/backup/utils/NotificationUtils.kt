@@ -14,6 +14,7 @@ import com.machiav3lli.backup.NOTIFICATION_CHANNEL_REFRESH
 import com.machiav3lli.backup.R
 import com.machiav3lli.backup.ui.activities.BaseActivity
 import com.machiav3lli.backup.ui.activities.NeoActivity
+import kotlin.random.Random
 
 val Context.notificationManager: NotificationManagerCompat
     get() = NotificationManagerCompat.from(this)
@@ -52,18 +53,32 @@ fun Context.reportRefreshFail(
 
 fun Context.showNotification(
     parentActivity: Class<out BaseActivity?>?,
-    id: Int, title: String?, text: String?,
-    autoCancel: Boolean
+    title: String?, text: String?,
+    autoCancel: Boolean,
+    id: Int = uniqueNotificationId,
 ) {
-    showNotification(parentActivity, id, title, text, "", autoCancel)
+    showNotification(
+        parentActivity = parentActivity,
+        title = title,
+        text = text,
+        bigText = "",
+        autoCancel = autoCancel,
+        id = id,
+    )
 }
+
+private val notificationIdGenerator by lazy { Random(SystemUtils.now.toInt()) }
+
+val uniqueNotificationId: Int
+    get() = notificationIdGenerator.nextInt()
 
 @SuppressLint("MissingPermission")
 fun Context.showNotification(
     parentActivity: Class<out BaseActivity?>?,
-    id: Int, title: String?, text: String?,
+    title: String?, text: String?,
     bigText: String,
-    autoCancel: Boolean
+    autoCancel: Boolean,
+    id: Int,
 ) {
     val resultIntent = Intent(this, parentActivity)
     resultIntent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
