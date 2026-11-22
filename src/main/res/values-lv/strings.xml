@@ -246,7 +246,7 @@
     <string name="prefs_copyselfapk">Kopēt pašas APK</string>
     <string name="prefs_copyselfapk_summary">Ievietot Neo Backup kopiju rezerves kopiju mapes pamatlīmenī</string>
     <string name="prefs_logviewer">Apskatīt žurnālu</string>
-    <string name="prefs_unset">Atiestatīt</string>
+    <string name="prefs_unset">Atstatīt</string>
     <string name="sched_name">Nosaukums:</string>
     <string name="sortAppSize">Lietotnes lielums</string>
     <string name="dialog_unlock">Atslēgt</string>
@@ -477,4 +477,28 @@
     <string name="permissions">Atļaujas</string>
     <string name="schedule_not_found_or_disabled">Grafiks nav atrasts vai ir atspējots</string>
     <string name="setup_FORMAT">Iestatīt: %s</string>
+    <string name="restore_password_override_summary">Tikai šai atjaunošanai tās paroles vietā, kas norādīta iestatījumos</string>
+    <string name="restore_password_override">Izmantot citu paroli</string>
+    <string name="night_mode">Nakts režīms</string>
+    <string name="system">Sistēmas</string>
+    <string name="dynamic_colors">Pielāgojošas krāsas</string>
+    <string name="dynamic_theme">Pielāgojošs</string>
+    <string name="black_theme">Melns izskats</string>
+    <string name="seed_color">Sēklas krāsa</string>
+    <string name="contrast_level">Pretstats</string>
+    <string name="palette_style">Krāsu palete</string>
+    <string name="contrast_default">Noklusējuma</string>
+    <string name="contrast_medium">Vidējs</string>
+    <string name="contrast_high">Augsts</string>
+    <string name="palette_neutral">Neitrāla</string>
+    <string name="palette_tonal">Tonāls</string>
+    <string name="palette_expressive">Izteiksmīgs</string>
+    <string name="color_green">Zaļš</string>
+    <string name="color_blue">Zils</string>
+    <string name="color_purple">Purpura</string>
+    <string name="color_teal">Zaļganzils</string>
+    <string name="color_orange">Oranžs</string>
+    <string name="color_pink">Rozā</string>
+    <string name="color_red">Sarkans</string>
+    <string name="intro_permission_usageaccess_warning">Android 13 un jaunākos lietotnēm, kas nav uzstādītas no Play Sotre, ir ierobežota piekļuve noteiktām atļaujām. Ja ir redzams brīdinājums par ierobežotu atļauju, jāveic šādas darbības:\n1. Iestatījumi → Lietotnes jāatver Neo Backup.\n2. Jāpiesit uz trīspunktu izvēlnes augšējā labajā stūrī.\n3. Jāatlasa “Atļaut ierobežotus iestatījumus” un jāapstiprina ar PIN / pirkstu nospiedumu.\n4. Jāatgriežas šajā lapā un jāpiešķir lietojuma piekļuves atļauja.</string>
 </resources>
