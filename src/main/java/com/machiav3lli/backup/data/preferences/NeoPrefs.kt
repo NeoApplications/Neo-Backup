@@ -59,6 +59,13 @@ import com.machiav3lli.backup.ui.compose.icons.phosphor.TagSimple
 import com.machiav3lli.backup.ui.compose.icons.phosphor.TextAa
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Textbox
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Translate
+import com.machiav3lli.backup.ui.compose.icons.phosphor.AsteriskSimple
+import com.machiav3lli.backup.ui.compose.icons.phosphor.AndroidLogo
+import com.machiav3lli.backup.ui.compose.icons.phosphor.Broom
+import com.machiav3lli.backup.ui.compose.icons.phosphor.Bug
+import com.machiav3lli.backup.ui.compose.icons.phosphor.ClockCounterClockwise
+import com.machiav3lli.backup.ui.compose.icons.phosphor.ListNumbers
+import com.machiav3lli.backup.ui.compose.icons.phosphor.TrashSimple
 import com.machiav3lli.backup.ui.navigation.NavRoute
 import com.machiav3lli.backup.ui.pages.pref_restartAppOnLanguageChange
 import com.machiav3lli.backup.utils.StorageLocationNotConfiguredException
@@ -69,6 +76,7 @@ import com.machiav3lli.backup.utils.extensions.combine
 import com.machiav3lli.backup.utils.getLanguageList
 import com.machiav3lli.backup.utils.recreateActivities
 import com.machiav3lli.backup.utils.restartApp
+import com.machiav3lli.backup.utils.scheduleAlarmsOnce
 import com.machiav3lli.backup.utils.setBackupDir
 import com.machiav3lli.backup.utils.setCustomTheme
 import com.machiav3lli.backup.utils.SystemUtils
@@ -463,6 +471,55 @@ class NeoPrefs private constructor(val context: Context) : KoinComponent {
         dataStoreKey = UserPrefKey.OLD_BACKUPS,
     )
 
+    // ------------------- ADVANCED PREFS ------------------------------
+
+    val enableSpecialBackups = PrefBoolean(
+        dataStore = dataStore,
+        dataStoreKey = AdvancedPrefKey.ENABLE_SPECIAL_BACKUPS,
+        defaultValue = false,
+        titleId = R.string.prefs_enablespecial,
+        summaryId = R.string.prefs_enablespecial_summary,
+        icon = Phosphor.AsteriskSimple,
+        onChanged = { NeoApp.main?.enableSpecials((it as PrefBoolean).value) },
+    )
+
+    val disableVerification = PrefBoolean(
+        dataStore = dataStore,
+        dataStoreKey = AdvancedPrefKey.DISABLE_VERIFICATION,
+        defaultValue = true,
+        titleId = R.string.prefs_disableverification,
+        summaryId = R.string.prefs_disableverification_summary,
+        icon = Phosphor.AndroidLogo,
+    )
+
+    val giveAllPermissions = PrefBoolean(
+        dataStore = dataStore,
+        dataStoreKey = AdvancedPrefKey.GIVE_ALL_PERMISSIONS,
+        defaultValue = false,
+        titleId = R.string.prefs_restoreallpermissions,
+        summaryId = R.string.prefs_restoreallpermissions_summary,
+        icon = Phosphor.ShieldStar,
+    )
+
+    val allowDowngrade = PrefBoolean(
+        dataStore = dataStore,
+        dataStoreKey = AdvancedPrefKey.ALLOW_DOWNGRADE,
+        defaultValue = false,
+        titleId = R.string.prefs_allowdowngrade,
+        summaryId = R.string.prefs_allowdowngrade_summary,
+        icon = Phosphor.ClockCounterClockwise,
+    )
+
+    val useExactAlarm = PrefBoolean(
+        dataStore = dataStore,
+        dataStoreKey = AdvancedPrefKey.USE_EXACT_ALARM,
+        defaultValue = true,
+        titleId = R.string.prefs_useexactalarm_title,
+        summaryId = R.string.prefs_useexactalarm_summary,
+        icon = Phosphor.Clock,
+        onChanged = { scheduleAlarmsOnce(NeoApp.context) },
+    )
+
     // ------------------- SERVICE PREFS ------------------------------
 
     val encryptionMode = PrefEnum(
@@ -715,6 +772,70 @@ class NeoPrefs private constructor(val context: Context) : KoinComponent {
         titleId = R.string.prefs_restorecache,
         summaryId = R.string.prefs_restorecache_summary,
         icon = Phosphor.Prohibit,
+    )
+
+    // ------------------- TOOL PREFS ------------------------------
+
+    val batchDelete = PrefLaunch(
+        dataStore = dataStore,
+        dataStoreKey = ToolPrefKey.BATCH_DELETE,
+        titleId = R.string.prefs_batchdelete,
+        summaryId = R.string.prefs_batchdelete_summary,
+        icon = Phosphor.TrashSimple,
+    )
+
+    val cleanupBackupDir = PrefLaunch(
+        dataStore = dataStore,
+        dataStoreKey = ToolPrefKey.CLEANUP_BACKUP_DIR,
+        titleId = R.string.prefs_cleanup_backupdir,
+        summaryId = R.string.prefs_cleanup_backupdir_summary,
+        icon = Phosphor.Broom,
+    )
+
+    val enforceBackupsLimit = PrefLaunch(
+        dataStore = dataStore,
+        dataStoreKey = ToolPrefKey.ENFORCE_BACKUPS_LIMIT,
+        titleId = R.string.enforce_backups_limit,
+        summaryId = R.string.enforce_backups_limit_summary,
+        icon = Phosphor.Hash,
+    )
+
+    val copySelfApk = PrefLaunch(
+        dataStore = dataStore,
+        dataStoreKey = ToolPrefKey.COPY_SELF_APK,
+        titleId = R.string.prefs_copyselfapk,
+        summaryId = R.string.prefs_copyselfapk_summary,
+        icon = Phosphor.AndroidLogo,
+    )
+
+    val schedulesExportImport = PrefLaunch(
+        dataStore = dataStore,
+        dataStoreKey = ToolPrefKey.SCHEDULES_EXPORT_IMPORT,
+        titleId = R.string.prefs_schedulesexportimport,
+        summaryId = R.string.prefs_schedulesexportimport_summary,
+        icon = Phosphor.CalendarX,
+    )
+
+    val saveAppsList = PrefLaunch(
+        dataStore = dataStore,
+        dataStoreKey = ToolPrefKey.SAVE_APPS_LIST,
+        titleId = R.string.prefs_saveappslist,
+        summaryId = R.string.prefs_saveappslist_summary,
+        icon = Phosphor.ListNumbers,
+    )
+
+    val logViewer = PrefLaunch(
+        dataStore = dataStore,
+        dataStoreKey = ToolPrefKey.LOG_VIEWER,
+        titleId = R.string.prefs_logviewer,
+        icon = Phosphor.Bug,
+    )
+
+    val terminal = PrefLaunch(
+        dataStore = dataStore,
+        dataStoreKey = ToolPrefKey.TERMINAL,
+        titleId = R.string.prefs_tools_terminal,
+        icon = Phosphor.Bug,
     )
 
     private fun onThemeChanged() {

@@ -27,27 +27,24 @@ import com.machiav3lli.backup.data.entity.Pref
 import com.machiav3lli.backup.data.entity.StorageFile
 import com.machiav3lli.backup.data.entity.StringPref
 import com.machiav3lli.backup.data.entity.SuCommandPref
+import com.machiav3lli.backup.data.preferences.NeoPrefs
+import com.machiav3lli.backup.data.preferences.PrefBoolean
 import com.machiav3lli.backup.data.preferences.traceDebug
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.findSuCommand
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.isLikeRoot
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.suCommand
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.validateSuCommand
+import com.machiav3lli.backup.ui.compose.component.NeoPrefsGroup
 import com.machiav3lli.backup.ui.compose.component.PrefsExpandableGroupHeader
-import com.machiav3lli.backup.ui.compose.component.PrefsGroup
 import com.machiav3lli.backup.ui.compose.component.PrefsGroupCollapsed
 import com.machiav3lli.backup.ui.compose.icons.Phosphor
-import com.machiav3lli.backup.ui.compose.icons.phosphor.AndroidLogo
-import com.machiav3lli.backup.ui.compose.icons.phosphor.AsteriskSimple
-import com.machiav3lli.backup.ui.compose.icons.phosphor.Clock
-import com.machiav3lli.backup.ui.compose.icons.phosphor.ClockCounterClockwise
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Hash
-import com.machiav3lli.backup.ui.compose.icons.phosphor.ShieldStar
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Warning
 import com.machiav3lli.backup.utils.SystemUtils.numCores
 import com.machiav3lli.backup.utils.extensions.Android
-import com.machiav3lli.backup.utils.scheduleAlarmsOnce
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
+import org.koin.java.KoinJavaComponent.get
 
 @Composable
 fun DevPrefGroups() {
@@ -81,7 +78,13 @@ fun DevPrefGroups() {
 fun AdvancedPrefsPage() {
     val (expanded, expand) = remember { mutableStateOf(false) }
 
-    val prefs = Pref.prefGroups["adv"]?.toPersistentList() ?: persistentListOf()
+    val prefs = persistentListOf(
+        pref_enableSpecialBackups,
+        pref_disableVerification,
+        pref_giveAllPermissions,
+        pref_allowDowngrade,
+        pref_useExactAlarm,
+    )
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -89,7 +92,7 @@ fun AdvancedPrefsPage() {
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         item {
-            PrefsGroup(prefs = prefs)
+            NeoPrefsGroup(prefs = prefs)
         }
         item {
             PrefsExpandableGroupHeader(
@@ -117,6 +120,15 @@ val debug = if (!NeoApp.isRelease)
     "dev"
 else
     "debug"
+
+
+private val neoPrefs: NeoPrefs by lazy { get(NeoPrefs::class.java) }
+
+val pref_enableSpecialBackups: PrefBoolean get() = neoPrefs.enableSpecialBackups
+val pref_disableVerification: PrefBoolean get() = neoPrefs.disableVerification
+val pref_giveAllPermissions: PrefBoolean get() = neoPrefs.giveAllPermissions
+val pref_allowDowngrade: PrefBoolean get() = neoPrefs.allowDowngrade
+val pref_useExactAlarm: PrefBoolean get() = neoPrefs.useExactAlarm
 
 // TODO move some of the dev prefs to advanced/service
 //---------------------------------------- developer settings - advanced users
@@ -457,48 +469,6 @@ val pref_forceCrash = LaunchPref(
 
 
 //---------------------------------------- advanced preferences
-
-val pref_enableSpecialBackups = BooleanPref(
-    key = "adv.enableSpecialBackups",
-    titleId = R.string.prefs_enablespecial,
-    summaryId = R.string.prefs_enablespecial_summary,
-    icon = Phosphor.AsteriskSimple,
-    defaultValue = false,
-    onChanged = { NeoApp.main?.enableSpecials((it as BooleanPref).value) }
-)
-
-val pref_disableVerification = BooleanPref(
-    key = "adv.disableVerification",
-    titleId = R.string.prefs_disableverification,
-    summaryId = R.string.prefs_disableverification_summary,
-    icon = Phosphor.AndroidLogo,
-    defaultValue = true
-)
-
-val pref_giveAllPermissions = BooleanPref(
-    key = "adv.giveAllPermissions",
-    titleId = R.string.prefs_restoreallpermissions,
-    summaryId = R.string.prefs_restoreallpermissions_summary,
-    icon = Phosphor.ShieldStar,
-    defaultValue = false
-)
-
-val pref_allowDowngrade = BooleanPref(
-    key = "adv.allowDowngrade",
-    titleId = R.string.prefs_allowdowngrade,
-    summaryId = R.string.prefs_allowdowngrade_summary,
-    icon = Phosphor.ClockCounterClockwise,
-    defaultValue = false
-)
-
-val pref_useExactAlarm = BooleanPref(
-    key = "adv.useExactAlarm",
-    titleId = R.string.prefs_useexactalarm_title,
-    summaryId = R.string.prefs_useexactalarm_summary,
-    icon = Phosphor.Clock,
-    defaultValue = true,
-    onChanged = { scheduleAlarmsOnce(NeoApp.context) }
-)
 
 //---------------------------------------- values that should persist for internal purposes (no UI)
 

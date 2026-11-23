@@ -87,3 +87,22 @@ object ServicePrefKey {
     val RESTORE_NO_BACKUP_DATA = booleanPreferencesKey("srv-rst.restoreNoBackupData")
     val RESTORE_CACHE = booleanPreferencesKey("srv-rst.restoreCache")
 }
+
+object AdvancedPrefKey {
+    val ENABLE_SPECIAL_BACKUPS = booleanPreferencesKey("adv.enableSpecialBackups")
+    val DISABLE_VERIFICATION = booleanPreferencesKey("adv.disableVerification")
+    val GIVE_ALL_PERMISSIONS = booleanPreferencesKey("adv.giveAllPermissions")
+    val ALLOW_DOWNGRADE = booleanPreferencesKey("adv.allowDowngrade")
+    val USE_EXACT_ALARM = booleanPreferencesKey("adv.useExactAlarm")
+}
+
+object ToolPrefKey {
+    val BATCH_DELETE = stringPreferencesKey("tool.batchDelete")
+    val CLEANUP_BACKUP_DIR = stringPreferencesKey("tool.cleanupBackupDir")
+    val ENFORCE_BACKUPS_LIMIT = stringPreferencesKey("tool.enforceBackupsLimit")
+    val COPY_SELF_APK = stringPreferencesKey("tool.copySelfApk")
+    val SCHEDULES_EXPORT_IMPORT = stringPreferencesKey("tool.schedulesExportImport")
+    val SAVE_APPS_LIST = stringPreferencesKey("tool.saveAppsList")
+    val LOG_VIEWER = stringPreferencesKey("tool.logViewer")
+    val TERMINAL = stringPreferencesKey("tool.terminal")
+}

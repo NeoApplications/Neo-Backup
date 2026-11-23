@@ -30,23 +30,15 @@ import com.machiav3lli.backup.DamagedOp
 import com.machiav3lli.backup.DialogMode
 import com.machiav3lli.backup.NeoApp
 import com.machiav3lli.backup.R
-import com.machiav3lli.backup.data.entity.LinkPref
 import com.machiav3lli.backup.data.entity.Package
-import com.machiav3lli.backup.data.entity.Pref
 import com.machiav3lli.backup.data.entity.SortFilterModel
+import com.machiav3lli.backup.data.preferences.NeoPrefs
+import com.machiav3lli.backup.data.preferences.PrefLaunch
 import com.machiav3lli.backup.manager.handler.BackupRestoreHelper
 import com.machiav3lli.backup.manager.handler.findBackupsAndClean
 import com.machiav3lli.backup.ui.activities.NeoActivity
 import com.machiav3lli.backup.ui.compose.component.LaunchPreference
 import com.machiav3lli.backup.ui.compose.component.PrefsGroup
-import com.machiav3lli.backup.ui.compose.icons.Phosphor
-import com.machiav3lli.backup.ui.compose.icons.phosphor.AndroidLogo
-import com.machiav3lli.backup.ui.compose.icons.phosphor.Broom
-import com.machiav3lli.backup.ui.compose.icons.phosphor.Bug
-import com.machiav3lli.backup.ui.compose.icons.phosphor.CalendarX
-import com.machiav3lli.backup.ui.compose.icons.phosphor.Hash
-import com.machiav3lli.backup.ui.compose.icons.phosphor.ListNumbers
-import com.machiav3lli.backup.ui.compose.icons.phosphor.TrashSimple
 import com.machiav3lli.backup.ui.compose.show
 import com.machiav3lli.backup.ui.dialogs.ActionsDialogUI
 import com.machiav3lli.backup.ui.dialogs.BaseDialog
@@ -57,9 +49,11 @@ import com.machiav3lli.backup.utils.applyFilter
 import com.machiav3lli.backup.utils.extensions.koinNeoViewModel
 import com.machiav3lli.backup.utils.showNotification
 import com.machiav3lli.backup.viewmodels.HomeVM
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.koin.java.KoinJavaComponent.get
 import timber.log.Timber
 import java.io.BufferedOutputStream
 import java.io.IOException
@@ -84,7 +78,16 @@ fun ToolsPrefsPage(
     val sortFilterModel by viewModel.sortFilterModel.collectAsStateWithLifecycle(null)
     val tagsMap by viewModel.tagsMap.collectAsStateWithLifecycle()
 
-    val prefs = Pref.prefGroups["tool"] ?: listOf()
+    val prefs = persistentListOf(
+        pref_batchDelete,
+        pref_cleanupBackupDir,
+        pref_enforceBackupsLimit,
+        pref_copySelfApk,
+        pref_schedulesExportImport,
+        pref_saveAppsList,
+        pref_logViewer,
+        pref_terminal,
+    )
 
     Scaffold(
         containerColor = Color.Transparent,
@@ -239,13 +242,16 @@ fun ToolsPrefsPage(
     }
 }
 
-val pref_batchDelete = LinkPref(
-    key = "tool.batchDelete",
-    titleId = R.string.prefs_batchdelete,
-    summaryId = R.string.prefs_batchdelete_summary,
-    icon = Phosphor.TrashSimple,
-    //iconTint = { MaterialTheme.colorScheme.secondary },
-)
+private val neoPrefs: NeoPrefs by lazy { get(NeoPrefs::class.java) }
+
+val pref_batchDelete: PrefLaunch get() = neoPrefs.batchDelete
+val pref_cleanupBackupDir: PrefLaunch get() = neoPrefs.cleanupBackupDir
+val pref_enforceBackupsLimit: PrefLaunch get() = neoPrefs.enforceBackupsLimit
+val pref_copySelfApk: PrefLaunch get() = neoPrefs.copySelfApk
+val pref_schedulesExportImport: PrefLaunch get() = neoPrefs.schedulesExportImport
+val pref_saveAppsList: PrefLaunch get() = neoPrefs.saveAppsList
+val pref_logViewer: PrefLaunch get() = neoPrefs.logViewer
+val pref_terminal: PrefLaunch get() = neoPrefs.terminal
 
 private fun Context.onClickUninstalledBackupsDelete(
     packageList: Collection<Package>,
@@ -307,20 +313,6 @@ private fun Context.deleteBackups(deleteList: List<Package>) {
     )
 }
 
-val pref_cleanupBackupDir = LinkPref(
-    key = "tool.cleanupBackupDir",
-    titleId = R.string.prefs_cleanup_backupdir,
-    summaryId = R.string.prefs_cleanup_backupdir_summary,
-    icon = Phosphor.Broom,
-)
-
-val pref_enforceBackupsLimit = LinkPref(
-    key = "tool.enforceBackupsLimit",
-    titleId = R.string.enforce_backups_limit,
-    summaryId = R.string.enforce_backups_limit_summary,
-    icon = Phosphor.Hash,
-)
-
 private fun onClickEnforceBackupsLimit(
     res: Resources,
     packageList: Collection<Package>,
@@ -364,14 +356,6 @@ private fun onClickEnforceBackupsLimit(
     return true
 }
 
-val pref_copySelfApk = LinkPref(
-    key = "tool.copySelfApk",
-    titleId = R.string.prefs_copyselfapk,
-    summaryId = R.string.prefs_copyselfapk_summary,
-    icon = Phosphor.AndroidLogo,
-    //iconTint = { MaterialTheme.colorScheme.primary },
-)
-
 private fun Context.onClickCopySelf(
     snackbarHostState: SnackbarHostState,
     coroutineScope: CoroutineScope,
@@ -410,21 +394,6 @@ private fun Context.onClickCopySelf(
     Timber.e("${getString(R.string.copyOwnApkFailed)}: $e")
     false
 }
-
-val pref_schedulesExportImport = LinkPref(
-    key = "tool.schedulesExportImport",
-    titleId = R.string.prefs_schedulesexportimport,
-    summaryId = R.string.prefs_schedulesexportimport_summary,
-    icon = Phosphor.CalendarX,
-)
-
-val pref_saveAppsList = LinkPref(
-    key = "tool.saveAppsList",
-    titleId = R.string.prefs_saveappslist,
-    summaryId = R.string.prefs_saveappslist_summary,
-    icon = Phosphor.ListNumbers,
-)
-
 
 private fun Context.onClickSaveAppsList(
     packageList: Collection<Package>,
@@ -482,16 +451,3 @@ fun Context.writeAppsListFile(appsList: List<String>, filteredBoolean: Boolean) 
         Timber.i("Wrote apps\' list file at $date")
     }
 }
-
-
-val pref_logViewer = LinkPref(
-    key = "tool.logViewer",
-    titleId = R.string.prefs_logviewer,
-    icon = Phosphor.Bug,
-)
-
-val pref_terminal = LinkPref(
-    key = "tool.terminal",
-    titleId = R.string.prefs_tools_terminal,
-    icon = Phosphor.Bug,
-)

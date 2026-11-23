@@ -17,26 +17,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.machiav3lli.backup.R
 import com.machiav3lli.backup.data.entity.ColoringState
-import com.machiav3lli.backup.data.entity.EnumPref
-import com.machiav3lli.backup.data.entity.ListPref
-import com.machiav3lli.backup.data.entity.NeoPrefAdapter
-import com.machiav3lli.backup.data.entity.PasswordPref
-import com.machiav3lli.backup.data.entity.Pref
-import com.machiav3lli.backup.data.entity.StringPref
+import com.machiav3lli.backup.data.preferences.PrefDelegate
 import com.machiav3lli.backup.data.preferences.PrefEnum
 import com.machiav3lli.backup.data.preferences.PrefList
 import com.machiav3lli.backup.data.preferences.PrefTheme
 import com.machiav3lli.backup.ui.compose.blockBorder
 import com.machiav3lli.backup.ui.compose.component.ActionButton
-import com.machiav3lli.backup.ui.compose.component.PrefsGroup
+import com.machiav3lli.backup.ui.compose.component.NeoPrefsGroup
 import com.machiav3lli.backup.ui.compose.icons.Phosphor
 import com.machiav3lli.backup.ui.compose.icons.phosphor.ArrowRight
 import com.machiav3lli.backup.ui.dialogs.BaseDialog
 import com.machiav3lli.backup.ui.dialogs.DSEnumPrefDialogUI
 import com.machiav3lli.backup.ui.dialogs.DSListPrefDialogUI
-import com.machiav3lli.backup.ui.dialogs.EnumPrefDialogUI
-import com.machiav3lli.backup.ui.dialogs.ListPrefDialogUI
-import com.machiav3lli.backup.ui.dialogs.StringPrefDialogUI
 import com.machiav3lli.backup.ui.dialogs.ThemePrefDialogUI
 import kotlinx.collections.immutable.persistentListOf
 
@@ -45,7 +37,7 @@ fun OnboardingPrefsPage(
     onNext: () -> Unit,
 ) {
     val openDialog = remember { mutableStateOf(false) }
-    var dialogsPref by remember { mutableStateOf<Pref?>(null) }
+    var dialogsPref by remember { mutableStateOf<PrefDelegate<out Any>?>(null) }
 
     Column {
         LazyColumn(
@@ -75,67 +67,41 @@ fun OnboardingPrefsPage(
         val currentPref = dialogsPref
         BaseDialog(onDismiss = { openDialog.value = false }) {
             when (currentPref) {
-                is NeoPrefAdapter -> {
-                    when (currentPref.dsPref) {
-                        is PrefList -> DSListPrefDialogUI(
-                            pref = currentPref.dsPref,
-                            openDialogCustom = openDialog,
-                        )
-
-                        is PrefEnum -> DSEnumPrefDialogUI(
-                            pref = currentPref.dsPref,
-                            openDialogCustom = openDialog,
-                        )
-
-                        is PrefTheme -> ThemePrefDialogUI(
-                            pref = currentPref.dsPref,
-                            openDialogCustom = openDialog,
-                        )
-
-                        else        -> {}
-                    }
-                }
-
-                is ListPref       -> ListPrefDialogUI(
+                is PrefList  -> DSListPrefDialogUI(
                     pref = currentPref,
                     openDialogCustom = openDialog,
                 )
 
-                is EnumPref       -> EnumPrefDialogUI(
+                is PrefEnum  -> DSEnumPrefDialogUI(
                     pref = currentPref,
-                    openDialogCustom = openDialog
+                    openDialogCustom = openDialog,
                 )
 
-                is PasswordPref   -> StringPrefDialogUI(
+                is PrefTheme -> ThemePrefDialogUI(
                     pref = currentPref,
-                    isPrivate = true,
-                    confirm = true,
-                    openDialogCustom = openDialog
+                    openDialogCustom = openDialog,
                 )
 
-                is StringPref     -> StringPrefDialogUI(
-                    pref = currentPref,
-                    openDialogCustom = openDialog
-                )
+                else         -> {}
             }
         }
     }
 }
 
-private fun LazyListScope.oboardingPrefGroups(onPrefDialog: (Pref) -> Unit) {
+private fun LazyListScope.oboardingPrefGroups(onPrefDialog: (PrefDelegate<out Any>) -> Unit) {
     val userPrefs = persistentListOf(
-        NeoPrefAdapter(pref_languages),
-        NeoPrefAdapter(pref_neoTheme),
-        NeoPrefAdapter(pref_pathBackupFolder),
-        NeoPrefAdapter(pref_deviceLock),
-        NeoPrefAdapter(pref_biometricLock),
+        pref_languages,
+        pref_neoTheme,
+        pref_pathBackupFolder,
+        pref_deviceLock,
+        pref_biometricLock,
     )
     val servicePrefs = persistentListOf(
-        NeoPrefAdapter(pref_encryption),
-        NeoPrefAdapter(pref_numBackupRevisions),
-        NeoPrefAdapter(pref_restorePermissions),
-        NeoPrefAdapter(pref_compressionType),
-        NeoPrefAdapter(pref_compressionLevel),
+        pref_encryption,
+        pref_numBackupRevisions,
+        pref_restorePermissions,
+        pref_compressionType,
+        pref_compressionLevel,
     )
     val advancedPrefs = persistentListOf(
         pref_enableSpecialBackups,
@@ -143,21 +109,21 @@ private fun LazyListScope.oboardingPrefGroups(onPrefDialog: (Pref) -> Unit) {
     )
 
     item {
-        PrefsGroup(
+        NeoPrefsGroup(
             prefs = userPrefs,
             heading = stringResource(id = R.string.prefs_user_short),
             onPrefDialog = onPrefDialog
         )
     }
     item {
-        PrefsGroup(
+        NeoPrefsGroup(
             prefs = servicePrefs,
             heading = stringResource(id = R.string.prefs_service_short),
             onPrefDialog = onPrefDialog
         )
     }
     item {
-        PrefsGroup(
+        NeoPrefsGroup(
             prefs = advancedPrefs,
             heading = stringResource(id = R.string.prefs_advanced_short),
             onPrefDialog = onPrefDialog
