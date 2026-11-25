@@ -60,6 +60,10 @@ import com.machiav3lli.backup.ui.pages.pref_restoreExternalData
 import com.machiav3lli.backup.ui.pages.pref_restoreMediaData
 import com.machiav3lli.backup.ui.pages.pref_restoreObbData
 import com.machiav3lli.backup.ui.pages.pref_shadowRootFile
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonNull
+import kotlinx.serialization.json.JsonPrimitive
 import java.nio.charset.StandardCharsets
 import java.util.Locale
 
@@ -263,3 +267,38 @@ private fun translateLocale(locale: Locale): String {
         "($country)" else ""))
 }
 
+
+fun <T> defaultToJson(value: T?): JsonElement = when (value) {
+    null       -> JsonNull
+    is Boolean -> JsonPrimitive(value)
+    is Int     -> JsonPrimitive(value)
+    is Long    -> JsonPrimitive(value)
+    is Double  -> JsonPrimitive(value)
+    is String  -> JsonPrimitive(value)
+    is Set<*>  -> JsonArray(value.map { JsonPrimitive(it?.toString() ?: "") })
+    else       -> JsonPrimitive(value?.toString() ?: "")
+}
+
+fun <T> defaultFromJson(element: JsonElement): T? = when (element) {
+    is JsonPrimitive
+         -> parseJsonPrimitive(element.content) as T?
+
+    is JsonArray
+         -> element.mapNotNull { (it as? JsonPrimitive)?.content }
+        .toSet() as T
+
+    else -> null
+}
+
+private fun parseJsonPrimitive(content: Any?): Any? = when (content) {
+    null       -> null
+    is Boolean -> content
+    is Number  -> content
+    is String  -> content.toBooleanStrictOrNull()
+        ?: content.toIntOrNull()
+        ?: content.toLongOrNull()
+        ?: content.toDoubleOrNull()
+        ?: content
+
+    else       -> null
+}

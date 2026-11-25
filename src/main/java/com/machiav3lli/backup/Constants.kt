@@ -367,4 +367,9 @@ val BACKUP_DIRECTORY_INTENT = OPEN_DIRECTORY_INTENT
 
 fun classAddress(address: String): String = PREFS_SHARED_PRIVATE + address
 
+const val MAIN_MIME_TYPE = "application/octet-stream"
+const val PREFS_EXTENSION = "prfs"
+const val PREFS_MIME_TYPE = "application/vnd.neobackup.prfs"
+val PREFS_MIME_ARRAY = arrayOf(PREFS_MIME_TYPE,MAIN_MIME_TYPE)
+
 fun exodusUrl(app: String): String = "https://reports.exodus-privacy.eu.org/reports/$app/latest"

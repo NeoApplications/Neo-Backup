@@ -105,4 +105,6 @@ object ToolPrefKey {
     val SAVE_APPS_LIST = stringPreferencesKey("tool.saveAppsList")
     val LOG_VIEWER = stringPreferencesKey("tool.logViewer")
     val TERMINAL = stringPreferencesKey("tool.terminal")
+    val EXPORT_SETTINGS = stringPreferencesKey("tool.exportSettings")
+    val IMPORT_SETTINGS = stringPreferencesKey("tool.importSettings")
 }

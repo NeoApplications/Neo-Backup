@@ -537,4 +537,13 @@
     <string name="intro_permission_usageaccess_warning">On Android 13 and later, apps installed from sources other than Play Store have restricted access to certain permissions. If you see a warning of restricted permission, follow these steps:\n1. From Settings → Apps open Neo Backup.\n2. Tap the three-dot menu in the top-right corner.\n3. Select Allow restricted settings and confirm with your PIN/fingerprint.\n4. Go back to this page and grant the usage access permission.</string>
     <string name="restore_password_override">Use another password</string>
     <string name="restore_password_override_summary">Only for this restore, instead of the one set in the settings</string>
+    <string name="prefs_exportsettings">Export settings</string>
+    <string name="prefs_exportsettings_summary">Exports all settings except passwords and encryption.</string>
+    <string name="prefs_importsettings">Import settings</string>
+    <string name="prefs_importsettings_summary">Imports settings from a previously exported file.</string>
+    <string name="settings_exported">Settings exported successfully</string>
+    <string name="settings_export_failed">Failed to export settings</string>
+    <string name="settings_imported">Settings imported successfully</string>
+    <string name="settings_import_failed">Failed to import settings</string>
+    <string name="settings_import_nofile">No settings file selected</string>
 </resources>

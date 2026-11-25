@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import androidx.activity.compose.LocalActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -29,6 +31,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.machiav3lli.backup.DamagedOp
 import com.machiav3lli.backup.DialogMode
 import com.machiav3lli.backup.NeoApp
+import com.machiav3lli.backup.PREFS_EXTENSION
+import com.machiav3lli.backup.PREFS_MIME_ARRAY
+import com.machiav3lli.backup.PREFS_MIME_TYPE
 import com.machiav3lli.backup.R
 import com.machiav3lli.backup.data.entity.Package
 import com.machiav3lli.backup.data.entity.SortFilterModel
@@ -46,6 +51,7 @@ import com.machiav3lli.backup.ui.navigation.NavRoute
 import com.machiav3lli.backup.utils.BACKUP_DATE_TIME_FORMATTER
 import com.machiav3lli.backup.utils.SystemUtils
 import com.machiav3lli.backup.utils.applyFilter
+import com.machiav3lli.backup.utils.currentTimestamp
 import com.machiav3lli.backup.utils.extensions.koinNeoViewModel
 import com.machiav3lli.backup.utils.showNotification
 import com.machiav3lli.backup.viewmodels.HomeVM
@@ -57,6 +63,7 @@ import org.koin.java.KoinJavaComponent.get
 import timber.log.Timber
 import java.io.BufferedOutputStream
 import java.io.IOException
+import java.io.InputStream
 import java.nio.charset.StandardCharsets
 import java.time.LocalDateTime
 
@@ -83,11 +90,72 @@ fun ToolsPrefsPage(
         pref_cleanupBackupDir,
         pref_enforceBackupsLimit,
         pref_copySelfApk,
+        pref_exportSettings,
+        pref_importSettings,
         pref_schedulesExportImport,
         pref_saveAppsList,
         pref_logViewer,
         pref_terminal,
     )
+
+    val importLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+            uri?.let { resultUri ->
+                coroutineScope.launch(Dispatchers.IO) {
+                    try {
+                        context.contentResolver.openInputStream(resultUri)
+                            ?.use { input: InputStream ->
+                                val content = input.bufferedReader().readText()
+                                neoPrefs.importFromJson(content)
+                            }
+                        snackbarHostState.show(
+                            coroutineScope,
+                            res.getString(R.string.settings_imported),
+                        )
+                    } catch (e: Exception) {
+                        Timber.e("importSettings failed: $e")
+                        snackbarHostState.show(
+                            coroutineScope,
+                            res.getString(R.string.settings_import_failed),
+                        )
+                    }
+                }
+            } ?: run {
+                snackbarHostState.show(
+                    coroutineScope,
+                    res.getString(R.string.settings_import_nofile),
+                )
+            }
+        }
+
+    val exportLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.CreateDocument(PREFS_MIME_TYPE)
+    ) { uri ->
+        uri?.let { resultUri ->
+            coroutineScope.launch(Dispatchers.IO) {
+                try {
+                    context.contentResolver.openOutputStream(resultUri, "w")?.use { output ->
+                        output.write(neoPrefs.exportToJson().toByteArray(StandardCharsets.UTF_8))
+                    }
+                    snackbarHostState.show(
+                        coroutineScope,
+                        res.getString(R.string.settings_exported),
+                    )
+                } catch (e: Exception) {
+                    Timber.e("exportSettings failed: $e")
+                    snackbarHostState.show(
+                        coroutineScope,
+                        res.getString(R.string.settings_export_failed),
+                    )
+                }
+            }
+        } ?: run {
+            snackbarHostState.show(
+                coroutineScope,
+                res.getString(R.string.settings_export_failed),
+            )
+        }
+    }
 
     Scaffold(
         containerColor = Color.Transparent,
@@ -184,6 +252,10 @@ fun ToolsPrefsPage(
                                 pref_logViewer             -> neoActivity.moveTo(NavRoute.Logs)
 
                                 pref_terminal              -> neoActivity.moveTo(NavRoute.Terminal)
+
+                                pref_exportSettings        -> exportLauncher.launch("NB_$currentTimestamp.${PREFS_EXTENSION}")
+
+                                pref_importSettings        -> importLauncher.launch(PREFS_MIME_ARRAY)
                             }
                         }
                         if (index < size - 1) Spacer(modifier = Modifier.height(4.dp))
@@ -252,6 +324,8 @@ val pref_schedulesExportImport: PrefLaunch get() = neoPrefs.schedulesExportImpor
 val pref_saveAppsList: PrefLaunch get() = neoPrefs.saveAppsList
 val pref_logViewer: PrefLaunch get() = neoPrefs.logViewer
 val pref_terminal: PrefLaunch get() = neoPrefs.terminal
+val pref_exportSettings: PrefLaunch get() = neoPrefs.exportSettings
+val pref_importSettings: PrefLaunch get() = neoPrefs.importSettings
 
 private fun Context.onClickUninstalledBackupsDelete(
     packageList: Collection<Package>,

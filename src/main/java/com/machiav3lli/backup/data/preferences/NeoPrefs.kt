@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
@@ -15,43 +16,52 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.machiav3lli.backup.BACKUP_DIRECTORY_INTENT
 import com.machiav3lli.backup.BACKUP_FILTER_DEFAULT
+import com.machiav3lli.backup.COMPRESSION_TYPES
+import com.machiav3lli.backup.ENCRYPTION
 import com.machiav3lli.backup.EnabledFilter
 import com.machiav3lli.backup.InstalledFilter
 import com.machiav3lli.backup.LatestFilter
 import com.machiav3lli.backup.LaunchableFilter
 import com.machiav3lli.backup.MAIN_FILTER_USER
 import com.machiav3lli.backup.NeoApp
+import com.machiav3lli.backup.NeoApp.Companion.mainSerializer
+import com.machiav3lli.backup.PREFS_LANGUAGES_SYSTEM
 import com.machiav3lli.backup.R
 import com.machiav3lli.backup.Sort
 import com.machiav3lli.backup.UpdatedFilter
 import com.machiav3lli.backup.batchModesSequence
-import com.machiav3lli.backup.COMPRESSION_TYPES
-import com.machiav3lli.backup.ENCRYPTION
-import com.machiav3lli.backup.encryptionModes
-import com.machiav3lli.backup.manager.handler.PGPHandler
 import com.machiav3lli.backup.data.entity.NeoTheme
 import com.machiav3lli.backup.data.entity.SortFilterModel
+import com.machiav3lli.backup.encryptionModes
+import com.machiav3lli.backup.manager.handler.PGPHandler
 import com.machiav3lli.backup.possibleMainFilters
 import com.machiav3lli.backup.ui.compose.component.StringEditPreference
 import com.machiav3lli.backup.ui.compose.component.StringPreference
 import com.machiav3lli.backup.ui.compose.icons.Phosphor
+import com.machiav3lli.backup.ui.compose.icons.phosphor.AndroidLogo
+import com.machiav3lli.backup.ui.compose.icons.phosphor.ArrowsClockwise
 import com.machiav3lli.backup.ui.compose.icons.phosphor.ArrowsOutLineVertical
+import com.machiav3lli.backup.ui.compose.icons.phosphor.AsteriskSimple
+import com.machiav3lli.backup.ui.compose.icons.phosphor.Broom
+import com.machiav3lli.backup.ui.compose.icons.phosphor.Bug
 import com.machiav3lli.backup.ui.compose.icons.phosphor.CalendarX
 import com.machiav3lli.backup.ui.compose.icons.phosphor.CircleWavyWarning
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Clock
-import com.machiav3lli.backup.ui.compose.icons.phosphor.FingerprintSimple
-import com.machiav3lli.backup.ui.compose.icons.phosphor.FolderNotch
+import com.machiav3lli.backup.ui.compose.icons.phosphor.ClockCounterClockwise
 import com.machiav3lli.backup.ui.compose.icons.phosphor.FileZip
+import com.machiav3lli.backup.ui.compose.icons.phosphor.FingerprintSimple
 import com.machiav3lli.backup.ui.compose.icons.phosphor.FloppyDisk
+import com.machiav3lli.backup.ui.compose.icons.phosphor.FolderNotch
+import com.machiav3lli.backup.ui.compose.icons.phosphor.GameController
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Hash
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Key
 import com.machiav3lli.backup.ui.compose.icons.phosphor.List
+import com.machiav3lli.backup.ui.compose.icons.phosphor.ListNumbers
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Lock
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Password
 import com.machiav3lli.backup.ui.compose.icons.phosphor.PlayCircle
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Prohibit
 import com.machiav3lli.backup.ui.compose.icons.phosphor.ProhibitInset
-import com.machiav3lli.backup.ui.compose.icons.phosphor.GameController
 import com.machiav3lli.backup.ui.compose.icons.phosphor.ShieldCheckered
 import com.machiav3lli.backup.ui.compose.icons.phosphor.ShieldStar
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Swatches
@@ -59,18 +69,15 @@ import com.machiav3lli.backup.ui.compose.icons.phosphor.TagSimple
 import com.machiav3lli.backup.ui.compose.icons.phosphor.TextAa
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Textbox
 import com.machiav3lli.backup.ui.compose.icons.phosphor.Translate
-import com.machiav3lli.backup.ui.compose.icons.phosphor.AsteriskSimple
-import com.machiav3lli.backup.ui.compose.icons.phosphor.AndroidLogo
-import com.machiav3lli.backup.ui.compose.icons.phosphor.Broom
-import com.machiav3lli.backup.ui.compose.icons.phosphor.Bug
-import com.machiav3lli.backup.ui.compose.icons.phosphor.ClockCounterClockwise
-import com.machiav3lli.backup.ui.compose.icons.phosphor.ListNumbers
 import com.machiav3lli.backup.ui.compose.icons.phosphor.TrashSimple
 import com.machiav3lli.backup.ui.navigation.NavRoute
 import com.machiav3lli.backup.ui.pages.pref_restartAppOnLanguageChange
 import com.machiav3lli.backup.utils.StorageLocationNotConfiguredException
+import com.machiav3lli.backup.utils.SystemUtils
 import com.machiav3lli.backup.utils.backupDirConfigured
 import com.machiav3lli.backup.utils.backupFolderExists
+import com.machiav3lli.backup.utils.defaultFromJson
+import com.machiav3lli.backup.utils.defaultToJson
 import com.machiav3lli.backup.utils.extensions.Android
 import com.machiav3lli.backup.utils.extensions.combine
 import com.machiav3lli.backup.utils.getLanguageList
@@ -79,20 +86,23 @@ import com.machiav3lli.backup.utils.restartApp
 import com.machiav3lli.backup.utils.scheduleAlarmsOnce
 import com.machiav3lli.backup.utils.setBackupDir
 import com.machiav3lli.backup.utils.setCustomTheme
-import com.machiav3lli.backup.utils.SystemUtils
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonNull
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
 import org.koin.compose.koinInject
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import timber.log.Timber
-import androidx.core.net.toUri
-import com.machiav3lli.backup.PREFS_LANGUAGES_SYSTEM
 
 class NeoPrefs private constructor(val context: Context) : KoinComponent {
     private val dataStore: DataStore<Preferences> by inject()
@@ -838,6 +848,323 @@ class NeoPrefs private constructor(val context: Context) : KoinComponent {
         icon = Phosphor.Bug,
     )
 
+    val exportSettings = PrefLaunch(
+        dataStore = dataStore,
+        dataStoreKey = ToolPrefKey.EXPORT_SETTINGS,
+        titleId = R.string.prefs_exportsettings,
+        summaryId = R.string.prefs_exportsettings_summary,
+        icon = Phosphor.FloppyDisk,
+    )
+
+    val importSettings = PrefLaunch(
+        dataStore = dataStore,
+        dataStoreKey = ToolPrefKey.IMPORT_SETTINGS,
+        titleId = R.string.prefs_importsettings,
+        summaryId = R.string.prefs_importsettings_summary,
+        icon = Phosphor.ArrowsClockwise,
+    )
+
+    private val unexportableKeys: Set<String> = setOf(
+        ServicePrefKey.ENCRYPTION_PASSWORD.name,
+        ServicePrefKey.PGP_KEY.name,
+        ServicePrefKey.PGP_PASSCODE.name,
+        ServicePrefKey.ENCRYPTION_MODE.name,
+        ServicePrefKey.ENC.name,
+    )
+
+    private val exportableSettings: List<PrefSetting<*>> = listOf(
+        // Sort / filter prefs
+        PrefSetting(
+            sortHome.key,
+            { sortHome.value },
+            { sortHome.set(it) }),
+        PrefSetting(
+            sortBackup.key,
+            { sortBackup.value },
+            { sortBackup.set(it) }),
+        PrefSetting(
+            sortRestore.key,
+            { sortRestore.value },
+            { sortRestore.set(it) }),
+        PrefSetting(
+            sortAscHome.key,
+            { sortAscHome.value },
+            { sortAscHome.set(it) }),
+        PrefSetting(
+            sortAscBackup.key,
+            { sortAscBackup.value },
+            { sortAscBackup.set(it) }),
+        PrefSetting(
+            sortAscRestore.key,
+            { sortAscRestore.value },
+            { sortAscRestore.set(it) }),
+        PrefSetting(
+            mainFilterHome.key,
+            { mainFilterHome.value },
+            { mainFilterHome.set(it) }),
+        PrefSetting(
+            mainFilterBackup.key,
+            { mainFilterBackup.value },
+            { mainFilterBackup.set(it) }),
+        PrefSetting(
+            mainFilterRestore.key,
+            { mainFilterRestore.value },
+            { mainFilterRestore.set(it) }),
+        PrefSetting(
+            backupFilterHome.key,
+            { backupFilterHome.value },
+            { backupFilterHome.set(it) }),
+        PrefSetting(
+            backupFilterBackup.key,
+            { backupFilterBackup.value },
+            { backupFilterBackup.set(it) }),
+        PrefSetting(
+            backupFilterRestore.key,
+            { backupFilterRestore.value },
+            { backupFilterRestore.set(it) }),
+        PrefSetting(
+            installedFilterHome.key,
+            { installedFilterHome.value },
+            { installedFilterHome.set(it) }),
+        PrefSetting(
+            installedFilterBackup.key,
+            { installedFilterBackup.value },
+            { installedFilterBackup.set(it) }),
+        PrefSetting(
+            installedFilterRestore.key,
+            { installedFilterRestore.value },
+            { installedFilterRestore.set(it) }),
+        PrefSetting(
+            launchableFilterHome.key,
+            { launchableFilterHome.value },
+            { launchableFilterHome.set(it) }),
+        PrefSetting(
+            launchableFilterBackup.key,
+            { launchableFilterBackup.value },
+            { launchableFilterBackup.set(it) }),
+        PrefSetting(
+            launchableFilterRestore.key,
+            { launchableFilterRestore.value },
+            { launchableFilterRestore.set(it) }),
+        PrefSetting(
+            updatedFilterHome.key,
+            { updatedFilterHome.value },
+            { updatedFilterHome.set(it) }),
+        PrefSetting(
+            updatedFilterBackup.key,
+            { updatedFilterBackup.value },
+            { updatedFilterBackup.set(it) }),
+        PrefSetting(
+            updatedFilterRestore.key,
+            { updatedFilterRestore.value },
+            { updatedFilterRestore.set(it) }),
+        PrefSetting(
+            latestFilterHome.key,
+            { latestFilterHome.value },
+            { latestFilterHome.set(it) }),
+        PrefSetting(
+            latestFilterBackup.key,
+            { latestFilterBackup.value },
+            { latestFilterBackup.set(it) }),
+        PrefSetting(
+            latestFilterRestore.key,
+            { latestFilterRestore.value },
+            { latestFilterRestore.set(it) }),
+        PrefSetting(
+            enabledFilterHome.key,
+            { enabledFilterHome.value },
+            { enabledFilterHome.set(it) }),
+        PrefSetting(
+            enabledFilterBackup.key,
+            { enabledFilterBackup.value },
+            { enabledFilterBackup.set(it) }),
+        PrefSetting(
+            enabledFilterRestore.key,
+            { enabledFilterRestore.value },
+            { enabledFilterRestore.set(it) }),
+        // User prefs
+        PrefSetting(
+            languages.key,
+            { languages.value },
+            { languages.set(it) }),
+        PrefSetting(
+            neoTheme.key,
+            { neoTheme.value },
+            { neoTheme.set(it) },
+            toJson = { value: NeoTheme? ->
+                if (value == null) JsonNull
+                else JsonPrimitive(Json.encodeToString(value))
+            },
+            fromJson = { element ->
+                if (element is JsonPrimitive) {
+                    Json.decodeFromString<NeoTheme>(element.content)
+                } else null
+            },
+        ),
+        PrefSetting(
+            deviceLock.key,
+            { deviceLock.value },
+            { deviceLock.set(it) }),
+        PrefSetting(
+            biometricLock.key,
+            { biometricLock.value },
+            { biometricLock.set(it) }),
+        PrefSetting(
+            multilineInfoChips.key,
+            { multilineInfoChips.value },
+            { multilineInfoChips.set(it) }),
+        PrefSetting(
+            singularBackupRestore.key,
+            { singularBackupRestore.value },
+            { singularBackupRestore.set(it) }),
+        PrefSetting(
+            newAndUpdatedNotification.key,
+            { newAndUpdatedNotification.value },
+            { newAndUpdatedNotification.set(it) }),
+        PrefSetting(
+            squeezeNavText.key,
+            { squeezeNavText.value },
+            { squeezeNavText.set(it) }),
+        PrefSetting(
+            altNavBarItem.key,
+            { altNavBarItem.value },
+            { altNavBarItem.set(it) }),
+        PrefSetting(
+            altBackupDate.key,
+            { altBackupDate.value },
+            { altBackupDate.set(it) }),
+        PrefSetting(
+            altBlockLayout.key,
+            { altBlockLayout.value },
+            { altBlockLayout.set(it) }),
+        PrefSetting(
+            oldBackups.key,
+            { oldBackups.value },
+            { oldBackups.set(it) }),
+        // Advanced prefs
+        PrefSetting(
+            enableSpecialBackups.key,
+            { enableSpecialBackups.value },
+            { enableSpecialBackups.set(it) }),
+        PrefSetting(
+            disableVerification.key,
+            { disableVerification.value },
+            { disableVerification.set(it) }),
+        PrefSetting(
+            giveAllPermissions.key,
+            { giveAllPermissions.value },
+            { giveAllPermissions.set(it) }),
+        PrefSetting(
+            allowDowngrade.key,
+            { allowDowngrade.value },
+            { allowDowngrade.set(it) }),
+        PrefSetting(
+            useExactAlarm.key,
+            { useExactAlarm.value },
+            { useExactAlarm.set(it) }),
+        // Service prefs (excluding encrypted/password)
+        PrefSetting(
+            restorePermissions.key,
+            { restorePermissions.value },
+            { restorePermissions.set(it) }),
+        PrefSetting(
+            numBackupRevisions.key,
+            { numBackupRevisions.value },
+            { numBackupRevisions.set(it) }),
+        PrefSetting(
+            enableStorageCheck.key,
+            { enableStorageCheck.value },
+            { enableStorageCheck.set(it) }),
+        PrefSetting(
+            compressionType.key,
+            { compressionType.value },
+            { compressionType.set(it) }),
+        PrefSetting(
+            compressionLevel.key,
+            { compressionLevel.value },
+            { compressionLevel.set(it) }),
+        PrefSetting(
+            enableSessionInstaller.key,
+            { enableSessionInstaller.value },
+            { enableSessionInstaller.set(it) }),
+        PrefSetting(
+            installationPackage.key,
+            { installationPackage.value },
+            { installationPackage.set(it) }),
+        PrefSetting(
+            backupDeviceProtectedData.key,
+            { backupDeviceProtectedData.value },
+            { backupDeviceProtectedData.set(it) }),
+        PrefSetting(
+            backupExternalData.key,
+            { backupExternalData.value },
+            { backupExternalData.set(it) }),
+        PrefSetting(
+            backupObbData.key,
+            { backupObbData.value },
+            { backupObbData.set(it) }),
+        PrefSetting(
+            backupMediaData.key,
+            { backupMediaData.value },
+            { backupMediaData.set(it) }),
+        PrefSetting(
+            backupNoBackupData.key,
+            { backupNoBackupData.value },
+            { backupNoBackupData.set(it) }),
+        PrefSetting(
+            backupCache.key,
+            { backupCache.value },
+            { backupCache.set(it) }),
+        PrefSetting(
+            restoreDeviceProtectedData.key,
+            { restoreDeviceProtectedData.value },
+            { restoreDeviceProtectedData.set(it) }),
+        PrefSetting(
+            restoreExternalData.key,
+            { restoreExternalData.value },
+            { restoreExternalData.set(it) }),
+        PrefSetting(
+            restoreObbData.key,
+            { restoreObbData.value },
+            { restoreObbData.set(it) }),
+        PrefSetting(
+            restoreMediaData.key,
+            { restoreMediaData.value },
+            { restoreMediaData.set(it) }),
+        PrefSetting(
+            restoreNoBackupData.key,
+            { restoreNoBackupData.value },
+            { restoreNoBackupData.set(it) }),
+        PrefSetting(
+            restoreCache.key,
+            { restoreCache.value },
+            { restoreCache.set(it) }),
+    )
+
+    fun exportToJson(): String {
+        val obj = buildJsonObject {
+            for (setting in exportableSettings) {
+                if (setting.key in unexportableKeys) continue
+                val value = setting.getErased()
+                if (value is Unit) continue
+                put(setting.key, setting.toJsonErased(value))
+            }
+        }
+        return mainSerializer.encodeToString(JsonElement.serializer(), obj)
+    }
+
+    suspend fun importFromJson(json: String) {
+        val element = Json.decodeFromString(JsonElement.serializer(), json)
+        val obj = element as? JsonObject ?: return
+        for ((key, jsonElement) in obj) {
+            exportableSettings.find { it.key == key }?.let { setting ->
+                setting.fromJsonErased(jsonElement)?.let { value ->
+                    setting.setErased(value)
+                }
+            }
+        }
+    }
+
     private fun onThemeChanged() {
         context.setCustomTheme()
         //recreateActivities()
@@ -939,6 +1266,19 @@ class NeoPrefs private constructor(val context: Context) : KoinComponent {
                     context.preferencesDataStoreFile("neo_backup")
                 },
             )
+        }
+
+        private data class PrefSetting<T>(
+            val key: String,
+            val get: () -> T?,
+            val set: suspend (T) -> Unit,
+            val toJson: (T?) -> JsonElement = ::defaultToJson,
+            val fromJson: (JsonElement) -> T? = ::defaultFromJson,
+        ) {
+            fun getErased(): Any? = get()
+            suspend fun setErased(value: Any?) = set(value as T)
+            fun toJsonErased(value: Any?): JsonElement = toJson(value as T)
+            fun fromJsonErased(element: JsonElement): Any? = fromJson(element)
         }
     }
 }

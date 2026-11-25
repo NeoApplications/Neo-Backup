@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import java.util.Date
 import java.util.Locale
 
 fun LocalDateTime.getFormattedDate(withTime: Boolean): String {
@@ -64,3 +65,9 @@ val ISO_DATE_TIME_FORMAT_MS
 val BACKUP_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(FILE_DATE_TIME_MS_PATTERN)
 val BACKUP_DATE_TIME_SHOW_FORMATTER = DateTimeFormatter.ofPattern(ISO_LIKE_DATE_TIME_PATTERN)
 val DATE_TIME_AS_VERSION_CODE_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_AS_VERSION_CODE_PATTERN)
+
+val currentTimestamp: String
+    get() {
+        val simpleDateFormat = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.US)
+        return simpleDateFormat.format(Date())
+    }
