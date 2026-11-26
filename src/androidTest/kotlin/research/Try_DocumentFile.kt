@@ -66,9 +66,7 @@ class MyFile(var document: DocumentFile) {
     }
 
     fun delete(): Boolean {
-        if (isDirectory && document.listFiles().count() > 0)
-            return false
-        return document.delete()
+        return !(isDirectory && document.listFiles().count() > 0) && document.delete()
     }
 
     fun deleteRecursive(): Boolean {

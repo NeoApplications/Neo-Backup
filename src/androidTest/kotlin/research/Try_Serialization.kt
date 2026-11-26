@@ -8,15 +8,12 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.PolymorphicSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
-import kotlinx.serialization.Serializer
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.descriptors.PolymorphicKind
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildSerialDescriptor
 import kotlinx.serialization.descriptors.element
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.encoding.CompositeDecoder
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
@@ -183,10 +180,10 @@ object PrimitiveSerializer : KSerializer<Primitive> {
 
     override fun deserialize(decoder: Decoder): Primitive {
         return decoder.decodeStructure(descriptor) {
-            var intValue: Int? = runCatching { decoder.decodeInt() }.getOrNull()
-            var booleanValue: Boolean? = runCatching { decoder.decodeBoolean() }.getOrNull()
-            var stringValue: String? = runCatching { decoder.decodeString() }.getOrNull()
-            var anyValue: Any? = null
+            val intValue: Int? = runCatching { decoder.decodeInt() }.getOrNull()
+            val booleanValue: Boolean? = runCatching { decoder.decodeBoolean() }.getOrNull()
+            val stringValue: String? = runCatching { decoder.decodeString() }.getOrNull()
+            val anyValue: Any? = null
             when {
                 intValue != null     -> Primitive.IntValue(intValue)
                 booleanValue != null -> Primitive.BooleanValue(booleanValue)
@@ -207,7 +204,7 @@ class Try_Serialization {
     //val context = Utils.getDeContext(Utils.getContext())
     //val context = Utils.getContext()
 
-    fun <K, T> mapAnyOf(vararg args: Pair<K, T>) = mapOf<K, T>(*args)  //.mapValues { AnyType(it) }
+    fun <K, T> mapAnyOf(vararg args: Pair<K, T>) = mapOf(*args)  //.mapValues { AnyType(it) }
 
     val mapAny: MapAny = mapAnyOf(
         "int" to 123,
@@ -216,7 +213,7 @@ class Try_Serialization {
     )
 
     fun <K, T : Any> mapPrimitiveOf(vararg args: Pair<K, T>) =
-        mapOf<K, T>(*args).mapValues { Primitive.from(it.value) }
+        mapOf(*args).mapValues { Primitive.from(it.value) }
 
     val mapPrimitive: MapPrimitive = mapPrimitiveOf(
         "int" to 123,

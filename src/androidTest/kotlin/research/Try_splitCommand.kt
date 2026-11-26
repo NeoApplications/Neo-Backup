@@ -10,16 +10,16 @@ class Try_splitCommand {
     fun test_splitCommand_doubleQuotes() {
         val command = """ "with 'some' quirks" "with \"some\" quirks" """
         val cmd = splitCommand(command)
-        assertEquals(cmd[0], """with 'some' quirks""")
-        assertEquals(cmd[1], """with "some" quirks""")
+        assertEquals("""with 'some' quirks""", cmd[0])
+        assertEquals("""with "some" quirks""", cmd[1])
     }
 
     @Test
     fun test_splitCommand_singleQuotes() {
         val command = """ 'with "some" quirks' 'with \"some\" quirks' """
         val cmd = splitCommand(command)
-        assertEquals(cmd[0], """with "some" quirks""")
-        assertEquals(cmd[1], """with \"some\" quirks""")
+        assertEquals("""with "some" quirks""", cmd[0])
+        assertEquals("""with \"some\" quirks""", cmd[1])
     }
 
 }

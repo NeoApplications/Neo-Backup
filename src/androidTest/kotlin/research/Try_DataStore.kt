@@ -18,9 +18,9 @@ import org.junit.Test
 import java.io.IOException
 
 interface IPreferenceDataStore {
-    suspend fun <T> getPrefFlow(key: Preferences.Key<T>,defaultValue: T):Flow<T>
-    suspend fun <T> getPref(key: Preferences.Key<T>,defaultValue: T):T
-    suspend fun <T> putPref(key: Preferences.Key<T>, value:T)
+    suspend fun <T> getPrefFlow(key: Preferences.Key<T>, defaultValue: T): Flow<T>
+    suspend fun <T> getPref(key: Preferences.Key<T>, defaultValue: T): T
+    suspend fun <T> putPref(key: Preferences.Key<T>, value: T)
     suspend fun <T> removePref(key: Preferences.Key<T>)
     suspend fun <T> clearPrefs()
 }
@@ -29,7 +29,7 @@ private val Context.dataStore by preferencesDataStore(
     name = "settings",
 )
 
-class PreferencesDataStore(): IPreferenceDataStore {
+class PreferencesDataStore : IPreferenceDataStore {
 
     val store = context.dataStore
 
@@ -44,19 +44,19 @@ class PreferencesDataStore(): IPreferenceDataStore {
     the values returned by it also changes. */
     override suspend fun <T> getPrefFlow(key: Preferences.Key<T>, defaultValue: T):
             Flow<T> = store.data.catch { exception ->
-        if (exception is IOException){
+        if (exception is IOException) {
             emit(emptyPreferences())
-        }else{
+        } else {
             throw exception
         }
-    }.map { preferences->
-        val result = preferences[key]?: defaultValue
+    }.map { preferences ->
+        val result = preferences[key] ?: defaultValue
         result
     }
 
     /* This returns the last saved value of the key. If we change the value,
         it wont effect the values produced by this function */
-    override suspend fun <T> getPref(key: Preferences.Key<T>, defaultValue: T) :
+    override suspend fun <T> getPref(key: Preferences.Key<T>, defaultValue: T):
             T = store.data.first()[key] ?: defaultValue
 
     // This Sets the value based on the value passed in value parameter.
@@ -83,10 +83,9 @@ class PreferencesDataStore(): IPreferenceDataStore {
 
 val prefStore = PreferencesDataStore()
 
-open class DPref() {
-}
+open class DPref
 
-class DPrefInt(name: String, var default: Int): DPref() {
+class DPrefInt(name: String, var default: Int) : DPref() {
 
     val key = intPreferencesKey(name)
 
@@ -95,7 +94,7 @@ class DPrefInt(name: String, var default: Int): DPref() {
         set(value) = runBlocking { prefStore.putPref(key, value) }
 }
 
-class DPrefBoolean(name: String, var default: Boolean): DPref() {
+class DPrefBoolean(name: String, var default: Boolean) : DPref() {
 
     val key = booleanPreferencesKey(name)
 
@@ -104,7 +103,7 @@ class DPrefBoolean(name: String, var default: Boolean): DPref() {
         set(value) = runBlocking { prefStore.putPref(key, value) }
 }
 
-class DPrefString(name: String, var default: String): DPref() {
+class DPrefString(name: String, var default: String) : DPref() {
 
     val key = stringPreferencesKey(name)
 

@@ -34,6 +34,7 @@ class Test_StorageFile {
                 "${NeoApp.context.packageName}.provider",
                 baseDirAsFile
             )
+
         1    -> NeoApp.backupRoot?.uri!!
         else -> NeoApp.context.uriFromFile(baseDirAsFile)
     }
@@ -50,7 +51,8 @@ class Test_StorageFile {
     val testText = "test text"
 
     init {
-        baseDir.listFiles().filter { it.name!!.startsWith(ADMIN_PREFIX + "test") }.forEach { it.deleteRecursive() }
+        baseDir.listFiles().filter { it.name!!.startsWith(ADMIN_PREFIX + "test") }
+            .forEach { it.deleteRecursive() }
 
         println("###################################### ${baseDir.path}")
     }
@@ -63,7 +65,12 @@ class Test_StorageFile {
         assertEquals(testDirName, dir.name)
 
         //val file = StorageFile(dir, "$testSubDirName/$testSubSubDirName/$testFileName")
-        val file = StorageFile.fromUri(Uri.withAppendedPath(dir.uri, "$testSubDirName/$testSubSubDirName/$testFileName"))
+        val file = StorageFile.fromUri(
+            Uri.withAppendedPath(
+                dir.uri,
+                "$testSubDirName/$testSubSubDirName/$testFileName"
+            )
+        )
 
         println("uri = ${file.uri}")
 
@@ -102,7 +109,10 @@ class Test_StorageFile {
 
         assertNotNull(file)
         assertEquals(true, file!!.exists())
-        assertEquals(testFileName, dir.listFiles().first().listFiles().first().listFiles().first().name)
+        assertEquals(
+            testFileName,
+            dir.listFiles().first().listFiles().first().listFiles().first().name
+        )
 
         val file2 = ufo.findFile()
 
@@ -119,7 +129,10 @@ class Test_StorageFile {
 
         assertNotNull(file3)
         assertEquals(true, file3!!.exists())
-        assertEquals(testFileName, dir.listFiles().first().listFiles().first().listFiles().first().name)
+        assertEquals(
+            testFileName,
+            dir.listFiles().first().listFiles().first().listFiles().first().name
+        )
         assertEquals(testText.length.toLong(), file3.size)
         assertEquals(testText, file3.readText())
     }
@@ -219,7 +232,7 @@ class Test_StorageFile {
         assertEquals(true, dir.isDirectory)
         assertEquals(testText, file.readText())
         val fileCount = dir.listFiles().count()
-        assert(dir.listFiles().count() >= 1)
+        assert(dir.listFiles().isNotEmpty())
         assert(dir.listFiles().any { it.name == testFileName })
 
         file.delete()
@@ -228,7 +241,7 @@ class Test_StorageFile {
         assertEquals(false, file.exists())
         assertEquals(true, dir.exists())
         assertEquals(true, dir.isDirectory)
-        assertEquals(fileCount-1, dir.listFiles().count())
+        assertEquals(fileCount - 1, dir.listFiles().count())
     }
 
     @Test

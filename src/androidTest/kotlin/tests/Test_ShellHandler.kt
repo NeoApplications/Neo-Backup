@@ -4,12 +4,16 @@ import com.machiav3lli.backup.manager.handler.ShellHandler
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.runAsRoot
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.runAsRootPipeInCollectErr
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.runAsRootPipeOutCollectErr
+import com.machiav3lli.backup.manager.handler.ShellHandler.ShellPipeInFailedException
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.fail
 import org.junit.Test
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
+import java.io.IOException
+import java.io.InputStream
 
 class Test_ShellHandler {
 
@@ -107,8 +111,8 @@ class Test_ShellHandler {
                 fileInfo.group
         )
         assertEquals(
-            (1611014609000/60_000).toLong()*60_000, // only minutes, remove seconds
-                fileInfo.fileModTime.time
+            (1611014609000/60_000) * 60_000L, // only minutes, remove seconds
+            fileInfo.fileModTime.time
         )
         assertEquals(
 				0b0_110_000_000,
@@ -128,7 +132,7 @@ class Test_ShellHandler {
         )
         assertNotNull(fileInfo!!)
         assertEquals(
-				"My|#\$%^&*[](){}'\"`:;?<~>,.file",
+				"""My|#$%^&*[](){}'"`:;?<~>,.file""",
                 fileInfo.filePath
         )
         assertEquals(
@@ -240,9 +244,7 @@ class Test_ShellHandler {
     @Test
     fun test_pipe_in() {
         val inStream = ByteArrayInputStream("1234567890".encodeToByteArray())
-        val (code, err) = runBlocking {
-            runAsRootPipeInCollectErr(inStream, "md5sum 1>&2")
-        }
+        val (code, err) = runAsRootPipeInCollectErr(inStream, "md5sum 1>&2")
         assertEquals(
             "e807f1fcf82d132f9bb018ca6738a19f  -\n",
             err
@@ -251,5 +253,38 @@ class Test_ShellHandler {
             0,
             code
         )
+    }
+
+    @Test
+    fun test_pipe_in_large_input() {
+        val size = 1024 * 1024
+        val inStream = ByteArrayInputStream(ByteArray(size))
+        val (code, err) = runAsRootPipeInCollectErr(inStream, "wc -c 1>&2")
+        assertEquals(0, code)
+        assertEquals(size.toLong(), err.trim().toLong())
+    }
+
+    @Test
+    fun test_pipe_in_large_stdout() {
+        val inStream = ByteArrayInputStream("1234567890".encodeToByteArray())
+        val (code, err) = runAsRootPipeInCollectErr(
+            inStream,
+            "dd if=/dev/zero bs=1024 count=512 2>/dev/null; md5sum 1>&2"
+        )
+        assertEquals(0, code)
+        assertEquals("e807f1fcf82d132f9bb018ca6738a19f  -\n", err)
+    }
+
+    @Test
+    fun test_pipe_in_failing_input() {
+        val inStream = object : InputStream() {
+            override fun read(): Int = throw IOException("no more data")
+        }
+        try {
+            runAsRootPipeInCollectErr(inStream, "cat >/dev/null")
+            fail("expected ShellPipeInFailedException")
+        } catch (e: ShellPipeInFailedException) {
+            assertEquals("no more data", e.feedError.message)
+        }
     }
 }

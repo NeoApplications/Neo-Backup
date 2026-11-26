@@ -1,5 +1,6 @@
 package tests.tests
 
+import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import com.machiav3lli.backup.NeoApp
 import com.machiav3lli.backup.data.entity.Pref.Companion.escape
@@ -13,7 +14,7 @@ import org.junit.Test
 
 class Test_Serialization {
 
-    val context = InstrumentationRegistry.getInstrumentation().targetContext
+    val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
     //val context = Utils.getDeContext(Utils.getContext())
     //val context = Utils.getContext()
 
@@ -50,9 +51,13 @@ class Test_Serialization {
     ) + strings
 
     @Serializable
-    data class aClass(val int: Int = 123, val flag: Boolean = false, val str: String = "abc")
+    private data class SomeClass(
+        val int: Int = 123,
+        val flag: Boolean = false,
+        val str: String = "abc"
+    )
 
-    val aObj = aClass(int = 456, flag = true, str = "str")
+    private val aObj = SomeClass(int = 456, flag = true, str = "str")
 
     @TestOnly
     internal fun test_esc(value: String) {
@@ -64,7 +69,7 @@ class Test_Serialization {
 
     @Test
     fun test_simple_escape() {
-        strings.forEach { name, value ->
+        strings.forEach { (_, value) ->
             test_esc(value)
         }
     }
@@ -81,7 +86,7 @@ class Test_Serialization {
     fun test_json_obj() {
         val ser = NeoApp.toSerialized(NeoApp.JsonPretty, aObj)
         println("json: '\n$ser\n'")
-        val obj = NeoApp.fromSerialized<aClass>(ser)
+        val obj = NeoApp.fromSerialized<SomeClass>(ser)
         assertEquals(aObj, obj)
     }
 
@@ -89,7 +94,7 @@ class Test_Serialization {
     fun test_json_map() {
         val ser = NeoApp.toSerialized(NeoApp.JsonPretty, aMap)
         println("json: '\n$ser\n'")
-        val obj = NeoApp.fromSerialized<aClass>(ser)
+        val obj = NeoApp.fromSerialized<Map<String, Any>>(ser)
         assertEquals(aMap, obj)
     }
 
@@ -97,7 +102,7 @@ class Test_Serialization {
     fun test_yaml_obj() {
         val ser = NeoApp.toSerialized(NeoApp.YamlDefault, aObj)
         println("yaml: '\n$ser\n'")
-        val obj = NeoApp.fromSerialized<aClass>(ser)
+        val obj = NeoApp.fromSerialized<SomeClass>(ser)
         assertEquals(aObj, obj)
     }
 
@@ -105,7 +110,7 @@ class Test_Serialization {
     fun test_yaml_map() {
         val ser = NeoApp.toSerialized(NeoApp.YamlDefault, aMap)
         println("yaml: '\n$ser\n'")
-        val obj = NeoApp.fromSerialized<aClass>(ser)
+        val obj = NeoApp.fromSerialized<Map<String, Any>>(ser)
         assertEquals(aMap, obj)
     }
 

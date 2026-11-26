@@ -1,9 +1,10 @@
 package tests.tests
 
+import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
+import com.machiav3lli.backup.data.entity.RootFile
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.quote
 import com.machiav3lli.backup.manager.handler.ShellHandler.Companion.utilBoxQ
-import com.machiav3lli.backup.data.entity.RootFile
 import com.topjohnwu.superuser.ShellUtils.fastCmd
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -11,11 +12,12 @@ import java.io.File
 
 class Test_RootFile {
 
-    val context = InstrumentationRegistry.getInstrumentation().targetContext
+    val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
+
     //val context = Utils.getDeContext(Utils.getContext())
     //val context = Utils.getContext()
-    val baseDir = context.cacheDir.absolutePath
-    val fileJ = File.createTempFile("Test_RootFile", ".test")
+    val baseDir: String = context.cacheDir.absolutePath
+    val fileJ: File = File.createTempFile("Test_RootFile", ".test")
     val fileX = RootFile(baseDir, "Test_RootFile.test")
 
     @Test
@@ -26,7 +28,7 @@ class Test_RootFile {
 
         listOf(
             // 000
-            { it : File ->
+            { it: File ->
                 fastCmd("chmod 000 ${it.absolutePath}")
                 it.setWritable(false, false)
             },

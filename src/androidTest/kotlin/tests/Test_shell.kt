@@ -19,10 +19,10 @@ class Test_shell {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         //val context = Utils.getDeContext(Utils.getContext())
         //val context = Utils.getContext()
-        val baseDir = context.cacheDir.absolutePath
-        val testExt = ".test"
+        val baseDir: String = context.cacheDir.absolutePath
 
-        const val safeCommandLength = 130_000
+        const val TEST_EXT = ".test"
+        const val SAFE_COMMAND_LENGTH = 130_000
 
         @TestOnly
         fun checkCommandLength(commandStub: String, length: Int, check: String = "api"): Boolean {
@@ -33,7 +33,7 @@ class Test_shell {
                     shellResult = runAsRoot("$commandStub '$shellInput' | wc -c")
                 }
                 if (check == "shell") {
-                    shellResult = runAsRoot("$commandStub \$(yes xxxxxxxxxx|tr -d \"\\n\"|head -c $length) | wc -c")
+                    shellResult = runAsRoot($$"$$commandStub $(yes xxxxxxxxxx|tr -d \"\\n\"|head -c $$length) | wc -c")
                 }
                 shellResult?.let {
                     return@checkCommandLength it.out.joinToString("").toInt() == length
@@ -50,10 +50,10 @@ class Test_shell {
     @Test
     fun test_safeCommandLength() {          // test a line length everyone should be able to process
         assertTrue(
-            checkCommandLength("toybox echo -n", safeCommandLength)
+            checkCommandLength("toybox echo -n", SAFE_COMMAND_LENGTH)
         )
         assertTrue(
-            checkCommandLength("echo -n", safeCommandLength)
+            checkCommandLength("echo -n", SAFE_COMMAND_LENGTH)
         )
     }
 
@@ -81,8 +81,8 @@ class Test_shell {
     internal fun test_quote1(filename : String) {
         val uniqPart = UUID.randomUUID()    // should not need quoting
         val testDir = "$baseDir/test-$uniqPart"
-        val testFilePath = "$testDir/$filename$testExt"
-        val testPattern = "$testDir/*$testExt"
+        val testFilePath = "$testDir/$filename$TEST_EXT"
+        val testPattern = "$testDir/*$TEST_EXT"
 
         File(testDir).mkdirs()
 
@@ -105,7 +105,7 @@ class Test_shell {
         } finally {
             try {
                 runAsRoot("toybox rm -r $testDir")
-            } catch(e : Throwable) {
+            } catch(_ : Throwable) {
             }
         }
     }

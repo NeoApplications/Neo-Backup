@@ -43,6 +43,12 @@ kotlin {
     }
 }
 
+val generateLocales = tasks.register(name = "gen", type = GenerateBuildConfig::class) {
+    description = "Generates BuildConfig.kt from auto-fetched values"
+    resDir.set(project.layout.projectDirectory.dir("src/main/res"))
+    outputDir.set(project.layout.buildDirectory.dir("generated/source/locales/kotlin/main"))
+}
+
 android {
     namespace = "com.machiav3lli.backup"
     compileSdk = 37
@@ -84,29 +90,20 @@ android {
         }
     }
 
-    val generateLocales by tasks.registering(GenerateBuildConfig::class) {
-        resDir.set(project.layout.projectDirectory.dir("src/main/res"))
-        outputDir.set(project.layout.buildDirectory.dir("generated/source/locales/kotlin/main"))
-    }
-
     androidComponents.onVariants { variant ->
         variant.sources.java!!.addGeneratedSourceDirectory(
             generateLocales,
             GenerateBuildConfig::outputDir
         )
-
-        tasks.withType<KotlinCompile> {
-            dependsOn(generateLocales)
-        }
     }
 
     androidComponents.onVariants { variant ->
         variant.outputs.forEach { output ->
-            if (output is com.android.build.api.variant.impl.VariantOutputImpl) {
-                output.outputFileName.set(
-                    "Neo_Backup_${output.versionName.get()}_${variant.buildType}.apk"
-                )
-            }
+            output.outputFileName.set(
+                output.versionName.map { name ->
+                    "Neo_Backup_${name}_${variant.buildType}.apk"
+                }
+            )
         }
     }
 
@@ -152,7 +149,6 @@ composeCompiler {
 }
 
 dependencies {
-    implementation(libs.kotlin.stdlib)
     implementation(libs.ksp)
     // not yet necessary: implementation(libs.kotlin.reflect)
 
@@ -223,7 +219,7 @@ dependencies {
 
     // compose testing
     // Test rules and transitive dependencies:
-    androidTestImplementation(libs.compose.ui.test.junit4)
+    // androidTestImplementation(libs.compose.ui.test.junit4)
     // Needed for createComposeRule, but not createAndroidComposeRule:
     debugImplementation(libs.compose.ui.test.manifest)
     //---------------------------------------- hg42
@@ -244,7 +240,6 @@ abstract class GenerateBuildConfig : DefaultTask() {
 
     init {
         group = "build"
-        description = "Generates BuildConfig.kt from auto-fetched values"
     }
 
     @TaskAction
@@ -288,17 +283,4 @@ tasks.withType<Test> {
 // Exclude (non-gradle) kts scripts from compilation
 tasks.withType<KotlinCompile>().configureEach {
     exclude("**/*.kts")
-    compilerOptions {
-        if (project.findProperty("enableComposeCompilerReports") == "true") {
-            val metricsDir =
-                "${project.layout.buildDirectory.asFile.get().absolutePath}/compose_metrics"
-            println("--- enableComposeCompilerReports -> $metricsDir")
-            freeCompilerArgs.addAll(
-                "-P",
-                "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=$metricsDir",
-                "-P",
-                "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=$metricsDir",
-            )
-        }
-    }
 }

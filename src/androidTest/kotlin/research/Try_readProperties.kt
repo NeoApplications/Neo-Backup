@@ -39,7 +39,7 @@ class Try_readProperties {
     @Test
     fun test_readText_RootFile() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        var size = -1L
+        var size: Long
         var text = ""
         val time = measureTimeMillis {
             val file = RootFile("/sdcard/test.txt")
@@ -54,12 +54,10 @@ class Try_readProperties {
 
     @Test
     fun test_scanReadProperties() {
-        val backups = mutableMapOf<String, MutableList<Backup>>()
         val time = measureTimeMillis {
-            var backupDir = StorageFile(RootFile(backupRoot))
+            val backupDir = StorageFile(RootFile(backupRoot))
             var text = ""
             backupDir.listFiles().forEach { packageDir ->
-                val packageName = packageDir.name
                 packageDir.listFiles().forEach { file ->
                     if (file.isPropertyFile)
                         text += file.readText() + "\n\n\n"
@@ -83,8 +81,8 @@ class Try_readProperties {
                             backupList.add(it)
                         }
                 }
-                if (!backupList.isEmpty())
-                    packageName?.let { backups.put(it, backupList) }
+                if (backupList.isNotEmpty())
+                    packageName?.let { backups[it] = backupList }
             }
         }
         //val serialized = OABX.serializer.encodeToString(backups)
@@ -101,12 +99,15 @@ class Try_readProperties {
         val time = measureTimeMillis {
             val backupRoot = NeoApp.backupRoot
             val treeUri = DocumentsContract
-                .buildDocumentUriUsingTree(backupRoot!!.uri, DocumentsContract.getTreeDocumentId(backupRoot.uri))
+                .buildDocumentUriUsingTree(
+                    backupRoot!!.uri,
+                    DocumentsContract.getTreeDocumentId(backupRoot.uri)
+                )
 
             val authority = treeUri.authority
-                            //"com.machiav3lli.backup.provider"
-                            //"androidx.core.content.FileProvider"
-                            //"com.android.externalstorage.documents" // this is the value baund to the treeUri
+            //"com.machiav3lli.backup.provider"
+            //"androidx.core.content.FileProvider"
+            //"com.android.externalstorage.documents" // this is the value baund to the treeUri
             val searchUri = DocumentsContract
                 .buildSearchDocumentsUri(
                     authority,
@@ -147,7 +148,7 @@ class Try_readProperties {
         //val serialized = OABX.serializer.encodeToString(backups)
         //StorageFile(File("/sdcard/test.map")).outputStream()?.write(serialized.toByteArray())
         //Timber.i("backups: $serialized")
-        Timber.i("backups: ${backupList.map { it.size }.sum()}")
+        Timber.i("backups: ${backupList.sumOf { it.size }}")
         Timber.i("packages: ${backups.size} backups: ${backups.map { it.value.size }.sum()}")
         Timber.w("time scanning (create backups): $time ms")
     }
@@ -166,8 +167,8 @@ class Try_readProperties {
                             backupList.add(it)
                         }
                 }
-                if (!backupList.isEmpty())
-                    packageName?.let { backups.put(it, backupList) }
+                if (backupList.isNotEmpty())
+                    packageName?.let { backups[it] = backupList }
             }
         }
         val serialized = NeoApp.mainSerializer.encodeToString(backups)
@@ -181,16 +182,16 @@ class Try_readProperties {
     fun test_readPropertiesFromSingleFile() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val backupList = mutableListOf<Backup>()
-        var size = -1L
-        var text = ""
+        var size: Long
+        var text: String
         val time = measureTimeMillis {
             val file = StorageFile(RootFile("/sdcard/test.txt"))
             size = file.size
             Timber.i("file ${file.path} size: $size")
             text = file.readText()
             Timber.i("text size: ${text.length}")
-            text.substring(1, text.length-1).split("}{").forEach {
-                Backup.fromSerialized("{$it}").let { backupList.add(it) }
+            text.substring(1, text.length - 1).split("}{").forEach { json ->
+                Backup.fromSerialized("{$json}").let { backupList.add(it) }
             }
         }
         Timber.i("backups: ${backupList.size}")

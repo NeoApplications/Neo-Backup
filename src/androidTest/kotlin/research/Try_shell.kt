@@ -67,7 +67,7 @@ class Try_shell {
             Timber.i("${it.key.padEnd(20)} -> ${it.value.toString().padStart(10)}")
         }
         assertTrue(
-                results.values.all { it >= Test_shell.safeCommandLength }
+                results.values.all { it >= Test_shell.SAFE_COMMAND_LENGTH }
         )
     }
 
@@ -87,7 +87,7 @@ class Try_shell {
             Timber.i("${it.key.padEnd(20)} -> ${it.value.toString().padStart(10)}")
         }
         assertTrue(
-                results.values.all { it >= Test_shell.safeCommandLength }
+                results.values.all { it >= Test_shell.SAFE_COMMAND_LENGTH }
         )
     }
 

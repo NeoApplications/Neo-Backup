@@ -1,5 +1,6 @@
 package tests.tests
 
+import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import com.machiav3lli.backup.ENCRYPTION
 import com.machiav3lli.backup.NeoApp
@@ -28,12 +29,12 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 //val timeCompareFormat = "yyyy-MM-dd'T'HH:mm:ss"
-val timeCompareFormat = "yyyy-MM-dd'T'HH:mm"
+const val TIME_COMPARE_FORMAT = "yyyy-MM-dd'T'HH:mm"
 
 class Test_BackupRestore {
 
     companion object {
-        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
         //val context = Utils.getDeContext(Utils.getContext())
         //val context = Utils.getContext()
 
@@ -57,7 +58,7 @@ class Test_BackupRestore {
         @BeforeClass
         @JvmStatic
         fun setupClass() {
-            shellHandler = NeoApp.Companion.shellHandler!!
+            shellHandler = NeoApp.shellHandler!!
             //tempDir = RootFile(context.cacheDir, "test_backup_restore")
             tempDir = RootFile(context.dataDir, "test_backup_restore")
             //tempDir = RootFile("/data/local/tmp/test_backup_restore")
@@ -87,7 +88,7 @@ class Test_BackupRestore {
         fun compareTime(want: String, real: Long) =
             want.startsWith(
                 SimpleDateFormat(
-                    timeCompareFormat,
+                    TIME_COMPARE_FORMAT,
                     Locale.getDefault()
                 ).format(real)
             )
@@ -96,7 +97,7 @@ class Test_BackupRestore {
 
             contentCount = 0
 
-            tempDir.setWritable(true, false)
+            tempDir.setWritable(writable = true, ownerOnly = false)
 
             var dir: RootFile
             var files: RootFile
@@ -169,7 +170,7 @@ class Test_BackupRestore {
                 val name = "link_sym_dir_rel"
                 val file = RootFile(dir, name)
                 fastCmd("cd ${dir.escapedPath} && $utilBoxQ ln -s ${files.name} ${file.name}")
-                checks["$name/type"] = { it.isSymlink() }
+                checks["$name/type"] = { it.isSymlink }
                 contentCount++
             }
 
@@ -177,7 +178,7 @@ class Test_BackupRestore {
                 val name = "link_sym_dir_abs"
                 val file = RootFile(dir, name)
                 fastCmd("$utilBoxQ ln -s ${files.absolutePath} ${file.escapedPath}")
-                checks["$name/type"] = { it.isSymlink() }
+                checks["$name/type"] = { it.isSymlink }
                 contentCount++
             }
 
@@ -300,7 +301,7 @@ class Test_BackupRestore {
         Timber.w("#################### TAR ${archive.path}")
         runAsRoot("tar -tvzf ${quote(archive.path!!)}")
         val restoreAction = RestoreAppAction(context, null, shellHandler)
-        val restoreDir = RootFile(tempDir, "restore_" + toType)
+        val restoreDir = RootFile(tempDir, "restore_$toType")
         restoreDir.mkdirs()
         runBlocking {
             if (toType == "tarapi")

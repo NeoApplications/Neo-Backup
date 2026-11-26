@@ -9,7 +9,7 @@ import java.io.File
 
 class Try_File {
 
-    val file = File.createTempFile("Try_File", ".test")
+    val file: File = File.createTempFile("Try_File", ".test")
 
     @Test
     fun test_File_ownerOnly() {

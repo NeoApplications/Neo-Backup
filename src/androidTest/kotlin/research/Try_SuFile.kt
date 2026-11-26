@@ -10,7 +10,7 @@ import java.io.File
 
 class Try_SuFile {
 
-    val fileJ = File.createTempFile("Try_File", ".test")
+    val fileJ: File = File.createTempFile("Try_File", ".test")
     val fileX = SuFile("/cache/Try_SuFile.test")
 
     @Test
