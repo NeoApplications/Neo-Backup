@@ -278,7 +278,7 @@ data class Package private constructor(val packageName: String) {
         val backups = backupsNewestFirst.toMutableList()
         while (backups.isNotEmpty()) {
             backups.removeLastOrNull()?.let { backup ->
-                deleteBackup(backup)
+                removeBackup(backup)
             }
         }
     }
@@ -299,7 +299,7 @@ data class Package private constructor(val packageName: String) {
         }
         while (deletableBackups.isNotEmpty()) {
             deletableBackups.removeLastOrNull()?.let { backup ->
-                deleteBackup(backup)
+                removeBackup(backup)
             }
         }
     }
