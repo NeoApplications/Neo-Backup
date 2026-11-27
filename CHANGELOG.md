@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-8.4.0 (27.11.2026) +60 Commits,  +50 Translations
+8.4.0(-1) (27.11.2026) +60 Commits,  +50 Translations
 ------------
 
 ### Function
