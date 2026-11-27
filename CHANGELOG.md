@@ -1,6 +1,29 @@
 CHANGELOG
 =========
 
+8.4.0 (27.11.2026) +60 Commits,  +50 Translations
+------------
+
+### Function
+
+- Add: Settings export/import tools
+- Add: BackupsHandler to centrally handle backup scans
+- Fix: Reporting decryption failing on restore (e.g. on wrong password)
+- Fix: Hanging shell execution on failed stream-reads
+- Fix: Misaligned schedule time
+- Update: PGPainless to 2.0.X
+- Update: Migrate most prefs to DataStore-based NeoPref
+- Remove: Unused Backup and SpecialInfo DB tables
+- CompileSDK 37.1
+
+### UI & UX
+
+- Add: Neo Theme preference
+- Add: Password-override option in single restore dialog
+- Add: Restricted access permission users' guideline
+- Update: Material Design 3 Expressive layouts
+- Update: Replace TextField with SecureTextField in the respective DialogUI
+
 8.3.18 (03.05.2026) +20 Commits,  +30 Translations
 ------------
 

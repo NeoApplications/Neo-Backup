@@ -1,0 +1,8 @@
+Add: Neo Theme preference
+Add: Settings export/import tools
+Add: Password-override option in single restore dialog
+Add: Restricted access permission users' guideline
+Fix: Reporting decryption failing on restore (e.g. on wrong password)
+Fix: Misaligned schedule time
+Update: Material Design 3 Expressive layouts
++ more than 60 commits, 50 translations
