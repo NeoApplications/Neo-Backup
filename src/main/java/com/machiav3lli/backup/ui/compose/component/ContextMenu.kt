@@ -495,7 +495,7 @@ suspend fun List<Package>.forEachPackage(
     parallel: Boolean = true,
     todo: suspend (p: Package) -> Unit = {},
 ) {
-    fun job(p: Package) = suspend {
+    suspend fun job(p: Package) {
         if (select == true && selection.contains(p.packageName))
             toggleSelection(p.packageName)
         traceContextMenu { "$action ${p.packageName}" }

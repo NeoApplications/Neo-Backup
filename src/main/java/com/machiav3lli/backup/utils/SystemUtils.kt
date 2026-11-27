@@ -17,13 +17,10 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.joinAll
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import java.io.ByteArrayInputStream
 import java.security.cert.CertificateFactory
@@ -81,32 +78,9 @@ object SystemUtils {
         pool: CoroutineDispatcher = Dispatchers.IO,
         todo: suspend (item: T) -> Unit
     ) {
-        val list = items.toList()
-        when (1) {
-
-            // best,  8 threads, may hang with recursion
-            //0 -> list.stream().parallel().forEach { to-do }
-
-            // slow,  7 threads with IO, most used once, one used 900 times
-            0 -> runBlocking { list.asFlow().onEach { todo(it) }.flowOn(pool).collect {} }
-
-            // slow,  1 thread with IO
-            0 -> list.asFlow().onEach { todo(it) }.collect {}
-
-            // slow, 19 threads with IO
-            0 -> list.asFlow().map { scope.launch(pool) { todo(it) } }.collect { it.join() }
-
-            // best, 63 threads with IO
-            0 -> runBlocking {
-                list.asFlow().collect { this@runBlocking.launch(pool) { todo(it) } }
-            }
-
-            // best, 66 threads with IO
-            0 -> list.map { scope.launch(pool) { todo(it) } }.joinAll()
-
-            // best, 63 threads with IO
-            1 -> runBlocking { list.forEach { launch(pool) { todo(it) } } }
-        }
+        items.map { scope.async(pool) {
+            todo(it) }
+        }.awaitAll()
     }
 
     fun Context.share(text: String, subject: String? = null, asFile: Boolean = true) {
